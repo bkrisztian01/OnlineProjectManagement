@@ -1,0 +1,64 @@
+Table user {
+  id int
+  username varchar
+  password varchar
+  fullname varchar
+}
+
+Table project {
+  id int
+  name varchar
+}
+
+Table task {
+  id int 
+  name varchar
+  description varchar
+  status varchar
+  deadline datetime
+  project_id int
+  milestone_id int
+}
+
+Table assignees_task {
+  id int
+  task_id int
+  user_id int
+}
+
+Table project_roles {
+  id int
+  project_id int
+  user_id int
+  role varchar
+}
+
+Table milestones {
+  id int
+  project_id int
+  name varchar
+}
+
+Table prerequisite_tasks {
+  id int
+  task_id int
+  parent_task_id int
+}
+
+Ref: "user"."id" < "assignees_task"."user_id"
+
+Ref: "assignees_task"."task_id" > "task"."id"
+
+Ref: "project"."id" < "task"."project_id"
+
+Ref: "project"."id" < "project_roles"."project_id"
+
+Ref: "project_roles"."user_id" > "user"."id"
+
+Ref: "project"."id" < "milestones"."project_id"
+
+Ref: "milestones"."id" < "task"."milestone_id"
+
+Ref: "task"."id" < "prerequisite_tasks"."task_id"
+
+Ref: "task"."id" < "prerequisite_tasks"."parent_task_id"
