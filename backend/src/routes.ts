@@ -1,43 +1,46 @@
-import { Express } from "express"
-import { getProjectHandler } from "./projects/projects.controller";
+import type {Express} from 'express';
+import {getProjectHandler, deleteProjectByIdHandler, postProjectHandler, putProjectByIdHandler, getProjectByIdHandeler} from './controllers/projects.controller';
+import {deleteTaskByIdHandler, getTaskByIdHandler, getTaskHandler, postTaskHandler} from './controllers/tasks.controller';
+import {getLoginUserHandler, getLogoutUserHandler, postSignupUserHandler} from './controllers/users.controller';
+import validateRequest from './middlewares/validateRequest';
+import {createProjectSchema, updateProjectSchema} from './schemas/projects.schema';
+import {createUserSchema, loginUserSchema} from './schemas/users.schema';
 
-// const courses = [
-//     {
-//         id: 1,
-//         name: 'course1',
-//     },
-//     {
-//         id: 2,
-//         name: 'course2',
-//     },
-//     {
-//         id: 3,
-//         name: 'course3',
-//     },
-// ];
+export function routes(app: Express): void {
+	//
+	// Projects
+	//
+	app.route('/projects')
+		.get(getProjectHandler)
+		.post(validateRequest(createProjectSchema), postProjectHandler);
 
-function routes(app: Express) {
-    app.get('/', (req, res) => {
-        res.send("Hello World!");
-    });
-    
-    app.route('/api/projects')
-    .get(getProjectHandler);
-    
-    app.post('/courses', (req, res) => {
-        if (!req.body.name || req.body.name.length < 3) {
-            // 400 bad request
-            res.status(400).send("Name is required and it should be minimum 3 characters");
-        }
-        
-        const course = {
-            id: courses.length + 1,
-            name: req.body.name,
-        };  
-        courses.push(course);
-        res.send(course);
-    });
+	app.route('/projects/:id')
+		.get(getProjectByIdHandeler)
+		.put(validateRequest(updateProjectSchema), putProjectByIdHandler)
+		.delete(deleteProjectByIdHandler);
 
+	//
+	// User
+	//
+	app.route('/user/login')
+		.get(validateRequest(loginUserSchema), getLoginUserHandler);
+
+	app.route('/user/logout')
+		.get(getLogoutUserHandler);
+
+	app.route('/user/signup')
+		.post(validateRequest(createUserSchema), postSignupUserHandler);
+
+	//
+	// Tasks
+	//
+	app.route('/tasks')
+		.get(getTaskHandler)
+		.post(postTaskHandler);
+
+	app.route('/tasks/:id')
+		.get(getTaskByIdHandler)
+		.delete(deleteTaskByIdHandler);
 }
 
 export default routes;
