@@ -1,0 +1,17 @@
+
+<app-add-task (onAddTask)="addTask($event)"></app-add-task>
+<h3>
+    <div class="container">
+        <h1>
+           Name | Status   |   Deadline    |    Workers     |    Description     |     Prerequisite 
+        </h1>
+    </div>
+</h3>
+<app-task-item 
+
+*ngFor="let task of tasks"
+ [task]="task" 
+ (onDeleteTask)="deleteTask(task)"
+>
+    
+</app-task-item>
