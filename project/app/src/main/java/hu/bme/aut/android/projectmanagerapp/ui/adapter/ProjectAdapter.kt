@@ -27,7 +27,7 @@ class ProjectAdapter (private val projects: List<Project>) : RecyclerView.Adapte
         val project: Project = projects[position]
         val button = viewHolder.projectbutton
         button.setOnClickListener {
-            viewHolder.binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentTasks(project.id))
+            viewHolder.binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentMilestone(project.id))
         }
         button.text = project.name
         button.isEnabled = true

@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_fragmentProject_to_fragmentTasks"
             app:destination="@id/fragmentTasks" />
+        <action
+            android:id="@+id/action_fragmentProject_to_fragmentMilestone"
+            app:destination="@id/fragmentMilestone" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSignIn"
@@ -86,5 +89,22 @@
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentWelcome"
             app:destination="@id/fragmentWelcome" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMilestone"
+        android:name="hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestone"
+        android:label="FragmentMilestone" >
+        <action
+            android:id="@+id/action_fragmentMilestone_to_fragmentTasks"
+            app:destination="@id/fragmentTasks" />
+        <action
+            android:id="@+id/action_fragmentMilestone_to_fragmentWelcome"
+            app:destination="@id/fragmentWelcome" />
+        <action
+            android:id="@+id/action_fragmentMilestone_to_fragmentSingleProject"
+            app:destination="@id/fragmentSingleProject" />
+        <argument
+            android:name="projectID"
+            app:argType="integer" />
     </fragment>
 </navigation>

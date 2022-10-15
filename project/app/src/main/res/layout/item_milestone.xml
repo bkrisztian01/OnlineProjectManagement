@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp">
+
+
+    <Button
+        android:id="@+id/btnmilestone"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:backgroundTint="#FD60B9FF"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textSize="16sp"
+        tools:ignore="SpeakableTextPresentCheck" />
+</LinearLayout>

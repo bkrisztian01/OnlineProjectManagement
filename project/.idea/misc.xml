@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_milestone.xml" value="0.2509057971014493" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_project.xml" value="0.2509057971014493" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_tasks.xml" value="0.2509057971014493" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/item_milestone.xml" value="0.2509057971014493" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/item_project.xml" value="0.2509057971014493" />
         <entry key="..\:/Users/Zita/Documents/project/app/src/main/res/layout/activity_main.xml" value="0.14010416666666667" />
         <entry key="..\:/Users/Zita/Documents/project/app/src/main/res/layout/fragment_login.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Zita/Documents/project/app/src/main/res/layout/fragment_project.xml" value="0.21302083333333333" />
