@@ -1,23 +1,24 @@
 import type {Express} from 'express';
-import {getProjectHandler, deleteProjectByIdHandler, postProjectHandler, putProjectByIdHandler, getProjectByIdHandeler} from './controllers/projects.controller';
-import {deleteTaskByIdHandler, getTaskByIdHandler, getTaskHandler, postTaskHandler} from './controllers/tasks.controller';
-import {getLoginUserHandler, getLogoutUserHandler, postSignupUserHandler} from './controllers/users.controller';
+import {getProjectsHandler, deleteProjectByIdHandler, postProjectHandler, updateProjectByIdHandler, getProjectByIdHandeler} from './controllers/projects.controller';
+import {deleteTaskByIdHandler, getTaskByIdHandler, getTaskHandler, postTaskHandler, updateTaskByIdHandler} from './controllers/tasks.controller';
+import {getLoginUserHandler, getLogoutUserHandler, getUsersHandler, postSignupUserHandler} from './controllers/users.controller';
 import validateRequest from './middlewares/validateRequest';
-import {createProjectSchema, updateProjectSchema} from './schemas/projects.schema';
+import {createProjectSchema, deleteProjectByIdSchema, getProjectByIdSchema, updateProjectByIdSchema} from './schemas/projects.schema';
+import {createTaskSchema, deleteTaskByIdSchema, getTaskByIdSchema, updateTaskByIdSchema} from './schemas/tasks.schema';
 import {createUserSchema, loginUserSchema} from './schemas/users.schema';
 
-export function routes(app: Express): void {
+function routes(app: Express): void {
 	//
 	// Projects
 	//
 	app.route('/projects')
-		.get(getProjectHandler)
+		.get(getProjectsHandler)
 		.post(validateRequest(createProjectSchema), postProjectHandler);
 
 	app.route('/projects/:id')
-		.get(getProjectByIdHandeler)
-		.put(validateRequest(updateProjectSchema), putProjectByIdHandler)
-		.delete(deleteProjectByIdHandler);
+		.get(validateRequest(getProjectByIdSchema), getProjectByIdHandeler)
+		.put(validateRequest(updateProjectByIdSchema), updateProjectByIdHandler)
+		.delete(validateRequest(deleteProjectByIdSchema), deleteProjectByIdHandler);
 
 	//
 	// User
@@ -31,16 +32,20 @@ export function routes(app: Express): void {
 	app.route('/user/signup')
 		.post(validateRequest(createUserSchema), postSignupUserHandler);
 
+	app.route('/users')
+		.get(getUsersHandler);
+
 	//
 	// Tasks
 	//
 	app.route('/tasks')
 		.get(getTaskHandler)
-		.post(postTaskHandler);
+		.post(validateRequest(createTaskSchema), postTaskHandler);
 
 	app.route('/tasks/:id')
-		.get(getTaskByIdHandler)
-		.delete(deleteTaskByIdHandler);
+		.get(validateRequest(getTaskByIdSchema), getTaskByIdHandler)
+		.put(validateRequest(updateTaskByIdSchema), updateTaskByIdHandler)
+		.delete(validateRequest(deleteTaskByIdSchema), deleteTaskByIdHandler);
 }
 
 export default routes;

@@ -70,3 +70,7 @@ export function postSignupUserHandler(req: Request, res: Response, next: NextFun
 	users.push(user);
 	res.send(user);
 }
+
+export function getUsersHandler(req: Request, res: Response, next: NextFunction) {
+	res.send(users);
+}

@@ -3,19 +3,10 @@ import type {Task} from '../models/tasks.model';
 import {tasks} from '../services/tasks.service';
 import {Status} from '../util/Status';
 import {projects} from '../services/projects.service';
+import {users} from '../services/users.service';
 
 export function getTaskHandler(req: Request, res: Response, next: NextFunction) {
 	res.send(tasks);
-}
-
-export function getTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
-	const task = tasks.find(task => task.id === parseInt(req.params.id));
-	if (!task) {
-		res.status(404).send('Task was not found');
-		return;
-	}
-
-	res.send(task);
 }
 
 export function postTaskHandler(req: Request, res: Response, next: NextFunction) {
@@ -40,19 +31,47 @@ export function postTaskHandler(req: Request, res: Response, next: NextFunction)
 	res.send(task);
 }
 
-export function postProjectHandler(req: Request, res: Response, next: NextFunction) {
-	const project = {
-		id: projects.length + 1,
-		name: req.body.name as string,
-		description: req.body.description as string || '',
-		startDate: new Date(Date.now()),
-		endDate: new Date(0),
-		estimatedTime: 0,
-		tasks: [],
-	};
-	projects.push(project);
+export function getTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
+	const task = tasks.find(task => task.id === parseInt(req.params.id));
+	if (!task) {
+		res.status(404).send('Task was not found');
+		return;
+	}
 
-	res.send(project);
+	res.send(task);
+}
+
+export function updateTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
+	const task = tasks.find(task => task.id === parseInt(req.params.id));
+	if (!task) {
+		res.status(404).send('Task was not found');
+		return;
+	}
+
+	if (req.body.assigneeIds) {
+		const assignees = [];
+		for (const userId of req.body.assigneeIds) {
+			const user = users.find(u => u.id === userId);
+			if (!user) {
+				res.status(404).send('User was not found');
+				return;
+			}
+
+			assignees.push(user);
+		}
+
+		task.assignees = assignees;
+	}
+
+	console.log(req.body.prerequisiteTaskIds);
+
+	task.name = req.body.name as string || task.name;
+	task.description = req.body.description as string || task.description;
+	task.status = Status[req.body.status as keyof typeof Status] as Status || task.status;
+	task.deadline = req.body.deadline ? new Date(req.body.deadline) : task.deadline;
+	task.prerequisiteTaskIds = req.body.prerequisiteTaskIds as number[] || task.prerequisiteTaskIds;
+
+	res.send('Successful operation');
 }
 
 export function deleteTaskByIdHandler(req: Request, res: Response, next: NextFunction) {

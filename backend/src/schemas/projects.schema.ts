@@ -2,22 +2,32 @@ import {object, string, number} from 'yup';
 
 const params = {
 	params: object({
-		id: number().required('ID is required'),
+		id: number().required(),
 	}),
 };
 
 export const createProjectSchema = object({
 	body: object({
-		name: string().required('Name is required'),
-		description: string()
-			.notRequired(),
+		name: string().required(),
+		description: string(),
 	}),
 });
 
-export const updateProjectSchema = object({
+export const updateProjectByIdSchema = object({
+	...params,
+	body: object({
+		name: string().required(),
+		description: string(),
+		startDate: string(),
+		endDate: string(),
+		estimatedTime: number(),
+	}),
+});
+
+export const getProjectByIdSchema = object({
 	...params,
 });
 
-export const deleteProjectSchema = object({
+export const deleteProjectByIdSchema = object({
 	...params,
 });

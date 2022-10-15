@@ -8,5 +8,5 @@ export type Task = {
 	status: Status;
 	deadline: Date;
 	assignees: User[];
-	prerequisiteTaskIds: Task[];
+	prerequisiteTaskIds: number[];
 };
