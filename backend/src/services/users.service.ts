@@ -16,3 +16,7 @@ export const users: User[] = [
 		email: 'mariska1980@gmail.com',
 	},
 ];
+
+export function getUserById(id: number) {
+	return users.find(user => user.id === id);
+}

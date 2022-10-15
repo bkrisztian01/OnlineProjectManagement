@@ -10,6 +10,7 @@ export function getLoginUserHandler(req: Request, res: Response, next: NextFunct
 		return;
 	}
 
+	// TODO: redo
 	const user = users.find(u => u.username === username && u.password === password);
 	if (!user) {
 		res.status(401).send('Invalid credentials');

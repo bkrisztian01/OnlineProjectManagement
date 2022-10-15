@@ -1,16 +1,15 @@
 import type {Request, Response, NextFunction} from 'express';
-import type {Task} from '../models/tasks.model';
-import {tasks} from '../services/tasks.service';
+import {getTaskById, tasks} from '../services/tasks.service';
 import {Status} from '../util/Status';
-import {projects} from '../services/projects.service';
-import {users} from '../services/users.service';
+import {getProjectById, projects} from '../services/projects.service';
+import {getUserById, users} from '../services/users.service';
 
 export function getTaskHandler(req: Request, res: Response, next: NextFunction) {
 	res.send(tasks);
 }
 
 export function postTaskHandler(req: Request, res: Response, next: NextFunction) {
-	const project = projects.find(project => project.id === parseInt(req.body.projectId));
+	const project = getProjectById(parseInt(req.body.projectId));
 	if (!project) {
 		res.status(404).send('Project was not found');
 		return;
@@ -32,7 +31,7 @@ export function postTaskHandler(req: Request, res: Response, next: NextFunction)
 }
 
 export function getTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
-	const task = tasks.find(task => task.id === parseInt(req.params.id));
+	const task = getTaskById(parseInt(req.params.id));
 	if (!task) {
 		res.status(404).send('Task was not found');
 		return;
@@ -42,7 +41,7 @@ export function getTaskByIdHandler(req: Request, res: Response, next: NextFuncti
 }
 
 export function updateTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
-	const task = tasks.find(task => task.id === parseInt(req.params.id));
+	const task = getTaskById(parseInt(req.params.id));
 	if (!task) {
 		res.status(404).send('Task was not found');
 		return;
@@ -51,7 +50,7 @@ export function updateTaskByIdHandler(req: Request, res: Response, next: NextFun
 	if (req.body.assigneeIds) {
 		const assignees = [];
 		for (const userId of req.body.assigneeIds) {
-			const user = users.find(u => u.id === userId);
+			const user = getUserById(userId);
 			if (!user) {
 				res.status(404).send('User was not found');
 				return;
@@ -62,8 +61,6 @@ export function updateTaskByIdHandler(req: Request, res: Response, next: NextFun
 
 		task.assignees = assignees;
 	}
-
-	console.log(req.body.prerequisiteTaskIds);
 
 	task.name = req.body.name as string || task.name;
 	task.description = req.body.description as string || task.description;

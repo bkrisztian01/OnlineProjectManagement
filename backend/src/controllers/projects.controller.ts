@@ -8,6 +8,7 @@ export function getProjectsHandler(req: Request, res: Response, next: NextFuncti
 }
 
 export function postProjectHandler(req: Request, res: Response, next: NextFunction) {
+	// TODO: refactor these
 	const project = {
 		id: projects.length + 1,
 		name: req.body.name as string,
@@ -39,6 +40,7 @@ export function updateProjectByIdHandler(req: Request, res: Response, next: Next
 		return;
 	}
 
+	// TODO: refactor these
 	project.name = req.body.name as string || project.name;
 	project.description = req.body.description as string || project.description;
 	project.startDate = req.body.startDate ? new Date(req.body.startDate) : project.startDate;

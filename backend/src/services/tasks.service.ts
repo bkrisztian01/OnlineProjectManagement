@@ -12,3 +12,7 @@ export const tasks: Task[] = [
 		prerequisiteTaskIds: [],
 	},
 ];
+
+export function getTaskById(id: number) {
+	return tasks.find(task => task.id === id);
+}
