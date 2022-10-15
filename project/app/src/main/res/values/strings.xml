@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">ProjectManagerApp</string>
+    <string name="project_planner">Project Planner</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="projects">My Projects</string>
+    <string name="account">Account</string>
+    <string name="help">Help</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Yes</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_want_to_sign_out">Are you sure you want to sign out?</string>
+    <string name="pick">Pick a project from the list!</string>
+    <string name="tasks_in_project_x">Tasks in Project X</string>
+    <string name="search">Search</string>
+    <string name="project">Project</string>
+    <string name="pick_project">Pick a task from the list!</string>
+    <string name="project_x_info">Project X info</string>
+    <string name="project_end_date">Project End Date:</string>
+    <string name="project_start_date">Project Start Date:</string>
+    <string name="project_client">Project Client:</string>
+    <string name="project_approx_length">Project Approx. Length:</string>
+    <string name="project_description">Project Description:</string>
+    <string name="task_x_info">Task X Info</string>
+    <string name="status">Status</string>
+    <string name="in_progress">In Progress</string>
+    <string name="task_description">Task Description</string>
+    <string name="workers">Workers</string>
+    <string name="start_date">Start Date</string>
+    <string name="deadline">Deadline</string>
+
+</resources>
