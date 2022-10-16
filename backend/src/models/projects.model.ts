@@ -1,3 +1,4 @@
+import type {Milestone} from './milestones.model';
 import type {Task} from './tasks.model';
 
 export type Project = {
@@ -8,4 +9,5 @@ export type Project = {
 	endDate: Date;
 	estimatedTime: number;
 	tasks: Task[];
+	milestones: Milestone[];
 };

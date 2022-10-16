@@ -16,9 +16,8 @@ export const validate = (schema: AnySchema) => async (
 
 		next();
 		return;
-	// eslint-disable-next-line @typescript-eslint/no-implicit-any-catch
-	} catch (err: any) {
-		res.status(400).send(err.message);
+	} catch (err: unknown) {
+		res.status(400).send(err);
 	}
 };
 

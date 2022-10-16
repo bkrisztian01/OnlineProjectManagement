@@ -1,6 +1,4 @@
 import type {Request, Response, NextFunction} from 'express';
-import {number} from 'yup';
-import type {Project} from '../models/projects.model';
 import {deleteProjectById, getProjectById, projects} from '../services/projects.service';
 
 export function getProjectsHandler(req: Request, res: Response, next: NextFunction) {
@@ -17,6 +15,7 @@ export function postProjectHandler(req: Request, res: Response, next: NextFuncti
 		endDate: new Date(0),
 		estimatedTime: 0,
 		tasks: [],
+		milestones: [],
 	};
 	projects.push(project);
 
