@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBinding
+import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
@@ -20,19 +21,20 @@ import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 class FragmentSingleProject : Fragment() {
     private var _binding: FragmentSingleprojectBinding? = null
     private val binding get() = _binding!!
-    private var projectid: Int  = -1
+    private lateinit var project: Project
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentSingleprojectBinding.inflate(inflater, container, false)
         val view = binding.root
         if (arguments!=null) {
             val args: FragmentTasksArgs by navArgs()
-            projectid = args.projectID
-            binding.tvProjectName.setText("Project "+ projectid.toString()+" info")
+            project = args.project
+
         }
         binding.toolbarsingleproject.inflateMenu(R.menu.menu_singleproject_toolbar)
         binding.toolbarsingleproject.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
+        loadProject()
         return view
     }
     override fun onDestroyView() {
@@ -68,5 +70,14 @@ class FragmentSingleProject : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    fun loadProject(){
+        binding.tvProjectName.setText(project.name+" info")
+        binding.tStartDate.setText(project.startDate)
+        binding.tEndDate.setText(project.endDate)
+        binding.tClient.setText(project.client)
+        binding.tDesc.setText(project.desc)
+        binding.tLength.setText(project.length.toString()+ " days")
+
     }
 }

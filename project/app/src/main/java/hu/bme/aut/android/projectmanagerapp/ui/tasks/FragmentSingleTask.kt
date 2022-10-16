@@ -1,5 +1,6 @@
 package hu.bme.aut.android.projectmanagerapp.ui.tasks
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -13,12 +14,13 @@ import androidx.navigation.fragment.navArgs
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBinding
+import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentSingleProjectDirections
 
 class FragmentSingleTask : Fragment() {
-    private var projectid: Int  = -1
-    private var taskid: Int  = -1
+    private lateinit var project: Project
+    private lateinit var task: Task
     private var _binding: FragmentSingletaskBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
@@ -26,14 +28,15 @@ class FragmentSingleTask : Fragment() {
         val view = binding.root
         if (arguments!=null) {
             val args: FragmentSingleTaskArgs by navArgs()
-            projectid = args.projectid
-            taskid=args.taskid
-            binding.tvTaskName.setText("Task "+ taskid.toString()+" info")
+            project = args.project
+            task=args.task
+
         }
         binding.toolbarsingletask.inflateMenu(R.menu.menu_singleproject_toolbar)
         binding.toolbarsingletask.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
+        loadTask()
         return view
     }
     override fun onDestroyView() {
@@ -70,5 +73,22 @@ class FragmentSingleTask : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    fun loadTask(){
+        when (task.status) {
+            "In Progress" -> binding.tStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+            "Finished" ->binding.tStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+            "Stuck" ->binding.tStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+            "Not started" ->binding.tStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+            else->{
+            }
+        }
+        binding.tStatus.setText(task.status)
+        binding.tvTaskName.setText(task.name+" info")
+        binding.tStartDate.setText(task.startDate)
+        binding.tEndDate.setText(task.endDate)
+        binding.ttDesc.setText(task.desc)
+
+
     }
 }

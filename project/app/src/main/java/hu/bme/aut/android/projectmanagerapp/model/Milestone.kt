@@ -1,6 +1,8 @@
 package hu.bme.aut.android.projectmanagerapp.model
 
-class Milestone (val id: Int, val name: String, val projectID: Int) {
+import java.io.Serializable
+
+class Milestone (val id: Int, val name: String, val projectID: Int): Serializable {
     private lateinit var tasks: ArrayList<Task>
     fun getTasks()=tasks;
     companion object {

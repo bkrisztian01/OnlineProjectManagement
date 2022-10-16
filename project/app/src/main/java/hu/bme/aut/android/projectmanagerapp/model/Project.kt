@@ -1,7 +1,9 @@
 package hu.bme.aut.android.projectmanagerapp.model
 
+import java.io.Serializable
+
 class Project(val id: Int, val name: String, val desc: String, val client: String, val startDate: String,
-              val endDate: String, val length: Int) {
+              val endDate: String, val length: Int) : Serializable{
 
     companion object {
         private var lastProject = 0

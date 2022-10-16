@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentMilestoneBinding
 import hu.bme.aut.android.projectmanagerapp.model.Milestone
+import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.MilestoneAdapter
 
 class FragmentMilestone : Fragment() {
     lateinit var milestones: ArrayList<Milestone>
-    private var projectid: Int  = -1
+    private lateinit var project: Project
     private var _binding: FragmentMilestoneBinding? = null
     private val binding get() = _binding!!
 
@@ -29,8 +30,8 @@ class FragmentMilestone : Fragment() {
         val view = binding.root
         if (arguments!=null) {
             val args: FragmentMilestoneArgs by navArgs()
-            projectid = args.projectID
-            binding.tvMilestones.setText("Milestones in Project "+ projectid.toString())
+            project = args.project
+            binding.tvMilestones.setText("Milestones in "+ project.name)
         }
         binding.toolbarmilestones.inflateMenu(R.menu.menu_task_toolbar)
         binding.toolbarmilestones.setOnMenuItemClickListener {
@@ -71,7 +72,7 @@ class FragmentMilestone : Fragment() {
                 return true
             }
             R.id.menu_project->{
-                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentSingleProject(projectid))
+                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentSingleProject(project))
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -83,7 +84,7 @@ class FragmentMilestone : Fragment() {
         val recyclerView = activity?.findViewById(R.id.rvMilestones) as RecyclerView
 
         milestones = Milestone.createMileStoneList(10)
-        val adapter = MilestoneAdapter(milestones)
+        val adapter = MilestoneAdapter(milestones,project)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 

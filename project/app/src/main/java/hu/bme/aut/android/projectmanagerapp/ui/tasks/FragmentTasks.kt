@@ -21,7 +21,7 @@ import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
 
 class FragmentTasks : Fragment() {
     lateinit var tasks: ArrayList<Task>
-    private var projectid: Int  = -1
+    private lateinit var project: Project
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
 
@@ -31,8 +31,8 @@ class FragmentTasks : Fragment() {
         val view = binding.root
         if (arguments!=null) {
             val args: FragmentTasksArgs by navArgs()
-            projectid = args.projectID
-            binding.tvTitle.setText("Tasks in Project "+ projectid.toString())
+            project = args.project
+            binding.tvTitle.setText("Tasks in "+ project.name)
         }
         binding.toolbartasks.inflateMenu(R.menu.menu_task_toolbar)
         binding.toolbartasks.setOnMenuItemClickListener {
@@ -73,7 +73,7 @@ class FragmentTasks : Fragment() {
                 return true
             }
             R.id.menu_project->{
-                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleProject(projectid))
+                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleProject(project))
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -85,7 +85,7 @@ class FragmentTasks : Fragment() {
         val recyclerView = activity?.findViewById(R.id.rvTasks) as RecyclerView
 
         tasks = Task.createTaskList(10)
-        val adapter = TaskAdapter(tasks)
+        val adapter = TaskAdapter(tasks,project)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 

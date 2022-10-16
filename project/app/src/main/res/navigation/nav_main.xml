@@ -55,15 +55,15 @@
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentWelcome"
             app:destination="@id/fragmentWelcome" />
-        <argument
-            android:name="projectID"
-            app:argType="integer" />
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentSingleProject"
             app:destination="@id/fragmentSingleProject" />
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentSingleTask"
             app:destination="@id/fragmentSingleTask" />
+        <argument
+            android:name="project"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleProject"
@@ -73,22 +73,22 @@
             android:id="@+id/action_fragmentSingleProject_to_fragmentWelcome"
             app:destination="@id/fragmentWelcome" />
         <argument
-            android:name="projectID"
-            app:argType="integer" />
+            android:name="project"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleTask"
         android:name="hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentSingleTask"
         android:label="FragmentSingleTask" >
-        <argument
-            android:name="projectid"
-            app:argType="integer" />
-        <argument
-            android:name="taskid"
-            app:argType="integer" />
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentWelcome"
             app:destination="@id/fragmentWelcome" />
+        <argument
+            android:name="task"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.Task" />
+        <argument
+            android:name="project"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMilestone"
@@ -104,7 +104,7 @@
             android:id="@+id/action_fragmentMilestone_to_fragmentSingleProject"
             app:destination="@id/fragmentSingleProject" />
         <argument
-            android:name="projectID"
-            app:argType="integer" />
+            android:name="project"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
     </fragment>
 </navigation>
