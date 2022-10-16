@@ -12,18 +12,21 @@
     },
     {
       "text": "asdasd",
-      "statusbar": "Stopped",
-      "day": "2022-10-07",
-      "workers": "asd",
-      "id": 5
+      "statusbar": "Started",
+      "day": "",
+      "workers": "",
+      "description": "",
+      "prerequisite": "",
+      "id": 6
     },
     {
-      "text": "asd",
+      "text": "rewrwer",
       "statusbar": "Started",
-      "workers": "asd",
-      "description": "asd",
-      "prerequisite": "asd",
-      "id": 6
+      "day": "",
+      "workers": "",
+      "description": "",
+      "prerequisite": "",
+      "id": 7
     }
   ]
 }
