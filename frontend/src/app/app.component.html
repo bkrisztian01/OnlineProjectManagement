@@ -1,0 +1,147 @@
+
+<nav class="navbar navbar-light bg-primary">
+  <div class="container-fluid">
+    <h1>Project Management</h1>
+    
+    <div class="d-flex">
+      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+        Add Task
+      </button>
+      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+        Add Milestone
+      </button>
+      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+        Finish Project
+      </button>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">
+      Projects
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Project 1</a>
+      <a class="dropdown-item" href="#">Project 2</a>
+      <a class="dropdown-item" href="#">Project 3</a>
+    </div>
+  </div>
+
+</nav>
+
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Task Name</th>
+      <th scope="col">Status</th>
+      <th scope="col">Deadline</th>
+      <th scope="col">Workers</th>
+      <th scope="col">Description</th>
+      <th scope="col">Prerequisite</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>asdsa</td>
+      <td>asdasd</td>
+      <td>asdasd</td>
+      <td>asdasd</td>
+      <td>asdasd</td>
+      <td>asdasd</td>
+      <td>
+        <button class="btn btn-secondary">Archive</button>
+       
+        <button type="button" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Task details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Task name</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          
+
+          <label for="exampleInputEmail6" class="form-label">Status</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Not started
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+            <label class="form-check-label" for="exampleRadios2">
+              In Progress
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+            <label class="form-check-label" for="exampleRadios2">
+              Finished
+            </label>
+          </div>
+
+
+
+          <div class="mb-3">
+            <label for="exampleInputPassword2" class="form-label">Deadline</label>
+            <input type="date" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword3" class="form-label">Workers</label>
+            <input type="text" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword4" class="form-label">Description</label>
+            <input type="text" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword5" class="form-label">Prerequisite</label>
+            <input type="text" class="form-control" id="exampleInputPassword1">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+</div>

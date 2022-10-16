@@ -1,0 +1,32 @@
+{
+  "tasks": [
+    {
+      "id": 2,
+      "text": "Angular",
+      "statusbar": "Finished",
+      "day": "May 5th at 2:30pm",
+      "workers": "Balazs",
+      "description": "valami",
+      "prerequisite": "none",
+      "reminder": true
+    },
+    {
+      "text": "asdasd",
+      "statusbar": "Started",
+      "day": "",
+      "workers": "",
+      "description": "",
+      "prerequisite": "",
+      "id": 6
+    },
+    {
+      "text": "rewrwer",
+      "statusbar": "Started",
+      "day": "",
+      "workers": "",
+      "description": "",
+      "prerequisite": "",
+      "id": 7
+    }
+  ]
+}

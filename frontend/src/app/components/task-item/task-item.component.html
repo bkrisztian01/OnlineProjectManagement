@@ -1,0 +1,13 @@
+<div class="task">
+    <div class="container">
+    <h3>
+        {{task.text}}&emsp;|&emsp;{{task.day}}&emsp;|&emsp;{{task.statusbar}}&emsp;|&emsp;{{task.workers}}&emsp;|&emsp;{{task.description}}&emsp;|&emsp;{{task.prerequisite}}
+        
+    </h3>
+    <h4>
+        <fa-icon  (click)="onArchive(task)"  [ngStyle]="{color: 'red'}" [icon]= "faTimes">   </fa-icon>
+        <fa-icon (click)="onDelete(task)" [icon]="faTrash" > Delete Task
+        </fa-icon>
+    </h4>
+    </div>
+</div>
