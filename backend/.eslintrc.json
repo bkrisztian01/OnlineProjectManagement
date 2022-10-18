@@ -21,8 +21,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "radix": "off" //,
-        // "@typescript-eslint/no-explicit-any": "off",
-        // "@typescript-eslint/no-unsafe-assignment": "off"
+        "radix": "off",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }
