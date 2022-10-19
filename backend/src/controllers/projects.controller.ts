@@ -1,24 +1,12 @@
 import type {Request, Response, NextFunction} from 'express';
-import {deleteProjectById, getProjectById, projects} from '../services/projects.service';
+import {createProject, deleteProjectById, getProjectById, getProjects, updateProjectById} from '../services/projects.service';
 
 export function getProjectsHandler(req: Request, res: Response, next: NextFunction) {
-	res.send(projects);
+	res.send(getProjects());
 }
 
 export function postProjectHandler(req: Request, res: Response, next: NextFunction) {
-	// TODO: refactor these
-	const project = {
-		id: projects.length + 1,
-		name: req.body.name as string,
-		description: req.body.description as string || '',
-		startDate: new Date(Date.now()),
-		endDate: new Date(0),
-		estimatedTime: 0,
-		tasks: [],
-		milestones: [],
-	};
-	projects.push(project);
-
+	const project = createProject(req.body.name, req.body.description);
 	res.send(project);
 }
 
@@ -33,20 +21,20 @@ export function getProjectByIdHandeler(req: Request, res: Response, next: NextFu
 }
 
 export function updateProjectByIdHandler(req: Request, res: Response, next: NextFunction) {
-	const project = getProjectById(parseInt(req.params.id));
-	if (!project) {
-		res.status(404).send('Project was not found');
-		return;
+	try {
+		updateProjectById(
+			parseInt(req.params.id),
+			req.body.name,
+			req.body.description,
+			new Date(req.body.startDate),
+			new Date(req.body.endDate),
+			req.body.estimatedTime,
+		);
+
+		res.send('Successful operation');
+	} catch (e: unknown) {
+		res.status(404).send((e as Error).message);
 	}
-
-	// TODO: refactor these
-	project.name = req.body.name as string || project.name;
-	project.description = req.body.description as string || project.description;
-	project.startDate = req.body.startDate ? new Date(req.body.startDate) : project.startDate;
-	project.endDate = req.body.endDate ? new Date(req.body.endDate) : project.endDate;
-	project.estimatedTime = parseInt(req.body.estimatedTime) || project.estimatedTime;
-
-	res.status(200).send('Successful operation');
 }
 
 export function deleteProjectByIdHandler(req: Request, res: Response, next: NextFunction) {

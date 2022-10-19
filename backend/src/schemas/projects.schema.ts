@@ -2,7 +2,7 @@ import {object, string, number} from 'yup';
 
 const params = {
 	params: object({
-		id: number().required(),
+		id: string().required(),
 	}),
 };
 
