@@ -21,8 +21,9 @@
         "sourceType": "module"
     },
     "rules": {
-        "radix": "off" //,
-        // "@typescript-eslint/no-explicit-any": "off",
-        // "@typescript-eslint/no-unsafe-assignment": "off"
-    }
+        "radix": "off",
+        "unused-imports/no-unused-imports": "error",
+        "@typescript-eslint/no-explicit-any": "off"
+    },
+    "plugins": ["unused-imports"]
 }

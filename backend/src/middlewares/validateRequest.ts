@@ -12,12 +12,13 @@ export const validate = (schema: AnySchema) => async (
 			body: req.body,
 			query: req.query,
 			params: req.params,
-		});
+		},
+		{strict: true});
 
 		next();
 		return;
 	} catch (err: unknown) {
-		res.status(400).send(err);
+		res.status(400).send((err as Error).message);
 	}
 };
 
