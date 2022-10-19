@@ -12,7 +12,8 @@ export const validate = (schema: AnySchema) => async (
 			body: req.body,
 			query: req.query,
 			params: req.params,
-		});
+		},
+		{strict: true});
 
 		next();
 		return;
