@@ -32,7 +32,7 @@ export function getTaskByIdHandler(req: Request, res: Response, next: NextFuncti
 
 export function updateTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
 	try {
-		updateTaskById(
+		const task = updateTaskById(
 			parseInt(req.params.id),
 			req.body.name,
 			req.body.description,
@@ -42,7 +42,7 @@ export function updateTaskByIdHandler(req: Request, res: Response, next: NextFun
 			req.body.prerequisiteTaskIds,
 		);
 
-		res.send('Successful operation');
+		res.send(task);
 	} catch (e: unknown) {
 		res.status(404).send((e as Error).message);
 	}

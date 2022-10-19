@@ -33,7 +33,7 @@ export function getMilestoneByIdHandler(req: Request, res: Response, next: NextF
 
 export function updateMilestoneByIdHandler(req: Request, res: Response, next: NextFunction) {
 	try {
-		updateMilestoneById(
+		const milestone = updateMilestoneById(
 			parseInt(req.params.id),
 			req.body.name,
 			req.body.description,
@@ -42,7 +42,7 @@ export function updateMilestoneByIdHandler(req: Request, res: Response, next: Ne
 			req.body.taskIds,
 		);
 
-		res.status(200).send('Successful operation');
+		res.status(200).send(milestone);
 	} catch (e: unknown) {
 		res.status(404).send((e as Error).message);
 	}

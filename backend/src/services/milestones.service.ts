@@ -69,6 +69,8 @@ export function updateMilestoneById(
 	milestone.description = description || milestone.description;
 	milestone.deadline = deadline || milestone.deadline;
 	milestone.status = status || milestone.status;
+
+	return milestone;
 }
 
 export function deleteMilestoneById(id: number) {

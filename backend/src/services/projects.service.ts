@@ -48,6 +48,8 @@ export function updateProjectById(
 	project.startDate = isNaN(startDate.getTime()) ? project.startDate : startDate;
 	project.endDate = isNaN(endDate.getTime()) ? project.endDate : endDate;
 	project.estimatedTime = estimatedTime || project.estimatedTime;
+
+	return project;
 }
 
 export function deleteProjectById(id: number) {

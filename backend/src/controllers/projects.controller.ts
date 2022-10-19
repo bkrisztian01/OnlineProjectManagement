@@ -22,7 +22,7 @@ export function getProjectByIdHandeler(req: Request, res: Response, next: NextFu
 
 export function updateProjectByIdHandler(req: Request, res: Response, next: NextFunction) {
 	try {
-		updateProjectById(
+		const project = updateProjectById(
 			parseInt(req.params.id),
 			req.body.name,
 			req.body.description,
@@ -31,7 +31,7 @@ export function updateProjectByIdHandler(req: Request, res: Response, next: Next
 			req.body.estimatedTime,
 		);
 
-		res.send('Successful operation');
+		res.send(project);
 	} catch (e: unknown) {
 		res.status(404).send((e as Error).message);
 	}

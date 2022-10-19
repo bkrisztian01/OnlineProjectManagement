@@ -77,6 +77,8 @@ export function updateTaskById(
 	task.deadline = isNaN(deadline.getTime()) ? task.deadline : deadline;
 	task.prerequisiteTaskIds = prerequisiteTaskIds || task.prerequisiteTaskIds;
 	task.assignees = assigneeIds ? assignees : task.assignees;
+
+	return task;
 }
 
 export function deleteTaskById(id: number) {
