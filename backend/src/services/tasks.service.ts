@@ -1,5 +1,4 @@
 import type {Task} from '../models/tasks.model';
-import type {User} from '../models/users.model';
 import {Status} from '../util/Status';
 import {getProjectById, projects} from './projects.service';
 import {getUserById} from './users.service';

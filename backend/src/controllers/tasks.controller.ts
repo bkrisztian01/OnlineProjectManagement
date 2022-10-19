@@ -1,8 +1,6 @@
 import type {Request, Response, NextFunction} from 'express';
-import {createTask, deleteTaskById, getTaskById, getTasks, tasks, updateTaskById} from '../services/tasks.service';
+import {createTask, deleteTaskById, getTaskById, getTasks, updateTaskById} from '../services/tasks.service';
 import {Status} from '../util/Status';
-import {getProjectById, projects} from '../services/projects.service';
-import {getUserById, users} from '../services/users.service';
 
 export function getTaskHandler(req: Request, res: Response, next: NextFunction) {
 	res.send(getTasks());
