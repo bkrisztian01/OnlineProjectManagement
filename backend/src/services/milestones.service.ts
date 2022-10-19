@@ -29,7 +29,7 @@ export function createMilestone(
 	const milestone: Milestone = {
 		id: milestones.length + 1,
 		name,
-		description,
+		description: description || '',
 		status,
 		deadline,
 		tasks: [],
@@ -69,6 +69,7 @@ export function updateMilestoneById(
 	milestone.description = description || milestone.description;
 	milestone.deadline = deadline || milestone.deadline;
 	milestone.status = status || milestone.status;
+	milestone.tasks = taskIds ? tasks : milestone.tasks;
 
 	return milestone;
 }

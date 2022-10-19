@@ -2,7 +2,7 @@ import type {Request, Response, NextFunction} from 'express';
 import {createMilestone, deleteMilestoneById, getMilestoneById, getMilestones, updateMilestoneById} from '../services/milestones.service';
 
 export function getMilestonesHandler(req: Request, res: Response, next: NextFunction) {
-	res.send(getMilestones);
+	res.send(getMilestones());
 }
 
 export function postMilestoneHandler(req: Request, res: Response, next: NextFunction) {

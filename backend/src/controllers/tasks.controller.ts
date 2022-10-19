@@ -12,7 +12,7 @@ export function postTaskHandler(req: Request, res: Response, next: NextFunction)
 			req.body.projectId,
 			req.body.name,
 			req.body.description,
-			req.body.deadline,
+			new Date(req.body.deadline),
 		);
 		res.send(task);
 	} catch (e: unknown) {

@@ -24,7 +24,7 @@ export function createTask(projectId: number, name: string, description: string,
 	const task = {
 		id: autoIncrement++,
 		name,
-		description,
+		description: description || '',
 		status: Status.NotStarted,
 		deadline,
 		assignees: [],

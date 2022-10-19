@@ -15,7 +15,7 @@ export function createProject(
 		name,
 		description: description || '',
 		startDate: new Date(Date.now()),
-		endDate: new Date(0),
+		endDate: null as unknown as Date,
 		estimatedTime: 0,
 		tasks: [],
 		milestones: [],
