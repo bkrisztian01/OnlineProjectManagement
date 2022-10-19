@@ -18,7 +18,7 @@ export const validate = (schema: AnySchema) => async (
 		next();
 		return;
 	} catch (err: unknown) {
-		res.status(400).send(err);
+		res.status(400).send((err as Error).message);
 	}
 };
 

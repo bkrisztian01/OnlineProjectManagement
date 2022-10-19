@@ -1,4 +1,4 @@
-import {object, string, number} from 'yup';
+import {object, string} from 'yup';
 
 const credentials = {
 	username: string().required(),
@@ -15,6 +15,6 @@ export const createUserSchema = object({
 	body: object({
 		...credentials,
 		fullname: string().required(),
-		email: string().required(),
+		email: string().email().required(),
 	}),
 });

@@ -1,4 +1,5 @@
 import {object, string, number, array} from 'yup';
+import {Status} from '../util/Status';
 
 const params = {
 	params: object({
@@ -6,12 +7,28 @@ const params = {
 	}),
 };
 
+const deadline = {
+	deadline: string().test(
+		'is-date',
+		d => `${d.path} is not a valid date`,
+		value => value === undefined || !isNaN(new Date(value).getTime()),
+	),
+};
+
+const status = {
+	status: string().test(
+		'is-status',
+		d => `${d.path} is not a valid status`,
+		value => value === undefined || Status[value as keyof typeof Status] !== undefined,
+	),
+};
+
 export const createTaskSchema = object({
 	body: object({
 		projectId: number().required(),
 		name: string().required(),
 		description: string(),
-		deadline: string(),
+		...deadline,
 	}),
 });
 
@@ -20,8 +37,8 @@ export const updateTaskByIdSchema = object({
 	body: object({
 		name: string(),
 		description: string(),
-		deadline: string(),
-		status: string(),
+		...deadline,
+		...status,
 		assigneeIds: array().of(number()),
 		prerequisiteTaskIds: array().of(number()),
 	}),

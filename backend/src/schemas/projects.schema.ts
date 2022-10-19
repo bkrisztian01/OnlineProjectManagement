@@ -6,6 +6,19 @@ const params = {
 	}),
 };
 
+const dates = {
+	startDate: string().test(
+		'is-date',
+		d => `${d.path} is not a valid date`,
+		value => value === undefined || !isNaN(new Date(value).getTime()),
+	),
+	endDate: string().test(
+		'is-date',
+		d => `${d.path} is not a valid date`,
+		value => value === undefined || !isNaN(new Date(value).getTime()),
+	),
+};
+
 export const createProjectSchema = object({
 	body: object({
 		name: string().required(),
@@ -18,8 +31,7 @@ export const updateProjectByIdSchema = object({
 	body: object({
 		name: string().required(),
 		description: string(),
-		startDate: string(),
-		endDate: string(),
+		...dates,
 		estimatedTime: number(),
 	}),
 });

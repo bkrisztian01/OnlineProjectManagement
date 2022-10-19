@@ -1,10 +1,10 @@
 import type {Express} from 'express';
-import {deleteMilestoneByIdHandler, getMilestoneByIdHandler, getMilestonesHandler, postMilestoneHandler} from './controllers/milestones.controller';
+import {deleteMilestoneByIdHandler, getMilestoneByIdHandler, getMilestonesHandler, postMilestoneHandler, updateMilestoneByIdHandler} from './controllers/milestones.controller';
 import {getProjectsHandler, deleteProjectByIdHandler, postProjectHandler, updateProjectByIdHandler, getProjectByIdHandeler} from './controllers/projects.controller';
 import {deleteTaskByIdHandler, getTaskByIdHandler, getTaskHandler, postTaskHandler, updateTaskByIdHandler} from './controllers/tasks.controller';
 import {getLoginUserHandler, getLogoutUserHandler, getUsersHandler, postSignupUserHandler} from './controllers/users.controller';
 import validateRequest from './middlewares/validateRequest';
-import {createMilestoneSchema, deleteMilestoneByIdSchema, getMilestoneByIdSchema} from './schemas/milestones.schema';
+import {createMilestoneSchema, deleteMilestoneByIdSchema, getMilestoneByIdSchema, updateMilestoneByIdSchema} from './schemas/milestones.schema';
 import {createProjectSchema, deleteProjectByIdSchema, getProjectByIdSchema, updateProjectByIdSchema} from './schemas/projects.schema';
 import {createTaskSchema, deleteTaskByIdSchema, getTaskByIdSchema, updateTaskByIdSchema} from './schemas/tasks.schema';
 import {createUserSchema, loginUserSchema} from './schemas/users.schema';
@@ -58,6 +58,7 @@ function routes(app: Express): void {
 
 	app.route('/milestones/:id')
 		.get(validateRequest(getMilestoneByIdSchema), getMilestoneByIdHandler)
+		.put(validateRequest(updateMilestoneByIdSchema), updateMilestoneByIdHandler)
 		.delete(validateRequest(deleteMilestoneByIdSchema), deleteMilestoneByIdHandler);
 }
 
