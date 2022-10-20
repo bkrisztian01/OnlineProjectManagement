@@ -102,12 +102,12 @@
     </thead>
     <tbody >
       <tr *ngFor="let row of taskData">
-        <td>{{row.text}}</td>
-        <td>{{row.statusbar}}</td>
-        <td>{{row.day}}</td>
-        <td>{{row.workers}}</td>
+        <td>{{row.name}}</td>
+        <td>{{row.status}}</td>
+        <td>{{row.deadline}}</td>
+        <td>{{row.assignees}}</td>
         <td>{{row.description}}</td>
-        <td>{{row.prerequisites}}</td>
+        <td>{{row.prerequisitesTaskIds}}</td>
 
         <td>
           <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >Edit</button>

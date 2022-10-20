@@ -6,20 +6,22 @@ import { identifierName } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiService {
 
+  private apiAddress = "http://localhost:5000"
   constructor(private http: HttpClient) { }
 
   postTask(data: any){
-    return this.http.post<any>("http://localhost:3000/posts",data).pipe(map((res:any)=>{return res;}))
+    return this.http.post<any>(`${this.apiAddress}/tasks`,data).pipe(map((res:any)=>{return res;}))
   }
   getTask(){
-    return this.http.get<any>("http://localhost:3000/posts").pipe(map((res:any)=>{return res;}))
+    return this.http.get<any>(`${this.apiAddress}/tasks/`).pipe(map((res:any)=>{return res;}))
   }
   updateTask(data: any,id:number){
-    return this.http.put<any>("http://localhost:3000/posts/"+id,data).pipe(map((res:any)=>{return res;}))
+    return this.http.put<any>(`${this.apiAddress}/tasks/`+id,data).pipe(map((res:any)=>{return res;}))
   }
   deleteTask(id:number){
-    return this.http.delete<any>("http://localhost:3000/posts/"+id).pipe(map((res:any)=>{return res;}))
+    return this.http.delete(`${this.apiAddress}/tasks/`+id, {responseType: 'text'}).pipe(map((res:any)=>{return res;}))
   }
 }
