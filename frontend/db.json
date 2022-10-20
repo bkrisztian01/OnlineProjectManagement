@@ -1,6 +1,7 @@
 {
   "tasks": [
     {
+<<<<<<< Updated upstream
       "id": 2,
       "text": "Angular",
       "statusbar": "Finished",
@@ -9,6 +10,15 @@
       "description": "valami",
       "prerequisite": "none",
       "reminder": true
+=======
+      "id": 11,
+      "text": "nas",
+      "statusbar": "In Progress",
+      "day": "2022-09-29",
+      "workers": "vegre",
+      "description": "sikerul",
+      "prerequisite": "asdadsadsasd"
+>>>>>>> Stashed changes
     },
     {
       "text": "asdasd",
