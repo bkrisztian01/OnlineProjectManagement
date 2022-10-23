@@ -15,10 +15,10 @@
       <button type="button" (click)="clickAddTask()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
         Add Task
       </button>
-      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
+      <button type="button" (click)="clickAddMilestone()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >
         Add Milestone
       </button>
-      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
+      <button type="button" class="btn btn-info" >
         Finish Project
       </button>
       </div>
@@ -31,27 +31,16 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Projects
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="#">Project #1</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Project #2</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Project #3</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Sign out</a>
-          </li>
-        </ul>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            My Projects
+          </button>
+          <a routerLink="/login" class="nav-link" routerLinkActive="active">Sign out</a>
+          <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenu2" *ngFor="let row of projectData">
+            <button class="dropdown-item" type="button">{{row.name}}</button>
+          </div> -->
+
+        </div>
       </div>
     </div>
   </div>
@@ -88,6 +77,7 @@
   </nav> -->
   <h1>Tasks:</h1>
   <p>Project #1</p>
+  <p >Page:  {{TaskPageNumber}}</p>
   <table class="table mt-5">
     <thead>
       <tr>
@@ -100,21 +90,35 @@
         <th scope="col">Action</th>
       </tr>
     </thead>
-    <tbody >
-      <tr *ngFor="let row of taskData">
-        <td>{{row.name}}</td>
-        <td>{{row.status}}</td>
-        <td>{{row.deadline}}</td>
-        <td>{{row.assignees}}</td>
-        <td>{{row.description}}</td>
-        <td>{{row.prerequisitesTaskIds}}</td>
+    <tbody  >
+      <tr *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
+        <td *ngIf="Archive == false">{{row.name}}</td>
 
-        <td>
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
+        <td *ngIf="Archive == false">{{row.status}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
+        <td *ngIf="Archive == false">{{row.deadline}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
+        <td *ngIf="Archive == false">{{row.assignees}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
+        <td *ngIf="Archive == false">{{row.description}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white"> {{row.prerequisitesTaskIds}}</td>
+        <td *ngIf="Archive == false">{{row.prerequisitesTaskIds}}</td>
+
+        <td *ngIf="Archive==false">
           <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >Edit</button>
 
-          <button class="btn btn-secondary">Archive</button>
+          <button class="btn btn-secondary" (click)="setToArchive()">Archive</button>
          
           <button type="button" (click)="deleteTask(row)" class="btn btn-danger">Delete</button>
+        </td>
+        <td *ngIf="Archive">
+          <button class="btn btn-dark" (click)="setToActive()">Reactivate</button>
         </td>
       </tr>
     </tbody>
@@ -186,18 +190,18 @@
   </div>
 
 
-<!-- Modal MILESTONE
-<div class="modal fade" id="TaskAddModal" tabindex="-1" aria-labelledby="TaskAddModalLabel" aria-hidden="true">
+<!-- Modal MILESTONE -->
+<div class="modal fade" id="MilestoneAddModal" tabindex="-1" aria-labelledby="MilestoneAddModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="TaskAddModalLabel">Milestone details</h1>
+        <h1 class="modal-title fs-5" id="MilestoneAddModalLabel">Milestone details</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="formValue">
+        <form [formGroup]="milestoneValue">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Task name</label>
+            <label for="exampleInputEmail1" class="form-label">Milestone name</label>
             <input type="text" formControlName="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           </div>
           
@@ -221,52 +225,93 @@
               Finished
             </label>
           </div>
-
-
-
           <div class="mb-3">
             <label for="exampleInputPassword2" class="form-label">Deadline</label>
             <input type="date" formControlName="day" class="form-control" id="exampleInputPassword1">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword3" class="form-label">Workers</label>
-            <input type="text" formControlName="workers" class="form-control" id="exampleInputPassword1">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword4" class="form-label">Description</label>
             <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword5" class="form-label">Prerequisite</label>
-            <input type="text" formControlName="prerequisite" class="form-control" id="exampleInputPassword1">
+            <label for="exampleInputPassword5" class="form-label">Required Tasks</label>
+            <input type="text" formControlName="tasks" class="form-control" id="exampleInputPassword1">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" *ngIf="showAdd" (click)="postTaskDeatails()" class="btn btn-primary">Add</button>
-        <button type="button" *ngIf="showUpdate" (click)="updateTask()" class="btn btn-primary">Update</button>
+        <button type="button" *ngIf="showAddMilestone" (click)="postMilestoneDetails()" class="btn btn-primary">Add</button>
+        <button type="button" *ngIf="showUpdateMilestone" (click)="updateMilestone()" class="btn btn-primary">Update</button>
       </div>
     </div>
   </div>
-</div> -->
+</div> 
 
 
 <!-- Modal MILESTONE VEGE-->
 
 
 
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end" >
+      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(1)">1</a></li>
+      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(2)">2</a></li>
+      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(3)">3</a></li>
+    </ul>
+  </nav>
+
+
+  <h1>Milestones:</h1>
+<p>Project #1</p>
+<p >Page:  {{MilestonePageNumber}}</p>
+  <table class="table mt-5">
+    <thead>
+      <tr>
+        <th scope="col">Milestone Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Deadline</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required Tasks</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let row of milestoneData.slice(MilestonePageNumber*5-5, MilestonePageNumber*5);">
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
+        <td *ngIf="Archive == false">{{row.name}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
+        <td *ngIf="Archive == false">{{row.status}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
+        <td *ngIf="Archive == false">{{row.deadline}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
+        <td *ngIf="Archive == false">{{row.description}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white"> {{row.tasks}}</td>
+        <td *ngIf="Archive == false">{{row.tasks}}</td>
+
+        <td *ngIf="Archive==false">
+          <button type="button" (click)="onEditMilestone(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >Edit</button>
+
+          <button class="btn btn-secondary" (click)="setToArchive()">Archive</button>
+         
+          <button type="button" (click)="deleteMilestone(row)" class="btn btn-danger">Delete</button>
+        </td>
+        <td *ngIf="Archive">
+          <button class="btn btn-dark" (click)="setToActive()">Reactivate</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
   <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-      <li class="page-item disabled">
-        <a class="page-link">Previous</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
+    <ul class="pagination justify-content-end" >
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">1</a></li>
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(2)">2</a></li>
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(3)">3</a></li>
     </ul>
   </nav>

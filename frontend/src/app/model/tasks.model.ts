@@ -9,4 +9,5 @@ export class Task {
 	deadline!: Date;
 	assignees!: User[];
 	prerequisiteTaskIds!: number[];
+	//archive!: boolean;
 };

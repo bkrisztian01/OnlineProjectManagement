@@ -9,7 +9,7 @@ import { identifierName } from '@angular/compiler';
 
 export class ApiService {
 
-  private apiAddress = "http://localhost:5000"
+  private apiAddress = "https://opmapi.azurewebsites.net"
   constructor(private http: HttpClient) { }
 
   postTask(data: any){
@@ -23,5 +23,23 @@ export class ApiService {
   }
   deleteTask(id:number){
     return this.http.delete(`${this.apiAddress}/tasks/`+id, {responseType: 'text'}).pipe(map((res:any)=>{return res;}))
+  }
+  postMilestone(data: any){
+    return this.http.post<any>(`${this.apiAddress}/milestones`,data).pipe(map((res:any)=>{return res;}))
+  }
+  getMilestone(){
+    return this.http.get<any>(`${this.apiAddress}/milestones`).pipe(map((res:any)=>{return res;}))
+  }
+  updateMilestone(data: any,id:number){
+    return this.http.put<any>(`${this.apiAddress}/milestones/`+id,data).pipe(map((res:any)=>{return res;}))
+  }
+  deleteMilestone(id:number){
+    return this.http.delete<any>(`${this.apiAddress}/milestones/`+id).pipe(map((res:any)=>{return res;}))
+  }
+
+  getProjectData(){
+    return this.http.get<any>(`${this.apiAddress}/projects`).pipe(map((res:any)=>{
+      console.log(res)
+            return res;}))
   }
 }
