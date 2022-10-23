@@ -29,6 +29,7 @@ export function createTask(projectId: number, name: string, description: string,
 		deadline,
 		assignees: [],
 		prerequisiteTaskIds: [],
+		archived: false,
 	};
 
 	tasks.push(task);
@@ -102,4 +103,13 @@ export function deleteTaskById(id: number) {
 	});
 
 	tasks.splice(index, 1);
+}
+
+export function setArchivedTaskById(id: number, archived: boolean) {
+	const task = getTaskById(id);
+	if (!task) {
+		throw new Error('Task was not found');
+	}
+
+	task.archived = archived;
 }
