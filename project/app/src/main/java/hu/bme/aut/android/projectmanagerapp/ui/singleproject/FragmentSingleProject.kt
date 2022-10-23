@@ -1,4 +1,4 @@
-package hu.bme.aut.android.projectmanagerapp.ui.projects
+package hu.bme.aut.android.projectmanagerapp.ui.singleproject
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +12,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
-import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
-import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
-import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 
 class FragmentSingleProject : Fragment() {
     private var _binding: FragmentSingleprojectBinding? = null
@@ -71,10 +68,10 @@ class FragmentSingleProject : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    fun loadProject(){
+    private fun loadProject(){
         binding.tvProjectName.setText(project.name+" info")
-        binding.tStartDate.setText(project.startDate)
-        binding.tEndDate.setText(project.endDate)
+        binding.tStartDate.setText(project.startDate.toString())
+        binding.tEndDate.setText(project.endDate.toString())
         binding.tClient.setText(project.client)
         binding.tDesc.setText(project.desc)
         binding.tLength.setText(project.length.toString()+ " days")

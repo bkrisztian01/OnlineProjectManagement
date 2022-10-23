@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentLoginBinding
+import hu.bme.aut.android.projectmanagerapp.model.User
 
 class FragmentLogIn : Fragment() {
     private var _binding: FragmentLoginBinding? = null
@@ -31,7 +32,9 @@ class FragmentLogIn : Fragment() {
                 binding.editTextPw.requestFocus()
                 binding.editTextPw.error = "Please enter your password"
             } else{
-                binding.root.findNavController().navigate(FragmentLogInDirections.actionFragmentLogInToFragmentProject())
+                binding.root.findNavController().navigate(FragmentLogInDirections.actionFragmentLogInToFragmentProject(
+                    /*User(1,binding.editTextUser.text.toString(),binding.editTextPw.text.toString(),binding.editTextUser.text.toString()*/)
+                )
             }
         }
     }

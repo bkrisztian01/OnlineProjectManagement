@@ -16,11 +16,13 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentProjectBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.ProjectAdapter
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 
 class FragmentProject : Fragment() {
-    lateinit var projects: ArrayList<Project>
+    private val projects: ArrayList<Project> = ArrayList<Project>()
     private var _binding: FragmentProjectBinding? = null
     private val binding get() = _binding!!
 
@@ -80,7 +82,9 @@ class FragmentProject : Fragment() {
         super.onViewCreated(view,savedInstanceState)
         val recyclerView = activity?.findViewById(R.id.rvProjects) as RecyclerView
 
-        projects = Project.createProjectList(10)
+        //projects = Project.createProjectList(10)
+        val proj: Project = Project(1,"Project1","desc","client", Date(2002,12,21,23,59),Date(2002,12,21,23,59),12) ;
+        projects.add(proj)
         val adapter = ProjectAdapter(projects)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)

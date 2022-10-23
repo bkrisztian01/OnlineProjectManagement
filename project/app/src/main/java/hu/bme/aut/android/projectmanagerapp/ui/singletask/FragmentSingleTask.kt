@@ -1,4 +1,4 @@
-package hu.bme.aut.android.projectmanagerapp.ui.tasks
+package hu.bme.aut.android.projectmanagerapp.ui.singletask
 
 import android.graphics.Color
 import android.os.Bundle
@@ -12,11 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import hu.bme.aut.android.projectmanagerapp.R
-import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
-import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentSingleProjectDirections
 
 class FragmentSingleTask : Fragment() {
     private lateinit var project: Project
@@ -54,7 +52,8 @@ class FragmentSingleTask : Fragment() {
                         .setPositiveButton(R.string.yes) { _, _ ->
                             Toast.makeText(context, "You signed out!", Toast.LENGTH_SHORT).show()
                             binding.root.findNavController().navigate(
-                                FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentWelcome()) }
+                                FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentWelcome()
+                            ) }
                         .setNegativeButton(R.string.no, null)
 
                         .show()
@@ -74,7 +73,7 @@ class FragmentSingleTask : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    fun loadTask(){
+    private fun  loadTask(){
         when (task.status) {
             "In Progress" -> binding.tStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
             "Finished" ->binding.tStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
@@ -85,8 +84,8 @@ class FragmentSingleTask : Fragment() {
         }
         binding.tStatus.setText(task.status)
         binding.tvTaskName.setText(task.name+" info")
-        binding.tStartDate.setText(task.startDate)
-        binding.tEndDate.setText(task.endDate)
+        binding.tStartDate.setText(task.startDate.toString())
+        binding.tEndDate.setText(task.endDate.toString())
         binding.ttDesc.setText(task.desc)
 
 

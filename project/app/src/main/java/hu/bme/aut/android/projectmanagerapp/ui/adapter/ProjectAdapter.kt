@@ -23,7 +23,6 @@ class ProjectAdapter (private val projects: List<Project>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(viewHolder: ProjectAdapter.ViewHolder, position: Int) {
-        val buttoncolor = ArrayList<Color>()
         val project: Project = projects[position]
         val button = viewHolder.projectbutton
         button.setOnClickListener {

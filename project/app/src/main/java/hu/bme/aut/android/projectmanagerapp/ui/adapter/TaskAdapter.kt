@@ -26,7 +26,7 @@ class TaskAdapter (private val tasks: List<Task>,private val project: Project) :
         val button = viewHolder.taskbutton
 
         button.setOnClickListener {
-            viewHolder.binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleTask(tasks[position], project,
+            viewHolder.binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleTask( project,tasks[position]
                 ))
         }
         button.text = task.name

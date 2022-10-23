@@ -16,11 +16,15 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentTasksBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
+import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.ProjectAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.singletask.FragmentSingleTaskArgs
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentTasks : Fragment() {
-    lateinit var tasks: ArrayList<Task>
+    private val tasks: ArrayList<Task> = ArrayList<Task>()
     private lateinit var project: Project
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
@@ -45,6 +49,8 @@ class FragmentTasks : Fragment() {
         _binding = null
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        val args: FragmentSingleTaskArgs by navArgs()
+        //val user=args.user
         val context = this.activity
         return when (item.itemId){
             R.id.menu_sign_out->{
@@ -84,7 +90,11 @@ class FragmentTasks : Fragment() {
         super.onViewCreated(view,savedInstanceState)
         val recyclerView = activity?.findViewById(R.id.rvTasks) as RecyclerView
 
-        tasks = Task.createTaskList(10)
+        //tasks = Task.createTaskList(10)
+        tasks.add(Task(12,"Task50","desc","In Progress",
+            Date(2002,12,21,23,59),
+            Date(2002,12,21,23,59),12,12,ArrayList<Task>(),ArrayList<User>()
+        ))
         val adapter = TaskAdapter(tasks,project)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)

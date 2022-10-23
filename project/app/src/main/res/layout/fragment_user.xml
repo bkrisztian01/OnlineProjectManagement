@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#372859EC"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tvUser"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="39dp"
+        android:text="User"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvtUser"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_below="@id/tvUser"
+        android:text="@string/username"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_below="@id/tvtUser2"
+        android:text="@string/username"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvtUser2"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_below="@id/tvtUser"
+        android:text="User"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvtName"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_below="@id/tvName"
+        android:text="Name"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="142dp"
+        android:layout_height="74dp"
+        android:layout_below="@id/tvtName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="203dp"
+        android:layout_marginBottom="0dp"
+        android:text="Cancel"
+        android:backgroundTint="#2196F3"/>
+
+    <Button
+        android:id="@+id/btnSignOut"
+        android:layout_width="142dp"
+        android:layout_height="74dp"
+        android:layout_below="@id/tvtName"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="203dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="0dp"
+        android:text="Sign Out" />
+
+</RelativeLayout>

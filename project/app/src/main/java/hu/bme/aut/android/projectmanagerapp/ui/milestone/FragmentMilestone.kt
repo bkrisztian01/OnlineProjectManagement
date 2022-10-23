@@ -16,10 +16,11 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentMilestoneBinding
 import hu.bme.aut.android.projectmanagerapp.model.Milestone
 import hu.bme.aut.android.projectmanagerapp.model.Project
+import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.MilestoneAdapter
 
 class FragmentMilestone : Fragment() {
-    lateinit var milestones: ArrayList<Milestone>
+    private val milestones: ArrayList<Milestone> = ArrayList<Milestone>()
     private lateinit var project: Project
     private var _binding: FragmentMilestoneBinding? = null
     private val binding get() = _binding!!
@@ -83,7 +84,8 @@ class FragmentMilestone : Fragment() {
         super.onViewCreated(view,savedInstanceState)
         val recyclerView = activity?.findViewById(R.id.rvMilestones) as RecyclerView
 
-        milestones = Milestone.createMileStoneList(10)
+        //milestones = Milestone.createMileStoneList(10)
+        milestones.add(Milestone(21,"Milestone36",1,ArrayList<Task>()))
         val adapter = MilestoneAdapter(milestones,project)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)

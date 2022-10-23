@@ -24,7 +24,6 @@ class MilestoneAdapter (private val milestones: List<Milestone>, private val pro
     }
 
     override fun onBindViewHolder(viewHolder: MilestoneAdapter.ViewHolder, position: Int) {
-        val buttoncolor = ArrayList<Color>()
         val milestone: Milestone = milestones[position]
         val button = viewHolder.milestonebutton
         button.setOnClickListener {
