@@ -10,6 +10,10 @@ import {createTaskSchema, deleteTaskByIdSchema, getTaskByIdSchema, updateTaskByI
 import {createUserSchema, loginUserSchema} from './schemas/users.schema';
 
 function routes(app: Express): void {
+	app.get('/', (req, res) => {
+		res.send('Hey! :)');
+	});
+
 	//
 	// Projects
 	//

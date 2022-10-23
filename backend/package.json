@@ -5,7 +5,8 @@
   "main": "out/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node-dev --respawn src/index.ts",
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev --respawn src/index.ts",
     "lint": "eslint --fix ./src --ext .ts"
   },
   "keywords": [],
