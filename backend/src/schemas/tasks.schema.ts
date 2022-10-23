@@ -1,4 +1,4 @@
-import {object, string, number, array} from 'yup';
+import {object, string, number, array, bool} from 'yup';
 import {Status} from '../util/Status';
 
 const params = {
@@ -50,4 +50,11 @@ export const getTaskByIdSchema = object({
 
 export const deleteTaskByIdSchema = object({
 	...params,
+});
+
+export const archiveTaskByIdSchema = object({
+	...params,
+	body: object({
+		archived: bool().required(),
+	}),
 });

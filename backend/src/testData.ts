@@ -36,6 +36,7 @@ export function initTestData() {
 			deadline: new Date(Date.now()),
 			assignees: [],
 			prerequisiteTaskIds: [],
+			archived: false,
 		},
 		{
 			id: 2,
@@ -45,6 +46,7 @@ export function initTestData() {
 			deadline: new Date(Date.now()),
 			assignees: [],
 			prerequisiteTaskIds: [],
+			archived: false,
 		});
 
 	users.push(

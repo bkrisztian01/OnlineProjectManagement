@@ -9,4 +9,5 @@ export type Task = {
 	deadline: Date;
 	assignees: User[];
 	prerequisiteTaskIds: number[];
+	archived: boolean;
 };

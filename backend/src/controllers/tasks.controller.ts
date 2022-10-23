@@ -1,5 +1,5 @@
 import type {Request, Response, NextFunction} from 'express';
-import {createTask, deleteTaskById, getTaskById, getTasks, updateTaskById} from '../services/tasks.service';
+import {createTask, deleteTaskById, getTaskById, getTasks, setArchivedTaskById, updateTaskById} from '../services/tasks.service';
 import {Status} from '../util/Status';
 
 export function getTaskHandler(req: Request, res: Response, next: NextFunction) {
@@ -51,6 +51,15 @@ export function updateTaskByIdHandler(req: Request, res: Response, next: NextFun
 export function deleteTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
 	try {
 		deleteTaskById(parseInt(req.params.id));
+		res.send('Successful operation');
+	} catch (e: unknown) {
+		res.status(404).send((e as Error).message);
+	}
+}
+
+export function setArchivedTaskByIdHandler(req: Request, res: Response, next: NextFunction) {
+	try {
+		setArchivedTaskById(parseInt(req.params.id), req.body.archived);
 		res.send('Successful operation');
 	} catch (e: unknown) {
 		res.status(404).send((e as Error).message);
