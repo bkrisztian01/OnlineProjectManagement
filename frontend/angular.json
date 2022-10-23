@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AngProj": {
+    "TemaLab2": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ang-proj",
+            "outputPath": "dist/tema-lab2",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "AngProj:build:production"
+              "browserTarget": "TemaLab2:build:production"
             },
             "development": {
-              "browserTarget": "AngProj:build:development"
+              "browserTarget": "TemaLab2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "AngProj:build"
+            "browserTarget": "TemaLab2:build"
           }
         },
         "test": {
@@ -99,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "108a9365-535e-4269-9c03-1deb443f5ee6"
+    "analytics": "f4f40679-bae5-44c1-a1d1-3216d0bc0755"
   }
 }

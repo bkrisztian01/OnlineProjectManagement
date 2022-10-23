@@ -1,32 +1,35 @@
 {
-  "tasks": [
+  "posts": [
     {
-      "id": 2,
-      "text": "Angular",
-      "statusbar": "Finished",
-      "day": "May 5th at 2:30pm",
+      "id": 11,
+      "text": "na",
+      "statusbar": "In Progress",
+      "day": "2022-09-29",
+      "workers": "vegre",
+      "description": "sikerul",
+      "prerequisite": "asdadsadsasd"
+    },
+    {
+      "id": 12,
+      "text": "NEM HELLO",
+      "statusbar": "option2",
+      "day": "2022-10-19",
       "workers": "Balazs",
-      "description": "valami",
-      "prerequisite": "none",
-      "reminder": true
+      "description": "Vegre",
+      "prerequisite": "None"
     },
     {
-      "text": "asdasd",
-      "statusbar": "Started",
-      "day": "",
-      "workers": "",
-      "description": "",
-      "prerequisite": "",
-      "id": 6
-    },
-    {
-      "text": "rewrwer",
-      "statusbar": "Started",
-      "day": "",
-      "workers": "",
-      "description": "",
-      "prerequisite": "",
-      "id": 7
+      "id": 13,
+      "text": "as",
+      "statusbar": null,
+      "day": null,
+      "workers": "AS",
+      "description": "as",
+      "prerequisite": null
     }
-  ]
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
 }
