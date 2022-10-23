@@ -9,9 +9,10 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.ItemTaskBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
+import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 
-class TaskAdapter (private val tasks: List<Task>,private val project: Project) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter (private val tasks: List<Task>, private val project: Project, private val user: User,) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         val taskbutton = itemView.findViewById<Button>(R.id.btntask)
     }
@@ -26,7 +27,7 @@ class TaskAdapter (private val tasks: List<Task>,private val project: Project) :
         val button = viewHolder.taskbutton
 
         button.setOnClickListener {
-            viewHolder.binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleTask( project,tasks[position]
+            viewHolder.binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleTask( project,tasks[position],user
                 ))
         }
         button.text = task.name

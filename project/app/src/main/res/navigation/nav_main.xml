@@ -36,6 +36,12 @@
         <action
             android:id="@+id/action_fragmentProject_to_fragmentMilestone"
             app:destination="@id/fragmentMilestone" />
+        <action
+            android:id="@+id/action_fragmentProject_to_dialogFragmentUser"
+            app:destination="@id/dialogFragmentUser" />
+        <argument
+            android:name="user"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSignIn"
@@ -64,6 +70,12 @@
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentSingleTask"
             app:destination="@id/fragmentSingleTask" />
+        <argument
+            android:name="user"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+        <action
+            android:id="@+id/action_fragmentTasks_to_dialogFragmentUser"
+            app:destination="@id/dialogFragmentUser" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleProject"
@@ -75,6 +87,12 @@
         <argument
             android:name="project"
             app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
+        <argument
+            android:name="user"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+        <action
+            android:id="@+id/action_fragmentSingleProject_to_dialogFragmentUser"
+            app:destination="@id/dialogFragmentUser" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleTask"
@@ -89,6 +107,12 @@
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentWelcome"
             app:destination="@id/fragmentWelcome" />
+        <argument
+            android:name="user"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+        <action
+            android:id="@+id/action_fragmentSingleTask_to_dialogFragmentUser"
+            app:destination="@id/dialogFragmentUser" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMilestone"
@@ -106,13 +130,22 @@
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentSingleProject"
             app:destination="@id/fragmentSingleProject" />
+        <argument
+            android:name="user"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+        <action
+            android:id="@+id/action_fragmentMilestone_to_dialogFragmentUser"
+            app:destination="@id/dialogFragmentUser" />
     </fragment>
     <dialog
-        android:id="@+id/userDialogFragment2"
-        android:name="hu.bme.aut.android.projectmanagerapp.ui.user.UserDialogFragment"
-        android:label="UserDialogFragment" >
+        android:id="@+id/dialogFragmentUser"
+        android:name="hu.bme.aut.android.projectmanagerapp.ui.user.DialogFragmentUser"
+        android:label="DialogFragmentUser" >
         <action
-            android:id="@+id/action_userDialogFragment2_to_fragmentWelcome"
+            android:id="@+id/action_dialogFragmentUser_to_fragmentWelcome"
             app:destination="@id/fragmentWelcome" />
+        <argument
+            android:name="user"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
     </dialog>
 </navigation>

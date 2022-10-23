@@ -17,20 +17,23 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentMilestoneBinding
 import hu.bme.aut.android.projectmanagerapp.model.Milestone
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
+import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.MilestoneAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
 
 class FragmentMilestone : Fragment() {
     private val milestones: ArrayList<Milestone> = ArrayList<Milestone>()
     private lateinit var project: Project
     private var _binding: FragmentMilestoneBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var user: User
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentMilestoneBinding.inflate(inflater, container, false)
         val view = binding.root
         if (arguments!=null) {
             val args: FragmentMilestoneArgs by navArgs()
+            user=args.user
             project = args.project
             binding.tvMilestones.setText("Milestones in "+ project.name)
         }
@@ -48,19 +51,9 @@ class FragmentMilestone : Fragment() {
         val context = this.activity
         return when (item.itemId){
             R.id.menu_sign_out->{
-                if (context != null) {
-                    AlertDialog.Builder(context)
-                        .setTitle("Signing out?")
-                        .setMessage(R.string.are_you_sure_want_to_sign_out)
-                        .setPositiveButton(R.string.yes) { _, _ ->
-                            Toast.makeText(context, "You signed out!", Toast.LENGTH_SHORT).show()
-                            binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentWelcome()) }
-                        .setNegativeButton(R.string.no, null)
-
-                        .show()
-
-                }
+                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToDialogFragmentUser(user))
                 return true
+
             }
             R.id.menu_help->{
                 if (context != null) {
@@ -73,7 +66,7 @@ class FragmentMilestone : Fragment() {
                 return true
             }
             R.id.menu_project->{
-                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentSingleProject(project))
+                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentSingleProject(project,user))
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -86,7 +79,7 @@ class FragmentMilestone : Fragment() {
 
         //milestones = Milestone.createMileStoneList(10)
         milestones.add(Milestone(21,"Milestone36",1,ArrayList<Task>()))
-        val adapter = MilestoneAdapter(milestones,project)
+        val adapter = MilestoneAdapter(milestones,project,user)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 

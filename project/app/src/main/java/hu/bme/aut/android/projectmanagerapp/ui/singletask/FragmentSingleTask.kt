@@ -15,12 +15,15 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
+import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 
 class FragmentSingleTask : Fragment() {
     private lateinit var project: Project
     private lateinit var task: Task
     private var _binding: FragmentSingletaskBinding? = null
     private val binding get() = _binding!!
+    private lateinit var user : User
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentSingletaskBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -28,6 +31,7 @@ class FragmentSingleTask : Fragment() {
             val args: FragmentSingleTaskArgs by navArgs()
             project = args.project
             task=args.task
+            user=args.user
 
         }
         binding.toolbarsingletask.inflateMenu(R.menu.menu_singleproject_toolbar)
@@ -45,19 +49,7 @@ class FragmentSingleTask : Fragment() {
         val context = this.activity
         return when (item.itemId){
             R.id.menu_sign_out->{
-                if (context != null) {
-                    AlertDialog.Builder(context)
-                        .setTitle("Signing out?")
-                        .setMessage(R.string.are_you_sure_want_to_sign_out)
-                        .setPositiveButton(R.string.yes) { _, _ ->
-                            Toast.makeText(context, "You signed out!", Toast.LENGTH_SHORT).show()
-                            binding.root.findNavController().navigate(
-                                FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentWelcome()
-                            ) }
-                        .setNegativeButton(R.string.no, null)
-
-                        .show()
-                }
+                binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToDialogFragmentUser(user))
                 return true
             }
             R.id.menu_help->{

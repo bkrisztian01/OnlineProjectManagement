@@ -34,5 +34,7 @@
     <string name="start_date">Start Date</string>
     <string name="deadline">Deadline</string>
     <string name="milestones_in_project_x">Milestones in Project X</string>
+    <string name="name">Name</string>
+    <string name="user">User</string>
 
 </resources>
