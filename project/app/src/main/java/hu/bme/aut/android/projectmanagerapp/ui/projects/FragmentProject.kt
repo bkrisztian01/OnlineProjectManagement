@@ -10,25 +10,34 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentProjectBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
+import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.ProjectAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 
 class FragmentProject : Fragment() {
-    lateinit var projects: ArrayList<Project>
+    private val projects: ArrayList<Project> = ArrayList<Project>()
     private var _binding: FragmentProjectBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var user: User
     override fun onCreateView(
 
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentProjectBinding.inflate(inflater, container, false)
         val view = binding.root
+        if (arguments!=null) {
+            val args: FragmentProjectArgs by navArgs()
+            user = args.user
+        }
 
         binding.toolbar.inflateMenu(R.menu.menu_project_toolbar)
         binding.toolbar.setOnMenuItemClickListener {
@@ -45,21 +54,7 @@ class FragmentProject : Fragment() {
         val context = this.activity
         return when (item.itemId){
             R.id.menu_sign_out->{
-                if (context != null) {
-                    AlertDialog.Builder(context)
-                        .setTitle("Signing out?")
-                        .setMessage(R.string.are_you_sure_want_to_sign_out)
-                        .setIcon(R.drawable.ic_account_circle)
-                        .setPositiveButton(R.string.yes) { _, _ ->
-                            Toast.makeText(context, "You signed out!", Toast.LENGTH_SHORT).show()
-                            binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentWelcome()) }
-                        .setNegativeButton(R.string.no, null)
-
-                        .show()
-
-                }
-
-
+                binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToDialogFragmentUser(user))
                 return true
                 }
             R.id.menu_help->{
@@ -79,9 +74,9 @@ class FragmentProject : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle? ) {
         super.onViewCreated(view,savedInstanceState)
         val recyclerView = activity?.findViewById(R.id.rvProjects) as RecyclerView
-
-        projects = Project.createProjectList(10)
-        val adapter = ProjectAdapter(projects)
+        val proj: Project = Project(1,"Project1","desc","client", Date(2002,12,21,23,59),Date(2002,12,21,23,59),12) ;
+        projects.add(proj)
+        val adapter = ProjectAdapter(user,projects)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 
