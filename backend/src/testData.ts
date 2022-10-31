@@ -25,7 +25,18 @@ export function initTestData() {
 			estimatedTime: 0,
 			tasks: [],
 			milestones: [],
-		});
+		},
+		{
+			id: 3,
+			name: 'New Spotify',
+			description: 'New music app',
+			startDate: new Date(2022, 10, 31),
+			endDate: new Date(0),
+			estimatedTime: 100,
+			tasks: [],
+			milestones: [],
+		},
+	);
 
 	tasks.push(
 		{
