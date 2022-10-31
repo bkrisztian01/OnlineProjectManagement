@@ -1,13 +1,4 @@
 
- <!-- <nav class="navbar bg-light">
-  <div class="container-fluid bg-secondary">
-    <a class="navbar-brand" href="#">
-      <img src="E:\Balazs\BME\Temalab\TemaLab2\src\IconImage.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-      Bootstrap
-    </a>
-  </div>
-</nav>  -->
-
 <nav class="navbar navbar-dark bg-dark ">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Online Project Manager</a>
@@ -36,9 +27,16 @@
             My Projects
           </button>
           <a routerLink="/login" class="nav-link" routerLinkActive="active">Sign out</a>
-          <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenu2" *ngFor="let row of projectData">
-            <button class="dropdown-item" type="button">{{row.name}}</button>
-          </div> -->
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2" >
+            <li><hr class="dropdown-divider"></li>
+
+            <div *ngFor="let row of projectData">
+              <button class="dropdown-item" type="button" (click)="setProjectId(row)">{{row.name}}</button>
+              <li><hr class="dropdown-divider"></li>
+            </div>
+            <!-- <li><a class="dropdown-item" href="#">{{row.name}}</a></li> -->
+          </div> 
 
         </div>
       </div>
@@ -46,38 +44,16 @@
   </div>
 </nav>
 
-<!-- <nav class="navbar navbar-light bg-primary">
-    <div class="container-fluid">
-      <h1>Project Management</h1>
-      
-      <div class="d-flex">
-        <button type="button" (click)="clickAddTask()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
-          Add Task
-        </button>
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
-          Add Milestone
-        </button>
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
-          Finish Project
-        </button>
-      </div>
-    </div>
+  <figure class="text-center">
+    <h1 class="display-1">{{projectName}}</h1>
+    <figcaption class="blockquote-footer">
+      Current Project - 
+    </figcaption>
   
-    <div class="dropdown">
-      <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">
-        Projects
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Project 1</a>
-        <a class="dropdown-item" href="#">Project 2</a>
-        <a class="dropdown-item" href="#">Project 3</a>
-      </div>
-    </div>
+  </figure>
   
-  </nav> -->
+
   <h1>Tasks:</h1>
-  <p>Project #1</p>
-  <p >Page:  {{TaskPageNumber}}</p>
   <table class="table mt-5">
     <thead>
       <tr>
@@ -92,37 +68,48 @@
     </thead>
     <tbody  >
       <tr *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
-        <td *ngIf="Archive == false">{{row.name}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
+        <td *ngIf="row.archived == false">{{row.name}}</td>
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
-        <td *ngIf="Archive == false">{{row.status}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
-        <td *ngIf="Archive == false">{{row.deadline}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
+        <td *ngIf="row.archived == false">{{row.deadline}}</td>
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
-        <td *ngIf="Archive == false">{{row.assignees}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
+        <td *ngIf="row.archived == false">{{row.assignees}}</td>
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
-        <td *ngIf="Archive == false">{{row.description}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
+        <td *ngIf="row.archived == false">{{row.description}}</td>
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white"> {{row.prerequisitesTaskIds}}</td>
-        <td *ngIf="Archive == false">{{row.prerequisitesTaskIds}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white"> {{row.prerequisitesTaskIds}}</td>
+        <td *ngIf="row.archived == false">{{row.prerequisitesTaskIds}}</td>
 
-        <td *ngIf="Archive==false">
+        <td *ngIf="row.archived==false">
           <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >Edit</button>
 
-          <button class="btn btn-secondary" (click)="setToArchive()">Archive</button>
+          <button class="btn btn-secondary" (click)="archiveTask(row,true)">Archive</button>
          
           <button type="button" (click)="deleteTask(row)" class="btn btn-danger">Delete</button>
         </td>
-        <td *ngIf="Archive">
-          <button class="btn btn-dark" (click)="setToActive()">Reactivate</button>
+        <td *ngIf="row.archived">
+          <button class="btn btn-dark" (click)="archiveTask(row,false)">Reactivate</button>
         </td>
       </tr>
     </tbody>
   </table>
+  
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(-1)">Previous</a></li>
+    <li class="page-item"><a class="page-link">{{TaskPageNumber}}</a></li>
+    <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(1)">Next</a></li>
+  </ul>
+</nav>
 
   <!-- Modal -->
 <div class="modal fade" id="TaskAddModal" tabindex="-1" aria-labelledby="TaskAddModalLabel" aria-hidden="true">
@@ -142,9 +129,9 @@
   
             <label for="exampleInputEmail6" class="form-label">Status</label>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not started" checked>
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
               <label class="form-check-label" for="exampleRadios1">
-                Not started
+                Not Started
               </label>
             </div>
             <div class="form-check">
@@ -166,10 +153,17 @@
               <label for="exampleInputPassword2" class="form-label">Deadline</label>
               <input type="date" formControlName="day" class="form-control" id="exampleInputPassword1">
             </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword3" class="form-label">Workers</label>
-              <input type="text" formControlName="workers" class="form-control" id="exampleInputPassword1">
-            </div>
+
+            <label for="exampleInputPassword3">Workers:</label>
+            <ul class="list-group">
+              <div *ngFor="let row of userData">
+                <li class="list-group-item">
+                  <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched">
+                  <label class="form-check-label stretched-link" for="firstCheckboxStretched">{{row.fullname}}</label>
+                </li>
+              </div>
+            </ul>
+
             <div class="mb-3">
               <label for="exampleInputPassword4" class="form-label">Description</label>
               <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
@@ -208,9 +202,9 @@
 
           <label for="exampleInputEmail6" class="form-label">Status</label>
           <div class="form-check">
-            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not started" checked>
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
             <label class="form-check-label" for="exampleRadios1">
-              Not started
+              Not Started
             </label>
           </div>
           <div class="form-check">
@@ -253,18 +247,7 @@
 
 
 
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end" >
-      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(1)">1</a></li>
-      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(2)">2</a></li>
-      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(3)">3</a></li>
-    </ul>
-  </nav>
-
-
   <h1>Milestones:</h1>
-<p>Project #1</p>
-<p >Page:  {{MilestonePageNumber}}</p>
   <table class="table mt-5">
     <thead>
       <tr>
@@ -283,7 +266,10 @@
         <td *ngIf="Archive == false">{{row.name}}</td>
 
         <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
-        <td *ngIf="Archive == false">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
 
         <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
         <td *ngIf="Archive == false">{{row.deadline}}</td>
@@ -309,9 +295,9 @@
   </table>
 
   <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end" >
-      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">1</a></li>
-      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(2)">2</a></li>
-      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(3)">3</a></li>
+    <ul class="pagination justify-content-end">
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(-1)">Previous</a></li>
+      <li class="page-item"><a class="page-link">{{MilestonePageNumber}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">Next</a></li>
     </ul>
   </nav>

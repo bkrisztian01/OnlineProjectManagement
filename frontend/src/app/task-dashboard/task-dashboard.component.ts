@@ -24,6 +24,8 @@ export class TaskDashboardComponent implements OnInit {
 
   constructor(private formbuilder: FormBuilder, private api: ApiService){}
 
+  projectId: number = 1;
+  projectName: String= "";
 
   ngOnInit():void{
     this.formValue = this.formbuilder.group({
@@ -44,16 +46,30 @@ export class TaskDashboardComponent implements OnInit {
       tasks:['']
     })
     this.getAllMilestones();
-    // this.getAllProjects();
+    this.getAllProjects();
+    this.getAllUsers();
+
+  }
+
+  setProjectId(row: any){
+    let newId=row.id;
+    this.projectId=newId;
+    this.projectName=row.name;
+    this.getAllTasks();
+    this.getAllMilestones();
   }
 
   setTaskPageNumber(x:any ) {
-    this.TaskPageNumber=x;
+    let temp = this.TaskPageNumber+x;
+    if(temp>0 )
+      this.TaskPageNumber+=x;
     this.getAllTasks;
   }
   setMilestonePageNumber(x:any ) {
-    this.MilestonePageNumber=x;
-    this.getAllTasks;
+    let temp = this.MilestonePageNumber+x;
+    if(temp>0 )
+      this.MilestonePageNumber+=x;
+    this.getAllMilestones;
   }
 
   Archive: boolean=false;
@@ -73,14 +89,13 @@ export class TaskDashboardComponent implements OnInit {
     // this.taskObject.prerequisiteTaskIds = this.formValue.value.prerequisite;
 
     const reqBody = {
-      projectId: 1,
+      projectId: this.projectId,
       name: this.formValue.value.text,
       description: this.formValue.value.description,
       deadline: this.formValue.value.day,
     }
 
     this.api.postTask(reqBody).subscribe(res=>{
-      console.log(res);
       alert("Task added succesfully!");
       let ref = document.getElementById('close');
       ref?.click();
@@ -92,10 +107,11 @@ export class TaskDashboardComponent implements OnInit {
     }
     )}
   getAllTasks(){
-    this.api.getTask().subscribe(res=>{
-      this.taskData = res
+    this.api.getProjectData(this.projectId).subscribe(res=>{
+      this.taskData = res.tasks;
     })
   }
+
   deleteTask(row: any){
     this.api.deleteTask(row.id).subscribe(
       res=>{
@@ -108,12 +124,12 @@ export class TaskDashboardComponent implements OnInit {
     this.showAdd=false;
     this.showUpdate=true;
     this.taskObject.id = row.id;
-    this.formValue.controls['text'].setValue(row.text);
-    this.formValue.controls['statusbar'].setValue(row.statusbar);
-    this.formValue.controls['day'].setValue(row.day);
-    this.formValue.controls['workers'].setValue(row.workers);
+    this.formValue.controls['name'].setValue(row.text);
+    this.formValue.controls['status'].setValue(row.statusbar);
+    this.formValue.controls['deadline'].setValue(row.day);
+    this.formValue.controls['assignees'].setValue(row.workers);
     this.formValue.controls['description'].setValue(row.description);
-    this.formValue.controls['prerequisite'].setValue(row.prerequisite);
+    this.formValue.controls['prerequisiteTaskIds'].setValue(row.prerequisite);
   }
 
   clickAddTask(){
@@ -166,14 +182,13 @@ export class TaskDashboardComponent implements OnInit {
     //this.milestoneObject.description = this.milestoneValue.value.description;
     //this.milestoneObject.tasks = this.milestoneValue.value.tasks;
     const reqBody = {
-      projectId: 1,
+      projectId: this.projectId,
       name: this.milestoneValue.value.text,
       description: this.milestoneValue.value.description,
       deadline: this.milestoneValue.value.day,
     }
 
     this.api.postMilestone(reqBody).subscribe(res=>{
-        console.log(res);
         alert("Milestone added succesfully!");
         let ref = document.getElementById('close');
         ref?.click();
@@ -185,8 +200,8 @@ export class TaskDashboardComponent implements OnInit {
     }
     )}
     getAllMilestones(){
-      this.api.getMilestone().subscribe(res=>{
-        this.milestoneData = res
+      this.api.getProjectData(this.projectId).subscribe(res=>{
+        this.milestoneData = res.milestones;
       })
     }
     deleteMilestone(row: any){
@@ -213,6 +228,17 @@ export class TaskDashboardComponent implements OnInit {
         this.showAddMilestone=true;
         this.showUpdateMilestone=false;
     }
+    archiveTask(row:any, Archivation:boolean){
+      const reqBody={
+        archived: Archivation
+      }
+      this.api.archiveTask(reqBody,row.id).subscribe(
+        res=>{
+          this.getAllTasks();
+        }
+      )
+      this.getAllTasks();
+    }
 
     updateMilestone(){
       // this.milestoneObject.name = this.milestoneValue.value.text;
@@ -230,7 +256,7 @@ export class TaskDashboardComponent implements OnInit {
       }
       this.api.updateMilestone(reqBody,this.milestoneObject.id).subscribe(
         res=>{
-          alert("Update succesful!");
+          alert("Update successful!");
           let ref = document.getElementById('close');
           ref?.click();
           this.milestoneValue.reset();
@@ -239,18 +265,20 @@ export class TaskDashboardComponent implements OnInit {
       
       )
     }
-    // projectData!: any;
-    // getAllProjects(){
-    //   this.api.getProjectData().subscribe(res=>{
+    projectData!: any;
+    getAllProjects(){
+      this.api.getAllProjects().subscribe(res=>{
+        this.projectData = res
+        console.log(this.projectId)
+      })
+    }
 
-    //     this.projectData = res
-    //     console.log(this.projectData);
-    //   })
-    // }
-
-    // projectId: any = 1;
-    // setProjectId(newId: any){
-    //   this.projectId=newId;
-    // }
+    userData!:any;
+    getAllUsers(){
+      this.api.getAllUsers().subscribe(res=>{
+        this.userData = res
+        console.log(this.projectId)
+      })
+    }
 
 }
