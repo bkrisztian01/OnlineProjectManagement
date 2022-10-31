@@ -16,11 +16,15 @@ export class ApiService {
     return this.http.post<any>(`${this.apiAddress}/tasks`,data).pipe(map((res:any)=>{return res;}))
   }
   getTask(){
-    return this.http.get<any>(`${this.apiAddress}/tasks/`).pipe(map((res:any)=>{return res;}))
+    return this.http.get<any>(`${this.apiAddress}/tasks`).pipe(map((res:any)=>{return res;}))
   }
   updateTask(data: any,id:number){
     return this.http.put<any>(`${this.apiAddress}/tasks/`+id,data).pipe(map((res:any)=>{return res;}))
   }
+  archiveTask(data:any,id:number){
+    return this.http.put<any>(`${this.apiAddress}/tasks/`+id+`/archive`,data).pipe(map((res:any)=>{return res;}))
+  }
+
   deleteTask(id:number){
     return this.http.delete(`${this.apiAddress}/tasks/`+id, {responseType: 'text'}).pipe(map((res:any)=>{return res;}))
   }
@@ -37,9 +41,15 @@ export class ApiService {
     return this.http.delete<any>(`${this.apiAddress}/milestones/`+id).pipe(map((res:any)=>{return res;}))
   }
 
-  getProjectData(){
-    return this.http.get<any>(`${this.apiAddress}/projects`).pipe(map((res:any)=>{
-      console.log(res)
-            return res;}))
+  getProjectData(id:number){
+    return this.http.get<any>(`${this.apiAddress}/projects/`+id).pipe(map((res:any)=>{return res;}))
   }
+  getAllProjects(){
+    return this.http.get<any>(`${this.apiAddress}/projects`).pipe(map((res:any)=>{return res;}))
+  }
+
+  getAllUsers(){
+    return this.http.get<any>(`${this.apiAddress}/users`).pipe(map((res:any)=>{return res;}))
+  }
+
 }
