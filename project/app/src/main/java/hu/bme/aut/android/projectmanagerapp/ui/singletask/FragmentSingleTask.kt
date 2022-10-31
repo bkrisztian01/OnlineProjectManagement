@@ -1,5 +1,6 @@
-package hu.bme.aut.android.projectmanagerapp.ui.projects
+package hu.bme.aut.android.projectmanagerapp.ui.singletask
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,30 +12,33 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import hu.bme.aut.android.projectmanagerapp.R
-import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
-import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
+import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 
-class FragmentSingleProject : Fragment() {
-    private var _binding: FragmentSingleprojectBinding? = null
-    private val binding get() = _binding!!
+class FragmentSingleTask : Fragment() {
     private lateinit var project: Project
+    private lateinit var task: Task
+    private var _binding: FragmentSingletaskBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var user : User
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
-        _binding = FragmentSingleprojectBinding.inflate(inflater, container, false)
+        _binding = FragmentSingletaskBinding.inflate(inflater, container, false)
         val view = binding.root
         if (arguments!=null) {
-            val args: FragmentTasksArgs by navArgs()
+            val args: FragmentSingleTaskArgs by navArgs()
             project = args.project
+            task=args.task
+            user=args.user
 
         }
-        binding.toolbarsingleproject.inflateMenu(R.menu.menu_singleproject_toolbar)
-        binding.toolbarsingleproject.setOnMenuItemClickListener {
+        binding.toolbarsingletask.inflateMenu(R.menu.menu_singleproject_toolbar)
+        binding.toolbarsingletask.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
-        loadProject()
+        loadTask()
         return view
     }
     override fun onDestroyView() {
@@ -45,17 +49,7 @@ class FragmentSingleProject : Fragment() {
         val context = this.activity
         return when (item.itemId){
             R.id.menu_sign_out->{
-                if (context != null) {
-                    AlertDialog.Builder(context)
-                        .setTitle("Signing out?")
-                        .setMessage(R.string.are_you_sure_want_to_sign_out)
-                        .setPositiveButton(R.string.yes) { _, _ ->
-                            Toast.makeText(context, "You signed out!", Toast.LENGTH_SHORT).show()
-                            binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentWelcome()) }
-                        .setNegativeButton(R.string.no, null)
-
-                        .show()
-                }
+                binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToDialogFragmentUser(user))
                 return true
             }
             R.id.menu_help->{
@@ -71,13 +65,21 @@ class FragmentSingleProject : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    fun loadProject(){
-        binding.tvProjectName.setText(project.name+" info")
-        binding.tStartDate.setText(project.startDate)
-        binding.tEndDate.setText(project.endDate)
-        binding.tClient.setText(project.client)
-        binding.tDesc.setText(project.desc)
-        binding.tLength.setText(project.length.toString()+ " days")
+    private fun  loadTask(){
+        when (task.status) {
+            "In Progress" -> binding.tStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+            "Finished" ->binding.tStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+            "Stuck" ->binding.tStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+            "Not started" ->binding.tStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+            else->{
+            }
+        }
+        binding.tStatus.setText(task.status)
+        binding.tvTaskName.setText(task.name+" info")
+        binding.tStartDate.setText(task.startDate.toString())
+        binding.tEndDate.setText(task.endDate.toString())
+        binding.ttDesc.setText(task.desc)
+
 
     }
 }

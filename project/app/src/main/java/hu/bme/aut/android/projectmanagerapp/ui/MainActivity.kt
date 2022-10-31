@@ -1,12 +1,8 @@
-package hu.bme.aut.android.projectmanagerapp
+package hu.bme.aut.android.projectmanagerapp.ui
 
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
-import kotlin.system.exitProcess
+import hu.bme.aut.android.projectmanagerapp.R
 
 
 class MainActivity : AppCompatActivity() {
