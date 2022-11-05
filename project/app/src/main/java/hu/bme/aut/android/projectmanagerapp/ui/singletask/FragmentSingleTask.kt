@@ -1,11 +1,14 @@
 package hu.bme.aut.android.projectmanagerapp.ui.singletask
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -18,7 +21,7 @@ import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 
-class FragmentSingleTask : Fragment() {
+class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var project: Project
     private lateinit var task: Task
     private var _binding: FragmentSingletaskBinding? = null
@@ -38,7 +41,21 @@ class FragmentSingleTask : Fragment() {
         binding.toolbarsingletask.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
+        binding.savebtn.setOnClickListener {
+            task.status=binding.spStatus.selectedItem.toString()
+            loadTask()
+        }
+        binding.discardbtn.setOnClickListener {
+            loadTask()
+        }
         loadTask()
+        binding.spStatus.adapter = ArrayAdapter(
+            requireContext(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            resources.getStringArray(R.array.status_array)
+
+        )
+        binding.spStatus.onItemSelectedListener = this
         return view
     }
     override fun onDestroyView() {
@@ -67,19 +84,48 @@ class FragmentSingleTask : Fragment() {
     }
     private fun  loadTask(){
         when (task.status) {
-            "In Progress" -> binding.tStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
-            "Finished" ->binding.tStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
-            "Stuck" ->binding.tStatus.setBackgroundColor(Color.parseColor("#EA9999"))
-            "Not started" ->binding.tStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+            "In Progress" -> {
+                binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                binding.spStatus.setSelection(0)
+            }
+            "Finished" ->{
+
+                binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                binding.spStatus.setSelection(3)
+            }
+            "Stuck" -> {
+
+                binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+                binding.spStatus.setSelection(2);
+            }
+            "Not started" ->{
+
+                binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                binding.spStatus.setSelection(1);
+            }
             else->{
             }
         }
-        binding.tStatus.setText(task.status)
+
+
         binding.tvTaskName.setText(task.name+" info")
         binding.tStartDate.setText(task.startDate.toString())
         binding.tEndDate.setText(task.endDate.toString())
         binding.ttDesc.setText(task.desc)
 
 
+    }
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        when (pos){
+            0 -> binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+            1 -> binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+            2 -> binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+            3 -> binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+        }
+
+
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
     }
 }

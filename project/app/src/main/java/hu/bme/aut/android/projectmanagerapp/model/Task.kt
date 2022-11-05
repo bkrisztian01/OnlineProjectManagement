@@ -9,7 +9,7 @@ class Task (
     val id: Int,
     val name: String,
     val desc: String,
-    val status: String,
+    var status: String,
     val startDate: Date,
     val endDate: Date,
     val projectID: Int,
