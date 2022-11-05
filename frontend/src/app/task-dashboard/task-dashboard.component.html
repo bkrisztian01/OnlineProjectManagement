@@ -1,0 +1,303 @@
+
+<nav class="navbar navbar-dark bg-dark ">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Online Project Manager</a>
+    <div class="d-flex">
+      <button type="button" (click)="clickAddTask()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
+        Add Task
+      </button>
+      <button type="button" (click)="clickAddMilestone()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >
+        Add Milestone
+      </button>
+      <button type="button" class="btn btn-info" >
+        Finish Project
+      </button>
+      </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Options</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            My Projects
+          </button>
+          <a routerLink="/login" class="nav-link" routerLinkActive="active">Sign out</a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2" >
+            <li><hr class="dropdown-divider"></li>
+
+            <div *ngFor="let row of projectData">
+              <button class="dropdown-item" type="button" (click)="setProjectId(row)">{{row.name}}</button>
+              <li><hr class="dropdown-divider"></li>
+            </div>
+            <!-- <li><a class="dropdown-item" href="#">{{row.name}}</a></li> -->
+          </div> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+  <figure class="text-center">
+    <h1 class="display-1">{{projectName}}</h1>
+    <figcaption class="blockquote-footer">
+      Current Project - 
+    </figcaption>
+  
+  </figure>
+  
+
+  <h1>Tasks:</h1>
+  <table class="table mt-5">
+    <thead>
+      <tr>
+        <th scope="col">Task Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Deadline</th>
+        <th scope="col">Workers</th>
+        <th scope="col">Description</th>
+        <th scope="col">Prerequisite</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody  >
+      <tr *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
+        <td *ngIf="row.archived == false">{{row.name}}</td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
+        <td *ngIf="row.archived == false">{{row.deadline}}</td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
+        <td *ngIf="row.archived == false">{{row.assignees}}</td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
+        <td *ngIf="row.archived == false">{{row.description}}</td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white"> {{row.prerequisitesTaskIds}}</td>
+        <td *ngIf="row.archived == false">{{row.prerequisitesTaskIds}}</td>
+
+        <td *ngIf="row.archived==false">
+          <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >Edit</button>
+
+          <button class="btn btn-secondary" (click)="archiveTask(row,true)">Archive</button>
+         
+          <button type="button" (click)="deleteTask(row)" class="btn btn-danger">Delete</button>
+        </td>
+        <td *ngIf="row.archived">
+          <button class="btn btn-dark" (click)="archiveTask(row,false)">Reactivate</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(-1)">Previous</a></li>
+    <li class="page-item"><a class="page-link">{{TaskPageNumber}}</a></li>
+    <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(1)">Next</a></li>
+  </ul>
+</nav>
+
+  <!-- Modal -->
+<div class="modal fade" id="TaskAddModal" tabindex="-1" aria-labelledby="TaskAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="TaskAddModalLabel">Task details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formValue">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Task name</label>
+              <input type="text" formControlName="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            
+  
+            <label for="exampleInputEmail6" class="form-label">Status</label>
+            <div class="form-check">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                Not Started
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="In Progress">
+              <label class="form-check-label" for="exampleRadios2">
+                In Progress
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="Finished">
+              <label class="form-check-label" for="exampleRadios2">
+                Finished
+              </label>
+            </div>
+  
+  
+  
+            <div class="mb-3">
+              <label for="exampleInputPassword2" class="form-label">Deadline</label>
+              <input type="date" formControlName="day" class="form-control" id="exampleInputPassword1">
+            </div>
+
+            <label for="exampleInputPassword3">Workers:</label>
+            <ul class="list-group">
+              <div *ngFor="let row of userData">
+                <li class="list-group-item">
+                  <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched">
+                  <label class="form-check-label stretched-link" for="firstCheckboxStretched">{{row.fullname}}</label>
+                </li>
+              </div>
+            </ul>
+
+            <div class="mb-3">
+              <label for="exampleInputPassword4" class="form-label">Description</label>
+              <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword5" class="form-label">Prerequisite</label>
+              <input type="text" formControlName="prerequisite" class="form-control" id="exampleInputPassword1">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" *ngIf="showAdd" (click)="postTaskDeatails()" class="btn btn-primary">Add</button>
+          <button type="button" *ngIf="showUpdate" (click)="updateTask()" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal MILESTONE -->
+<div class="modal fade" id="MilestoneAddModal" tabindex="-1" aria-labelledby="MilestoneAddModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="MilestoneAddModalLabel">Milestone details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="milestoneValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Milestone name</label>
+            <input type="text" formControlName="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          
+
+          <label for="exampleInputEmail6" class="form-label">Status</label>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Not Started
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="In Progress">
+            <label class="form-check-label" for="exampleRadios2">
+              In Progress
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="Finished">
+            <label class="form-check-label" for="exampleRadios2">
+              Finished
+            </label>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword2" class="form-label">Deadline</label>
+            <input type="date" formControlName="day" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword4" class="form-label">Description</label>
+            <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword5" class="form-label">Required Tasks</label>
+            <input type="text" formControlName="tasks" class="form-control" id="exampleInputPassword1">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" *ngIf="showAddMilestone" (click)="postMilestoneDetails()" class="btn btn-primary">Add</button>
+        <button type="button" *ngIf="showUpdateMilestone" (click)="updateMilestone()" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+<!-- Modal MILESTONE VEGE-->
+
+
+
+  <h1>Milestones:</h1>
+  <table class="table mt-5">
+    <thead>
+      <tr>
+        <th scope="col">Milestone Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Deadline</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required Tasks</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let row of milestoneData.slice(MilestonePageNumber*5-5, MilestonePageNumber*5);">
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
+        <td *ngIf="Archive == false">{{row.name}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
+        <td *ngIf="Archive == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
+        <td *ngIf="Archive == false">{{row.deadline}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
+        <td *ngIf="Archive == false">{{row.description}}</td>
+
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white"> {{row.tasks}}</td>
+        <td *ngIf="Archive == false">{{row.tasks}}</td>
+
+        <td *ngIf="Archive==false">
+          <button type="button" (click)="onEditMilestone(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >Edit</button>
+
+          <button class="btn btn-secondary" (click)="setToArchive()">Archive</button>
+         
+          <button type="button" (click)="deleteMilestone(row)" class="btn btn-danger">Delete</button>
+        </td>
+        <td *ngIf="Archive">
+          <button class="btn btn-dark" (click)="setToActive()">Reactivate</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(-1)">Previous</a></li>
+      <li class="page-item"><a class="page-link">{{MilestonePageNumber}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">Next</a></li>
+    </ul>
+  </nav>

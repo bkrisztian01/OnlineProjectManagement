@@ -1,0 +1,35 @@
+{
+  "posts": [
+    {
+      "id": 11,
+      "text": "na",
+      "statusbar": "In Progress",
+      "day": "2022-09-29",
+      "workers": "vegre",
+      "description": "sikerul",
+      "prerequisite": "asdadsadsasd"
+    },
+    {
+      "id": 12,
+      "text": "NEM HELLO",
+      "statusbar": "option2",
+      "day": "2022-10-19",
+      "workers": "Balazs",
+      "description": "Vegre",
+      "prerequisite": "None"
+    },
+    {
+      "id": 13,
+      "text": "as",
+      "statusbar": null,
+      "day": null,
+      "workers": "AS",
+      "description": "as",
+      "prerequisite": null
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}
