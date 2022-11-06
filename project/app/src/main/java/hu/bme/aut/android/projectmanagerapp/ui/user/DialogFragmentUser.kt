@@ -55,7 +55,7 @@ class DialogFragmentUser: DialogFragment() {
             val args: DialogFragmentUserArgs by navArgs()
             user=args.user
             binding.tvtUser2.text=user.username
-            binding.tvtName.text=user.name
+            binding.tvtName.text=user.fullname
         }
     }
 

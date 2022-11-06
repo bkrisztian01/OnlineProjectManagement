@@ -20,6 +20,8 @@ import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.MilestoneAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentMilestone : Fragment() {
     private val milestones: ArrayList<Milestone> = ArrayList<Milestone>()
@@ -78,7 +80,16 @@ class FragmentMilestone : Fragment() {
         val recyclerView = activity?.findViewById(R.id.rvMilestones) as RecyclerView
 
         //milestones = Milestone.createMileStoneList(10)
-        milestones.add(Milestone(21,"Milestone36",1,ArrayList<Task>()))
+        //milestones.add(Milestone(21,"Milestone36","random desc","Done", /*Date(*/"2022-11-17"/*)*/,/*1,*/ArrayList<Task>()))
+        if(!milestones.isEmpty())
+            milestones.clear()
+        val itr = project.milestones.listIterator()
+        if (itr != null) {
+            while (itr.hasNext()) {
+                milestones.add(itr.next())
+
+            }
+        }
         val adapter = MilestoneAdapter(milestones,project,user)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)

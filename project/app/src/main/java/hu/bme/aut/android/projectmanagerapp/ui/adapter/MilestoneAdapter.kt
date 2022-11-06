@@ -28,7 +28,7 @@ class MilestoneAdapter (private val milestones: List<Milestone>, private val pro
         val milestone: Milestone = milestones[position]
         val button = viewHolder.milestonebutton
         button.setOnClickListener {
-            viewHolder.binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(project,user))
+            viewHolder.binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(project,user,milestone))
         }
         button.text = milestone.name
         button.isEnabled = true

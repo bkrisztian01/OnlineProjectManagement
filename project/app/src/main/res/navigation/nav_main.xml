@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_fragmentTasks_to_dialogFragmentUser"
             app:destination="@id/dialogFragmentUser" />
+        <argument
+            android:name="milestone"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.Milestone" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleProject"

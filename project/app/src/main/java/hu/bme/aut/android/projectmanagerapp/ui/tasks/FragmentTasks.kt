@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentTasksBinding
+import hu.bme.aut.android.projectmanagerapp.model.Milestone
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.model.User
@@ -28,6 +29,7 @@ class FragmentTasks : Fragment() {
     private val tasks: ArrayList<Task> = ArrayList<Task>()
     private lateinit var project: Project
     private var _binding: FragmentTasksBinding? = null
+    private lateinit var milestone: Milestone
     private val binding get() = _binding!!
     private lateinit var user : User
 
@@ -38,7 +40,8 @@ class FragmentTasks : Fragment() {
             val args: FragmentTasksArgs by navArgs()
             project = args.project
             user=args.user
-            binding.tvTitle.setText("Tasks in "+ project.name)
+            milestone=args.milestone
+            binding.tvTitle.setText("Tasks in "+ milestone.name)
         }
         binding.toolbartasks.inflateMenu(R.menu.menu_task_toolbar)
         binding.toolbartasks.setOnMenuItemClickListener {
@@ -80,11 +83,15 @@ class FragmentTasks : Fragment() {
         super.onViewCreated(view,savedInstanceState)
         val recyclerView = activity?.findViewById(R.id.rvTasks) as RecyclerView
 
-        //tasks = Task.createTaskList(10)
-        tasks.add(Task(12,"Task50","desc","In Progress",
-            Date(2002,12,21,23,59),
-            Date(2002,12,21,23,59),12,12,ArrayList<Task>(),ArrayList<User>()
-        ))
+        if(!tasks.isEmpty())
+            tasks.clear()
+        val itr = milestone.tasks.listIterator()
+        if (itr != null) {
+            while (itr.hasNext()) {
+                tasks.add(itr.next())
+
+            }
+        }
         val adapter = TaskAdapter(tasks,project,user)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)

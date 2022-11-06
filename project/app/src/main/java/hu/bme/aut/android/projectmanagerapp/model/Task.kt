@@ -8,12 +8,12 @@ import kotlin.collections.ArrayList
 class Task (
     val id: Int,
     val name: String,
-    val desc: String,
+    val description: String,
     var status: String,
-    val startDate: Date,
-    val endDate: Date,
-    val projectID: Int,
-    val milestoneID: Int,
-    val prerequisiteTasks: ArrayList<Task>?,
-    val assignees: ArrayList<User>
+   // val startDate: Date,
+    val deadline: String,
+    //val projectID: Int,
+    //val milestoneID: Int,
+    val prerequisiteTaskIDs: List<Int>?,
+    val assignees: List<User>
     ) : Serializable

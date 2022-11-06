@@ -7,9 +7,11 @@ import java.util.*
 data class Project(
     val id: Int,
     val name: String,
-    val desc: String,
-    val client: String,
-    val startDate: Date,
-    val endDate: Date,
-    val length: Int
+    val description: String,
+    //val client: String,
+    val startDate: String,
+    val endDate: String,
+    val estimatedTime: Int,
+    var tasks: List<Task>,
+    var milestones: List<Milestone>
     ) : Serializable

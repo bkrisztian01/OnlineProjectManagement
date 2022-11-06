@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentProjectBinding
+import hu.bme.aut.android.projectmanagerapp.model.Milestone
 import hu.bme.aut.android.projectmanagerapp.model.Project
+import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.ProjectAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
@@ -29,6 +33,7 @@ class FragmentProject : Fragment() {
     private var _binding: FragmentProjectBinding? = null
     private val binding get() = _binding!!
     private lateinit var user: User
+    private val projectViewModel : ProjectViewModel by viewModels()
     override fun onCreateView(
 
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
@@ -43,6 +48,7 @@ class FragmentProject : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
+
         return view
     }
 
@@ -71,16 +77,7 @@ class FragmentProject : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle? ) {
-        super.onViewCreated(view,savedInstanceState)
-        val recyclerView = activity?.findViewById(R.id.rvProjects) as RecyclerView
-        val proj: Project = Project(1,"Project1","desc","client", Date(2002,12,21,23,59),Date(2002,12,21,23,59),12) ;
-        projects.add(proj)
-        val adapter = ProjectAdapter(user,projects)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this.activity)
 
-    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val callback: OnBackPressedCallback =
@@ -102,6 +99,39 @@ class FragmentProject : Fragment() {
             this,
             callback
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!projects.isEmpty())
+            projects.clear()
+        projectViewModel.getProjects()?.observe(this, {
+                projectsViewState->render(projectsViewState)
+        })
+    }
+    private fun render(result: ProjectsViewState) {
+        when (result) {
+            is InProgress -> {}
+            is ProjectsResponseSuccess ->{
+                val itr = result.data?.listIterator()
+                if (itr != null) {
+                    while (itr.hasNext()) {
+                        projects.add(itr.next())
+
+                    }
+
+                }
+                val recyclerView = activity?.findViewById(R.id.rvProjects) as RecyclerView
+                val adapter = ProjectAdapter(user,projects)
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(this.activity)
+
+            }
+            is ProjectsResponseError ->{
+                Toast.makeText(context, "halál", Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
 

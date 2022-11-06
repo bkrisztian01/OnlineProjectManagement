@@ -109,9 +109,9 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
 
 
         binding.tvTaskName.setText(task.name+" info")
-        binding.tStartDate.setText(task.startDate.toString())
-        binding.tEndDate.setText(task.endDate.toString())
-        binding.ttDesc.setText(task.desc)
+        //binding.tStartDate.setText(task.startDate.toString())
+        binding.tEndDate.setText(task.deadline.toString())
+        binding.ttDesc.setText(task.description)
 
 
     }
