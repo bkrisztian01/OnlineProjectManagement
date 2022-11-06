@@ -8,6 +8,7 @@ data class User(
     val id: Int,
     val username: String,
     val password: String,
-    val name: String
+    val fullname: String,
+    val email: String
     ) :Serializable{
 }

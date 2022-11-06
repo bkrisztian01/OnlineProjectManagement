@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object  RetrofitClient {
-    const val MainServer="backend";
+    const val MainServer="https://opmapi.azurewebsites.net/";
     val retrofitClient: Retrofit.Builder by lazy {
         val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.BUILD_TYPE.contentEquals("debug"))
             HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE

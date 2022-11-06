@@ -64,11 +64,11 @@ class FragmentSingleProject : Fragment() {
     }
     private fun loadProject(){
         binding.tvProjectName.setText(project.name+" info")
-        binding.tStartDate.setText(project.startDate.toString())
-        binding.tEndDate.setText(project.endDate.toString())
-        binding.tClient.setText(project.client)
-        binding.tDesc.setText(project.desc)
-        binding.tLength.setText(project.length.toString()+ " days")
+        binding.tStartDate.setText(project.startDate)
+        binding.tEndDate.setText(project.endDate)
+        //binding.tClient.setText(project.client)
+        binding.tDesc.setText(project.description)
+        binding.tLength.setText(project.estimatedTime.toString()+ " days")
 
     }
 }
