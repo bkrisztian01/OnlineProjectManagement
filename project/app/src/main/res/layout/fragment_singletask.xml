@@ -48,26 +48,6 @@
                 android:minHeight="48dp" />
 
             <TextView
-                android:id="@+id/tvStartDate"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/start_date"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tStartDate"
-                android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="#77A8E4"
-                android:text="2022.09.01."
-                android:textSize="16sp" />
-
-            <TextView
                 android:id="@+id/tvEndDate"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -123,7 +103,7 @@
             <TextView
                 android:id="@+id/ttDesc"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="160dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="#77A8E4"

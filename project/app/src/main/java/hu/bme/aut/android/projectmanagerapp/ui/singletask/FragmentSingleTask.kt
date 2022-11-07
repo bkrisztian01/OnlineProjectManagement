@@ -27,6 +27,7 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
     private var _binding: FragmentSingletaskBinding? = null
     private val binding get() = _binding!!
     private lateinit var user : User
+    private var setting=0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentSingletaskBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -41,14 +42,18 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
         binding.toolbarsingletask.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
+
+
         binding.savebtn.setOnClickListener {
             task.status=binding.spStatus.selectedItem.toString()
-            loadTask()
+            Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
         }
         binding.discardbtn.setOnClickListener {
             loadTask()
+            binding.spStatus.setSelection(setting)
         }
         loadTask()
+
         binding.spStatus.adapter = ArrayAdapter(
             requireContext(),
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
@@ -56,6 +61,7 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
 
         )
         binding.spStatus.onItemSelectedListener = this
+        binding.spStatus.setSelection(setting)
         return view
     }
     override fun onDestroyView() {
@@ -73,7 +79,7 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
-                        .setMessage("Here is some information on the project!")
+                        .setMessage("Here is some information on the task!")
                         .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
@@ -87,21 +93,25 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
             "In Progress" -> {
                 binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
                 binding.spStatus.setSelection(0)
+                setting=0
             }
             "Finished" ->{
 
                 binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
                 binding.spStatus.setSelection(3)
+                setting=3
             }
             "Stuck" -> {
 
                 binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
-                binding.spStatus.setSelection(2);
+                binding.spStatus.setSelection(2)
+                setting=2
             }
             "Not started" ->{
 
                 binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                binding.spStatus.setSelection(1);
+                binding.spStatus.setSelection(1)
+                setting=1
             }
             else->{
             }
@@ -109,9 +119,15 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener {
 
 
         binding.tvTaskName.setText(task.name+" info")
-        //binding.tStartDate.setText(task.startDate.toString())
         binding.tEndDate.setText(task.deadline.toString())
         binding.ttDesc.setText(task.description)
+        val itr = task.assignees.listIterator()
+        var workers =""
+        while (itr.hasNext()) {
+            workers+=itr.next().fullname
+
+        }
+        binding.tWorkers.text=workers
 
 
     }

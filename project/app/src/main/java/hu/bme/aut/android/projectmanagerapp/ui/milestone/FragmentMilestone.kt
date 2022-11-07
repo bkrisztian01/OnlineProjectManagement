@@ -79,16 +79,11 @@ class FragmentMilestone : Fragment() {
         super.onViewCreated(view,savedInstanceState)
         val recyclerView = activity?.findViewById(R.id.rvMilestones) as RecyclerView
 
-        //milestones = Milestone.createMileStoneList(10)
-        //milestones.add(Milestone(21,"Milestone36","random desc","Done", /*Date(*/"2022-11-17"/*)*/,/*1,*/ArrayList<Task>()))
         if(!milestones.isEmpty())
             milestones.clear()
         val itr = project.milestones.listIterator()
-        if (itr != null) {
-            while (itr.hasNext()) {
-                milestones.add(itr.next())
-
-            }
+        while (itr.hasNext()) {
+            milestones.add(itr.next())
         }
         val adapter = MilestoneAdapter(milestones,project,user)
         recyclerView.adapter = adapter
