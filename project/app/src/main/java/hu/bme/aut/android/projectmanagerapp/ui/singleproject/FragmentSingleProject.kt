@@ -69,6 +69,19 @@ class FragmentSingleProject : Fragment() {
         //binding.tClient.setText(project.client)
         binding.tDesc.setText(project.description)
         binding.tLength.setText(project.estimatedTime.toString()+ " days")
+        binding.tvsDate.text=unfinishedtasks().toString()
+    }
+    private fun unfinishedtasks(): Int{
+        val itr1 = project.milestones.listIterator()
+        var num=0
+        while (itr1.hasNext()) {
+            val itr2=itr1.next().tasks.listIterator()
+            while(itr2.hasNext()){
+                if(itr2.next().status!="Finished")
+                    num++
+            }
 
+        }
+        return num
     }
 }
