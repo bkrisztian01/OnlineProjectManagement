@@ -1,13 +1,30 @@
-import type {Milestone} from './milestones.model';
-import type {Task} from './tasks.model';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Milestone } from './milestones.model';
+import {Task} from './tasks.model';
 
-export type Project = {
+@Entity({ name: 'project' })
+export class Project {
+	@PrimaryGeneratedColumn()
 	id: number;
+	
+	@Column('varchar', { length: 50 })
 	name: string;
+
+	@Column('text')	
 	description: string;
-	startDate: Date;
-	endDate: Date;
+
+	@Column({ type: 'date' })
+	startDate: string;
+	
+	@Column({ type: 'date' })
+	endDate: string;
+	
+	@Column('bigint')
 	estimatedTime: number;
+	
+	@OneToMany(() => Task, (task) => task.project)
 	tasks: Task[];
+
+	@OneToMany(() => Milestone, (milestone) => milestone.project)
 	milestones: Milestone[];
 };
