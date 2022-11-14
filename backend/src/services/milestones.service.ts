@@ -1,92 +1,73 @@
-/* eslint-disable max-params */
-import type {Milestone} from '../models/milestones.model';
-import type {Status} from '../util/Status';
-import {getProjectById, projects} from './projects.service';
-import {getTaskById} from './tasks.service';
+import { Milestone } from '../models/milestones.model';
+import { Task } from '../models/tasks.model';
+import type { Status } from '../util/Status';
+import { getProjectById } from './projects.service';
 
 export const milestones: Milestone[] = [];
 
-export function getMilestones() {
-	return milestones;
+export async function getMilestones() {
+  return await Milestone.find({ relations: ['tasks', 'project'] });
 }
 
-export function getMilestoneById(id: number) {
-	return milestones.find(milestone => milestone.id === id);
+export async function getMilestoneById(id: number) {
+  return await Milestone.findOne({
+    where: { id },
+    relations: ['tasks', 'project'],
+  });
 }
 
-export function createMilestone(
-	projectId: number,
-	name: string,
-	description: string,
-	status: Status,
-	deadline: Date,
+export async function createMilestone(
+  projectId: number,
+  name: string,
+  description: string,
+  status: Status,
+  deadline: string,
 ) {
-	const project = getProjectById(projectId);
-	if (!project) {
-		throw new Error('Project was not found');
-	}
+  const project = await getProjectById(projectId);
+  if (!project) {
+    throw new Error('Project was not found');
+  }
 
-	const milestone: Milestone = {
-		id: milestones.length + 1,
-		name,
-		description: description || '',
-		status,
-		deadline,
-		tasks: [],
-	};
+  const milestone = Milestone.create({
+    name,
+    description,
+    deadline,
+    status,
+    project,
+  });
 
-	milestones.push(milestone);
-	project.milestones.push(milestone);
-	return milestone;
+  return await milestone.save();
 }
 
-export function updateMilestoneById(
-	id: number,
-	name: string,
-	description: string,
-	deadline: Date,
-	status: Status,
-	taskIds: number[],
+export async function updateMilestoneById(
+  id: number,
+  name: string,
+  description: string,
+  deadline: string,
+  status: Status,
+  taskIds: number[],
 ) {
-	const milestone = getMilestoneById(id);
-	if (!milestone) {
-		throw new Error('Milestone was not found');
-	}
+  const milestone = await getMilestoneById(id);
+  if (!milestone) {
+    throw new Error('Milestone was not found');
+  }
 
-	const tasks = [];
-	if (taskIds) {
-		for (const taskId of taskIds) {
-			const task = getTaskById(taskId);
-			if (!task) {
-				throw new Error('Task was not found');
-			}
+  const tasks = await Task.createQueryBuilder('task')
+    .select('task')
+    .where('task.id IN (:...taskIds)', { taskIds: taskIds })
+    .getMany();
 
-			tasks.push(task);
-		}
-	}
+  milestone.name = name || milestone.name;
+  milestone.description = description || milestone.description;
+  milestone.deadline = deadline || milestone.deadline;
+  milestone.status = status || milestone.status;
+  milestone.tasks = taskIds ? tasks : milestone.tasks;
+  await milestone.save();
 
-	milestone.name = name || milestone.name;
-	milestone.description = description || milestone.description;
-	milestone.deadline = deadline || milestone.deadline;
-	milestone.status = status || milestone.status;
-	milestone.tasks = taskIds ? tasks : milestone.tasks;
-
-	return milestone;
+  return milestone;
 }
 
-export function deleteMilestoneById(id: number) {
-	const index = milestones.findIndex(m => m.id === id);
-	if (index === -1) {
-		return false;
-	}
-
-	projects.forEach(project => {
-		const milestoneIndex = project.milestones.findIndex(milestone => milestone.id === id);
-		if (milestoneIndex > -1) {
-			project.milestones.splice(milestoneIndex, 1);
-		}
-	});
-
-	milestones.splice(index, 1);
-	return true;
+export async function deleteMilestoneById(id: number) {
+  await Milestone.delete(id);
+  return;
 }

@@ -1,63 +1,50 @@
-import type {Project} from '../models/projects.model';
+import { Project } from '../models/projects.model';
 
-export const projects: Project[] = [];
-
-export function getProjects() {
-	return projects;
+export async function getProjects() {
+  return await Project.find({
+    relations: ['tasks', 'milestones'],
+  });
 }
 
-export function createProject(
-	name: string,
-	description: string,
+export async function createProject(name: string, description: string) {
+  const project = Project.create({
+    name,
+    description,
+  });
+  await project.save();
+  return project;
+}
+
+export async function getProjectById(id: number) {
+  return await Project.findOne({
+    where: { id },
+    relations: ['tasks', 'milestones'],
+  });
+}
+
+export async function updateProjectById(
+  id: number,
+  name: string,
+  description: string,
+  startDate: string,
+  endDate: string,
+  estimatedTime: number,
 ) {
-	const project: Project = {
-		id: projects.length + 1,
-		name,
-		description: description || '',
-		startDate: new Date(Date.now()),
-		endDate: null as unknown as Date,
-		estimatedTime: 0,
-		tasks: [],
-		milestones: [],
-	};
+  const project = await getProjectById(id);
+  if (!project) {
+    throw new Error('Project was not found');
+  }
 
-	projects.push(project);
-	return project;
+  project.name = name || project.name;
+  project.description = description || project.description;
+  project.startDate = startDate || project.startDate;
+  project.endDate = endDate || project.endDate;
+  project.estimatedTime = estimatedTime || project.estimatedTime;
+  project.save();
+
+  return project;
 }
 
-export function getProjectById(id: number) {
-	return projects.find(project => project.id === id);
-}
-
-// eslint-disable-next-line max-params
-export function updateProjectById(
-	id: number,
-	name: string,
-	description: string,
-	startDate: Date,
-	endDate: Date,
-	estimatedTime: number,
-) {
-	const project = getProjectById(id);
-	if (!project) {
-		throw new Error('Project was not found');
-	}
-
-	project.name = name || project.name;
-	project.description = description || project.description;
-	project.startDate = isNaN(startDate.getTime()) ? project.startDate : startDate;
-	project.endDate = isNaN(endDate.getTime()) ? project.endDate : endDate;
-	project.estimatedTime = estimatedTime || project.estimatedTime;
-
-	return project;
-}
-
-export function deleteProjectById(id: number) {
-	const index = projects.findIndex(p => p.id === id);
-	if (index === -1) {
-		return false;
-	}
-
-	projects.splice(index, 1);
-	return true;
+export async function deleteProjectById(id: number) {
+  await Project.remove(await getProjectById(id));
 }

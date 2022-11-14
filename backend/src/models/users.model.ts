@@ -1,24 +1,31 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Task } from "./tasks.model";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Task } from './tasks.model';
 
-@Entity({ name: 'user' })
-export class User {
-	@PrimaryGeneratedColumn()
-	id: number;
-	
-	@Column('varchar', { length: 50 })
-	username: string;
-	
-	@Column('varchar', { length: 1000 })
-	password: string;
-	
-	@Column('varchar', { length: 50 })
-	fullname: string;
-	
-	@Column('varchar', { length: 50 })
-	email: string;
+@Entity({ name: 'users' })
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@ManyToMany(() => Task, (task) => task.assignees)
-	@JoinTable()
-	tasks: Task[]
-};
+  @Column('varchar', { length: 50 })
+  username: string;
+
+  @Column('varchar', { length: 1000 })
+  password: string;
+
+  @Column('varchar', { length: 50 })
+  fullname: string;
+
+  @Column('varchar', { length: 50 })
+  email: string;
+
+  @ManyToMany(() => Task, task => task.assignees)
+  @JoinTable()
+  tasks: Task[];
+}
