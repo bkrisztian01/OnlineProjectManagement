@@ -25,13 +25,28 @@ class FragmentSignIn : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.buttonSignUp1.setOnClickListener {
+            var error=false
             if (binding.editTextUser.text.toString().isEmpty()) {
                 binding.editTextUser.requestFocus()
                 binding.editTextUser.error = "Please enter a username"
-            } else if (binding.editTextPw.text.toString().isEmpty()) {
+                error=true
+            }
+            if (binding.editTextPw.text.toString().isEmpty()) {
                 binding.editTextPw.requestFocus()
                 binding.editTextPw.error = "Please enter a password"
-            } else{
+                error=true
+            }
+            if(binding.editTextEmailadress.text.isEmpty()){
+                binding.editTextPw.requestFocus()
+                binding.editTextEmailadress.error = "Please enter your e-mail adress"
+                error=true
+            }
+            if(binding.editTextName.text.isEmpty()) {
+                binding.editTextPw.requestFocus()
+                binding.editTextName.error = "Please enter your name adress"
+                error=true
+            }
+            if(error){} else{
                 Toast.makeText(context, "You created an account!", Toast.LENGTH_LONG).show()
                 binding.root.findNavController().navigate(FragmentSignInDirections.actionFragmentSignInToFragmentWelcome())
 

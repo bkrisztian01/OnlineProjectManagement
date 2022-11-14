@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentTasksBinding
 import hu.bme.aut.android.projectmanagerapp.model.Milestone
@@ -21,11 +23,12 @@ import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.ProjectAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneDirections
+import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
 import hu.bme.aut.android.projectmanagerapp.ui.singletask.FragmentSingleTaskArgs
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FragmentTasks : Fragment() {
+class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private val tasks: ArrayList<Task> = ArrayList<Task>()
     private lateinit var project: Project
     private var _binding: FragmentTasksBinding? = null
@@ -49,6 +52,11 @@ class FragmentTasks : Fragment() {
         }
         return view
     }
+    override fun onResume() {
+        super.onResume()
+        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        navigationView.setNavigationItemSelectedListener(this)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -57,10 +65,7 @@ class FragmentTasks : Fragment() {
 
         val context = this.activity
         return when (item.itemId){
-            R.id.menu_sign_out->{
-                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToDialogFragmentUser(user))
-                return true
-            }
+
             R.id.menu_help->{
                 if (context != null) {
                     AlertDialog.Builder(context)
@@ -75,6 +80,11 @@ class FragmentTasks : Fragment() {
                 binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleProject(project,user))
                 return true
             }
+            R.id.menu_item->{
+                val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
+                drawer.open()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -86,16 +96,33 @@ class FragmentTasks : Fragment() {
         if(!tasks.isEmpty())
             tasks.clear()
         val itr = milestone.tasks.listIterator()
-        if (itr != null) {
             while (itr.hasNext()) {
                 tasks.add(itr.next())
 
             }
-        }
+
         val adapter = TaskAdapter(tasks,project,user)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 
+    }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.accountpage->{
+                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentUser(user))
+                return true
+            }
+            R.id.homepage->{
+                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentProject(user))
+                return true
+            }
+            R.id.taskspage->{
+                return true
+            }
+            else->{
+                return false
+            }
+        }
     }
 
 
