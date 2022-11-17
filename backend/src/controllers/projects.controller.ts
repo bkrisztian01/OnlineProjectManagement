@@ -54,8 +54,8 @@ export async function updateProjectByIdHandler(
     );
 
     res.send(project);
-  } catch (e: unknown) {
-    res.status(404).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }
 

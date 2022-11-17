@@ -43,8 +43,8 @@ export async function postSignupUserHandler(
   try {
     const user = await createUser(username, password, fullname, email);
     res.send(user);
-  } catch (e: unknown) {
-    res.status(409).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }
 

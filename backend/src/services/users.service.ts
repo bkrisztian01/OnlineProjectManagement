@@ -1,3 +1,4 @@
+import { Conflict } from '@curveball/http-errors/dist';
 import { User } from '../models/users.model';
 
 export async function validatePassword(username: string, password: string) {
@@ -34,7 +35,7 @@ export async function createUser(
     .getMany();
 
   if (q.length > 0) {
-    throw new Error('Username or email is already in use');
+    throw new Conflict('Username or email is already in use');
   }
 
   const user = User.create({

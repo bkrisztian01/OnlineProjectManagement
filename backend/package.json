@@ -25,9 +25,12 @@
     "typescript": "*"
   },
   "dependencies": {
+    "@curveball/http-errors": "^0.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "http-errors": "^2.0.0",
+    "http-errors-response-ts": "^1.0.0",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "0.3.10",

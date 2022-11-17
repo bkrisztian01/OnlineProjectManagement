@@ -30,8 +30,8 @@ export async function postTaskHandler(
       req.body.deadline,
     );
     res.send(task);
-  } catch (e: unknown) {
-    res.status(404).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }
 
@@ -66,8 +66,8 @@ export async function updateTaskByIdHandler(
     );
 
     res.send(task);
-  } catch (e: unknown) {
-    res.status(404).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }
 
@@ -79,8 +79,8 @@ export async function deleteTaskByIdHandler(
   try {
     await deleteTaskById(parseInt(req.params.id));
     res.send('Successful operation');
-  } catch (e: unknown) {
-    res.status(404).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }
 
@@ -92,7 +92,7 @@ export async function setArchivedTaskByIdHandler(
   try {
     await setArchivedTaskById(parseInt(req.params.id), req.body.archived);
     res.send('Successful operation');
-  } catch (e: unknown) {
-    res.status(404).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }

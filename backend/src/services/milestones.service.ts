@@ -1,3 +1,4 @@
+import { Conflict, NotFound } from '@curveball/http-errors/dist';
 import { Milestone } from '../models/milestones.model';
 import { Task } from '../models/tasks.model';
 import type { Status } from '../util/Status';
@@ -25,7 +26,7 @@ export async function createMilestone(
 ) {
   const project = await getProjectById(projectId);
   if (!project) {
-    throw new Error('Project was not found');
+    throw new NotFound('Project was not found');
   }
 
   const milestone = Milestone.create({
@@ -49,14 +50,18 @@ export async function updateMilestoneById(
 ) {
   const milestone = await getMilestoneById(id);
   if (!milestone) {
-    throw new Error('Milestone was not found');
+    throw new NotFound('Milestone was not found');
   }
 
   const tasks = await Task.createQueryBuilder('task')
-    .select('task')
+    .leftJoinAndSelect('task.project', 'project')
+    .select()
     .where('task.id IN (:...taskIds)', { taskIds: taskIds })
     .getMany();
 
+  if (tasks.find(t => t.project.id != milestone.project.id)) {
+    throw new Conflict('Task and milestone is not in the same project');
+  }
   milestone.name = name || milestone.name;
   milestone.description = description || milestone.description;
   milestone.deadline = deadline || milestone.deadline;

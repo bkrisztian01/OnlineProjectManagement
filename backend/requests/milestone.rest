@@ -28,3 +28,7 @@ Content-Type: application/json
 
 ###
 DELETE {{host}}/milestones/1
+
+
+###
+POST {{host}}/resettestdata

@@ -1,3 +1,4 @@
+import { NotFound } from '@curveball/http-errors/dist';
 import { Task } from '../models/tasks.model';
 import { User } from '../models/users.model';
 import { Status } from '../util/Status';
@@ -24,7 +25,7 @@ export async function createTask(
 ) {
   const project = await getProjectById(projectId);
   if (!project) {
-    throw new Error('Project was not found');
+    throw new NotFound('Project was not found');
   }
 
   const task = Task.create({
@@ -37,7 +38,6 @@ export async function createTask(
   return await task.save();
 }
 
-// eslint-disable-next-line max-params
 export async function updateTaskById(
   taskId: number,
   name: string,
@@ -49,7 +49,7 @@ export async function updateTaskById(
 ) {
   const task = await getTaskById(taskId);
   if (!task) {
-    throw new Error('Task was not found');
+    throw new NotFound('Task was not found');
   }
 
   const assignees = await User.createQueryBuilder('users')
@@ -83,7 +83,7 @@ export async function deleteTaskById(id: number) {
 export async function setArchivedTaskById(id: number, archived: boolean) {
   const task = await getTaskById(id);
   if (!task) {
-    throw new Error('Task was not found');
+    throw new NotFound('Task was not found');
   }
 
   task.archived = archived;

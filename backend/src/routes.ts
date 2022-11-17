@@ -27,6 +27,7 @@ import {
   getUsersHandler,
   postSignupUserHandler,
 } from './controllers/users.controller';
+import { AppDataSource } from './dataSource';
 import validateRequest from './middlewares/validateRequest';
 import {
   createMilestoneSchema,
@@ -48,10 +49,17 @@ import {
   updateTaskByIdSchema,
 } from './schemas/tasks.schema';
 import { createUserSchema, loginUserSchema } from './schemas/users.schema';
+import { initTestData } from './testData';
 
 function routes(app: Express): void {
   app.get('/', (req, res) => {
     res.send('Hello! :)');
+  });
+
+  app.post('/resettestdata', async (req, res) => {
+    await AppDataSource.synchronize(true);
+    initTestData();
+    res.send();
   });
 
   //

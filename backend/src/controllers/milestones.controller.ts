@@ -30,8 +30,8 @@ export async function postMilestoneHandler(
     );
 
     res.send(milestone);
-  } catch (e: unknown) {
-    res.status(404).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }
 
@@ -65,8 +65,8 @@ export async function updateMilestoneByIdHandler(
     );
 
     res.status(200).send(milestone);
-  } catch (e: unknown) {
-    res.status(404).send((e as Error).message);
+  } catch (e: any) {
+    res.status(e.httpStatus).send(e.message);
   }
 }
 

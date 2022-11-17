@@ -17,8 +17,8 @@ export const validate =
 
       next();
       return;
-    } catch (err: unknown) {
-      res.status(400).send((err as Error).message);
+    } catch (e: any) {
+      res.status(400).send(e.message);
     }
   };
 

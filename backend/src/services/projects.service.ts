@@ -1,3 +1,4 @@
+import { NotFound } from '@curveball/http-errors/dist';
 import { Project } from '../models/projects.model';
 
 export async function getProjects() {
@@ -32,7 +33,7 @@ export async function updateProjectById(
 ) {
   const project = await getProjectById(id);
   if (!project) {
-    throw new Error('Project was not found');
+    throw new NotFound('Project was not found');
   }
 
   project.name = name || project.name;

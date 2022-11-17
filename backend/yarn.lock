@@ -21,6 +21,11 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
+"@curveball/http-errors@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@curveball/http-errors/-/http-errors-0.4.1.tgz#00869654267de01f04d90cb884c375bb2bb65441"
+  integrity sha512-RJe0IOQQpgvCwUY8ZKK7/YgfWi1MqMzMrIHilwXHaMFykoVjpRNzaeO3FmrKSUlmJSb6vuPd37LEPNUne4PxZA==
+
 "@sqltools/formatter@^1.2.2":
   version "1.2.5"
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.5.tgz"
@@ -595,7 +600,12 @@ highlight.js@^10.7.1:
   resolved "https://registry.npmjs.org/highlight.js/-/highlight.js-10.7.3.tgz"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
 
-http-errors@2.0.0:
+http-errors-response-ts@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/http-errors-response-ts/-/http-errors-response-ts-1.0.0.tgz#013a44d31ac69d0ef1ed9fbc0e732a89b1d41a50"
+  integrity sha512-4eveZErlAHPRA9DOEAc+M48NHkzBf8/vP/8OV3jVoV6L9VlIHV50o/AW/kguBE/+5fsXMMW1j4r0aUA8SSOQ1w==
+
+http-errors@2.0.0, http-errors@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/http-errors/-/http-errors-2.0.0.tgz"
   integrity sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==
