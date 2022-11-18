@@ -1,45 +1,45 @@
-import {object, string, number} from 'yup';
+import { number, object, string } from 'yup';
 
 const params = {
-	params: object({
-		id: string().required(),
-	}),
+  params: object({
+    id: string().required(),
+  }),
 };
 
 const dates = {
-	startDate: string().test(
-		'is-date',
-		d => `${d.path} is not a valid date`,
-		value => value === undefined || !isNaN(new Date(value).getTime()),
-	),
-	endDate: string().test(
-		'is-date',
-		d => `${d.path} is not a valid date`,
-		value => value === undefined || !isNaN(new Date(value).getTime()),
-	),
+  startDate: string().test(
+    'is-date',
+    d => `${d.path} is not a valid date`,
+    value => value === undefined || !isNaN(new Date(value).getTime()),
+  ),
+  endDate: string().test(
+    'is-date',
+    d => `${d.path} is not a valid date`,
+    value => value === undefined || !isNaN(new Date(value).getTime()),
+  ),
 };
 
 export const createProjectSchema = object({
-	body: object({
-		name: string().required(),
-		description: string(),
-	}),
+  body: object({
+    name: string().required(),
+    description: string(),
+  }),
 });
 
 export const updateProjectByIdSchema = object({
-	...params,
-	body: object({
-		name: string().required(),
-		description: string(),
-		...dates,
-		estimatedTime: number(),
-	}),
+  ...params,
+  body: object({
+    name: string().required(),
+    description: string(),
+    ...dates,
+    estimatedTime: number(),
+  }),
 });
 
 export const getProjectByIdSchema = object({
-	...params,
+  ...params,
 });
 
 export const deleteProjectByIdSchema = object({
-	...params,
+  ...params,
 });

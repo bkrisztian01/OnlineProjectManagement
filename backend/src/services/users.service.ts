@@ -1,42 +1,58 @@
-import type {User} from '../models/users.model';
+import { Conflict } from '@curveball/http-errors/dist';
+import { User } from '../models/users.model';
 
-export const users: User[] = [];
-
-export function validatePassword(username: string, password: string) {
-	return users.find(u => u.username === username && u.password === password);
+export async function validatePassword(username: string, password: string) {
+  // return users.find(u => u.username === username && u.password === password);
+  return await User.findOne({
+    where: {
+      username,
+      password,
+    },
+  });
 }
 
-export function getUserById(id: number) {
-	return users.find(user => user.id === id);
+export async function getUserById(id: number) {
+  return await User.createQueryBuilder('users')
+    .select('users')
+    .from(User, 'user')
+    .where('user.id = :id', { id })
+    .getOne();
 }
 
-export function createUser(
-	username: string,
-	password: string,
-	fullname: string,
-	email: string,
+export async function createUser(
+  username: string,
+  password: string,
+  fullname: string,
+  email: string,
 ) {
-	let user = users.find(u => u.email === email);
-	if (user) {
-		throw new Error('E-mail address is already in use');
-	}
+  const q = await User.createQueryBuilder('users')
+    .select('users')
+    .from(User, 'user')
+    .where('user.username = :username OR user.email = :email', {
+      username,
+      email,
+    })
+    .getMany();
 
-	user = users.find(u => u.username === username);
-	if (user) {
-		throw new Error('Username is already in use');
-	}
+  if (q.length > 0) {
+    throw new Conflict('Username or email is already in use');
+  }
 
-	user = {
-		id: users.length + 1,
-		username,
-		password,
-		fullname,
-		email,
-	};
-	users.push(user);
-	return user;
+  const user = User.create({
+    username,
+    password,
+    fullname,
+    email,
+  });
+  await user.save();
+
+  return user;
 }
 
-export function getUsers() {
-	return users;
+export async function getUsers() {
+  return await User.find();
+}
+
+export async function deleteUserById(id: number) {
+  await User.delete(id);
 }

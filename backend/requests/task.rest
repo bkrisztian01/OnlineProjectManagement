@@ -1,0 +1,30 @@
+@host = http://localhost:5000
+
+GET {{host}}/tasks/
+
+###
+GET {{host}}/tasks/1
+
+###
+POST {{host}}/tasks
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "name": "Test task",
+  "description": "description",
+  "deadline": "2022-01-10"
+}
+
+###
+PUT {{host}}/tasks/1
+Content-Type: application/json
+
+{
+  "name": "Modified",
+  "description": "description",
+  "status": "Done",
+  "deadline": "1999-01-10",
+  "assigneeIds": [1],
+  "prerequisiteTaskIds": [2]
+}

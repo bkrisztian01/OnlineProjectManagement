@@ -1,72 +1,130 @@
-import type {Express} from 'express';
-import {deleteMilestoneByIdHandler, getMilestoneByIdHandler, getMilestonesHandler, postMilestoneHandler, updateMilestoneByIdHandler} from './controllers/milestones.controller';
-import {getProjectsHandler, deleteProjectByIdHandler, postProjectHandler, updateProjectByIdHandler, getProjectByIdHandeler} from './controllers/projects.controller';
-import {deleteTaskByIdHandler, getTaskByIdHandler, getTaskHandler, postTaskHandler, setArchivedTaskByIdHandler, updateTaskByIdHandler} from './controllers/tasks.controller';
-import {getLoginUserHandler, getLogoutUserHandler, getUsersHandler, postSignupUserHandler} from './controllers/users.controller';
+import type { Express } from 'express';
+import {
+  deleteMilestoneByIdHandler,
+  getMilestoneByIdHandler,
+  getMilestonesHandler,
+  postMilestoneHandler,
+  updateMilestoneByIdHandler,
+} from './controllers/milestones.controller';
+import {
+  deleteProjectByIdHandler,
+  getProjectByIdHandler,
+  getProjectsHandler,
+  postProjectHandler,
+  updateProjectByIdHandler,
+} from './controllers/projects.controller';
+import {
+  deleteTaskByIdHandler,
+  getTaskByIdHandler,
+  getTaskHandler,
+  postTaskHandler,
+  setArchivedTaskByIdHandler,
+  updateTaskByIdHandler,
+} from './controllers/tasks.controller';
+import {
+  getLoginUserHandler,
+  getLogoutUserHandler,
+  getUsersHandler,
+  postSignupUserHandler,
+} from './controllers/users.controller';
+import { AppDataSource } from './dataSource';
 import validateRequest from './middlewares/validateRequest';
-import {createMilestoneSchema, deleteMilestoneByIdSchema, getMilestoneByIdSchema, updateMilestoneByIdSchema} from './schemas/milestones.schema';
-import {createProjectSchema, deleteProjectByIdSchema, getProjectByIdSchema, updateProjectByIdSchema} from './schemas/projects.schema';
-import {archiveTaskByIdSchema, createTaskSchema, deleteTaskByIdSchema, getTaskByIdSchema, updateTaskByIdSchema} from './schemas/tasks.schema';
-import {createUserSchema, loginUserSchema} from './schemas/users.schema';
+import {
+  createMilestoneSchema,
+  deleteMilestoneByIdSchema,
+  getMilestoneByIdSchema,
+  updateMilestoneByIdSchema,
+} from './schemas/milestones.schema';
+import {
+  createProjectSchema,
+  deleteProjectByIdSchema,
+  getProjectByIdSchema,
+  updateProjectByIdSchema,
+} from './schemas/projects.schema';
+import {
+  archiveTaskByIdSchema,
+  createTaskSchema,
+  deleteTaskByIdSchema,
+  getTaskByIdSchema,
+  updateTaskByIdSchema,
+} from './schemas/tasks.schema';
+import { createUserSchema, loginUserSchema } from './schemas/users.schema';
+import { initTestData } from './testData';
 
 function routes(app: Express): void {
-	app.get('/', (req, res) => {
-		res.send('Hey! :)');
-	});
+  app.get('/', (req, res) => {
+    res.send('Hello! :)');
+  });
 
-	//
-	// Projects
-	//
-	app.route('/projects')
-		.get(getProjectsHandler)
-		.post(validateRequest(createProjectSchema), postProjectHandler);
+  app.post('/resettestdata', async (req, res) => {
+    await AppDataSource.synchronize(true);
+    initTestData();
+    res.send();
+  });
 
-	app.route('/projects/:id')
-		.get(validateRequest(getProjectByIdSchema), getProjectByIdHandeler)
-		.put(validateRequest(updateProjectByIdSchema), updateProjectByIdHandler)
-		.delete(validateRequest(deleteProjectByIdSchema), deleteProjectByIdHandler);
+  //
+  // Projects
+  //
+  app
+    .route('/projects')
+    .get(getProjectsHandler)
+    .post(validateRequest(createProjectSchema), postProjectHandler);
 
-	//
-	// User
-	//
-	app.route('/user/login')
-		.get(validateRequest(loginUserSchema), getLoginUserHandler);
+  app
+    .route('/projects/:id')
+    .get(validateRequest(getProjectByIdSchema), getProjectByIdHandler)
+    .put(validateRequest(updateProjectByIdSchema), updateProjectByIdHandler)
+    .delete(validateRequest(deleteProjectByIdSchema), deleteProjectByIdHandler);
 
-	app.route('/user/logout')
-		.get(getLogoutUserHandler);
+  //
+  // User
+  //
+  app
+    .route('/user/login')
+    .get(validateRequest(loginUserSchema), getLoginUserHandler);
 
-	app.route('/user/signup')
-		.post(validateRequest(createUserSchema), postSignupUserHandler);
+  app.route('/user/logout').get(getLogoutUserHandler);
 
-	app.route('/users')
-		.get(getUsersHandler);
+  app
+    .route('/user/signup')
+    .post(validateRequest(createUserSchema), postSignupUserHandler);
 
-	//
-	// Tasks
-	//
-	app.route('/tasks')
-		.get(getTaskHandler)
-		.post(validateRequest(createTaskSchema), postTaskHandler);
+  app.route('/users').get(getUsersHandler);
 
-	app.route('/tasks/:id')
-		.get(validateRequest(getTaskByIdSchema), getTaskByIdHandler)
-		.put(validateRequest(updateTaskByIdSchema), updateTaskByIdHandler)
-		.delete(validateRequest(deleteTaskByIdSchema), deleteTaskByIdHandler);
+  //
+  // Tasks
+  //
+  app
+    .route('/tasks')
+    .get(getTaskHandler)
+    .post(validateRequest(createTaskSchema), postTaskHandler);
 
-	app.route('/tasks/:id/archive')
-		.put(validateRequest(archiveTaskByIdSchema), setArchivedTaskByIdHandler);
+  app
+    .route('/tasks/:id')
+    .get(validateRequest(getTaskByIdSchema), getTaskByIdHandler)
+    .put(validateRequest(updateTaskByIdSchema), updateTaskByIdHandler)
+    .delete(validateRequest(deleteTaskByIdSchema), deleteTaskByIdHandler);
 
-	//
-	// Milestones
-	//
-	app.route('/milestones')
-		.get(getMilestonesHandler)
-		.post(validateRequest(createMilestoneSchema), postMilestoneHandler);
+  app
+    .route('/tasks/:id/archive')
+    .put(validateRequest(archiveTaskByIdSchema), setArchivedTaskByIdHandler);
 
-	app.route('/milestones/:id')
-		.get(validateRequest(getMilestoneByIdSchema), getMilestoneByIdHandler)
-		.put(validateRequest(updateMilestoneByIdSchema), updateMilestoneByIdHandler)
-		.delete(validateRequest(deleteMilestoneByIdSchema), deleteMilestoneByIdHandler);
+  //
+  // Milestones
+  //
+  app
+    .route('/milestones')
+    .get(getMilestonesHandler)
+    .post(validateRequest(createMilestoneSchema), postMilestoneHandler);
+
+  app
+    .route('/milestones/:id')
+    .get(validateRequest(getMilestoneByIdSchema), getMilestoneByIdHandler)
+    .put(validateRequest(updateMilestoneByIdSchema), updateMilestoneByIdHandler)
+    .delete(
+      validateRequest(deleteMilestoneByIdSchema),
+      deleteMilestoneByIdHandler,
+    );
 }
 
 export default routes;

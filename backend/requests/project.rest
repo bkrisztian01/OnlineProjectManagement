@@ -1,0 +1,29 @@
+@host = http://localhost:5000
+
+GET {{host}}/projects
+
+###
+GET {{host}}/projects/1
+
+###
+DELETE {{host}}/projects/1
+
+###
+POST {{host}}/projects
+Content-Type: application/json
+
+{
+  "name": "Test project 2"
+}
+
+###
+PUT {{host}}/projects/2
+Content-Type: application/json
+
+{
+  "name": "Modified",
+  "description": "Description",
+  "startDate": "2012-01-01",
+  "endDate": "2022-02-02",
+  "estimatedTime": 232
+}

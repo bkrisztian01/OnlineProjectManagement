@@ -1,115 +1,91 @@
-import type {Task} from '../models/tasks.model';
-import {Status} from '../util/Status';
-import {getProjectById, projects} from './projects.service';
-import {getUserById} from './users.service';
+import { NotFound } from '@curveball/http-errors/dist';
+import { Task } from '../models/tasks.model';
+import { User } from '../models/users.model';
+import { Status } from '../util/Status';
+import { getProjectById } from './projects.service';
 
-export const tasks: Task[] = [];
-
-let autoIncrement = 0;
-
-export function getTaskById(id: number) {
-	return tasks.find(task => task.id === id);
+export async function getTaskById(id: number) {
+  return await Task.findOne({
+    where: { id },
+    relations: ['project', 'milestone'],
+  });
 }
 
-export function getTasks() {
-	return tasks;
+export async function getTasks() {
+  return await Task.find({
+    relations: ['project', 'milestone'],
+  });
 }
 
-export function createTask(projectId: number, name: string, description: string, deadline: Date) {
-	const project = getProjectById(projectId);
-	if (!project) {
-		throw new Error('Project was not found');
-	}
-
-	const task = {
-		id: autoIncrement++,
-		name,
-		description: description || '',
-		status: Status.NotStarted,
-		deadline,
-		assignees: [],
-		prerequisiteTaskIds: [],
-		archived: false,
-	};
-
-	tasks.push(task);
-	project.tasks.push(task);
-	return task;
-}
-
-// eslint-disable-next-line max-params
-export function updateTaskById(
-	taskId: number,
-	name: string,
-	description: string,
-	status: Status,
-	deadline: Date,
-	assigneeIds: number[],
-	prerequisiteTaskIds: number[],
+export async function createTask(
+  projectId: number,
+  name: string,
+  description: string,
+  deadline: string,
 ) {
-	const task = getTaskById(taskId);
-	if (!task) {
-		throw new Error('Task was not found');
-	}
+  const project = await getProjectById(projectId);
+  if (!project) {
+    throw new NotFound('Project was not found');
+  }
 
-	const assignees = [];
-	if (assigneeIds) {
-		for (const userId of assigneeIds) {
-			const user = getUserById(userId);
-			if (!user) {
-				throw new Error('User was not found');
-			}
+  const task = Task.create({
+    name,
+    description: description || '',
+    deadline,
+    project,
+  });
 
-			assignees.push(user);
-		}
-	}
-
-	if (prerequisiteTaskIds) {
-		for (const taskId of prerequisiteTaskIds) {
-			if (!getTaskById(taskId)) {
-				throw new Error('Prerequisite task was not found');
-			}
-		}
-	}
-
-	task.name = name || task.name;
-	task.description = description || task.description;
-	task.status = status || task.status;
-	task.deadline = isNaN(deadline.getTime()) ? task.deadline : deadline;
-	task.prerequisiteTaskIds = prerequisiteTaskIds || task.prerequisiteTaskIds;
-	task.assignees = assigneeIds ? assignees : task.assignees;
-
-	return task;
+  return await task.save();
 }
 
-export function deleteTaskById(id: number) {
-	const index = tasks.findIndex(task => task.id === id);
-	if (index === -1) {
-		throw new Error('Task was not found');
-	}
+export async function updateTaskById(
+  taskId: number,
+  name: string,
+  description: string,
+  status: Status,
+  deadline: string,
+  assigneeIds: number[],
+  prerequisiteTaskIds: number[],
+) {
+  const task = await getTaskById(taskId);
+  if (!task) {
+    throw new NotFound('Task was not found');
+  }
 
-	projects.forEach(project => {
-		const taskIndex = project.tasks.findIndex(task => task.id === id);
-		if (taskIndex > -1) {
-			project.tasks.splice(taskIndex, 1);
-		}
-	});
+  const assignees = await User.createQueryBuilder('users')
+    .select('users')
+    .where('users.id IN (:...assigneeIds)', { assigneeIds: assigneeIds })
+    .getMany();
 
-	tasks.forEach(task => {
-		const taskIndex = task.prerequisiteTaskIds.findIndex(i => i === id);
-		if (taskIndex > -1) {
-			task.prerequisiteTaskIds.splice(taskIndex, 1);
-		}
-	});
+  const prerequisiteTasks = await Task.createQueryBuilder('task')
+    .select('task')
+    .where('task.id IN (:...prerequisiteTaskIds)', {
+      prerequisiteTaskIds: prerequisiteTaskIds,
+    })
+    .getMany();
 
-	tasks.splice(index, 1);
+  task.name = name || task.name;
+  task.description = description || task.description;
+  task.status = status || task.status;
+  task.deadline = deadline || task.deadline;
+  task.prerequisiteTasks = prerequisiteTaskIds
+    ? prerequisiteTasks
+    : task.prerequisiteTasks;
+  task.assignees = assigneeIds ? assignees : task.assignees;
+
+  return task;
 }
 
-export function setArchivedTaskById(id: number, archived: boolean) {
-	const task = getTaskById(id);
-	if (!task) {
-		throw new Error('Task was not found');
-	}
+export async function deleteTaskById(id: number) {
+  await Task.remove(await getTaskById(id));
+}
 
-	task.archived = archived;
+export async function setArchivedTaskById(id: number, archived: boolean) {
+  const task = await getTaskById(id);
+  if (!task) {
+    throw new NotFound('Task was not found');
+  }
+
+  task.archived = archived;
+  task.save;
 }
