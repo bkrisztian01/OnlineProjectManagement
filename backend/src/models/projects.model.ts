@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Milestone } from './milestones.model';
 import { Task } from './tasks.model';
+import { UserRole } from './userRoles.model';
 
 @Entity({ name: 'project' })
 export class Project extends BaseEntity {
@@ -37,4 +38,7 @@ export class Project extends BaseEntity {
 
   @OneToMany(() => Milestone, milestone => milestone.project)
   milestones: Milestone[];
+
+  @OneToMany(() => UserRole, userRole => userRole.project)
+  userRoles: UserRole[];
 }

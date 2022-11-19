@@ -1,10 +1,12 @@
 import { array, number, object, string } from 'yup';
 import { Status } from '../util/Status';
 
-const params = {
-  params: object({
-    id: string().required(),
-  }),
+const id = {
+  id: string().required(),
+};
+
+const projectId = {
+  projectId: string().required(),
 };
 
 const deadline = {
@@ -25,8 +27,10 @@ const status = {
 };
 
 export const createMilestoneSchema = object({
+  params: object({
+    ...projectId,
+  }),
   body: object({
-    projectId: number().required(),
     name: string().required(),
     description: string(),
     ...status,
@@ -35,15 +39,24 @@ export const createMilestoneSchema = object({
 });
 
 export const getMilestoneByIdSchema = object({
-  ...params,
+  params: object({
+    ...id,
+    ...projectId,
+  }),
 });
 
 export const deleteMilestoneByIdSchema = object({
-  ...params,
+  params: object({
+    ...id,
+    ...projectId,
+  }),
 });
 
 export const updateMilestoneByIdSchema = object({
-  ...params,
+  params: object({
+    ...id,
+    ...projectId,
+  }),
   body: object({
     name: string(),
     description: string(),
