@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.navigation.NavigationView
@@ -21,7 +22,6 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBindin
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.model.User
-import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 
 class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +30,9 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
     private var _binding: FragmentSingletaskBinding? = null
     private val binding get() = _binding!!
     private lateinit var user : User
+    private val singleTaskViewModel: SingleTaskViewModel by viewModels()
+
+
     private var setting=0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentSingletaskBinding.inflate(inflater, container, false)
@@ -46,146 +49,138 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
             onOptionsItemSelected(it)
         }
 
-
-        binding.savebtn.setOnClickListener{
-            task.status=binding.spStatus.selectedItem.toString()
-            Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
-        }
-        binding.discardbtn.setOnClickListener {
+            binding.savebtn.setOnClickListener{
+                task.status=binding.spStatus.selectedItem.toString().filter { !it.isWhitespace() }
+                singleTaskViewModel.updateTask(task)
+                Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
+            }
+            binding.discardbtn.setOnClickListener {
+                loadTask()
+                binding.spStatus.setSelection(setting)
+            }
             loadTask()
+
+            binding.spStatus.adapter = ArrayAdapter(
+                requireContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                resources.getStringArray(R.array.status_array)
+
+            )
+            binding.spStatus.onItemSelectedListener = this
             binding.spStatus.setSelection(setting)
+            return view
         }
-        loadTask()
+        override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
+        }
+        override fun onOptionsItemSelected(item: MenuItem): Boolean{
+            val context = this.activity
+            return when (item.itemId){
 
-        binding.spStatus.adapter = ArrayAdapter(
-            requireContext(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            resources.getStringArray(R.array.status_array)
+                R.id.menu_help->{
+                    if (context != null) {
+                        AlertDialog.Builder(context)
+                            .setTitle("Help")
+                            .setMessage("Here is some information on the task!")
+                            .setNegativeButton(R.string.cancel, null)
+                            .show()
+                    }
+                    return true
+                }
+                R.id.menu_item->{
+                    val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
+                    drawer.open()
+                    return true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
+        }
 
-        )
-        binding.spStatus.onItemSelectedListener = this
-        binding.spStatus.setSelection(setting)
-        return view
-    }
+
     override fun onResume() {
         super.onResume()
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
     }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
-        val context = this.activity
-        return when (item.itemId){
 
-            R.id.menu_help->{
-                if (context != null) {
-                    AlertDialog.Builder(context)
-                        .setTitle("Help")
-                        .setMessage("Here is some information on the task!")
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
+
+
+        private fun  loadTask(){
+            when (task.status) {
+                "In Progress" -> {
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                    binding.spStatus.setSelection(0)
+                    setting=0
                 }
-                return true
+                "Done" ->{
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                    binding.spStatus.setSelection(3)
+                    setting=3
+                }
+                "Stopped" -> {
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+                    binding.spStatus.setSelection(2)
+                    setting=2
+                }
+                "Not Started" ->{
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                    binding.spStatus.setSelection(1)
+                    setting=1
+                }
+                else->{
+                }
             }
-            R.id.menu_item->{
-                val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
-                drawer.open()
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-    private fun  loadTask(){
-        when (task.status) {
-            "In Progress" -> {
-                binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
-                binding.spStatus.setSelection(0)
-                setting=0
-            }
-            "Finished" ->{
-
-                binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
-                binding.spStatus.setSelection(3)
-                setting=3
-            }
-            "Stuck" -> {
-
-                binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
-                binding.spStatus.setSelection(2)
-                setting=2
-            }
-            "Not started" ->{
-
-                binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                binding.spStatus.setSelection(1)
-                setting=1
-            }
-            else->{
-            }
-        }
 
 
-        binding.tvTaskName.setText(task.name+" info")
-        binding.tEndDate.setText(task.deadline.substring(   0,10)+" "+task.deadline.substring(11,19))
-        binding.ttDesc.setText(task.description)
-        val itr = task.assignees.listIterator()
-        var workers =""
-        while (itr.hasNext()) {
-            workers+=itr.next().fullname
+            binding.tvTaskName.setText(task.name+" info")
+            binding.tEndDate.setText(task.deadline.toString())
+            binding.ttDesc.setText(task.description)
+            val itr = task.assignees.listIterator()
+            var workers =""
+            while (itr.hasNext()) {
+                workers+=itr.next().fullname
+
+            }
+            binding.tWorkers.text=workers
+
 
         }
-        binding.tWorkers.text=workers
+        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+            when (pos){
+                0 -> binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                1 -> binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                2 -> binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+                3 -> binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+            }
 
 
-    }
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-        when (pos){
-            0 -> {
-                binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
-            }
-            1 -> {
-                binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
-            }
-            2 -> {
-                binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
-            }
-            3 -> {
-                binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
-                binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
-            }
         }
 
+        override fun onNothingSelected(parent: AdapterView<*>) {
+        }
 
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>) {
-    }
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUser(user))
-                return true
-            }
-            R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentProject(user))
-                return true
-            }
-            R.id.taskspage->{
-                return true
-            }
-            else->{
-                return false
+        override fun onNavigationItemSelected(item: MenuItem): Boolean {
+            when (item.itemId){
+                R.id.accountpage->{
+                    binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUser(user))
+                    return true
+                }
+                R.id.homepage->{
+                    binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentProject(user))
+                    return true
+                }
+                R.id.taskspage->{
+                    binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUpcomingTasks(user))
+                    return true
+                }
+                else->{
+                    return false
+                }
             }
         }
     }
-}

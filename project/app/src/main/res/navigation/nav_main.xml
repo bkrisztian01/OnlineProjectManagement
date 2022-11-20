@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_fragmentProject_to_fragmentUser"
             app:destination="@id/fragmentUser" />
+        <action
+            android:id="@+id/action_fragmentProject_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSignIn"
@@ -82,6 +85,9 @@
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentProject2"
             app:destination="@id/fragmentProject" />
+        <action
+            android:id="@+id/action_fragmentTasks_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleProject"
@@ -102,6 +108,9 @@
         <action
             android:id="@+id/action_fragmentSingleProject_to_fragmentProject"
             app:destination="@id/fragmentProject" />
+        <action
+            android:id="@+id/action_fragmentSingleProject_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleTask"
@@ -125,6 +134,9 @@
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentProject"
             app:destination="@id/fragmentProject" />
+        <action
+            android:id="@+id/action_fragmentSingleTask_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMilestone"
@@ -151,6 +163,9 @@
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentProject"
             app:destination="@id/fragmentProject" />
+        <action
+            android:id="@+id/action_fragmentMilestone_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
     </fragment>
     <fragment
         android:id="@+id/fragmentUser"
@@ -164,6 +179,26 @@
             app:destination="@id/fragmentWelcome" />
         <action
             android:id="@+id/action_fragmentUser_to_fragmentProject"
+            app:destination="@id/fragmentProject" />
+        <action
+            android:id="@+id/action_fragmentUser_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentUpcomingTasks"
+        android:name="hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentUpcomingTasks"
+        android:label="FragmentUpcomingTasks" >
+        <argument
+            android:name="user"
+            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+        <action
+            android:id="@+id/action_fragmentUpcomingTasks_to_fragmentSingleTask"
+            app:destination="@id/fragmentSingleTask" />
+        <action
+            android:id="@+id/action_fragmentUpcomingTasks_to_fragmentUser"
+            app:destination="@id/fragmentUser" />
+        <action
+            android:id="@+id/action_fragmentUpcomingTasks_to_fragmentProject"
             app:destination="@id/fragmentProject" />
     </fragment>
 </navigation>

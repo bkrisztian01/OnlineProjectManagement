@@ -39,6 +39,7 @@ class FragmentLogIn : Fragment() {
                 binding.editTextPw.requestFocus()
                 binding.editTextPw.error = "Please enter your password"
             } else{
+                //loginViewModel.login(binding.editTextUser.text.toString(), binding.editTextPw.text.toString())
                 binding.root.findNavController().navigate(FragmentLogInDirections.actionFragmentLogInToFragmentProject(
                     User(1,binding.editTextUser.text.toString(),binding.editTextPw.text.toString(),binding.editTextUser.text.toString(),"asd@gmail.com"))
                 )

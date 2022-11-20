@@ -106,6 +106,7 @@ class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener 
                 return true
             }
             R.id.taskspage->{
+                binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentUpcomingTasks(user))
                 return true
             }
             else->{

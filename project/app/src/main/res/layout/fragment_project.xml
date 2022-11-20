@@ -25,16 +25,18 @@
     <TextView
         android:id="@+id/textViewProject"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:layout_below="@id/toolbar"
+        android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"
+        android:gravity="center"
         android:text="@string/projects"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#081978"
-        android:textSize="24sp"
+        android:textColor="@color/md_theme_dark_tertiaryContainer"
+        android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintBottom_toTopOf="@id/rvProjects"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -54,11 +56,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProjects"
         android:layout_width="match_parent"
-        android:layout_height="614dp"
-
-        android:layout_below="@id/textViewProject"
+        android:layout_height="0dp"
         android:layout_alignParentBottom="false"
-        app:layout_constraintTop_toBottomOf="@id/textViewProject" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.82"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProject" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

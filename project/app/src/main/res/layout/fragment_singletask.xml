@@ -17,7 +17,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarsingletask"
-        android:layout_width="412dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
@@ -29,14 +29,12 @@
 
 
     <ScrollView
-        android:layout_width="414dp"
-        android:layout_height="600dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_below="@id/tvTaskName"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="60dp"
         android:contentDescription="@string/task_x_info"
-        app:layout_constraintBottom_toTopOf="@+id/savebtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.65"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTaskName">
 
@@ -61,7 +59,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/mtcardview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
 
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
                 android:layout_marginTop="@dimen/mtrl_card_spacing"
@@ -71,10 +69,7 @@
                 <Spinner
                     android:id="@+id/spStatus"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_height="match_parent"
                     android:minHeight="48dp"
                     android:outlineProvider="paddedBounds" />
             </com.google.android.material.card.MaterialCardView>
@@ -194,12 +189,13 @@
 
     <TextView
         android:id="@+id/tvTaskName"
-        android:layout_width="414dp"
-        android:layout_height="42dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_below="@id/toolbarsingletask"
         android:background="#372859EC"
         android:backgroundTint="#372859EC"
         android:fontFamily="sans-serif-medium"
+        android:gravity="center"
         android:text="@string/task_x_info"
         android:textAlignment="center"
         android:textAllCaps="false"
@@ -207,19 +203,19 @@
         android:textSize="24sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarsingletask" />
-
-
 
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/savebtn"
         android:layout_width="141dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
+        android:layout_marginStart="47dp"
         android:layout_marginEnd="43dp"
         android:layout_marginBottom="30dp"
         android:contentDescription="@string/extended_fab_content_desc"
@@ -234,12 +230,14 @@
         app:iconSize="40dp"
         app:iconTint="#F3EFEF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toEndOf="@+id/discardbtn" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/discardbtn"
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_height="0dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="true"
@@ -258,6 +256,7 @@
         app:iconSize="40dp"
         app:iconTint="#F3EFEF"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView

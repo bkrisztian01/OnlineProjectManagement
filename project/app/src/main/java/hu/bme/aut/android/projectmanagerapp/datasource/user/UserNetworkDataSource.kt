@@ -2,9 +2,12 @@ package hu.bme.aut.android.projectmanagerapp.datasource.user
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import hu.bme.aut.android.projectmanagerapp.data.task.TaskBody
 import hu.bme.aut.android.projectmanagerapp.data.task.TaskResult
+import hu.bme.aut.android.projectmanagerapp.data.user.SignInBody
 import hu.bme.aut.android.projectmanagerapp.data.user.UserResult
 import hu.bme.aut.android.projectmanagerapp.network.RetrofitClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,5 +30,22 @@ object UserNetworkDataSource {
 
         return userResultData
     }
+
+
+
+    fun createUser(user: SignInBody){
+        val call=RetrofitClient.userApiInterface.createUser(user)
+        call.enqueue(object: Callback<ResponseBody>{
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                Log.d("Response DEBUG : task", response.body().toString())
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("Error DEBUG : task", t.message.toString())
+            }
+
+        })
+    }
+
 
 }

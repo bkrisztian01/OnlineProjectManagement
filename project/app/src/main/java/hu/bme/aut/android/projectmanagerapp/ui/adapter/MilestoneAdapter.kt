@@ -12,11 +12,22 @@ import hu.bme.aut.android.projectmanagerapp.model.Milestone
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneDirections
+import java.util.ArrayList
 
-class MilestoneAdapter (private val milestones: List<Milestone>, private val project: Project, private val user: User,) : RecyclerView.Adapter<MilestoneAdapter.ViewHolder>() {
+class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private val project: Project, private val user: User) : RecyclerView.Adapter<MilestoneAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemMilestoneBinding) : RecyclerView.ViewHolder(binding.root) {
         val milestonebutton = itemView.findViewById<Button>(R.id.btnmilestone)
     }
+
+
+    fun filterList(filterList: ArrayList<Milestone>?) {
+        if(filterList!=null)
+            milestones = filterList
+        else
+            milestones.clear()
+        notifyDataSetChanged()
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MilestoneAdapter.ViewHolder {
         return ViewHolder(
