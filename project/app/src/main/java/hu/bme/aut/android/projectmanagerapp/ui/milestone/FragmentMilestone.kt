@@ -48,15 +48,13 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
             onOptionsItemSelected(it)
         }
 
-
-
-
         return view
     }
     override fun onResume() {
         super.onResume()
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+        /*
         val searchView=activity!!.findViewById(R.id.menu_search_ms) as SearchView
         searchView.clearFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -69,7 +67,7 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
                 }
                 return false
             }
-        })
+        })*/
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -140,6 +138,7 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
                 }
             }
         }
+    /*
         private fun filter(text: String) {
             val filteredlist = java.util.ArrayList<Milestone>()
             for (item in milestones) {
@@ -152,7 +151,7 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
             } else {
                 adapter.filterList(filteredlist)
             }
-        }
+        }*/
 
 
     }

@@ -138,7 +138,7 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
 
 
             binding.tvTaskName.setText(task.name+" info")
-            binding.tEndDate.setText(task.deadline.toString())
+            binding.tEndDate.setText(task.deadline.substring(   0,10)+" "+project.startDate.substring(11,19))
             binding.ttDesc.setText(task.description)
             val itr = task.assignees.listIterator()
             var workers =""
@@ -152,10 +152,22 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
         }
         override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
             when (pos){
-                0 -> binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
-                1 -> binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                2 -> binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
-                3 -> binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                0 -> {
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                }
+                1 -> {
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                }
+                2 -> {
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
+                }
+                3 -> {
+                    binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                    binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                }
             }
 
 

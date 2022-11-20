@@ -59,7 +59,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/mtcardview"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
 
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
                 android:layout_marginTop="@dimen/mtrl_card_spacing"
@@ -70,6 +70,7 @@
                     android:id="@+id/spStatus"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="5dp"
                     android:minHeight="48dp"
                     android:outlineProvider="paddedBounds" />
             </com.google.android.material.card.MaterialCardView>

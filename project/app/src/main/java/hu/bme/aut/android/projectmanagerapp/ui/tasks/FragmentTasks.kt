@@ -58,7 +58,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
         super.onResume()
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
-
+/*
         val searchView=activity!!.findViewById(R.id.menu_search) as SearchView
         searchView.clearFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -71,7 +71,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                 }
                 return false
             }
-        })
+        })*/
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -142,6 +142,8 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
             }
         }
     }
+
+    /*
     private fun filter(text: String) {
         val filteredlist = java.util.ArrayList<Task>()
         for (item in tasks) {
@@ -154,6 +156,6 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
         } else {
             adapter.filterList(filteredlist)
         }
-    }
+    }*/
 
 }
