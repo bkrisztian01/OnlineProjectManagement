@@ -7,17 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.navigation.NavigationView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneDirections
+import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
+import java.util.*
 
-class FragmentSingleProject : Fragment() {
+class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelectedListener {
     private var _binding: FragmentSingleprojectBinding? = null
     private val binding get() = _binding!!
     private lateinit var user: User
@@ -38,6 +42,11 @@ class FragmentSingleProject : Fragment() {
         loadProject()
         return view
     }
+    override fun onResume() {
+        super.onResume()
+        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        navigationView.setNavigationItemSelectedListener(this)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -45,10 +54,7 @@ class FragmentSingleProject : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         val context = this.activity
         return when (item.itemId){
-            R.id.menu_sign_out->{
-                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToDialogFragmentUser(user))
-                return true
-            }
+
             R.id.menu_help->{
                 if (context != null) {
                     AlertDialog.Builder(context)
@@ -59,14 +65,20 @@ class FragmentSingleProject : Fragment() {
                 }
                 return true
             }
+            R.id.menu_item->{
+                val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
+                drawer.open()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
     private fun loadProject(){
         binding.tvProjectName.setText(project.name+" info")
-        binding.tStartDate.setText(project.startDate)
-        binding.tEndDate.setText(project.endDate)
-        //binding.tClient.setText(project.client)
+        val sdate= project.startDate.substring(   0,10)+" "+project.startDate.substring(11,19)
+        val edate=project.endDate.substring(   0,10)+" "+project.endDate.substring(11,19)
+        binding.tStartDate.setText(sdate)
+        binding.tEndDate.setText(edate)
         binding.tDesc.setText(project.description)
         binding.tLength.setText(project.estimatedTime.toString()+ " days")
         binding.tvsDate.text=unfinishedtasks().toString()
@@ -83,5 +95,23 @@ class FragmentSingleProject : Fragment() {
 
         }
         return num
+    }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.accountpage->{
+                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUser(user))
+                return true
+            }
+            R.id.homepage->{
+                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentProject(user))
+                return true
+            }
+            R.id.taskspage->{
+                return true
+            }
+            else->{
+                return false
+            }
+        }
     }
 }

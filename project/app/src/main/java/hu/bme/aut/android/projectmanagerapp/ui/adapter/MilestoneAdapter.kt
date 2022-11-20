@@ -30,6 +30,19 @@ class MilestoneAdapter (private val milestones: List<Milestone>, private val pro
         button.setOnClickListener {
             viewHolder.binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(project,user,milestone))
         }
+        when(position%10){
+            0 ->{ button.setBackgroundColor(Color.parseColor("#5a90ed")) }
+            1 ->{ button.setBackgroundColor(Color.parseColor("#5185e4")) }
+            2 ->{ button.setBackgroundColor(Color.parseColor("#487ada")) }
+            3 ->{ button.setBackgroundColor(Color.parseColor("#3f6fd0")) }
+            4 ->{ button.setBackgroundColor(Color.parseColor("#3765c7")) }
+            5 ->{ button.setBackgroundColor(Color.parseColor("#2e5abd")) }
+            6 ->{ button.setBackgroundColor(Color.parseColor("#2550b3")) }
+            7 ->{ button.setBackgroundColor(Color.parseColor("#1b45aa")) }
+            8 ->{ button.setBackgroundColor(Color.parseColor("#0f3ba0")) }
+            9 ->{ button.setBackgroundColor(Color.parseColor("#003196")) }
+
+        }
         button.text = milestone.name
         button.isEnabled = true
     }

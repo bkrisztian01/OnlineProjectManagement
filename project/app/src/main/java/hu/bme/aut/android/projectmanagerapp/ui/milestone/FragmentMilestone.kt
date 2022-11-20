@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentMilestoneBinding
 import hu.bme.aut.android.projectmanagerapp.model.Milestone
@@ -23,7 +25,7 @@ import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirection
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FragmentMilestone : Fragment() {
+class FragmentMilestone : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private val milestones: ArrayList<Milestone> = ArrayList<Milestone>()
     private lateinit var project: Project
     private var _binding: FragmentMilestoneBinding? = null
@@ -45,6 +47,11 @@ class FragmentMilestone : Fragment() {
         }
         return view
     }
+    override fun onResume() {
+        super.onResume()
+        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        navigationView.setNavigationItemSelectedListener(this)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -52,16 +59,12 @@ class FragmentMilestone : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         val context = this.activity
         return when (item.itemId){
-            R.id.menu_sign_out->{
-                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToDialogFragmentUser(user))
-                return true
 
-            }
             R.id.menu_help->{
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
-                        .setMessage(R.string.pick_project)
+                        .setMessage("Pick a milestone")
                         .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
@@ -71,6 +74,12 @@ class FragmentMilestone : Fragment() {
                 binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentSingleProject(project,user))
                 return true
             }
+            R.id.menu_item->{
+                val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
+                drawer.open()
+                return true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -89,6 +98,24 @@ class FragmentMilestone : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 
+    }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.accountpage->{
+                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentUser(user))
+                return true
+            }
+            R.id.homepage->{
+                binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentProject(user))
+                return true
+            }
+            R.id.taskspage->{
+                return true
+            }
+            else->{
+                return false
+            }
+        }
     }
 
 

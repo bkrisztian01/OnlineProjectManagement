@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,8 +26,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_width="407dp"
-        android:layout_height="613dp"
+        android:layout_width="412dp"
+        android:layout_height="628dp"
         android:layout_below="@id/tvProjectName"
         android:layout_alignParentBottom="false"
         android:layout_marginStart="2dp"
@@ -41,106 +47,215 @@
                 android:id="@+id/tvStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/project_start_date"
+                android:textColor="@color/md_theme_dark_onPrimary"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tStartDate"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:background="#77A8E4"
-                android:text="2022.09.01."
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:background="@color/md_theme_dark_primary"
+                android:backgroundTint="@color/md_theme_dark_primary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+
+                <TextView
+                    android:id="@+id/tStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/md_theme_dark_primary"
+                    android:text="2022.09.01."
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tvEndDate"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/project_end_date"
+                android:textColor="@color/md_theme_dark_onPrimary"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tEndDate"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:background="#77A8E4"
-                android:text="2022.10.01."
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:background="@color/md_theme_dark_primary"
+                android:backgroundTint="@color/md_theme_dark_primary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+
+                <TextView
+                    android:id="@+id/tEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/md_theme_dark_primary"
+                    android:text="2022.10.01."
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tvClient"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/project_client"
+                android:textColor="@color/md_theme_dark_onPrimary"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tClient"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:background="#77A8E4"
-                android:text="XY"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:background="@color/md_theme_dark_primary"
+                android:backgroundTint="@color/md_theme_dark_primary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+
+                <TextView
+                    android:id="@+id/tClient"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/md_theme_dark_primary"
+                    android:text="XY"
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tvLength"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/project_approx_length"
+                android:textColor="@color/md_theme_dark_onPrimary"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tLength"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:background="#77A8E4"
-                android:text="7 days"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:background="@color/md_theme_dark_primary"
+                android:backgroundTint="@color/md_theme_dark_primary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+
+                <TextView
+                    android:id="@+id/tLength"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/md_theme_dark_primary"
+                    android:text="7 days"
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tvDesc"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/project_description"
+                android:textColor="@color/md_theme_dark_onPrimary"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tDesc"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#77A8E4"
-                android:text="Random description"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:background="@color/md_theme_dark_primary"
+                android:backgroundTint="@color/md_theme_dark_primary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+
+                <TextView
+                    android:id="@+id/tDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="77dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/md_theme_dark_primary"
+                    android:text="Random description"
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tvUnfinished"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Number of Unfinished Tasks:"
+                android:textColor="@color/md_theme_dark_onPrimary"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tvsDate"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="92dp"
-                android:background="#77A8E4"
-                android:text="16"
-                android:textAlignment="center"
-                android:textSize="34sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:background="@color/md_theme_dark_primary"
+                android:backgroundTint="@color/md_theme_dark_primary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+
+                <TextView
+                    android:id="@+id/tvsDate"
+                    android:layout_width="386dp"
+                    android:layout_height="94dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/md_theme_dark_primary"
+                    android:text="16"
+                    android:textAlignment="center"
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textSize="34sp" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 
     <TextView
         android:id="@+id/tvProjectName"
-        android:layout_width="414dp"
-        android:layout_height="59dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:layout_below="@id/toolbarsingleproject"
+        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/project_x_info"
         android:textAlignment="center"
@@ -152,4 +267,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarsingleproject" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.navigation.NavigationView
+    android:id="@+id/nav_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:headerLayout="@layout/nav_header"
+    app:menu="@menu/drawer_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>

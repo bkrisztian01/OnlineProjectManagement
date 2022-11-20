@@ -38,6 +38,10 @@
     <string name="user">User</string>
     <string name="discard">Discard</string>
     <string name="save">Save</string>
+    <string name="extended_fab_content_desc">Save</string>
+    <string name="extended_fab_label">Save</string>
+    <string name="menu">menu</string>
+    <string name="email_address">Email Address</string>
     <string-array name="status_array">
         <item>In Progress</item>
         <item>Not started</item>
