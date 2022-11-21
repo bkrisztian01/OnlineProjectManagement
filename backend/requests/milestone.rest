@@ -1,4 +1,4 @@
-@host = http://localhost:5000
+@host = https://opmapi.azurewebsites.net
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY4ODY5OTQ1LCJleHAiOjE2Njg4NzAwNjV9.FhGWNG2e-9R8ev4HWhqQW7FdWsPySxZBReF8a73pPEQ
 
 GET {{host}}/milestones

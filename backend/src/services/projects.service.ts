@@ -10,7 +10,7 @@ export async function getProjects() {
 export async function createProject(name: string, description: string) {
   const project = Project.create({
     name,
-    description,
+    description: description || '',
   });
   await project.save();
   return project;

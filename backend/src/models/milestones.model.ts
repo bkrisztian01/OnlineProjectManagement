@@ -1,4 +1,7 @@
 import {
+  AfterInsert,
+  AfterLoad,
+  AfterUpdate,
   BaseEntity,
   Column,
   Entity,
@@ -18,7 +21,7 @@ export class Milestone extends BaseEntity {
   @Column('varchar', { length: 50 })
   name: string;
 
-  @Column('text', { nullable: true })
+  @Column('text', { default: '' })
   description: string;
 
   @Column({ type: 'date', nullable: true })
@@ -38,4 +41,13 @@ export class Milestone extends BaseEntity {
     onDelete: 'CASCADE',
   })
   project: Project;
+
+  @AfterLoad()
+  @AfterInsert()
+  @AfterUpdate()
+  async nullChecks() {
+    if (!this.tasks) {
+      this.tasks = [];
+    }
+  }
 }

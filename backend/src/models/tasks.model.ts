@@ -21,7 +21,7 @@ export class Task extends BaseEntity {
   @Column('varchar', { length: 50 })
   name: string;
 
-  @Column('text')
+  @Column('text', { default: '' })
   description: string;
 
   @Column({

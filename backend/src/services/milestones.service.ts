@@ -31,7 +31,7 @@ export async function createMilestone(
 
   const milestone = Milestone.create({
     name,
-    description,
+    description: description || '',
     deadline,
     project,
   });
