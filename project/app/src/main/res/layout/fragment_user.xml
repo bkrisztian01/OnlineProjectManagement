@@ -16,19 +16,23 @@
 
     <ImageView
         android:id="@+id/account_image"
-        android:layout_width="414dp"
-        android:layout_height="153dp"
-        android:src='@drawable/ic_11639594360nclmllzpmer2dvmrgsojcin90qmnuloytwrcohikyurvuyfzvhxeeaveigoiajks5w2nytyfpix678beyh4ykhgvmhkv3r3yj5hi'
+        android:layout_width="0dp"
+        android:layout_height="0dp"
 
+        android:src='@drawable/ic_11639594360nclmllzpmer2dvmrgsojcin90qmnuloytwrcohikyurvuyfzvhxeeaveigoiajks5w2nytyfpix678beyh4ykhgvmhkv3r3yj5hi'
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar2" />
 
     <TextView
         android:id="@+id/tvUser"
-        android:layout_width="414dp"
-        android:layout_height="42dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
 
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-10dp"
         android:fontFamily="sans-serif-medium"
+        android:gravity="center"
         android:text="@string/user"
         android:textAlignment="center"
         android:textAllCaps="false"
@@ -36,6 +40,7 @@
         android:textSize="24sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/account_image" />
 
@@ -43,43 +48,50 @@
     <TextView
         android:id="@+id/tvtUser"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@id/tvUser"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
+        android:gravity="center_vertical"
         android:text="@string/username"
         android:textColor="@color/md_theme_dark_onPrimary"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvUser" />
 
     <TextView
         android:id="@+id/tvtEmail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@id/tvUser"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
+        android:gravity="center_vertical"
         android:text="@string/email_address"
         android:textColor="@color/md_theme_dark_onPrimary"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mtc_name" />
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
+        android:gravity="center_vertical"
         android:text="@string/name"
         android:textColor="@color/md_theme_dark_onPrimary"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mtc_user" />
@@ -87,13 +99,14 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mtc_user"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="9dp"
         android:background="@color/md_theme_dark_primary"
         android:backgroundTint="@color/md_theme_dark_primary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvtUser"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
@@ -103,8 +116,11 @@
             android:layout_width="392dp"
             android:layout_height="50dp"
             android:layout_below="@id/tvtUser"
-            android:paddingLeft="10dp"
+            android:layout_marginStart="5dp"
 
+            android:layout_marginEnd="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:text="@string/user"
             android:textColor="@color/md_theme_dark_inversePrimary"
             android:textSize="16sp"
@@ -114,25 +130,27 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mtc_name"
-        android:layout_width="395dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="9dp"
         android:background="@color/md_theme_dark_primary"
         android:backgroundTint="@color/md_theme_dark_primary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
 
         <TextView
             android:id="@+id/tvtName"
-            android:layout_width="381dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tvName"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
+            android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:text="@string/name"
             android:textColor="@color/md_theme_dark_inversePrimary"
@@ -144,24 +162,26 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mtc_email"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:background="@color/md_theme_dark_primary"
         android:backgroundTint="@color/md_theme_dark_primary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvtEmail"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
 
         <TextView
             android:id="@+id/tvEmail"
-            android:layout_width="381dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tvName"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
+            android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:text="@string/email_address"
             android:textColor="@color/md_theme_dark_inversePrimary"

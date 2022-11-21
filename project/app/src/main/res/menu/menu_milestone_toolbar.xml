@@ -3,23 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_search"
+        android:id="@+id/menu_search_ms"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_project"
+        android:id="@+id/menu_project_ms"
         android:icon="@drawable/ic_assignment"
         android:title="@string/project"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_help"
+        android:id="@+id/menu_help_ms"
         android:icon="@drawable/ic_help"
         android:title="@string/help"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_item"
+        android:id="@+id/menu_item_ms"
         android:icon="@drawable/ic_menu"
         android:title="@string/menu"
         app:showAsAction="always" />

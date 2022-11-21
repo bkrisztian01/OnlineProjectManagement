@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,21 +21,24 @@ import hu.bme.aut.android.projectmanagerapp.model.Milestone
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.ui.adapter.MilestoneAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.ProjectAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneDirections
-import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
 import hu.bme.aut.android.projectmanagerapp.ui.singletask.FragmentSingleTaskArgs
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListener {
+class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener {
     private val tasks: ArrayList<Task> = ArrayList<Task>()
     private lateinit var project: Project
     private var _binding: FragmentTasksBinding? = null
     private lateinit var milestone: Milestone
     private val binding get() = _binding!!
     private lateinit var user : User
+    lateinit var adapter: TaskAdapter
+    //private lateinit var token:String
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
@@ -44,7 +48,8 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
             project = args.project
             user=args.user
             milestone=args.milestone
-            binding.tvTitle.setText("Tasks in "+ milestone.name)
+            //token=args.token
+            binding.tvTasks.setText("Tasks in "+ milestone.name)
         }
         binding.toolbartasks.inflateMenu(R.menu.menu_task_toolbar)
         binding.toolbartasks.setOnMenuItemClickListener {
@@ -56,6 +61,19 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
         super.onResume()
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+        val searchView=activity!!.findViewById(R.id.menu_search) as SearchView
+        searchView.clearFocus()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    filter(newText)
+                }
+                return false
+            }
+        })
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -65,7 +83,6 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
 
         val context = this.activity
         return when (item.itemId){
-
             R.id.menu_help->{
                 if (context != null) {
                     AlertDialog.Builder(context)
@@ -96,16 +113,18 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
         if(!tasks.isEmpty())
             tasks.clear()
         val itr = milestone.tasks.listIterator()
+        if (itr != null) {
             while (itr.hasNext()) {
                 tasks.add(itr.next())
 
             }
-
-        val adapter = TaskAdapter(tasks,project,user)
+        }
+        adapter = TaskAdapter(tasks,project,user)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
 
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.accountpage->{
@@ -117,6 +136,7 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
                 return true
             }
             R.id.taskspage->{
+                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentUpcomingTasks(user))
                 return true
             }
             else->{
@@ -125,5 +145,19 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
         }
     }
 
+
+    private fun filter(text: String) {
+        val filteredlist = java.util.ArrayList<Task>()
+        for (item in tasks) {
+            if (item.name.lowercase().contains(text.lowercase(),true)) {
+                filteredlist.add(item)
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            adapter.filterList(null)
+        } else {
+            adapter.filterList(filteredlist)
+        }
+    }
 
 }

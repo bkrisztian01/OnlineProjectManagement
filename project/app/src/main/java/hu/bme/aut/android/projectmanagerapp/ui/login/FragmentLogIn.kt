@@ -14,10 +14,12 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentLoginBinding
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.User
 import hu.bme.aut.android.projectmanagerapp.ui.projects.*
+import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 
 class FragmentLogIn : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private val loginViewModel: UserViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
@@ -39,6 +41,7 @@ class FragmentLogIn : Fragment() {
                 binding.editTextPw.requestFocus()
                 binding.editTextPw.error = "Please enter your password"
             } else{
+                loginViewModel.login(binding.editTextUser.text.toString(), binding.editTextPw.text.toString())
                 binding.root.findNavController().navigate(FragmentLogInDirections.actionFragmentLogInToFragmentProject(
                     User(1,binding.editTextUser.text.toString(),binding.editTextPw.text.toString(),binding.editTextUser.text.toString(),"asd@gmail.com"))
                 )

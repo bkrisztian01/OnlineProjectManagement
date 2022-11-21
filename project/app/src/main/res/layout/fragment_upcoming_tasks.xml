@@ -2,6 +2,7 @@
 <androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +16,7 @@
 
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbartasks"
+            android:id="@+id/toolbarupcomingtasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -23,33 +24,43 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTasks"
+            android:id="@+id/tvUpcoming"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_below="@id/toolbarupcomingtasks"
             android:fontFamily="sans-serif-medium"
+            android:text="@string/upcoming_tasks"
             android:gravity="center"
-            android:text="@string/tasks_in_project_x"
-            android:textColor="@color/md_theme_dark_tertiaryContainer"
-            android:textSize="30sp"
+            android:textAllCaps="false"
+            android:textColor="#081978"
+            android:textSize="24sp"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@id/rvTasks"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.1"
-            app:layout_constraintTop_toBottomOf="@+id/toolbartasks"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@id/toolbarupcomingtasks"/>
 
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loadingview"
+            style="@style/Widget.App.CircularProgressIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="372dp"
+            android:layout_marginEnd="150dp"
+            android:indeterminate="true"
+            app:indicatorSize="100dp"
+            app:layout_constraintEnd_toEndOf="@+id/rvUpcoming"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTasks"
+            android:id="@+id/rvUpcoming"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_alignParentBottom="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.82"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTasks" />
+            app:layout_constraintTop_toBottomOf="@id/tvUpcoming"
+            tools:layout_editor_absoluteX="0dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

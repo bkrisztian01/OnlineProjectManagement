@@ -14,8 +14,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object ProjectNetworkDataSource {
-    fun getProjects(): MutableLiveData<ProjectsViewState> {
-        val call = RetrofitClient.projectApiInterface.getProjects()
+    fun getProjects(/*token: String*/): MutableLiveData<ProjectsViewState> {
+        val call = RetrofitClient.projectApiInterface.getProjects(/*token*/)
         val projectResultData = MutableLiveData<ProjectsViewState>()
         projectResultData.value= InProgress
         call.enqueue(object: Callback<List<Project>> {

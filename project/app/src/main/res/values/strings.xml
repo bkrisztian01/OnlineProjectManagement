@@ -42,10 +42,13 @@
     <string name="extended_fab_label">Save</string>
     <string name="menu">menu</string>
     <string name="email_address">Email Address</string>
+    <string name="text_label">Couldn\'t reach server!</string>
+    <string name="action_text">Retry</string>
+    <string name="upcoming_tasks">Upcoming tasks</string>
     <string-array name="status_array">
         <item>In Progress</item>
-        <item>Not started</item>
-        <item>Stuck</item>
-        <item>Finished</item>
+        <item>Not Started</item>
+        <item>Stopped</item>
+        <item>Done</item>
     </string-array>
 </resources>

@@ -31,6 +31,7 @@ class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
     private lateinit var user: User
+    //private lateinit var token:String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View?{
         _binding = FragmentUserBinding.inflate(inflater, container, false)
@@ -90,6 +91,7 @@ class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener 
         if (arguments!=null) {
             val args: FragmentUserArgs by navArgs()
             user=args.user
+            //token=args.token
             binding.tvtUser2.text=user.username
             binding.tvtName.text=user.fullname
             binding.tvEmail.text=user.email
@@ -106,6 +108,7 @@ class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener 
                 return true
             }
             R.id.taskspage->{
+                binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentUpcomingTasks(user))
                 return true
             }
             else->{

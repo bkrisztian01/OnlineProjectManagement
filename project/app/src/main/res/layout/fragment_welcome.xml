@@ -8,48 +8,45 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="138dp"
+        android:layout_width="match_parent"
         android:layout_height="133dp"
-        android:layout_marginStart="136dp"
         android:layout_marginTop="26dp"
-        android:layout_marginEnd="137dp"
         android:src="@mipmap/ic_launcher_round"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
 
     <Button
         android:id="@+id/buttonSignIn"
-        android:layout_width="184dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="114dp"
-        android:layout_marginTop="46dp"
-        android:layout_marginEnd="113dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="#3F51B5"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
         android:text="@string/sign_in"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintWidth_percent="0.5" />
 
     <Button
         android:id="@+id/buttonSignUp"
-        android:layout_width="184dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="114dp"
-        android:layout_marginEnd="113dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         android:backgroundTint="#2196F3"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
         android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSignIn"
+        app:layout_constraintWidth_percent="0.5"
         tools:ignore="TextContrastCheck" />
 
     <TextView

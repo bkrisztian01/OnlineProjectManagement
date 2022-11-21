@@ -26,6 +26,9 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
     private val binding get() = _binding!!
     private lateinit var user: User
     private lateinit var project: Project
+    //private lateinit var token: String
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentSingleprojectBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -33,6 +36,7 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
             val args: FragmentSingleProjectArgs by navArgs()
             project = args.project
             user=args.user
+            //token=args.token
 
         }
         binding.toolbarsingleproject.inflateMenu(R.menu.menu_singleproject_toolbar)

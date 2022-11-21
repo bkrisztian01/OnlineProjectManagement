@@ -3,23 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/drawable/ic_baseline_art_track_24.xml" value="0.1195" />
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1195" />
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/activity_main.xml" value="0.23505434782608695" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/activity_main.xml" value="0.14114583333333333" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_login.xml" value="0.1984375" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_milestone.xml" value="0.2509057971014493" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_project.xml" value="0.2509057971014493" />
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_signin.xml" value="0.2368659420289855" />
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_singleproject.xml" value="0.176" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_signin.xml" value="0.14114583333333333" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_singleproject.xml" value="0.23505434782608695" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_singletask.xml" value="0.19791666666666666" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_tasks.xml" value="0.2509057971014493" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_upcoming_tasks.xml" value="0.175" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_user.xml" value="0.264" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/fragment_welcome.xml" value="0.1984375" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/item_milestone.xml" value="0.2509057971014493" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/item_project.xml" value="0.2509057971014493" />
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/nav_header.xml" value="0.264" />
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/menu/bottom_app_bar.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/menu/drawer_menu.xml" value="0.264" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/layout/nav_header.xml" value="0.15260416666666668" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/menu/drawer_menu.xml" value="0.15260416666666668" />
+        <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/menu/menu_milestone_toolbar.xml" value="0.1515625" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/menu/menu_project_toolbar.xml" value="0.1984375" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/menu/menu_singleproject_toolbar.xml" value="0.14166666666666666" />
         <entry key="..\:/Users/Zita/Documents/GitHub/OnlineProjectManagement/project/app/src/main/res/menu/menu_task_toolbar.xml" value="0.1984375" />
