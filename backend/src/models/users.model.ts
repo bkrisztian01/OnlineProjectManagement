@@ -4,9 +4,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Task } from './tasks.model';
+import { UserRole } from './userRoles.model';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -28,4 +30,7 @@ export class User extends BaseEntity {
   @ManyToMany(() => Task, task => task.assignees)
   @JoinTable()
   tasks: Task[];
+
+  @OneToMany(() => UserRole, userRole => userRole.user)
+  userRoles: UserRole[];
 }

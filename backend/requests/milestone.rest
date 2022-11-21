@@ -1,22 +1,27 @@
 @host = http://localhost:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY4ODY5OTQ1LCJleHAiOjE2Njg4NzAwNjV9.FhGWNG2e-9R8ev4HWhqQW7FdWsPySxZBReF8a73pPEQ
 
 GET {{host}}/milestones
 
 ###
-GET {{host}}/milestones/1
+GET {{host}}/projects/1/milestones/1
+Authorization:Bearer {{token}}
 
 ###
-POST {{host}}/milestones
+POST {{host}}/projects/1/milestones
 Content-Type: application/json
+Authorization:Bearer {{token}}
 
 {
-  "projectId": 1,
-  "name": "TestVersion1"
+  "name": "TestVersion1",
+  "description": "Description",
+  "deadline": "2022-2-2"
 }
 
 ###
 PUT {{host}}/milestones/1
 Content-Type: application/json
+Authorization:Bearer {{token}}
 
 {
   "name": "ModifiedVersion",
@@ -28,6 +33,7 @@ Content-Type: application/json
 
 ###
 DELETE {{host}}/milestones/1
+Authorization:Bearer {{token}}
 
 
 ###

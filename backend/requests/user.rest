@@ -1,4 +1,5 @@
 @host = http://localhost:5000
+@token = 
 
 GET {{host}}/users
 
@@ -12,3 +13,18 @@ Content-Type: application/json
   "email": "testuser@example.com",
   "password": "asd123QWE"
 }
+
+###
+GET {{host}}/user/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "test123"
+}
+
+###
+GET {{host}}/user/logout
+
+###
+GET {{host}}/refreshToken

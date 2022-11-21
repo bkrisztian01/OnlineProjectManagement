@@ -1,7 +1,7 @@
 import { Conflict, NotFound } from '@curveball/http-errors/dist';
 import { Milestone } from '../models/milestones.model';
 import { Task } from '../models/tasks.model';
-import type { Status } from '../util/Status';
+import { Status } from '../util/Status';
 import { getProjectById } from './projects.service';
 
 export const milestones: Milestone[] = [];
@@ -33,7 +33,6 @@ export async function createMilestone(
     name,
     description,
     deadline,
-    status,
     project,
   });
 
