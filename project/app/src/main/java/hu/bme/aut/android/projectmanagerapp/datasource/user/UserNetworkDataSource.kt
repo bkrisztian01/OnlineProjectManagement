@@ -2,11 +2,15 @@ package hu.bme.aut.android.projectmanagerapp.datasource.user
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import hu.bme.aut.android.projectmanagerapp.data.task.TaskBody
-import hu.bme.aut.android.projectmanagerapp.data.task.TaskResult
+import hu.bme.aut.android.projectmanagerapp.data.login.LoginBody
+import hu.bme.aut.android.projectmanagerapp.data.login.LoginResponse
 import hu.bme.aut.android.projectmanagerapp.data.user.SignInBody
 import hu.bme.aut.android.projectmanagerapp.data.user.UserResult
 import hu.bme.aut.android.projectmanagerapp.network.RetrofitClient
+import hu.bme.aut.android.projectmanagerapp.ui.login.InProgress
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginViewState
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,6 +49,29 @@ object UserNetworkDataSource {
             }
 
         })
+    }
+
+    fun login(data:LoginBody): MutableLiveData<LoginViewState>{
+        val call=RetrofitClient.userApiInterface.login(data)
+        val loginResultData = MutableLiveData<LoginViewState>()
+        loginResultData.value= InProgress
+        call.enqueue(object: Callback<LoginResponse>{
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if(response.body()==null)
+                    Log.d("Response:login failed", response.body().toString())
+                else {
+                    Log.d("Response:login success", response.body().toString())
+                    loginResultData.value = LoginResponseSuccess(response.body()!!)
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.d("Error: login error", t.message.toString())
+                loginResultData.value = LoginResponseError(t.message.toString())
+            }
+
+        })
+        return loginResultData
     }
 
 

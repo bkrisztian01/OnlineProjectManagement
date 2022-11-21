@@ -9,7 +9,7 @@ import hu.bme.aut.android.projectmanagerapp.repository.project.ProjectRepository
 class ProjectViewModel: ViewModel() {
     private var projectRepository: ProjectRepository = ProjectRepository()
 
-    fun getProjects() : LiveData<ProjectsViewState>? {
-        return projectRepository.getProjects()
+    fun getProjects(/*token*/) : LiveData<ProjectsViewState>? {
+        return projectRepository.getProjects(/*token*/)
     }
 }

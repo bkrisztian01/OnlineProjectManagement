@@ -22,7 +22,10 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBindin
 import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.model.Task
 import hu.bme.aut.android.projectmanagerapp.model.User
-import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import java.util.concurrent.TimeUnit
 
 class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private lateinit var project: Project
@@ -31,7 +34,19 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
     private val binding get() = _binding!!
     private lateinit var user : User
     private val singleTaskViewModel: SingleTaskViewModel by viewModels()
+    //private lateinit var token: String
 
+
+
+    val party = Party(
+        speed = 0f,
+        maxSpeed = 30f,
+        damping = 0.9f,
+        spread = 360,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+        emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+        position = Position.Relative(0.5, 0.3)
+    )
 
     private var setting=0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
@@ -42,6 +57,7 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
             project = args.project
             task=args.task
             user=args.user
+            //token=args.token
 
         }
         binding.toolbarsingletask.inflateMenu(R.menu.menu_singleproject_toolbar)
@@ -51,6 +67,10 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
 
             binding.savebtn.setOnClickListener{
                 task.status=binding.spStatus.selectedItem.toString().filter { !it.isWhitespace() }
+                if(binding.spStatus.selectedItem.toString()=="Done") {
+                    binding.konfettiView.bringToFront()
+                    binding.konfettiView.start(party)
+                }
                 singleTaskViewModel.updateTask(task)
                 Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
             }

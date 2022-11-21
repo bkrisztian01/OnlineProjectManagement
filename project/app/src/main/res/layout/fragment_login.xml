@@ -8,16 +8,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="137dp"
         android:src="@mipmap/ic_launcher_round"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLogIn" />
 
     <TextView
@@ -27,7 +21,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
         android:text="@string/username"
-        android:textColor="@color/md_theme_light_inverseSurface"
+        android:textColor="#3F51B5"
         android:textSize="20sp"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +34,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:text="@string/password"
-        android:textColor="@color/md_theme_light_inverseSurface"
+        android:textColor="#3F51B5"
         android:textSize="20sp"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,18 +127,15 @@
 
     <TextView
         android:id="@+id/textViewLogIn"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="155dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="156dp"
         android:gravity="center"
         android:text="@string/log_in"
-        android:textColor="@color/md_theme_light_onBackground"
+        android:textColor="#3F51B5"
         android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="155dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

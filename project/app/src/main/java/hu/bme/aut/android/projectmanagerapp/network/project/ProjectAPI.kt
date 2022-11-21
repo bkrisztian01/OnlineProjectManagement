@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ProjectAPI {
-    @GET("/projects")
-    fun getProjects(/*@Query()*/): Call<List<Project>>
+    @GET("/projects")//kell egy {token}
+    fun getProjects(/*@Path("token") token: String */): Call<List<Project>>
 
 }

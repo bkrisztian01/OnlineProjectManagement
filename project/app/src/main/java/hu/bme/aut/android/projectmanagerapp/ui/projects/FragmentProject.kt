@@ -39,6 +39,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
     private lateinit var adapter: ProjectAdapter
     private lateinit var user: User
     private val projectViewModel : ProjectViewModel by viewModels()
+    //private lateinit var token: String
 
     override fun onCreateView(
 
@@ -48,6 +49,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
         if (arguments!=null) {
             val args: FragmentProjectArgs by navArgs()
             user = args.user
+            //token=args.token
         }
 
         binding.toolbar.inflateMenu(R.menu.menu_project_toolbar)
@@ -118,7 +120,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
         super.onResume()
         if(projects.isNotEmpty())
             projects.clear()
-        projectViewModel.getProjects()?.observe(this) { projectsViewState ->
+        projectViewModel.getProjects(/*token*/)?.observe(this) { projectsViewState ->
             render(projectsViewState)
         }
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
@@ -177,13 +179,11 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
 
             }
             is ProjectsResponseError -> {
+                binding.loading.hide()
                 this.view?.let {
-                    Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG)
-                        .setAction("Retry") {
-                            render(result)
-                        }
-                        .show()
+                    Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
                 }
+
             }
         }
     }

@@ -6,6 +6,5 @@ import hu.bme.aut.android.projectmanagerapp.model.Project
 
 @JsonClass(generateAdapter = true)
 data class ProjectResult(
-    //val response_code: Int,
     val project: List<Project>
     )

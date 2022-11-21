@@ -8,8 +8,8 @@ import hu.bme.aut.android.projectmanagerapp.model.Project
 import hu.bme.aut.android.projectmanagerapp.ui.projects.ProjectsViewState
 
 class ProjectRepository {
-    fun getProjects(): MutableLiveData<ProjectsViewState> {
+    fun getProjects(/*token: String*/): MutableLiveData<ProjectsViewState> {
 
-        return ProjectNetworkDataSource.getProjects()
+        return ProjectNetworkDataSource.getProjects(/*token*/)
     }
 }

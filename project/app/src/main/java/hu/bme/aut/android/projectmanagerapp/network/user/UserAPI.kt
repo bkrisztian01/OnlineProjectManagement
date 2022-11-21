@@ -1,5 +1,7 @@
 package hu.bme.aut.android.projectmanagerapp.network.user
 
+import hu.bme.aut.android.projectmanagerapp.data.login.LoginBody
+import hu.bme.aut.android.projectmanagerapp.data.login.LoginResponse
 import hu.bme.aut.android.projectmanagerapp.data.project.ProjectResult
 import hu.bme.aut.android.projectmanagerapp.data.task.TaskBody
 import hu.bme.aut.android.projectmanagerapp.data.user.SignInBody
@@ -18,4 +20,7 @@ interface UserAPI {
     @POST("/user/signup")
     fun createUser(@Body user: SignInBody): Call<ResponseBody>
 
+
+    @POST("/user/login")
+    fun login(@Body data: LoginBody): Call<LoginResponse>
 }

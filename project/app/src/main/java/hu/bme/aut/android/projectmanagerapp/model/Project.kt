@@ -8,7 +8,6 @@ data class Project(
     val id: Int,
     val name: String,
     val description: String,
-    //val client: String,
     val startDate: String,
     val endDate: String,
     val estimatedTime: Int,

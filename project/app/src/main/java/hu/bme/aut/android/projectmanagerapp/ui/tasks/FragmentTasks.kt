@@ -37,6 +37,8 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
     private val binding get() = _binding!!
     private lateinit var user : User
     lateinit var adapter: TaskAdapter
+    //private lateinit var token:String
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
@@ -46,6 +48,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
             project = args.project
             user=args.user
             milestone=args.milestone
+            //token=args.token
             binding.tvTasks.setText("Tasks in "+ milestone.name)
         }
         binding.toolbartasks.inflateMenu(R.menu.menu_task_toolbar)
@@ -58,7 +61,6 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
         super.onResume()
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
-/*
         val searchView=activity!!.findViewById(R.id.menu_search) as SearchView
         searchView.clearFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -71,7 +73,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                 }
                 return false
             }
-        })*/
+        })
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -143,7 +145,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
         }
     }
 
-    /*
+
     private fun filter(text: String) {
         val filteredlist = java.util.ArrayList<Task>()
         for (item in tasks) {
@@ -156,6 +158,6 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
         } else {
             adapter.filterList(filteredlist)
         }
-    }*/
+    }
 
 }

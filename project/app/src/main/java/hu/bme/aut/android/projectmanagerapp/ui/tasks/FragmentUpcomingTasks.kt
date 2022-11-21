@@ -32,6 +32,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     private val binding get() = _binding!!
     private lateinit var user: User
     private val projectViewModel : ProjectViewModel by viewModels()
+    //private lateinit var token: String
 
 
     override fun onCreateView(
@@ -41,6 +42,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
         if (arguments!=null) {
             val args: FragmentUpcomingTasksArgs by navArgs()
             user = args.user
+            //token=args.token
         }
 
         binding.toolbarupcomingtasks.inflateMenu(R.menu.menu_project_toolbar)
@@ -88,7 +90,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
             projects.clear()
         if(tasks.isNotEmpty())
             tasks.clear()
-        projectViewModel.getProjects()?.observe(this) { projectsViewState ->
+        projectViewModel.getProjects(/*token*/)?.observe(this) { projectsViewState ->
             render(projectsViewState)
         }
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
