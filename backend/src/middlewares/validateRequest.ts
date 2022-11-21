@@ -7,7 +7,6 @@ export const validate =
     try {
       await schema.validate(
         {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           body: req.body,
           query: req.query,
           params: req.params,

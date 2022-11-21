@@ -24,14 +24,14 @@ export async function postTaskHandler(
 ) {
   try {
     const task = await createTask(
-      req.body.projectId,
+      parseInt(req.params.projectId),
       req.body.name,
       req.body.description,
       req.body.deadline,
     );
     res.send(task);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -67,7 +67,7 @@ export async function updateTaskByIdHandler(
 
     res.send(task);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -80,7 +80,7 @@ export async function deleteTaskByIdHandler(
     await deleteTaskById(parseInt(req.params.id));
     res.send('Successful operation');
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -93,6 +93,6 @@ export async function setArchivedTaskByIdHandler(
     await setArchivedTaskById(parseInt(req.params.id), req.body.archived);
     res.send('Successful operation');
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }

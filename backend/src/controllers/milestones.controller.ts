@@ -22,7 +22,7 @@ export async function postMilestoneHandler(
 ) {
   try {
     const milestone = await createMilestone(
-      req.body.projectId,
+      parseInt(req.params.projectId),
       req.body.name,
       req.body.description,
       req.body.status,
@@ -31,7 +31,7 @@ export async function postMilestoneHandler(
 
     res.send(milestone);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -66,7 +66,7 @@ export async function updateMilestoneByIdHandler(
 
     res.status(200).send(milestone);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 

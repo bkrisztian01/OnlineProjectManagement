@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import {
   createUser,
   getUsers,
+  logoutUser,
   validatePassword,
 } from '../services/users.service';
 
@@ -13,13 +14,19 @@ export async function getLoginUserHandler(
   const username = req.body.username as string;
   const password = req.body.password as string;
 
-  const user = await validatePassword(username, password);
-  if (!user) {
-    res.status(401).send('Invalid credentials');
-    return;
-  }
+  try {
+    const tokens = await validatePassword(username, password);
 
-  res.send(user);
+    res.cookie('jwt', tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: 'none',
+      secure: true,
+    });
+    res.json({ accessToken: tokens.accessToken });
+  } catch (e: any) {
+    res.status(e.httpStatus || 500).send(e.message);
+  }
 }
 
 export async function getLogoutUserHandler(
@@ -27,7 +34,14 @@ export async function getLogoutUserHandler(
   res: Response,
   next: NextFunction,
 ) {
-  res.send('Successful operation');
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.sendStatus(204);
+
+  logoutUser(cookies.jwt);
+
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
+
+  res.sendStatus(204);
 }
 
 export async function postSignupUserHandler(
@@ -44,7 +58,7 @@ export async function postSignupUserHandler(
     const user = await createUser(username, password, fullname, email);
     res.send(user);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
