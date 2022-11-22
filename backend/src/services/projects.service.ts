@@ -24,10 +24,19 @@ export async function getProjects() {
   return projects;
 }
 
-export async function createProject(name: string, description: string) {
+export async function createProject(
+  name: string,
+  description: string,
+  startDate: string,
+  endDate: string,
+  estimatedTime: number,
+) {
   const project = Project.create({
     name,
     description: description || '',
+    startDate,
+    endDate,
+    estimatedTime,
   });
   await project.save();
   return nullCheck(project);

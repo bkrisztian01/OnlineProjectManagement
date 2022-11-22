@@ -8,16 +8,23 @@ const params = {
 };
 
 const dates = {
-  startDate: string().test(
-    'is-date',
-    d => `${d.path} is not a valid date`,
-    value => value === undefined || !isNaN(new Date(value).getTime()),
-  ),
-  endDate: string().test(
-    'is-date',
-    d => `${d.path} is not a valid date`,
-    value => value === undefined || !isNaN(new Date(value).getTime()),
-  ),
+  startDate: string()
+    .nullable()
+    .test(
+      'is-date',
+      d => `${d.path} is not a valid date`,
+      value => value === undefined || !isNaN(new Date(value).getTime()),
+    ),
+  endDate: string()
+    .nullable()
+    .test(
+      'is-date',
+      d => `${d.path} is not a valid date`,
+      value =>
+        value === undefined ||
+        value === null ||
+        !isNaN(new Date(value).getTime()),
+    ),
 };
 
 const status = {
@@ -25,7 +32,9 @@ const status = {
     'is-status',
     d => `${d.path} is not a valid status`,
     value =>
-      value === undefined || (<any>Object).values(Status).includes(value),
+      value === undefined ||
+      value === null ||
+      (<any>Object).values(Status).includes(value),
   ),
 };
 
@@ -33,6 +42,9 @@ export const createProjectSchema = object({
   body: object({
     name: string().required(),
     description: string(),
+    ...status,
+    ...dates,
+    estimatedTime: number().nullable(),
   }),
 });
 
@@ -42,7 +54,7 @@ export const updateProjectByIdSchema = object({
     name: string().required(),
     description: string(),
     ...dates,
-    estimatedTime: number(),
+    estimatedTime: number().nullable(),
   }),
 });
 

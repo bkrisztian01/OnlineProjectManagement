@@ -20,7 +20,13 @@ export async function postProjectHandler(
   res: Response,
   next: NextFunction,
 ) {
-  const project = await createProject(req.body.name, req.body.description);
+  const project = await createProject(
+    req.body.name,
+    req.body.description,
+    req.body.startDate,
+    req.body.endDate,
+    req.body.estimatedTime,
+  );
   res.send(project);
 }
 
