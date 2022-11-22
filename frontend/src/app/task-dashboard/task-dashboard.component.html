@@ -9,9 +9,16 @@
       <button type="button" (click)="clickAddMilestone()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >
         Add Milestone
       </button>
-      <button type="button" class="btn btn-info" >
+
+      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#FinishModal" >
         Finish Project
       </button>
+
+      <button type="button" class="btn btn-info" >
+        Create Project
+      </button>
+
+
       </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span class="navbar-toggler-icon"></span>
@@ -44,6 +51,9 @@
   </div>
 </nav>
 
+
+
+
   <figure class="text-center">
     <h1 class="display-1">{{projectName}}</h1>
     <figcaption class="blockquote-footer">
@@ -51,10 +61,25 @@
     </figcaption>
   
   </figure>
+
+  <p>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Project details
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      <p> Name: {{projectDetails.name}}</p>
+      <p> Description: {{projectDetails.description}}</p>
+      <p> Started: {{projectDetails.startDate.substring(0,10)}}</p>
+      <p> Finished: {{projectDetails.endDate.substring(0,10)}}</p>
+      <p> Estimated time: {{projectDetails.estimatedTime}}</p>
+    </div>
+  </div>
   
 
-  <h1>Tasks:</h1>
-  <table class="table mt-5">
+  <h1 class="ms-3">Tasks:</h1>
+  <table class="table mt-5 ms-3 ">
     <thead>
       <tr>
         <th scope="col">Task Name</th>
@@ -77,8 +102,9 @@
         <td *ngIf="row.archived == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
         <td *ngIf="row.archived == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
 
-        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
-        <td *ngIf="row.archived == false">{{row.deadline}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline.substring(0,10)}}</td>
+        <td *ngIf="row.archived == false">{{row.deadline.substring(0,10)}}</td>
+
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
         <td *ngIf="row.archived == false">{{row.assignees}}</td>
@@ -111,6 +137,7 @@
   </ul>
 </nav>
 
+
   <!-- Modal -->
 <div class="modal fade" id="TaskAddModal" tabindex="-1" aria-labelledby="TaskAddModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -129,13 +156,13 @@
   
             <label for="exampleInputEmail6" class="form-label">Status</label>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="NotStarted" checked>
               <label class="form-check-label" for="exampleRadios1">
                 Not Started
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="In Progress">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="InProgress">
               <label class="form-check-label" for="exampleRadios2">
                 In Progress
               </label>
@@ -156,13 +183,11 @@
 
             <label for="exampleInputPassword3">Workers:</label>
             <ul class="list-group">
-              <div *ngFor="let row of userData">
-                <li class="list-group-item">
-                  <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched">
-                  <label class="form-check-label stretched-link" for="firstCheckboxStretched">{{row.fullname}}</label>
-                </li>
-              </div>
-            </ul>
+              <li class="list-group-item" *ngFor="let row of userData">
+                <input class="form-check-input me-1" type="checkbox" value="" name="workers" id="firstCheckbox">
+                <label class="form-check-label" for="firstCheckbox">{{row.fullname}}</label>
+              </li>
+            </ul>  
 
             <div class="mb-3">
               <label for="exampleInputPassword4" class="form-label">Description</label>
@@ -184,6 +209,22 @@
   </div>
 
 
+    <!-- CREATE MODAL -->
+<div class="modal fade " id="FinishModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FinishModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    
+      <div class="modal-body">
+        <p>Are you sure you want to finish the project ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Not yet</button>
+        <button type="button" class="btn btn-primary">Yes!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal MILESTONE -->
 <div class="modal fade" id="MilestoneAddModal" tabindex="-1" aria-labelledby="MilestoneAddModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -202,13 +243,13 @@
 
           <label for="exampleInputEmail6" class="form-label">Status</label>
           <div class="form-check">
-            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="NotStarted" checked>
             <label class="form-check-label" for="exampleRadios1">
               Not Started
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="In Progress">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="InProgress">
             <label class="form-check-label" for="exampleRadios2">
               In Progress
             </label>
@@ -247,8 +288,10 @@
 
 
 
-  <h1>Milestones:</h1>
-  <table class="table mt-5">
+
+
+  <h1 class="ms-3">Milestones:</h1>
+  <table class="table mt-5 ms-3">
     <thead>
       <tr>
         <th scope="col">Milestone Name</th>
@@ -271,8 +314,8 @@
         <td *ngIf="Archive == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
         <td *ngIf="Archive == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
-        <td *ngIf="Archive == false">{{row.deadline}}</td>
+        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline.substring(0,10)}}</td>
+        <td *ngIf="Archive == false">{{row.deadline.substring(0,10)}}</td>
 
         <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
         <td *ngIf="Archive == false">{{row.description}}</td>

@@ -48,6 +48,7 @@ export class TaskDashboardComponent implements OnInit {
     this.getAllMilestones();
     this.getAllProjects();
     this.getAllUsers();
+    this.getProjectDetails()
 
   }
 
@@ -57,6 +58,7 @@ export class TaskDashboardComponent implements OnInit {
     this.projectName=row.name;
     this.getAllTasks();
     this.getAllMilestones();
+    this.getProjectDetails()
   }
 
   setTaskPageNumber(x:any ) {
@@ -92,6 +94,7 @@ export class TaskDashboardComponent implements OnInit {
       projectId: this.projectId,
       name: this.formValue.value.text,
       description: this.formValue.value.description,
+      status: this.formValue.value.status,
       deadline: this.formValue.value.day,
     }
 
@@ -106,9 +109,18 @@ export class TaskDashboardComponent implements OnInit {
       alert("Something went wrong!")
     }
     )}
+
   getAllTasks(){
     this.api.getProjectData(this.projectId).subscribe(res=>{
       this.taskData = res.tasks;
+    })
+  }
+
+  projectDetails !: any
+  getProjectDetails(){
+    this.api.getProjectData(this.projectId).subscribe(res=>{
+      this.projectDetails = res;
+      console.log(this.projectDetails);
     })
   }
 
@@ -150,7 +162,7 @@ export class TaskDashboardComponent implements OnInit {
       name: this.formValue.value.text,
       description: this.formValue.value.description,
       deadline: this.formValue.value.day,
-      // status: ,
+      status: this.formValue.value.status ,
       assigneeIds: [],
       prerequisiteTaskIds: [],
     }
@@ -269,7 +281,7 @@ export class TaskDashboardComponent implements OnInit {
     getAllProjects(){
       this.api.getAllProjects().subscribe(res=>{
         this.projectData = res
-        console.log(this.projectId)
+        //console.log(this.projectData)
       })
     }
 
@@ -277,7 +289,6 @@ export class TaskDashboardComponent implements OnInit {
     getAllUsers(){
       this.api.getAllUsers().subscribe(res=>{
         this.userData = res
-        console.log(this.projectId)
       })
     }
 
