@@ -103,3 +103,17 @@ export async function deleteMilestoneById(id: number, projectId: number) {
   await Milestone.remove(await getMilestoneById(id, projectId));
   return;
 }
+
+export async function setArchivedMilestoneById(
+  id: number,
+  projectId: number,
+  archived: boolean,
+) {
+  const milestone = await getMilestoneById(id, projectId);
+  if (!milestone) {
+    throw new NotFound('Milestone was not found');
+  }
+
+  milestone.archived = archived;
+  milestone.save();
+}

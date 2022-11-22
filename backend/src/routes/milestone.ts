@@ -4,10 +4,12 @@ import {
   getMilestoneByIdHandler,
   getMilestonesHandler,
   postMilestoneHandler,
+  setArchivedMilestoneByIdHandler,
   updateMilestoneByIdHandler,
 } from '../controllers/milestones.controller';
 import validateRequest from '../middlewares/validateRequest';
 import {
+  archiveMilestoneByIdSchema,
   createMilestoneSchema,
   deleteMilestoneByIdSchema,
   getMilestoneByIdSchema,
@@ -28,6 +30,13 @@ router
   .delete(
     validateRequest(deleteMilestoneByIdSchema),
     deleteMilestoneByIdHandler,
+  );
+
+router
+  .route('/projects/:projectId/milestones/:id/archive')
+  .put(
+    validateRequest(archiveMilestoneByIdSchema),
+    setArchivedMilestoneByIdHandler,
   );
 
 export = router;

@@ -31,7 +31,7 @@ export async function getProjectByIdHandler(
 ) {
   const project = await getProjectById(parseInt(req.params.id));
   if (!project) {
-    res.status(404 || 500).send('Project was not found');
+    res.status(404).send('Project was not found');
     return;
   }
 

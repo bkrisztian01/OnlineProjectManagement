@@ -31,6 +31,9 @@ export class Milestone extends BaseEntity {
   })
   status: Status;
 
+  @Column({ default: false })
+  archived: Boolean;
+
   @OneToMany(() => Task, task => task.milestone)
   tasks: Task[];
 

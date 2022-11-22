@@ -57,8 +57,6 @@ export async function createTask(
     throw new NotFound('Project was not found');
   }
 
-  console.log(status);
-
   const task = Task.create({
     name,
     description: description || '',
@@ -126,5 +124,5 @@ export async function setArchivedTaskById(
   }
 
   task.archived = archived;
-  task.save;
+  task.save();
 }

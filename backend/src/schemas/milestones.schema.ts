@@ -1,4 +1,4 @@
-import { array, number, object, string } from 'yup';
+import { array, bool, number, object, string } from 'yup';
 import { Status } from '../util/Status';
 
 const id = {
@@ -63,5 +63,15 @@ export const updateMilestoneByIdSchema = object({
     ...deadline,
     ...status,
     taskIds: array().of(number()),
+  }),
+});
+
+export const archiveMilestoneByIdSchema = object({
+  params: object({
+    ...id,
+    ...projectId,
+  }),
+  body: object({
+    archived: bool().required(),
   }),
 });
