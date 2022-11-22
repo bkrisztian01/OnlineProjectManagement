@@ -28,7 +28,7 @@ AppDataSource.initialize()
 
     app.post('/resettestdata', async (req, res) => {
       await AppDataSource.synchronize(true);
-      initTestData();
+      await initTestData();
       res.send();
     });
 

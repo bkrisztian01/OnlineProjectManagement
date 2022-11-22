@@ -1,5 +1,6 @@
 import { NotFound } from '@curveball/http-errors/dist';
 import { Project } from '../models/projects.model';
+import { Status } from '../util/Status';
 
 function nullCheck(project: Project) {
   if (!project.tasks) {
@@ -29,6 +30,7 @@ export async function createProject(
   description: string,
   startDate: string,
   endDate: string,
+  status: Status,
   estimatedTime: number,
 ) {
   const project = Project.create({
@@ -36,6 +38,7 @@ export async function createProject(
     description: description || '',
     startDate,
     endDate,
+    status,
     estimatedTime,
   });
   await project.save();
@@ -55,9 +58,12 @@ export async function updateProjectById(
   description: string,
   startDate: string,
   endDate: string,
+  status: Status,
   estimatedTime: number,
 ) {
-  const project = await getProjectById(id);
+  const project = await Project.findOne({
+    where: { id },
+  });
   if (!project) {
     throw new NotFound('Project was not found');
   }
@@ -66,10 +72,11 @@ export async function updateProjectById(
   project.description = description || project.description;
   project.startDate = startDate || project.startDate;
   project.endDate = endDate || project.endDate;
+  project.status = status || project.status;
   project.estimatedTime = estimatedTime || project.estimatedTime;
   project.save();
 
-  return nullCheck(project);
+  return project;
 }
 
 export async function deleteProjectById(id: number) {

@@ -25,6 +25,7 @@ export async function postProjectHandler(
     req.body.description,
     req.body.startDate,
     req.body.endDate,
+    req.body.status,
     req.body.estimatedTime,
   );
   res.send(project);
@@ -56,6 +57,7 @@ export async function updateProjectByIdHandler(
       req.body.description,
       req.body.startDate,
       req.body.endDate,
+      req.body.status,
       parseInt(req.body.estimatedTime),
     );
 

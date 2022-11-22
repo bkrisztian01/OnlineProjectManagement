@@ -5,6 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Status } from '../util/Status';
 import { Milestone } from './milestones.model';
 import { Task } from './tasks.model';
 import { UserRole } from './userRoles.model';
@@ -19,6 +20,13 @@ export class Project extends BaseEntity {
 
   @Column('text', { default: '' })
   description: string;
+
+  @Column({
+    type: 'enum',
+    enum: Status,
+    default: Status.NotStarted,
+  })
+  status: Status;
 
   @Column({
     type: 'date',

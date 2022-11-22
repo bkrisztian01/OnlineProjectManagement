@@ -53,6 +53,7 @@ export const updateProjectByIdSchema = object({
   body: object({
     name: string().required(),
     description: string(),
+    ...status,
     ...dates,
     estimatedTime: number().nullable(),
   }),
