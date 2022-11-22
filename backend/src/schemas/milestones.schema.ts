@@ -22,7 +22,7 @@ const status = {
     'is-status',
     d => `${d.path} is not a valid status`,
     value =>
-      value === undefined || Status[value as keyof typeof Status] !== undefined,
+      value === undefined || (<any>Object).values(Status).includes(value),
   ),
 };
 

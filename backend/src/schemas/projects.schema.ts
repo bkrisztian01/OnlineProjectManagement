@@ -1,4 +1,5 @@
 import { number, object, string } from 'yup';
+import { Status } from '../util/Status';
 
 const params = {
   params: object({
@@ -16,6 +17,15 @@ const dates = {
     'is-date',
     d => `${d.path} is not a valid date`,
     value => value === undefined || !isNaN(new Date(value).getTime()),
+  ),
+};
+
+const status = {
+  status: string().test(
+    'is-status',
+    d => `${d.path} is not a valid status`,
+    value =>
+      value === undefined || (<any>Object).values(Status).includes(value),
   ),
 };
 
