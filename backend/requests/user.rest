@@ -1,5 +1,5 @@
-@host = http://localhost:5000
-@token = 
+@host = http://127.0.0.1:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MDY4MzE3LCJleHAiOjE2NjkwNjg0Mzd9.fL5wspV_RXnAbzcsoK2zo8y2N4JUALUzWlf4jjZLE7U
 
 GET {{host}}/users
 
@@ -8,7 +8,7 @@ POST {{host}}/user/signup
 Content-Type: application/json
 
 {
-  "username": "testuser",
+  "username": "asd123",
   "fullname": "Test User",
   "email": "testuser@example.com",
   "password": "asd123QWE"
@@ -27,4 +27,9 @@ Content-Type: application/json
 GET {{host}}/user/logout
 
 ###
-GET {{host}}/refreshToken
+GET {{host}}/refresh
+Authorization: Bearer {{token}}
+
+
+###
+POST {{host}}/resettestdata

@@ -1,20 +1,39 @@
 import { Conflict, NotFound } from '@curveball/http-errors/dist';
+import { In } from 'typeorm';
 import { Milestone } from '../models/milestones.model';
 import { Task } from '../models/tasks.model';
 import { Status } from '../util/Status';
 import { getProjectById } from './projects.service';
 
-export const milestones: Milestone[] = [];
-
-export async function getMilestones() {
-  return await Milestone.find({ relations: ['tasks', 'project'] });
+function nullCheck(milestone: Milestone) {
+  if (!milestone.tasks) {
+    milestone.tasks = [];
+  }
+  return milestone;
 }
 
-export async function getMilestoneById(id: number) {
-  return await Milestone.findOne({
-    where: { id },
-    relations: ['tasks', 'project'],
+export async function getMilestones(projectId: number) {
+  const milestones = await Milestone.find({
+    relations: ['tasks'],
+    where: { project: { id: projectId } },
   });
+
+  milestones.forEach(nullCheck);
+
+  return milestones;
+}
+
+export async function getMilestoneById(id: number, projectId: number) {
+  const milestone = await Milestone.findOne({
+    where: { id, project: { id: projectId } },
+    relations: ['tasks'],
+  });
+
+  if (!milestone) {
+    return null;
+  }
+
+  return nullCheck(milestone);
 }
 
 export async function createMilestone(
@@ -34,12 +53,14 @@ export async function createMilestone(
     description: description || '',
     deadline,
     project,
+    status,
   });
 
-  return await milestone.save();
+  return nullCheck(await milestone.save());
 }
 
 export async function updateMilestoneById(
+  projectId: number,
   id: number,
   name: string,
   description: string,
@@ -47,18 +68,25 @@ export async function updateMilestoneById(
   status: Status,
   taskIds: number[],
 ) {
-  const milestone = await getMilestoneById(id);
+  const milestone = await Milestone.findOne({
+    where: { id, project: { id: projectId } },
+    relations: ['tasks', 'project'],
+  });
   if (!milestone) {
     throw new NotFound('Milestone was not found');
   }
 
-  const tasks = await Task.createQueryBuilder('task')
-    .leftJoinAndSelect('task.project', 'project')
-    .select()
-    .where('task.id IN (:...taskIds)', { taskIds: taskIds })
-    .getMany();
+  const tasks = await Task.find({
+    relations: ['project'],
+    where: {
+      id: In(taskIds),
+      project: {
+        id: milestone.project.id,
+      },
+    },
+  });
 
-  if (tasks.find(t => t.project.id != milestone.project.id)) {
+  if (tasks.length == 0) {
     throw new Conflict('Task and milestone is not in the same project');
   }
   milestone.name = name || milestone.name;
@@ -68,10 +96,10 @@ export async function updateMilestoneById(
   milestone.tasks = taskIds ? tasks : milestone.tasks;
   await milestone.save();
 
-  return milestone;
+  return nullCheck(milestone);
 }
 
-export async function deleteMilestoneById(id: number) {
-  await Milestone.delete(id);
+export async function deleteMilestoneById(id: number, projectId: number) {
+  await Milestone.remove(await getMilestoneById(id, projectId));
   return;
 }

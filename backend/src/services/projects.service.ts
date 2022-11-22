@@ -1,10 +1,27 @@
 import { NotFound } from '@curveball/http-errors/dist';
 import { Project } from '../models/projects.model';
 
+function nullCheck(project: Project) {
+  if (!project.tasks) {
+    project.tasks = [];
+  }
+  if (!project.milestones) {
+    project.milestones = [];
+  }
+  if (!project.userRoles) {
+    project.userRoles = [];
+  }
+  return project;
+}
+
 export async function getProjects() {
-  return await Project.find({
+  const projects = await Project.find({
     relations: ['tasks', 'milestones'],
   });
+
+  projects.forEach(nullCheck);
+
+  return projects;
 }
 
 export async function createProject(name: string, description: string) {
@@ -13,7 +30,7 @@ export async function createProject(name: string, description: string) {
     description: description || '',
   });
   await project.save();
-  return project;
+  return nullCheck(project);
 }
 
 export async function getProjectById(id: number) {
@@ -43,7 +60,7 @@ export async function updateProjectById(
   project.estimatedTime = estimatedTime || project.estimatedTime;
   project.save();
 
-  return project;
+  return nullCheck(project);
 }
 
 export async function deleteProjectById(id: number) {

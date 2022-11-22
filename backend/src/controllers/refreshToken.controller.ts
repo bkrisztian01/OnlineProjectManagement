@@ -8,8 +8,11 @@ export async function handleRefreshToken(
   next: NextFunction,
 ) {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
-  const refreshToken = cookies.jwt;
+  if (!cookies?.jwt) {
+    console.log('No jwt cookie');
+    return res.sendStatus(401);
+  }
+  const refreshToken = req.cookies['jwt'];
 
   const foundRefreshToken = await RefreshToken.findOne({
     relations: ['user'],
@@ -27,7 +30,7 @@ export async function handleRefreshToken(
     const accessToken = jwt.sign(
       { username: decoded.username },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '2m' },
+      { expiresIn: '2h' },
     );
 
     res.json({ accessToken });

@@ -1,20 +1,48 @@
 import { NotFound } from '@curveball/http-errors/dist';
+import { Project } from '../models/projects.model';
 import { Task } from '../models/tasks.model';
 import { User } from '../models/users.model';
 import { Status } from '../util/Status';
-import { getProjectById } from './projects.service';
 
-export async function getTaskById(id: number) {
-  return await Task.findOne({
-    where: { id },
-    relations: ['project', 'milestone'],
-  });
+function nullCheck(task: Task) {
+  if (!task.assignees) {
+    task.assignees = [];
+  }
+  if (!task.prerequisiteTasks) {
+    task.prerequisiteTasks = [];
+  }
+  if (!task.assignees) {
+    task.assignees = [];
+  }
+  return task;
 }
 
-export async function getTasks() {
-  return await Task.find({
-    relations: ['project', 'milestone'],
+export async function getTaskById(id: number, projectId: number) {
+  const task = await Task.findOne({
+    where: { id, project: { id: projectId } },
+    relations: ['milestone'],
   });
+
+  if (!task) {
+    return null;
+  }
+
+  return nullCheck(task);
+}
+
+export async function getTasks(projectId: number) {
+  const tasks = await Task.find({
+    relations: ['milestone'],
+    where: {
+      project: {
+        id: projectId,
+      },
+    },
+  });
+
+  tasks.forEach(nullCheck);
+
+  return tasks;
 }
 
 export async function createTask(
@@ -23,7 +51,7 @@ export async function createTask(
   description: string,
   deadline: string,
 ) {
-  const project = await getProjectById(projectId);
+  const project = await Project.findOne({ where: { id: projectId } });
   if (!project) {
     throw new NotFound('Project was not found');
   }
@@ -35,10 +63,11 @@ export async function createTask(
     project,
   });
 
-  return await task.save();
+  return nullCheck(await task.save());
 }
 
 export async function updateTaskById(
+  projectId: number,
   taskId: number,
   name: string,
   description: string,
@@ -47,7 +76,7 @@ export async function updateTaskById(
   assigneeIds: number[],
   prerequisiteTaskIds: number[],
 ) {
-  const task = await getTaskById(taskId);
+  const task = await getTaskById(taskId, projectId);
   if (!task) {
     throw new NotFound('Task was not found');
   }
@@ -73,15 +102,21 @@ export async function updateTaskById(
     : task.prerequisiteTasks;
   task.assignees = assigneeIds ? assignees : task.assignees;
 
-  return task;
+  task.save();
+
+  return nullCheck(task);
 }
 
-export async function deleteTaskById(id: number) {
-  await Task.remove(await getTaskById(id));
+export async function deleteTaskById(id: number, projectId: number) {
+  await Task.remove(await getTaskById(id, projectId));
 }
 
-export async function setArchivedTaskById(id: number, archived: boolean) {
-  const task = await getTaskById(id);
+export async function setArchivedTaskById(
+  id: number,
+  projectId: number,
+  archived: boolean,
+) {
+  const task = await getTaskById(id, projectId);
   if (!task) {
     throw new NotFound('Task was not found');
   }

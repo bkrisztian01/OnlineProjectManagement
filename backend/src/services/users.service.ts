@@ -63,16 +63,13 @@ export async function createUser(
   fullname: string,
   email: string,
 ) {
-  const q = await User.createQueryBuilder('users')
-    .select('users')
-    .from(User, 'user')
-    .where('user.username = :username OR user.email = :email', {
-      username,
-      email,
-    })
-    .getMany();
+  const q = await User.findOne({
+    where: [{ username }, { email }],
+  });
 
-  if (q.length > 0) {
+  console.log(q);
+
+  if (q) {
     throw new Conflict('Username or email is already in use');
   }
 

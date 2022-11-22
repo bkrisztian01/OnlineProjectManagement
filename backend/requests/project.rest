@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY4ODY1ODczLCJleHAiOjE2Njg4NjU5OTN9.dp2Pgc3z0c6MvW91B2YiEUemo8lv5C4b0VuJY7JXjK8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MDY0MDY4LCJleHAiOjE2NjkwNjQxODh9.ynp4rDIIAhjjgaGKObwZAwB3z1aaYS4kG_hwWJqLDv0
 
 GET {{host}}/projects
 Authorization: Bearer {{token}}

@@ -6,13 +6,14 @@ import {
   getMilestones,
   updateMilestoneById,
 } from '../services/milestones.service';
+import { Status } from '../util/Status';
 
 export async function getMilestonesHandler(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getMilestones());
+  res.send(await getMilestones(parseInt(req.params.projectId)));
 }
 
 export async function postMilestoneHandler(
@@ -40,7 +41,10 @@ export async function getMilestoneByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  const milestone = await getMilestoneById(parseInt(req.params.id));
+  const milestone = await getMilestoneById(
+    parseInt(req.params.id),
+    parseInt(req.params.projectId),
+  );
   if (!milestone) {
     res.status(404).send('Milestone was not found');
     return;
@@ -56,10 +60,11 @@ export async function updateMilestoneByIdHandler(
 ) {
   try {
     const milestone = await updateMilestoneById(
+      parseInt(req.params.projectId),
       parseInt(req.params.id),
       req.body.name,
       req.body.description,
-      req.body.deadline,
+      Status[req.body.status as keyof typeof Status],
       req.body.status,
       req.body.taskIds,
     );
@@ -75,7 +80,7 @@ export async function deleteMilestoneByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  deleteMilestoneById(parseInt(req.params.id));
+  deleteMilestoneById(parseInt(req.params.id), parseInt(req.params.projectId));
 
   res.status(200).send('Successful operation');
 }

@@ -1,7 +1,9 @@
-@host = https://opmapi.azurewebsites.net
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY4ODY5OTQ1LCJleHAiOjE2Njg4NzAwNjV9.FhGWNG2e-9R8ev4HWhqQW7FdWsPySxZBReF8a73pPEQ
+@host = http://localhost:5000
 
-GET {{host}}/milestones
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MDY1ODQ2LCJleHAiOjE2NjkwNjU5NjZ9.Z_ifQqK9FyN5MT4XAkw9p76AB7UZD_A5Ws3IMFJqiEg
+
+GET {{host}}/projects/2/milestones
+Authorization:Bearer {{token}}
 
 ###
 GET {{host}}/projects/1/milestones/1
@@ -19,7 +21,7 @@ Authorization:Bearer {{token}}
 }
 
 ###
-PUT {{host}}/milestones/1
+PUT {{host}}/projects/1/milestones/2
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -32,9 +34,5 @@ Authorization:Bearer {{token}}
 }
 
 ###
-DELETE {{host}}/milestones/1
+DELETE {{host}}/projects/2/milestones/1
 Authorization:Bearer {{token}}
-
-
-###
-POST {{host}}/resettestdata

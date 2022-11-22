@@ -1,24 +1,28 @@
 @host = http://localhost:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MDY3NTE4LCJleHAiOjE2NjkwNjc2Mzh9.8CtNgyVYxOQ8FjLd1ZtzAIsSeZm4CkE7miHKJIv9RG4
 
-GET {{host}}/tasks/
+GET {{host}}/projects/2/tasks
+Authorization:Bearer {{token}}
 
 ###
-GET {{host}}/tasks/1
+GET {{host}}/projects/2/tasks/2
+Authorization:Bearer {{token}}
 
 ###
-POST {{host}}/tasks
+POST {{host}}/projects/2/tasks
 Content-Type: application/json
+Authorization:Bearer {{token}}
 
 {
-  "projectId": 1,
-  "name": "Test task",
+  "name": "Test task #2",
   "description": "description",
-  "deadline": "2022-01-10"
+  "deadline": "2022-01-11"
 }
 
 ###
-PUT {{host}}/tasks/1
+PUT {{host}}/projects/2/tasks/3
 Content-Type: application/json
+Authorization:Bearer {{token}}
 
 {
   "name": "Modified",
