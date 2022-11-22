@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MDY3NTE4LCJleHAiOjE2NjkwNjc2Mzh9.8CtNgyVYxOQ8FjLd1ZtzAIsSeZm4CkE7miHKJIv9RG4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MTM2ODc1LCJleHAiOjE2NjkxMzY5OTV9.y_qpn9_FT4rWhr6e7YBc9MKuTXKnNMlGkVfBeM07kkE
 
 GET {{host}}/projects/2/tasks
 Authorization:Bearer {{token}}
@@ -16,7 +16,8 @@ Authorization:Bearer {{token}}
 {
   "name": "Test task #2",
   "description": "description",
-  "deadline": "2022-01-11"
+  "deadline": "2022-01-11",
+  "status": "Done"
 }
 
 ###

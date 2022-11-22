@@ -9,7 +9,6 @@ export async function handleRefreshToken(
 ) {
   const cookies = req.cookies;
   if (!cookies?.jwt) {
-    console.log('No jwt cookie');
     return res.sendStatus(401);
   }
   const refreshToken = req.cookies['jwt'];

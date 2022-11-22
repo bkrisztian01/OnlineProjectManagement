@@ -49,6 +49,7 @@ export async function createTask(
   projectId: number,
   name: string,
   description: string,
+  status: Status,
   deadline: string,
 ) {
   const project = await Project.findOne({ where: { id: projectId } });
@@ -56,10 +57,13 @@ export async function createTask(
     throw new NotFound('Project was not found');
   }
 
+  console.log(status);
+
   const task = Task.create({
     name,
     description: description || '',
     deadline,
+    status,
     project,
   });
 

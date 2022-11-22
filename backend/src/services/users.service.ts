@@ -67,8 +67,6 @@ export async function createUser(
     where: [{ username }, { email }],
   });
 
-  console.log(q);
-
   if (q) {
     throw new Conflict('Username or email is already in use');
   }
