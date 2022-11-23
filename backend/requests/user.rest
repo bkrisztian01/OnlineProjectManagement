@@ -11,7 +11,7 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-  "username": "testuser",
+  "username": "asd",
   "password": "test123"
 }
 
@@ -42,7 +42,7 @@ Authorization: Bearer {{token}}
 ###
 
 #Get current logged in user
-GET {{host}}/users/current
+GET {{host}}/user/current
 Authorization: Bearer {{token}}
 
 ###

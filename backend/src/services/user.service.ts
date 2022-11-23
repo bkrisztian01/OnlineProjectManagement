@@ -11,6 +11,10 @@ export async function validatePassword(username: string, password: string) {
     },
   });
 
+  if (!user) {
+    throw new Unauthorized('Unauthorized');
+  }
+
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
     throw new Unauthorized('Unauthorized');
