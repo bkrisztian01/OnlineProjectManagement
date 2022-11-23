@@ -156,19 +156,19 @@
   
             <label for="exampleInputEmail6" class="form-label">Status</label>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="NotStarted" checked>
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="NotStarted" value="NotStarted" checked>
               <label class="form-check-label" for="exampleRadios1">
                 Not Started
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="InProgress">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="InProgress" value="InProgress">
               <label class="form-check-label" for="exampleRadios2">
                 In Progress
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="Finished">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="Done" value="Done">
               <label class="form-check-label" for="exampleRadios2">
                 Finished
               </label>
@@ -183,9 +183,9 @@
 
             <label for="exampleInputPassword3">Workers:</label>
             <ul class="list-group">
-              <li class="list-group-item" *ngFor="let row of userData">
-                <input class="form-check-input me-1" type="checkbox" value="" name="workers" id="firstCheckbox">
-                <label class="form-check-label" for="firstCheckbox">{{row.fullname}}</label>
+              <li class="list-group-item" *ngFor="let row of userData" >
+                <input class="form-check-input me-1" type="checkbox" name="workers" id="firstCheckbox" (change)="WorkerAdded(row.id)" value="{{row.id}}">
+                <label class="form-check-label" for="firstCheckbox"  >{{row.fullname}}</label>
               </li>
             </ul>  
 
@@ -193,10 +193,15 @@
               <label for="exampleInputPassword4" class="form-label">Description</label>
               <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
             </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword5" class="form-label">Prerequisite</label>
-              <input type="text" formControlName="prerequisite" class="form-control" id="exampleInputPassword1">
-            </div>
+
+            <label for="exampleInputPassword3">Prerequisite:</label>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let row of tasksOfProject">
+                <input class="form-check-input me-1" type="checkbox" value="" name="prerequisite" id="firstCheckbox" (change)="PrerequisiteAdded(row.id)">
+                <label class="form-check-label" for="firstCheckbox">{{row.name}}</label>
+              </li>
+            </ul>  
+
           </form>
         </div>
         <div class="modal-footer">

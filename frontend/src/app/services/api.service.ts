@@ -52,4 +52,8 @@ export class ApiService {
     return this.http.get<any>(`${this.apiAddress}/users`).pipe(map((res:any)=>{return res;}))
   }
 
+  postProject(data: any){
+    return this.http.post<any>(`${this.apiAddress}/Project`,data).pipe(map((res:any)=>{return res;}))
+  }
+
 }

@@ -3,6 +3,7 @@ import { FormBuilder,FormGroup } from '@angular/forms';
 import { Task } from '../model/tasks.model';
 import { ApiService } from '../services/api.service';
 import { Milestone } from '../model/milestones.model';
+import { User } from '../model/users.model';
 // import { TaskObjects } from './task-dashboard.model';
 
 @Component({
@@ -48,7 +49,7 @@ export class TaskDashboardComponent implements OnInit {
     this.getAllMilestones();
     this.getAllProjects();
     this.getAllUsers();
-    this.getProjectDetails()
+    this.getProjectDetails();
 
   }
 
@@ -58,7 +59,7 @@ export class TaskDashboardComponent implements OnInit {
     this.projectName=row.name;
     this.getAllTasks();
     this.getAllMilestones();
-    this.getProjectDetails()
+    this.getProjectDetails();
   }
 
   setTaskPageNumber(x:any ) {
@@ -66,6 +67,7 @@ export class TaskDashboardComponent implements OnInit {
     if(temp>0 )
       this.TaskPageNumber+=x;
     this.getAllTasks;
+    
   }
   setMilestonePageNumber(x:any ) {
     let temp = this.MilestonePageNumber+x;
@@ -82,33 +84,38 @@ export class TaskDashboardComponent implements OnInit {
     this.Archive=false;
   }
 
+
+
+
   postTaskDeatails(){
-    // this.taskObject.name = this.formValue.value.text;
-    // this.taskObject.status = this.formValue.value.statusbar;
-    // this.taskObject.deadline = this.formValue.value.day;
-    // this.taskObject.assignees = this.formValue.value.workers;
-    // this.taskObject.description = this.formValue.value.description;
-    // this.taskObject.prerequisiteTaskIds = this.formValue.value.prerequisite;
 
     const reqBody = {
       projectId: this.projectId,
       name: this.formValue.value.text,
       description: this.formValue.value.description,
-      status: this.formValue.value.status,
+      status: this.formValue.value.statusbar,
       deadline: this.formValue.value.day,
+      assigneeIds: this.workersOfTask,
+      prerequisiteTaskIds: this.prerequisitesOfTask
     }
 
+    console.log(reqBody);
+    
     this.api.postTask(reqBody).subscribe(res=>{
       alert("Task added succesfully!");
       let ref = document.getElementById('close');
       ref?.click();
       this.formValue.reset();
+
       this.getAllTasks();
     },
     err=>{
       alert("Something went wrong!")
     }
-    )}
+    )
+    this.workersOfTask.splice(0)
+    this.prerequisitesOfTask.splice(0)
+  }
 
   getAllTasks(){
     this.api.getProjectData(this.projectId).subscribe(res=>{
@@ -117,14 +124,18 @@ export class TaskDashboardComponent implements OnInit {
   }
 
   projectDetails !: any
+  tasksOfProject !: any
   getProjectDetails(){
     this.api.getProjectData(this.projectId).subscribe(res=>{
       this.projectDetails = res;
-      console.log(this.projectDetails);
+      //console.log(this.projectDetails);
+      this.tasksOfProject = this.projectDetails.tasks
     })
+    
   }
 
   deleteTask(row: any){
+    
     this.api.deleteTask(row.id).subscribe(
       res=>{
         alert("Task deleted");
@@ -136,10 +147,10 @@ export class TaskDashboardComponent implements OnInit {
     this.showAdd=false;
     this.showUpdate=true;
     this.taskObject.id = row.id;
-    this.formValue.controls['name'].setValue(row.text);
-    this.formValue.controls['status'].setValue(row.statusbar);
-    this.formValue.controls['deadline'].setValue(row.day);
-    this.formValue.controls['assignees'].setValue(row.workers);
+    this.formValue.controls['text'].setValue(row.name);
+    this.formValue.controls['statusbar'].setValue(row.status);
+    this.formValue.controls['day'].setValue(row.deadline);
+    //this.formValue.controls['worker'].setValue(row.assignees);
     this.formValue.controls['description'].setValue(row.description);
     this.formValue.controls['prerequisiteTaskIds'].setValue(row.prerequisite);
   }
@@ -151,20 +162,14 @@ export class TaskDashboardComponent implements OnInit {
   }
 
   updateTask(){
-    // this.taskObject.text = this.formValue.value.text;
-    // this.taskObject.statusbar = this.formValue.value.statusbar;
-    // this.taskObject.day = this.formValue.value.day;
-    // this.taskObject.workers = this.formValue.value.workers;
-    // this.taskObject.description = this.formValue.value.description;
-    // this.taskObject.prerequisite = this.formValue.value.prerequisite;
 
     const reqBody = {
       name: this.formValue.value.text,
       description: this.formValue.value.description,
       deadline: this.formValue.value.day,
-      status: this.formValue.value.status ,
-      assigneeIds: [],
-      prerequisiteTaskIds: [],
+      status: this.formValue.value.statusbar ,
+      //assigneeIds: [],
+      //prerequisiteTaskIds: [],
     }
     this.api.updateTask(reqBody,this.taskObject.id).subscribe(
       res=>{
@@ -289,7 +294,28 @@ export class TaskDashboardComponent implements OnInit {
     getAllUsers(){
       this.api.getAllUsers().subscribe(res=>{
         this.userData = res
+        console.log(this.userData);
+        
       })
+    }
+
+    workersOfTask : Array<number> = [];
+    WorkerAdded(worker:number){ 
+
+      console.log(worker);
+      
+      //this.workersOfTask += worker
+      //this.workersOfTask.length++
+      this.workersOfTask.push(worker)
+      console.log(this.workersOfTask);
+      
+    }
+
+    prerequisitesOfTask : Array<number> = [];
+    PrerequisiteAdded(task:any){ 
+
+      this.workersOfTask.push(task)
+      
     }
 
 }
