@@ -1,4 +1,4 @@
-@host = http://127.0.0.1:5000
+@host = https://opmapi2.azurewebsites.net
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTIxMjIzNSwiZXhwIjoxNjY5MjEyMzU1fQ.eStMEOv9jbhoZ6QDrfKB0MQBRuoSqTqhgfjIIvYXZYA
 
 #Get users
@@ -7,7 +7,7 @@ GET {{host}}/users
 ###
 
 #Login
-GET {{host}}/user/login
+POST {{host}}/user/login
 Content-Type: application/json
 
 {

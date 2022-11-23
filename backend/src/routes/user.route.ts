@@ -14,7 +14,7 @@ const router = express.Router();
 
 router
   .route('/user/login')
-  .get(validateRequest(loginUserSchema), getLoginUserHandler);
+  .post(validateRequest(loginUserSchema), getLoginUserHandler);
 
 router.route('/user/logout').get(getLogoutUserHandler);
 
