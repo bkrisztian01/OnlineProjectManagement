@@ -14,7 +14,12 @@ export async function getMilestonesHandler(
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getMilestones(parseInt(req.params.projectId)));
+  res.send(
+    await getMilestones(
+      parseInt(req.params.projectId),
+      Number(req.query.pageNumber),
+    ),
+  );
 }
 
 export async function postMilestoneHandler(

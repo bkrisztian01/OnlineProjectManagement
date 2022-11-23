@@ -1,8 +1,8 @@
 @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MTQzMDM3LCJleHAiOjE2NjkxNDMxNTd9.hANN2uQ43Z7EYjg90fACvCm7oLSlWEwTRLaHsXLzQK8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjAyMDk0LCJleHAiOjE2NjkyMDIyMTR9.sUGjmnjwM5SoKIcLk-JXKP0xYbMX6UjHhToEM2lBznQ
 
-GET {{host}}/projects/2/milestones
+GET {{host}}/projects/1/milestones?pageNumber=2
 Authorization:Bearer {{token}}
 
 ###

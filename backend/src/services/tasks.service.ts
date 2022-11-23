@@ -4,6 +4,8 @@ import { Task } from '../models/tasks.model';
 import { User } from '../models/users.model';
 import { Status } from '../util/Status';
 
+const PAGE_SIZE = 5;
+
 function nullCheck(task: Task) {
   if (!task.assignees) {
     task.assignees = [];
@@ -30,17 +32,18 @@ export async function getTaskById(id: number, projectId: number) {
   return nullCheck(task);
 }
 
-export async function getTasks(projectId: number) {
-  const tasks = await Task.find({
-    relations: ['milestone'],
-    where: {
-      project: {
-        id: projectId,
-      },
-    },
-  });
+export async function getTasks(projectId: number, pageNumber?: number) {
+  const query = Task.createQueryBuilder('task')
+    .take(PAGE_SIZE)
+    .orderBy('task.id', 'ASC')
+    .where('task.project.id = :projectId', { projectId });
 
-  tasks.forEach(nullCheck);
+  if (pageNumber && pageNumber > 0) {
+    const skipAmount = (pageNumber - 1) * PAGE_SIZE;
+    query.skip(skipAmount);
+  }
+
+  const tasks = await query.getMany();
 
   return tasks;
 }

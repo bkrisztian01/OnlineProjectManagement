@@ -2,6 +2,8 @@ import { NotFound } from '@curveball/http-errors/dist';
 import { Project } from '../models/projects.model';
 import { Status } from '../util/Status';
 
+const PAGE_SIZE = 5;
+
 function nullCheck(project: Project) {
   if (!project.tasks) {
     project.tasks = [];
@@ -9,18 +11,19 @@ function nullCheck(project: Project) {
   if (!project.milestones) {
     project.milestones = [];
   }
-  if (!project.userRoles) {
-    project.userRoles = [];
-  }
   return project;
 }
 
-export async function getProjects() {
-  const projects = await Project.find({
-    relations: ['tasks', 'milestones'],
-  });
+export async function getProjects(pageNumber?: number) {
+  const query = Project.createQueryBuilder('project')
+    .take(PAGE_SIZE)
+    .orderBy('project.id', 'ASC');
 
-  projects.forEach(nullCheck);
+  if (pageNumber && pageNumber > 0) {
+    const skipAmount = (pageNumber - 1) * PAGE_SIZE;
+    query.skip(skipAmount);
+  }
+  const projects = await query.getMany();
 
   return projects;
 }

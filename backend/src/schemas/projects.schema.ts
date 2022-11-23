@@ -63,6 +63,16 @@ export const getProjectByIdSchema = object({
   ...params,
 });
 
+export const getProjectsSchema = object({
+  query: object({
+    pageNumber: string().test(
+      'convertable-to-number',
+      d => `${d.path} must be a number`,
+      value => value === undefined || !isNaN(Number(value)),
+    ),
+  }),
+});
+
 export const deleteProjectByIdSchema = object({
   ...params,
 });

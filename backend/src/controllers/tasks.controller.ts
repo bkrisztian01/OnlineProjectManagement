@@ -14,7 +14,12 @@ export async function getTaskHandler(
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getTasks(parseInt(req.params.projectId)));
+  res.send(
+    await getTasks(
+      parseInt(req.params.projectId),
+      Number(req.query.pageNumber),
+    ),
+  );
 }
 
 export async function postTaskHandler(

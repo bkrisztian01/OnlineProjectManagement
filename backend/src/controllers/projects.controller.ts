@@ -12,7 +12,7 @@ export async function getProjectsHandler(
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getProjects());
+  res.send(await getProjects(Number(req.query.pageNumber)));
 }
 
 export async function postProjectHandler(

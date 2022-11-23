@@ -4,6 +4,15 @@
 GET {{host}}/users
 
 ###
+GET {{host}}/user/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "test123"
+}
+
+###
 POST {{host}}/user/signup
 Content-Type: application/json
 
@@ -12,15 +21,6 @@ Content-Type: application/json
   "fullname": "Test User",
   "email": "testuser@example.com",
   "password": "asd123QWE"
-}
-
-###
-GET {{host}}/user/login
-Content-Type: application/json
-
-{
-  "username": "testuser",
-  "password": "test123"
 }
 
 ###

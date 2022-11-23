@@ -26,6 +26,19 @@ const status = {
   ),
 };
 
+export const getMilestonesSchema = object({
+  params: object({
+    ...projectId,
+  }),
+  query: object({
+    pageNumber: string().test(
+      'convertable-to-number',
+      d => `${d.path} must be a number`,
+      value => value === undefined || !isNaN(Number(value)),
+    ),
+  }),
+});
+
 export const createMilestoneSchema = object({
   params: object({
     ...projectId,

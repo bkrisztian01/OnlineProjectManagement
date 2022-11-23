@@ -26,6 +26,19 @@ const status = {
   ),
 };
 
+export const getTasksSchema = object({
+  params: object({
+    ...projectId,
+  }),
+  query: object({
+    pageNumber: string().test(
+      'convertable-to-number',
+      d => `${d.path} must be a number`,
+      value => value === undefined || !isNaN(Number(value)),
+    ),
+  }),
+});
+
 export const createTaskSchema = object({
   params: object({
     ...projectId,

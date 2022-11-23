@@ -13,6 +13,7 @@ import {
   createMilestoneSchema,
   deleteMilestoneByIdSchema,
   getMilestoneByIdSchema,
+  getMilestonesSchema,
   updateMilestoneByIdSchema,
 } from '../schemas/milestones.schema';
 
@@ -20,7 +21,7 @@ const router = express.Router();
 
 router
   .route('/projects/:projectId/milestones')
-  .get(getMilestonesHandler)
+  .get(validateRequest(getMilestonesSchema), getMilestonesHandler)
   .post(validateRequest(createMilestoneSchema), postMilestoneHandler);
 
 router

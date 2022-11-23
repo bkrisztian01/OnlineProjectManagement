@@ -11,6 +11,7 @@ import {
   createProjectSchema,
   deleteProjectByIdSchema,
   getProjectByIdSchema,
+  getProjectsSchema,
   updateProjectByIdSchema,
 } from '../schemas/projects.schema';
 
@@ -18,7 +19,7 @@ const router = express.Router();
 
 router
   .route('/projects')
-  .get(getProjectsHandler)
+  .get(validateRequest(getProjectsSchema), getProjectsHandler)
   .post(validateRequest(createProjectSchema), postProjectHandler);
 
 router

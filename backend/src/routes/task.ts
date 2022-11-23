@@ -13,6 +13,7 @@ import {
   createTaskSchema,
   deleteTaskByIdSchema,
   getTaskByIdSchema,
+  getTasksSchema,
   updateTaskByIdSchema,
 } from '../schemas/tasks.schema';
 
@@ -20,7 +21,7 @@ const router = express.Router();
 
 router
   .route('/projects/:projectId/tasks')
-  .get(getTaskHandler)
+  .get(validateRequest(getTasksSchema), getTaskHandler)
   .post(validateRequest(createTaskSchema), postTaskHandler);
 
 router

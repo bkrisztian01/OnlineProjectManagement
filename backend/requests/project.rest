@@ -1,7 +1,7 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MTU5MjUwLCJleHAiOjE2NjkxNTkzNzB9.AVSOaGVFO2BQlFRgKrYtQA-xUF5fDW9r5DcZ4s6jWkQ
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjAxOTcyLCJleHAiOjE2NjkyMDIwOTJ9.jbyeQTlFVv3MAW03PSJOx97MbDtkE-VMMVqfwbCKtDw
 
-GET {{host}}/projects
+GET {{host}}/projects?pageNumber=2
 Authorization: Bearer {{token}}
 
 ###
