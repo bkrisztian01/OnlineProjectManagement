@@ -1,6 +1,6 @@
 @host = https://opmapi2.azurewebsites.net
 #Place your access token here
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjA0NTU3LCJleHAiOjE2NjkyMDQ2Nzd9.LRHHtTHNUlplwzuIfuwmxJzy80IGUyr_1lZvMnmFBws
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTIzNjE1MywiZXhwIjoxNjY5MjM2MjczfQ.8JGRZaGu09sgmGwDhtQ1wb7Urg-pSybAtGK_DfpJauY
 
 # Get milestones
 GET {{host}}/projects/2/milestones?pageNumber=1
@@ -9,7 +9,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Get milestone by id
-GET {{host}}/projects/1/milestones/1
+GET {{host}}/projects/2/milestones/1
 Authorization:Bearer {{token}}
 
 ###
@@ -57,3 +57,9 @@ Authorization:Bearer {{token}}
 {
   "archived": true
 }
+
+###
+
+#Get milestone tasks
+GET {{host}}/projects/2/milestones/1/tasks
+Authorization: Bearer {{token}}

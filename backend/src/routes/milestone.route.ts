@@ -3,6 +3,7 @@ import {
   deleteMilestoneByIdHandler,
   getMilestoneByIdHandler,
   getMilestonesHandler,
+  getMilestoneTasksHandler,
   postMilestoneHandler,
   setArchivedMilestoneByIdHandler,
   updateMilestoneByIdHandler,
@@ -14,6 +15,7 @@ import {
   deleteMilestoneByIdSchema,
   getMilestoneByIdSchema,
   getMilestonesSchema,
+  getMilestoneTasksSchema,
   updateMilestoneByIdSchema,
 } from '../schemas/milestone.schema';
 
@@ -39,5 +41,9 @@ router
     validateRequest(archiveMilestoneByIdSchema),
     setArchivedMilestoneByIdHandler,
   );
+
+router
+  .route('/projects/:projectId/milestones/:id/tasks')
+  .get(validateRequest(getMilestoneTasksSchema), getMilestoneTasksHandler);
 
 export = router;

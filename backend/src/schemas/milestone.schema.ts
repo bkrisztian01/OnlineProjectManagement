@@ -88,3 +88,10 @@ export const archiveMilestoneByIdSchema = object({
     archived: bool().required(),
   }),
 });
+
+export const getMilestoneTasksSchema = object({
+  params: object({
+    ...id,
+    ...projectId,
+  }),
+});

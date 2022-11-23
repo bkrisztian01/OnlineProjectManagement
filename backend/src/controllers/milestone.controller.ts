@@ -4,6 +4,7 @@ import {
   deleteMilestoneById,
   getMilestoneById,
   getMilestones,
+  getMilestoneTasks,
   setArchivedMilestoneById,
   updateMilestoneById,
 } from '../services/milestone.service';
@@ -102,6 +103,23 @@ export async function setArchivedMilestoneByIdHandler(
       req.body.archived,
     );
     res.send('Successful operation');
+  } catch (e: any) {
+    res.status(e.httpStatus || 500).send(e.message);
+  }
+}
+
+export async function getMilestoneTasksHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    res.send(
+      await getMilestoneTasks(
+        parseInt(req.params.id),
+        parseInt(req.params.projectId),
+      ),
+    );
   } catch (e: any) {
     res.status(e.httpStatus || 500).send(e.message);
   }

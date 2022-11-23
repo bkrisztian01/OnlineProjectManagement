@@ -11,7 +11,7 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-  "username": "asd",
+  "username": "testuser",
   "password": "test123"
 }
 

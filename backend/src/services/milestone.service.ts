@@ -33,14 +33,13 @@ export async function getMilestones(projectId: number, pageNumber?: number) {
 export async function getMilestoneById(id: number, projectId: number) {
   const milestone = await Milestone.findOne({
     where: { id, project: { id: projectId } },
-    relations: ['tasks'],
   });
 
   if (!milestone) {
     return null;
   }
 
-  return nullCheck(milestone);
+  return milestone;
 }
 
 export async function createMilestone(
@@ -125,4 +124,23 @@ export async function setArchivedMilestoneById(
 
   milestone.archived = archived;
   milestone.save();
+}
+
+export async function getMilestoneTasks(id: number, projectId: number) {
+  const milestone = await getMilestoneById(id, projectId);
+  if (!milestone) {
+    throw new NotFound('Milestone was not found');
+  }
+
+  const tasks = await Task.find({
+    where: {
+      milestone: { id },
+      project: { id: projectId },
+    },
+    order: {
+      id: 'ASC',
+    },
+  });
+
+  return tasks;
 }
