@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import {
   createUser,
+  getUserById,
   getUsers,
   logoutUser,
   validatePassword,
@@ -68,4 +69,20 @@ export async function getUsersHandler(
   next: NextFunction,
 ) {
   res.send(await getUsers());
+}
+
+export async function getCurrentUserHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const user = await getUserById(parseInt(res.locals.jwt));
+  if (user) {
+    res.send({
+      id: user.id,
+      username: user.username,
+      fullname: user.fullname,
+      email: user.email,
+    });
+  }
 }

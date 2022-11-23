@@ -1,5 +1,5 @@
 @host = http://127.0.0.1:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MDY4MzE3LCJleHAiOjE2NjkwNjg0Mzd9.fL5wspV_RXnAbzcsoK2zo8y2N4JUALUzWlf4jjZLE7U
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTIxMjIzNSwiZXhwIjoxNjY5MjEyMzU1fQ.eStMEOv9jbhoZ6QDrfKB0MQBRuoSqTqhgfjIIvYXZYA
 
 #Get users
 GET {{host}}/users
@@ -39,6 +39,11 @@ GET {{host}}/user/logout
 GET {{host}}/refresh
 Authorization: Bearer {{token}}
 
+###
+
+#Get current logged in user
+GET {{host}}/users/current
+Authorization: Bearer {{token}}
 
 ###
 

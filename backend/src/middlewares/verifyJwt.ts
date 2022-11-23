@@ -11,7 +11,7 @@ export const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
       return res.sendStatus(403);
     }
 
-    res.locals.jwt = decoded.username;
+    res.locals.jwt = decoded.userId;
     next();
   });
 };

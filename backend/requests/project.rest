@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjAxOTcyLCJleHAiOjE2NjkyMDIwOTJ9.jbyeQTlFVv3MAW03PSJOx97MbDtkE-VMMVqfwbCKtDw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTIxMTE0MSwiZXhwIjoxNjY5MjExMjYxfQ.19y2LfMHxBeAkH7NskdRSkuayRxwzjHB19SmzABY2Bc
 
 #Get projects
 GET {{host}}/projects?pageNumber=2

@@ -17,13 +17,13 @@ export async function validatePassword(username: string, password: string) {
   }
 
   const accessToken = jwt.sign(
-    { username: username },
+    { userId: user.id },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '2m' },
   );
 
   const refreshToken = jwt.sign(
-    { username: username },
+    { userId: user.id },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '1d' },
   );
@@ -50,11 +50,7 @@ export async function validatePassword(username: string, password: string) {
 }
 
 export async function getUserById(id: number) {
-  return await User.createQueryBuilder('users')
-    .select('users')
-    .from(User, 'user')
-    .where('user.id = :id', { id })
-    .getOne();
+  return await User.findOne({ where: { id } });
 }
 
 export async function createUser(
