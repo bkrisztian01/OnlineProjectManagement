@@ -8,7 +8,7 @@ export const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
   const token = authHeader.split(' ')[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded: any) => {
     if (err) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     res.locals.jwt = decoded.userId;
