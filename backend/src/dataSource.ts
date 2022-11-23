@@ -1,12 +1,12 @@
 // import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
-import { Milestone } from './models/milestones.model';
-import { Project } from './models/projects.model';
-import { RefreshToken } from './models/refreshTokens.model';
-import { Task } from './models/tasks.model';
-import { UserRole } from './models/userRoles.model';
-import { User } from './models/users.model';
+import { Milestone } from './models/milestone.model';
+import { Project } from './models/project.model';
+import { RefreshToken } from './models/refreshToken.model';
+import { Task } from './models/task.model';
+import { User } from './models/user.model';
+import { UserRole } from './models/userRole.model';
 
 dotenv.config();
 

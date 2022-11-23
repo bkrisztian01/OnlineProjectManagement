@@ -5,7 +5,7 @@ import {
   getProjectById,
   getProjects,
   updateProjectById,
-} from '../services/projects.service';
+} from '../services/project.service';
 
 export async function getProjectsHandler(
   req: Request,

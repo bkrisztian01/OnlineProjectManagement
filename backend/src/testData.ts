@@ -1,10 +1,10 @@
 import {
   createMilestone,
   updateMilestoneById,
-} from './services/milestones.service';
-import { createProject } from './services/projects.service';
-import { createTask } from './services/tasks.service';
-import { createUser } from './services/users.service';
+} from './services/milestone.service';
+import { createProject } from './services/project.service';
+import { createTask } from './services/task.service';
+import { createUser } from './services/user.service';
 import { Status } from './util/Status';
 
 export async function initTestData() {

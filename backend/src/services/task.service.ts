@@ -1,7 +1,7 @@
 import { NotFound } from '@curveball/http-errors/dist';
-import { Project } from '../models/projects.model';
-import { Task } from '../models/tasks.model';
-import { User } from '../models/users.model';
+import { Project } from '../models/project.model';
+import { Task } from '../models/task.model';
+import { User } from '../models/user.model';
 import { Status } from '../util/Status';
 
 const PAGE_SIZE = 5;
@@ -113,7 +113,10 @@ export async function updateTaskById(
 }
 
 export async function deleteTaskById(id: number, projectId: number) {
-  await Task.remove(await getTaskById(id, projectId));
+  const task = await getTaskById(id, projectId);
+  if (task) {
+    Task.remove(task);
+  }
 }
 
 export async function setArchivedTaskById(

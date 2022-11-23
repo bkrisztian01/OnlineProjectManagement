@@ -4,9 +4,9 @@ import {
   getLogoutUserHandler,
   getUsersHandler,
   postSignupUserHandler,
-} from '../controllers/users.controller';
+} from '../controllers/user.controller';
 import validateRequest from '../middlewares/validateRequest';
-import { createUserSchema, loginUserSchema } from '../schemas/users.schema';
+import { createUserSchema, loginUserSchema } from '../schemas/user.schema';
 
 const router = express.Router();
 

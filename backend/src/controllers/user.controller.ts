@@ -4,7 +4,7 @@ import {
   getUsers,
   logoutUser,
   validatePassword,
-} from '../services/users.service';
+} from '../services/user.service';
 
 export async function getLoginUserHandler(
   req: Request,

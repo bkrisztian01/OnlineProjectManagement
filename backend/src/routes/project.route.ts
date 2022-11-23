@@ -5,7 +5,7 @@ import {
   getProjectsHandler,
   postProjectHandler,
   updateProjectByIdHandler,
-} from '../controllers/projects.controller';
+} from '../controllers/project.controller';
 import validateRequest from '../middlewares/validateRequest';
 import {
   createProjectSchema,
@@ -13,7 +13,7 @@ import {
   getProjectByIdSchema,
   getProjectsSchema,
   updateProjectByIdSchema,
-} from '../schemas/projects.schema';
+} from '../schemas/project.schema';
 
 const router = express.Router();
 

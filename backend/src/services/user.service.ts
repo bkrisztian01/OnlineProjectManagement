@@ -1,8 +1,8 @@
 import { Conflict, Unauthorized } from '@curveball/http-errors/dist';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { RefreshToken } from '../models/refreshTokens.model';
-import { User } from '../models/users.model';
+import { RefreshToken } from '../models/refreshToken.model';
+import { User } from '../models/user.model';
 
 export async function validatePassword(username: string, password: string) {
   const user = await User.findOne({
@@ -89,7 +89,10 @@ export async function getUsers() {
 }
 
 export async function deleteUserById(id: number) {
-  await User.delete(id);
+  const user = await getUserById(id);
+  if (user) {
+    User.remove(user);
+  }
 }
 
 export async function logoutUser(refreshToken: string) {

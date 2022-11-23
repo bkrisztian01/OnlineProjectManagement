@@ -1,5 +1,5 @@
 import { NotFound } from '@curveball/http-errors/dist';
-import { Project } from '../models/projects.model';
+import { Project } from '../models/project.model';
 import { Status } from '../util/Status';
 
 const PAGE_SIZE = 5;
@@ -83,5 +83,8 @@ export async function updateProjectById(
 }
 
 export async function deleteProjectById(id: number) {
-  await Project.remove(await getProjectById(id));
+  const project = await getProjectById(id);
+  if (project) {
+    Project.remove(project);
+  }
 }

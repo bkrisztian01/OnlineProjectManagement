@@ -6,8 +6,7 @@ import {
   getTasks,
   setArchivedTaskById,
   updateTaskById,
-} from '../services/tasks.service';
-import { Status } from '../util/Status';
+} from '../services/task.service';
 
 export async function getTaskHandler(
   req: Request,
@@ -32,7 +31,7 @@ export async function postTaskHandler(
       parseInt(req.params.projectId),
       req.body.name,
       req.body.description,
-      Status[req.body.status as keyof typeof Status],
+      req.body.status,
       req.body.deadline,
     );
     res.send(task);
@@ -69,7 +68,7 @@ export async function updateTaskByIdHandler(
       parseInt(req.params.id),
       req.body.name,
       req.body.description,
-      Status[req.body.status as keyof typeof Status],
+      req.body.status,
       req.body.deadline,
       req.body.assigneeIds,
       req.body.prerequisiteTaskIds,

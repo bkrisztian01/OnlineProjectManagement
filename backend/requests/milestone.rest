@@ -1,8 +1,8 @@
 @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjAyMDk0LCJleHAiOjE2NjkyMDIyMTR9.sUGjmnjwM5SoKIcLk-JXKP0xYbMX6UjHhToEM2lBznQ
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjA0NTU3LCJleHAiOjE2NjkyMDQ2Nzd9.LRHHtTHNUlplwzuIfuwmxJzy80IGUyr_1lZvMnmFBws
 
-GET {{host}}/projects/1/milestones?pageNumber=2
+GET {{host}}/projects/2/milestones?pageNumber=1
 Authorization:Bearer {{token}}
 
 ###
@@ -30,12 +30,12 @@ Authorization:Bearer {{token}}
   "name": "ModifiedVersion",
   "description": "Asd123",
   "deadline": "1001-10-10",
-  "status": "Done",
+  "status": "In Progress",
   "taskIds": [1]
 }
 
 ###
-DELETE {{host}}/projects/2/milestones/1
+DELETE {{host}}/projects/1/milestones/3
 Authorization:Bearer {{token}}
 
 ###

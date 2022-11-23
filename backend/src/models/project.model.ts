@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Status } from '../util/Status';
-import { Milestone } from './milestones.model';
-import { Task } from './tasks.model';
-import { UserRole } from './userRoles.model';
+import { Milestone } from './milestone.model';
+import { Task } from './task.model';
+import { UserRole } from './userRole.model';
 
 @Entity({ name: 'project' })
 export class Project extends BaseEntity {

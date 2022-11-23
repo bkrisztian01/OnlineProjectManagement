@@ -6,7 +6,7 @@ import {
   postTaskHandler,
   setArchivedTaskByIdHandler,
   updateTaskByIdHandler,
-} from '../controllers/tasks.controller';
+} from '../controllers/task.controller';
 import validateRequest from '../middlewares/validateRequest';
 import {
   archiveTaskByIdSchema,
@@ -15,7 +15,7 @@ import {
   getTaskByIdSchema,
   getTasksSchema,
   updateTaskByIdSchema,
-} from '../schemas/tasks.schema';
+} from '../schemas/task.schema';
 
 const router = express.Router();
 

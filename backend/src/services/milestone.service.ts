@@ -1,8 +1,8 @@
 import { Conflict, NotFound } from '@curveball/http-errors/dist';
 import { In } from 'typeorm';
-import { Milestone } from '../models/milestones.model';
-import { Project } from '../models/projects.model';
-import { Task } from '../models/tasks.model';
+import { Milestone } from '../models/milestone.model';
+import { Project } from '../models/project.model';
+import { Task } from '../models/task.model';
 import { Status } from '../util/Status';
 
 const PAGE_SIZE = 5;
@@ -107,8 +107,10 @@ export async function updateMilestoneById(
 }
 
 export async function deleteMilestoneById(id: number, projectId: number) {
-  await Milestone.remove(await getMilestoneById(id, projectId));
-  return;
+  const milestone = await getMilestoneById(id, projectId);
+  if (milestone) {
+    Milestone.remove(milestone);
+  }
 }
 
 export async function setArchivedMilestoneById(

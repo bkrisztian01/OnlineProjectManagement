@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from '../util/Role';
-import { Project } from './projects.model';
-import { User } from './users.model';
+import { Project } from './project.model';
+import { User } from './user.model';
 
 @Entity({ name: 'user_roles' })
 export class UserRole extends BaseEntity {

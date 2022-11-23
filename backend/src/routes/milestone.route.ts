@@ -6,7 +6,7 @@ import {
   postMilestoneHandler,
   setArchivedMilestoneByIdHandler,
   updateMilestoneByIdHandler,
-} from '../controllers/milestones.controller';
+} from '../controllers/milestone.controller';
 import validateRequest from '../middlewares/validateRequest';
 import {
   archiveMilestoneByIdSchema,
@@ -15,7 +15,7 @@ import {
   getMilestoneByIdSchema,
   getMilestonesSchema,
   updateMilestoneByIdSchema,
-} from '../schemas/milestones.schema';
+} from '../schemas/milestone.schema';
 
 const router = express.Router();
 

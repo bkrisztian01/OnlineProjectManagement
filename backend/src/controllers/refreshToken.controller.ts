@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { RefreshToken } from '../models/refreshTokens.model';
+import { RefreshToken } from '../models/refreshToken.model';
 
 export async function handleRefreshToken(
   req: Request,

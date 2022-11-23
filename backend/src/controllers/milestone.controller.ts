@@ -6,8 +6,7 @@ import {
   getMilestones,
   setArchivedMilestoneById,
   updateMilestoneById,
-} from '../services/milestones.service';
-import { Status } from '../util/Status';
+} from '../services/milestone.service';
 
 export async function getMilestonesHandler(
   req: Request,
@@ -70,7 +69,7 @@ export async function updateMilestoneByIdHandler(
       parseInt(req.params.id),
       req.body.name,
       req.body.description,
-      Status[req.body.status as keyof typeof Status],
+      req.body.deadline,
       req.body.status,
       req.body.taskIds,
     );
