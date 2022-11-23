@@ -22,18 +22,18 @@ export async function postTaskHandler(
   res: Response,
   next: NextFunction,
 ) {
-  // try {
-  const task = await createTask(
-    parseInt(req.params.projectId),
-    req.body.name,
-    req.body.description,
-    Status[req.body.status as keyof typeof Status],
-    req.body.deadline,
-  );
-  res.send(task);
-  // } catch (e: any) {
-  //   res.status(e.httpStatus || 500).send(e.message);
-  // }
+  try {
+    const task = await createTask(
+      parseInt(req.params.projectId),
+      req.body.name,
+      req.body.description,
+      Status[req.body.status as keyof typeof Status],
+      req.body.deadline,
+    );
+    res.send(task);
+  } catch (e: any) {
+    res.status(e.httpStatus || 500).send(e.message);
+  }
 }
 
 export async function getTaskByIdHandler(

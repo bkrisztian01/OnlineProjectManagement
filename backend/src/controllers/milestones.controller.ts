@@ -91,14 +91,14 @@ export async function setArchivedMilestoneByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  // try {
-  await setArchivedMilestoneById(
-    parseInt(req.params.id),
-    parseInt(req.params.projectId),
-    req.body.archived,
-  );
-  res.send('Successful operation');
-  // } catch (e: any) {
-  //   res.status(e.httpStatus || 500).send(e.message);
-  // }
+  try {
+    await setArchivedMilestoneById(
+      parseInt(req.params.id),
+      parseInt(req.params.projectId),
+      req.body.archived,
+    );
+    res.send('Successful operation');
+  } catch (e: any) {
+    res.status(e.httpStatus || 500).send(e.message);
+  }
 }
