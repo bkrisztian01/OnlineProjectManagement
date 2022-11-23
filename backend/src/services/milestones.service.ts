@@ -1,9 +1,9 @@
 import { Conflict, NotFound } from '@curveball/http-errors/dist';
 import { In } from 'typeorm';
 import { Milestone } from '../models/milestones.model';
+import { Project } from '../models/projects.model';
 import { Task } from '../models/tasks.model';
 import { Status } from '../util/Status';
-import { getProjectById } from './projects.service';
 
 const PAGE_SIZE = 5;
 
@@ -50,7 +50,7 @@ export async function createMilestone(
   status: Status,
   deadline: string,
 ) {
-  const project = await getProjectById(projectId);
+  const project = await Project.findOne({ where: { id: projectId } });
   if (!project) {
     throw new NotFound('Project was not found');
   }
