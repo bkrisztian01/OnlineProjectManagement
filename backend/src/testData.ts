@@ -1,10 +1,10 @@
 import {
   createMilestone,
   updateMilestoneById,
-} from './services/milestones.service';
-import { createProject } from './services/projects.service';
-import { createTask } from './services/tasks.service';
-import { createUser } from './services/users.service';
+} from './services/milestone.service';
+import { createProject } from './services/project.service';
+import { createTask } from './services/task.service';
+import { createUser } from './services/user.service';
 import { Status } from './util/Status';
 
 export async function initTestData() {
@@ -15,10 +15,30 @@ export async function initTestData() {
     'Kovács Mariann',
     'kovimari@gmail.com',
   );
-  await createProject('Project #1', 'Test project');
-  await createProject('MobWeb házi', 'Nagyházi');
-  await createTask(1, 'Task #1', 'Test task', '2022-12-12');
-  await createTask(2, 'Engedélyek', 'PermissionDispatcher', null);
+  await createProject(
+    'Project #1',
+    'Test project',
+    '2022-01-01',
+    null,
+    Status.NotStarted,
+    null,
+  );
+  await createProject(
+    'MobWeb házi',
+    'Nagyházi',
+    null,
+    null,
+    Status.InProgress,
+    null,
+  );
+  await createTask(1, 'Task #1', 'Test task', Status.NotStarted, '2022-12-12');
+  await createTask(
+    2,
+    'Engedélyek',
+    'PermissionDispatcher',
+    Status.InProgress,
+    null,
+  );
   await createMilestone(
     2,
     'MainActivity',
@@ -27,5 +47,5 @@ export async function initTestData() {
     '2022-11-19',
   );
 
-  await updateMilestoneById(1, null, null, null, null, [2]);
+  await updateMilestoneById(2, 1, null, null, null, null, [2]);
 }

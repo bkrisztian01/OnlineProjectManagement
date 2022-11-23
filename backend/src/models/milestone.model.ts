@@ -1,7 +1,4 @@
 import {
-  AfterInsert,
-  AfterLoad,
-  AfterUpdate,
   BaseEntity,
   Column,
   Entity,
@@ -10,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Status } from '../util/Status';
-import { Project } from './projects.model';
-import { Task } from './tasks.model';
+import { Project } from './project.model';
+import { Task } from './task.model';
 
 @Entity({ name: 'milestone' })
 export class Milestone extends BaseEntity {
@@ -34,6 +31,9 @@ export class Milestone extends BaseEntity {
   })
   status: Status;
 
+  @Column({ default: false })
+  archived: Boolean;
+
   @OneToMany(() => Task, task => task.milestone)
   tasks: Task[];
 
@@ -41,13 +41,4 @@ export class Milestone extends BaseEntity {
     onDelete: 'CASCADE',
   })
   project: Project;
-
-  @AfterLoad()
-  @AfterInsert()
-  @AfterUpdate()
-  async nullChecks() {
-    if (!this.tasks) {
-      this.tasks = [];
-    }
-  }
 }

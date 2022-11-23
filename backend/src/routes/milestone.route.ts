@@ -4,21 +4,24 @@ import {
   getMilestoneByIdHandler,
   getMilestonesHandler,
   postMilestoneHandler,
+  setArchivedMilestoneByIdHandler,
   updateMilestoneByIdHandler,
-} from '../controllers/milestones.controller';
+} from '../controllers/milestone.controller';
 import validateRequest from '../middlewares/validateRequest';
 import {
+  archiveMilestoneByIdSchema,
   createMilestoneSchema,
   deleteMilestoneByIdSchema,
   getMilestoneByIdSchema,
+  getMilestonesSchema,
   updateMilestoneByIdSchema,
-} from '../schemas/milestones.schema';
+} from '../schemas/milestone.schema';
 
 const router = express.Router();
 
 router
   .route('/projects/:projectId/milestones')
-  .get(getMilestonesHandler)
+  .get(validateRequest(getMilestonesSchema), getMilestonesHandler)
   .post(validateRequest(createMilestoneSchema), postMilestoneHandler);
 
 router
@@ -28,6 +31,13 @@ router
   .delete(
     validateRequest(deleteMilestoneByIdSchema),
     deleteMilestoneByIdHandler,
+  );
+
+router
+  .route('/projects/:projectId/milestones/:id/archive')
+  .put(
+    validateRequest(archiveMilestoneByIdSchema),
+    setArchivedMilestoneByIdHandler,
   );
 
 export = router;

@@ -6,11 +6,11 @@ import express from 'express';
 import 'reflect-metadata';
 import { AppDataSource } from './dataSource';
 import { verifyJwt } from './middlewares/verifyJwt';
-import milestoneRoutes from './routes/milestone';
-import projectRoutes from './routes/project';
-import refreshTokenRoutes from './routes/refresh';
-import taskRoutes from './routes/task';
-import userRoutes from './routes/user';
+import milestoneRoutes from './routes/milestone.route';
+import projectRoutes from './routes/project.route';
+import refreshTokenRoutes from './routes/refresh.route';
+import taskRoutes from './routes/task.route';
+import userRoutes from './routes/user.route';
 import { initTestData } from './testData';
 
 dotenv.config();
@@ -28,7 +28,7 @@ AppDataSource.initialize()
 
     app.post('/resettestdata', async (req, res) => {
       await AppDataSource.synchronize(true);
-      initTestData();
+      await initTestData();
       res.send();
     });
 

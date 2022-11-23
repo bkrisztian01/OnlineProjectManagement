@@ -4,7 +4,7 @@ import {
   getUsers,
   logoutUser,
   validatePassword,
-} from '../services/users.service';
+} from '../services/user.service';
 
 export async function getLoginUserHandler(
   req: Request,
@@ -21,7 +21,7 @@ export async function getLoginUserHandler(
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: 'none',
-      secure: true,
+      // secure: true,
     });
     res.json({ accessToken: tokens.accessToken });
   } catch (e: any) {

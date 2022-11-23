@@ -5,14 +5,14 @@ import {
   getProjectById,
   getProjects,
   updateProjectById,
-} from '../services/projects.service';
+} from '../services/project.service';
 
 export async function getProjectsHandler(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getProjects());
+  res.send(await getProjects(Number(req.query.pageNumber)));
 }
 
 export async function postProjectHandler(
@@ -20,7 +20,14 @@ export async function postProjectHandler(
   res: Response,
   next: NextFunction,
 ) {
-  const project = await createProject(req.body.name, req.body.description);
+  const project = await createProject(
+    req.body.name,
+    req.body.description,
+    req.body.startDate,
+    req.body.endDate,
+    req.body.status,
+    req.body.estimatedTime,
+  );
   res.send(project);
 }
 
@@ -31,7 +38,7 @@ export async function getProjectByIdHandler(
 ) {
   const project = await getProjectById(parseInt(req.params.id));
   if (!project) {
-    res.status(404 || 500).send('Project was not found');
+    res.status(404).send('Project was not found');
     return;
   }
 
@@ -50,6 +57,7 @@ export async function updateProjectByIdHandler(
       req.body.description,
       req.body.startDate,
       req.body.endDate,
+      req.body.status,
       parseInt(req.body.estimatedTime),
     );
 

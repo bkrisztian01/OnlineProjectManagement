@@ -1,7 +1,9 @@
-@host = https://opmapi.azurewebsites.net
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY4ODY5OTQ1LCJleHAiOjE2Njg4NzAwNjV9.FhGWNG2e-9R8ev4HWhqQW7FdWsPySxZBReF8a73pPEQ
+@host = http://localhost:5000
 
-GET {{host}}/milestones
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjA0NTU3LCJleHAiOjE2NjkyMDQ2Nzd9.LRHHtTHNUlplwzuIfuwmxJzy80IGUyr_1lZvMnmFBws
+
+GET {{host}}/projects/2/milestones?pageNumber=1
+Authorization:Bearer {{token}}
 
 ###
 GET {{host}}/projects/1/milestones/1
@@ -15,11 +17,12 @@ Authorization:Bearer {{token}}
 {
   "name": "TestVersion1",
   "description": "Description",
-  "deadline": "2022-2-2"
+  "deadline": "2022-2-2",
+  "status": "Stopped"
 }
 
 ###
-PUT {{host}}/milestones/1
+PUT {{host}}/projects/1/milestones/2
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -27,14 +30,19 @@ Authorization:Bearer {{token}}
   "name": "ModifiedVersion",
   "description": "Asd123",
   "deadline": "1001-10-10",
-  "status": "Done",
+  "status": "In Progress",
   "taskIds": [1]
 }
 
 ###
-DELETE {{host}}/milestones/1
+DELETE {{host}}/projects/1/milestones/3
 Authorization:Bearer {{token}}
 
-
 ###
-POST {{host}}/resettestdata
+PUT {{host}}/projects/2/milestones/1/archive
+Content-Type: application/json
+Authorization:Bearer {{token}}
+
+{
+  "archived": true
+}

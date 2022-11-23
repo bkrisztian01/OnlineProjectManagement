@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from './users.model';
+import { User } from './user.model';
 
 @Entity({ name: 'refresh_token' })
 export class RefreshToken extends BaseEntity {

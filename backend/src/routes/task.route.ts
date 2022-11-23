@@ -6,21 +6,22 @@ import {
   postTaskHandler,
   setArchivedTaskByIdHandler,
   updateTaskByIdHandler,
-} from '../controllers/tasks.controller';
+} from '../controllers/task.controller';
 import validateRequest from '../middlewares/validateRequest';
 import {
   archiveTaskByIdSchema,
   createTaskSchema,
   deleteTaskByIdSchema,
   getTaskByIdSchema,
+  getTasksSchema,
   updateTaskByIdSchema,
-} from '../schemas/tasks.schema';
+} from '../schemas/task.schema';
 
 const router = express.Router();
 
 router
   .route('/projects/:projectId/tasks')
-  .get(getTaskHandler)
+  .get(validateRequest(getTasksSchema), getTaskHandler)
   .post(validateRequest(createTaskSchema), postTaskHandler);
 
 router

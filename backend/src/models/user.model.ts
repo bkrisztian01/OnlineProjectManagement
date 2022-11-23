@@ -1,7 +1,4 @@
 import {
-  AfterInsert,
-  AfterLoad,
-  AfterUpdate,
   BaseEntity,
   Column,
   Entity,
@@ -10,8 +7,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Task } from './tasks.model';
-import { UserRole } from './userRoles.model';
+import { Task } from './task.model';
+import { UserRole } from './userRole.model';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -36,17 +33,4 @@ export class User extends BaseEntity {
 
   @OneToMany(() => UserRole, userRole => userRole.user)
   userRoles: UserRole[];
-
-  @AfterLoad()
-  @AfterInsert()
-  @AfterUpdate()
-  async nullChecks() {
-    if (!this.tasks) {
-      this.tasks = [];
-    }
-
-    if (!this.userRoles) {
-      this.userRoles = [];
-    }
-  }
 }

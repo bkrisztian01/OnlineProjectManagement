@@ -22,9 +22,22 @@ const status = {
     'is-status',
     d => `${d.path} is not a valid status`,
     value =>
-      value === undefined || Status[value as keyof typeof Status] !== undefined,
+      value === undefined || (<any>Object).values(Status).includes(value),
   ),
 };
+
+export const getTasksSchema = object({
+  params: object({
+    ...projectId,
+  }),
+  query: object({
+    pageNumber: string().test(
+      'convertable-to-number',
+      d => `${d.path} must be a number`,
+      value => value === undefined || !isNaN(Number(value)),
+    ),
+  }),
+});
 
 export const createTaskSchema = object({
   params: object({
@@ -33,6 +46,7 @@ export const createTaskSchema = object({
   body: object({
     name: string().required(),
     description: string(),
+    ...status,
     ...deadline,
   }),
 });

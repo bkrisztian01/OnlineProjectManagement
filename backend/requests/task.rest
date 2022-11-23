@@ -1,24 +1,29 @@
 @host = http://localhost:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjAwNjg5LCJleHAiOjE2NjkyMDA4MDl9.NYQ5ZVhZASkUQXZoFPclomDb7FZeBy4Uy2_wp-Wi5zc
 
-GET {{host}}/tasks/
+GET {{host}}/projects/2/tasks?pageNumber=3
+Authorization:Bearer {{token}}
 
 ###
-GET {{host}}/tasks/1
+GET {{host}}/projects/2/tasks/2
+Authorization:Bearer {{token}}
 
 ###
-POST {{host}}/tasks
+POST {{host}}/projects/2/tasks
 Content-Type: application/json
+Authorization:Bearer {{token}}
 
 {
-  "projectId": 1,
-  "name": "Test task",
+  "name": "Test task #2",
   "description": "description",
-  "deadline": "2022-01-10"
+  "deadline": "2022-01-11",
+  "status": "Done"
 }
 
 ###
-PUT {{host}}/tasks/1
+PUT {{host}}/projects/2/tasks/3
 Content-Type: application/json
+Authorization:Bearer {{token}}
 
 {
   "name": "Modified",
@@ -27,4 +32,13 @@ Content-Type: application/json
   "deadline": "1999-01-10",
   "assigneeIds": [1],
   "prerequisiteTaskIds": [2]
+}
+
+###
+PUT {{host}}/projects/2/tasks/2/archive
+Content-Type: application/json
+Authorization:Bearer {{token}}
+
+{
+  "archived": true
 }

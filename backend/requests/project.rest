@@ -1,7 +1,7 @@
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY4ODY1ODczLCJleHAiOjE2Njg4NjU5OTN9.dp2Pgc3z0c6MvW91B2YiEUemo8lv5C4b0VuJY7JXjK8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MjAxOTcyLCJleHAiOjE2NjkyMDIwOTJ9.jbyeQTlFVv3MAW03PSJOx97MbDtkE-VMMVqfwbCKtDw
 
-GET {{host}}/projects
+GET {{host}}/projects?pageNumber=2
 Authorization: Bearer {{token}}
 
 ###
@@ -18,11 +18,16 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Test project 2"
+  "name": "Test project 2",
+  "description": "description",
+  "startDate": "2022-11-22",
+  "endDate": null,
+  "status": "In Progress",
+  "estimatedTime": 123
 }
 
 ###
-PUT {{host}}/projects/2
+PUT {{host}}/projects/3
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -30,6 +35,5 @@ Authorization: Bearer {{token}}
   "name": "Modified",
   "description": "Description",
   "startDate": "2012-01-01",
-  "endDate": "2022-02-02",
   "estimatedTime": 232
 }
