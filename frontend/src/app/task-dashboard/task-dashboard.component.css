@@ -1,0 +1,41 @@
+
+table{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    box-shadow: 5px 10px 15px #bababa;
+    text-align: center;
+}
+
+thead{
+    background-color: #009879;
+    color: white;
+    box-shadow: 0 5px 10px #bababa;
+}
+
+th{
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    font-weight: 900;
+}
+
+
+tbody tr:last-of-type{
+    border-bottom: 2px solid #009879;
+}
+
+
+tr:nth-child(even){
+    background-color:#f4f6fb ;
+}
+
+h1{
+    padding: 0rem 1rem;
+    letter-spacing: 0.2rem;
+    font-weight: 500;
+}
+
