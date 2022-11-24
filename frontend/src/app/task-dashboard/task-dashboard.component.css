@@ -1,5 +1,5 @@
 
-table{
+.table{
     width: 90%;
     margin-left: auto;
     margin-right: auto;
@@ -11,9 +11,10 @@ table{
 }
 
 thead{
-    background-color: #009879;
+    background-color: #2a9d8f;
     color: white;
     box-shadow: 0 5px 10px #bababa;
+    vertical-align: ;
 }
 
 th{
@@ -25,12 +26,11 @@ th{
 
 
 tbody tr:last-of-type{
-    border-bottom: 2px solid #009879;
+    border-bottom: 2px solid #2a9d8f;
 }
 
-
-tr:nth-child(even){
-    background-color:#f4f6fb ;
+.tr:nth-child(even){
+    background-color:#eef6f5 ;
 }
 
 h1{
@@ -40,10 +40,35 @@ h1{
 }
 
 .btn-info{
-    background-color:#009879 ;
+    background-color:#e76f51 ;
 }
 
 .btn-primary{
-    background-color:#009879 ;
+    background-color:#2a9d8f ;
+    box-shadow: 3px 3px 7px #777777;
 }
 
+.btn-success{
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-danger{
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-secondary{
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-three{
+    box-shadow: none;
+    background-color:#2a9d8f ;
+}
+
+.page-link{
+    color: #264653;
+}
+
+.tb{
+    width: 60%;
+}

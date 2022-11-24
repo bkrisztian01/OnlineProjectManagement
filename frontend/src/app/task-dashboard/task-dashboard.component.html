@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-dark bg-dark ">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Online Project Manager</a>
@@ -30,7 +29,7 @@
       </div>
       <div class="offcanvas-body">
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-three dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             My Projects
           </button>
           <a routerLink="/login" class="nav-link" routerLinkActive="active">Sign out</a>
@@ -109,11 +108,29 @@
     <div class="col">
       <div class="collapse multi-collapse" id="multiCollapseExample1">
         <div class="card card-body">
-          <p> Name: {{projectDetails.name}}</p>
-          <p> Description: {{projectDetails.description}}</p>
-          <p> Started: {{projectDetails.startDate.substring(0,10)}}</p>
-          <p> Finished: {{projectDetails.endDate.substring(0,10)}}</p>
-          <p> Estimated time: {{projectDetails.estimatedTime}}</p>
+
+          <table class="tb" >
+            <tr class="trproj">
+              <td>Name:</td>
+              <td>{{projectDetails.name}}</td>
+            </tr>
+            <tr class="trproj">
+              <td>Description:</td>
+              <td>{{projectDetails.description}}</td>
+            </tr>
+            <tr class="trproj">
+              <td>Started:</td>
+              <td>{{projectDetails.startDate.substring(0,10)}}</td>
+            </tr>
+            <tr class="trproj">
+              <td>Finished:</td>
+              <td>{{projectDetails.endDate.substring(0,10)}}</td>
+            </tr>
+            <tr class="trproj">
+              <td>Estimated time:</td>
+              <td>{{projectDetails.estimatedTime}}</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -128,9 +145,28 @@
 
 
   <h1 class="">Tasks:</h1>
-  <table class="table mt-5 ">
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end me-5 ">
+      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(-1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+          <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+        </svg>
+      </a></li>
+      <li class="page-item"><a class="page-link">{{TaskPageNumber}}</a></li>
+      <li class="page-item">
+        <a class="page-link" (click)="setTaskPageNumber(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+        <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+      </svg>
+    </a>
+    </li>
+    </ul>
+  </nav>
+
+  <table class="table">
     <thead>
-      <tr>
+      <tr class="tr">
         <th scope="col">Task Name</th>
         <th scope="col">Status</th>
         <th scope="col">Deadline</th>
@@ -141,7 +177,7 @@
       </tr>
     </thead>
     <tbody  >
-      <tr *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
+      <tr class="tr" *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
         <td *ngIf="row.archived == false">{{row.name}}</td>
 
@@ -210,24 +246,6 @@
       </tr>
     </tbody>
   </table>
-  
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-end me-5 ">
-    <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(-1)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-        <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
-      </svg>
-    </a></li>
-    <li class="page-item"><a class="page-link">{{TaskPageNumber}}</a></li>
-    <li class="page-item">
-      <a class="page-link" (click)="setTaskPageNumber(1)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-      <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-    </svg>
-  </a>
-  </li>
-  </ul>
-</nav>
 
 
   <!-- Modal -->
@@ -388,9 +406,27 @@
 
 
   <h1 class="">Milestones:</h1>
-  <table class="table mt-5">
+
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end me-5 ">
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(-1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+          <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+        </svg>
+      </a></li>
+      <li class="page-item"><a class="page-link">{{MilestonePageNumber}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+          <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+        </svg>
+      </a></li>
+    </ul>
+  </nav>
+
+  <table class="table">
     <thead>
-      <tr>
+      <tr class="tr">
         <th scope="col">Milestone Name</th>
         <th scope="col">Status</th>
         <th scope="col">Deadline</th>
@@ -400,7 +436,7 @@
       </tr>
     </thead>
     <tbody >
-      <tr *ngFor="let row of milestoneData.slice(MilestonePageNumber*5-5, MilestonePageNumber*5);">
+      <tr class="tr" *ngFor="let row of milestoneData.slice(MilestonePageNumber*5-5, MilestonePageNumber*5);">
 
         <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
         <td *ngIf="Archive == false">{{row.name}}</td>
@@ -466,19 +502,3 @@
       </tr>
     </tbody>
   </table>
-
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end me-5">
-      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(-1)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-          <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
-        </svg>
-      </a></li>
-      <li class="page-item"><a class="page-link">{{MilestonePageNumber}}</a></li>
-      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-          <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-        </svg>
-      </a></li>
-    </ul>
-  </nav>
