@@ -109,11 +109,11 @@
     <div class="col">
       <div class="collapse multi-collapse" id="multiCollapseExample1">
         <div class="card card-body">
-          <p> Name: {{projectDetails.name}}</p>
+          <!-- <p> Name: {{projectDetails.name}}</p>
           <p> Description: {{projectDetails.description}}</p>
-          <p> Started: {{projectDetails.startDate.substring(0,10)}}</p>
-          <p> Finished: {{projectDetails.endDate.substring(0,10)}}</p>
-          <p> Estimated time: {{projectDetails.estimatedTime}}</p>
+          <p> Started: {{projectDetails.startDate.substring(0,10)}}</p> -->
+          <!-- <p> Finished: {{projectDetails.endDate.substring(0,10)}}</p> -->
+          <!-- <p> Estimated time: {{projectDetails.estimatedTime}}</p> -->
         </div>
       </div>
     </div>
@@ -141,9 +141,9 @@
       </tr>
     </thead>
     <tbody  >
-      <tr *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
+      <tr *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);"> 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
-        <td *ngIf="row.archived == false">{{row.name}}</td>
+        <td *ngIf="row.archived == false">{{row.name}}</td> 
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
         <td *ngIf="Archive == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">
@@ -171,10 +171,21 @@
             <path d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/>
           </svg>
         </td>
+        <td *ngIf="Archive == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
+          </svg>
+        </td>
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline.substring(0,10)}}</td>
         <td *ngIf="row.archived == false">{{row.deadline.substring(0,10)}}</td>
 
+
+        <td *ngFor=" let subrow of row.assignees"> 
+          <li>{{subrow.fullname}}</li>
+        </td>
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
         <td *ngIf="row.archived == false">{{row.assignees}}</td>
@@ -248,13 +259,13 @@
   
             <label for="exampleInputEmail6" class="form-label">Status</label>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="NotStarted" value="NotStarted" checked>
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="Not Started" value="Not Started" checked>
               <label class="form-check-label" for="exampleRadios1">
                 Not Started
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="InProgress" value="InProgress">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="In Progress" value="In Progress">
               <label class="form-check-label" for="exampleRadios2">
                 In Progress
               </label>
@@ -276,7 +287,7 @@
             <label for="exampleInputPassword3">Workers:</label>
             <ul class="list-group">
               <li class="list-group-item" *ngFor="let row of userData" >
-                <input class="form-check-input me-1" type="checkbox" name="workers" id="firstCheckbox" (change)="WorkerAdded(row.id)" value="{{row.id}}">
+                <input class="form-check-input me-1" type="checkbox" name="workers" id="firstCheckbox" (change)="WorkerAdded(row.id)" value="{{row.id}}" formControlName="{{row.id}}">
                 <label class="form-check-label" for="firstCheckbox"  >{{row.fullname}}</label>
               </li>
             </ul>  
@@ -340,13 +351,13 @@
 
           <label for="exampleInputEmail6" class="form-label">Status</label>
           <div class="form-check">
-            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="NotStarted" checked>
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
             <label class="form-check-label" for="exampleRadios1">
               Not Started
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="InProgress">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="In Progress">
             <label class="form-check-label" for="exampleRadios2">
               In Progress
             </label>
@@ -417,18 +428,25 @@
             <path d="M3 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7z"/>
           </svg>
         </td>
-        <td *ngIf="Archive == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">
+        <td *ngIf="Archive == false && row.status =='InProgress'" class="p-3 mb-2 bg-warning text-black">
           {{row.status}}
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-center" viewBox="0 0 16 16">
             <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"/>
           </svg>
 
         </td>
-        <td *ngIf="Archive == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">
+        <td *ngIf="Archive == false && row.status =='NotStarted'" class="p-3 mb-2 bg-secondary text-black">
           {{row.status}}
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-end" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
             <path d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/>
+          </svg>
+        </td>
+        <td *ngIf="Archive == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
           </svg>
         </td>
 

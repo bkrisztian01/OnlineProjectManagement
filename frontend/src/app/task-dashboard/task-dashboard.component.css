@@ -38,4 +38,7 @@ h1{
     letter-spacing: 0.2rem;
     font-weight: 500;
 }
-
+/* table {
+    width: 100%;
+    table-layout: fixed;
+  } */

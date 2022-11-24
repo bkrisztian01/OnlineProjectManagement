@@ -9,51 +9,70 @@ import { identifierName } from '@angular/compiler';
 
 export class ApiService {
 
-  private apiAddress = "https://opmapi.azurewebsites.net"
+  private apiAddress = "https://opmapi2.azurewebsites.net"
+
+  private AccessToken!: String;
+
   constructor(private http: HttpClient) { }
 
-  postTask(data: any){
-    return this.http.post<any>(`${this.apiAddress}/tasks`,data).pipe(map((res:any)=>{return res;}))
+  postTask(data: any, id: number, AccessToken: String){
+    return this.http.post<any>(`${this.apiAddress}/projects/`+id+`/tasks`,data,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
-  getTask(){
-    return this.http.get<any>(`${this.apiAddress}/tasks`).pipe(map((res:any)=>{return res;}))
+  getTask(id: number, AccessToken:String){
+    return this.http.get<any>(`${this.apiAddress}/projects/`+id+`/tasks`,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
-  updateTask(data: any,id:number){
-    return this.http.put<any>(`${this.apiAddress}/tasks/`+id,data).pipe(map((res:any)=>{return res;}))
+  updateTask(data: any,id:number, id2:number,AccessToken:String){
+    return this.http.put<any>(`${this.apiAddress}/projects/`+id2+`/tasks/`+id,data,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
-  archiveTask(data:any,id:number){
-    return this.http.put<any>(`${this.apiAddress}/tasks/`+id+`/archive`,data).pipe(map((res:any)=>{return res;}))
+  archiveTask(data:any,id:number, id2:number,AccessToken: String){
+    return this.http.put<any>(`${this.apiAddress}/projects/`+id2+`/tasks/`+id+`/archive`,data,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
-
-  deleteTask(id:number){
-    return this.http.delete(`${this.apiAddress}/tasks/`+id, {responseType: 'text'}).pipe(map((res:any)=>{return res;}))
-  }
-  postMilestone(data: any){
-    return this.http.post<any>(`${this.apiAddress}/milestones`,data).pipe(map((res:any)=>{return res;}))
-  }
-  getMilestone(){
-    return this.http.get<any>(`${this.apiAddress}/milestones`).pipe(map((res:any)=>{return res;}))
-  }
-  updateMilestone(data: any,id:number){
-    return this.http.put<any>(`${this.apiAddress}/milestones/`+id,data).pipe(map((res:any)=>{return res;}))
-  }
-  deleteMilestone(id:number){
-    return this.http.delete<any>(`${this.apiAddress}/milestones/`+id).pipe(map((res:any)=>{return res;}))
+  deleteTask(id:number,id2:number,AccessToken:String){
+    return this.http.delete(`${this.apiAddress}/projects/`+id2+`/tasks/`+id, {headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
 
-  getProjectData(id:number){
-    return this.http.get<any>(`${this.apiAddress}/projects/`+id).pipe(map((res:any)=>{return res;}))
+
+
+  postMilestone(data: any,id:number){
+    return this.http.post<any>(`${this.apiAddress}/projects/`+id+`/milestones`,data).pipe(map((res:any)=>{return res;}))
   }
-  getAllProjects(){
-    return this.http.get<any>(`${this.apiAddress}/projects`).pipe(map((res:any)=>{return res;}))
+  getMilestone(id:number){
+    return this.http.get<any>(`${this.apiAddress}/projects/`+id+`/milestones`).pipe(map((res:any)=>{return res;}))
   }
 
-  getAllUsers(){
-    return this.http.get<any>(`${this.apiAddress}/users`).pipe(map((res:any)=>{return res;}))
+  updateMilestone(data: any,id:number,id2:number){
+    return this.http.put<any>(`${this.apiAddress}/projects/`+id2+`/milestones/`+id,data).pipe(map((res:any)=>{return res;}))
+  }
+  deleteMilestone(id:number,id2:number){
+    return this.http.delete<any>(`${this.apiAddress}/projects/`+id2+`/milestones/`+id).pipe(map((res:any)=>{return res;}))
+  }
+
+
+
+  getProjectData(id:number, AccessToken:String){
+    return this.http.get<any>(`${this.apiAddress}/projects/`+id,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
+  }
+
+  getAllProjects(AccessToken:String){
+    return this.http.get<any>(`${this.apiAddress}/projects`,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
+  }
+
+  getAllUsers(AccessToken:String){
+    return this.http.get<any>(`${this.apiAddress}/users`,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
 
   postProject(data: any){
-    return this.http.post<any>(`${this.apiAddress}/Project`,data).pipe(map((res:any)=>{return res;}))
+    return this.http.post<any>(`${this.apiAddress}/project`,data).pipe(map((res:any)=>{return res;}))
   }
 
+  signIn(data:any){
+    return this.http.post<any>(`${this.apiAddress}/user/login`,data).pipe(map((res:any)=>{return res;}))
+  }
+
+  setAccessToken(data:String){
+    this.AccessToken = data;
+  }
+  AccessTokenThrow(){
+    return this.AccessToken;
+  }
 }
