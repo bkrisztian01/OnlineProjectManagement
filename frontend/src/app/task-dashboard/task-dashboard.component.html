@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-dark bg-dark ">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Online Project Manager</a>
@@ -9,9 +8,16 @@
       <button type="button" (click)="clickAddMilestone()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >
         Add Milestone
       </button>
-      <button type="button" class="btn btn-info" >
+
+      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#FinishModal" >
         Finish Project
       </button>
+
+      <button type="button" class="btn btn-info" >
+        Create Project
+      </button>
+
+
       </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span class="navbar-toggler-icon"></span>
@@ -23,7 +29,7 @@
       </div>
       <div class="offcanvas-body">
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-three dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             My Projects
           </button>
           <a routerLink="/login" class="nav-link" routerLinkActive="active">Sign out</a>
@@ -32,7 +38,12 @@
             <li><hr class="dropdown-divider"></li>
 
             <div *ngFor="let row of projectData">
-              <button class="dropdown-item" type="button" (click)="setProjectId(row)">{{row.name}}</button>
+              <button class="dropdown-item" type="button" (click)="setProjectId(row)">
+                {{row.name}}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                </svg>
+              </button>
               <li><hr class="dropdown-divider"></li>
             </div>
             <!-- <li><a class="dropdown-item" href="#">{{row.name}}</a></li> -->
@@ -44,6 +55,9 @@
   </div>
 </nav>
 
+
+
+
   <figure class="text-center">
     <h1 class="display-1">{{projectName}}</h1>
     <figcaption class="blockquote-footer">
@@ -51,12 +65,108 @@
     </figcaption>
   
   </figure>
-  
 
-  <h1>Tasks:</h1>
-  <table class="table mt-5">
+  <!-- <p>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Project details
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-body-text" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
+      </svg>
+    </button>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Gantt Chart
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+        <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
+      </svg>
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      <p> Name: {{projectDetails.name}}</p>
+      <p> Description: {{projectDetails.description}}</p>
+      <p> Started: {{projectDetails.startDate.substring(0,10)}}</p>
+      <p> Finished: {{projectDetails.endDate.substring(0,10)}}</p>
+      <p> Estimated time: {{projectDetails.estimatedTime}}</p>
+    </div>
+  </div>
+-->
+  <p> 
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+      Project details
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-body-text" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
+      </svg>
+    </a>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+      Gantt Chart
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+        <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
+      </svg>
+    </button>
+  </p>
+  <div class="row">
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div class="card card-body">
+
+          <!-- <table class="tb" >
+            <tr class="trproj">
+              <td class="tdproj">Name:</td>
+              <td>{{projectDetails.name}}</td>
+            </tr>
+            <tr class="trproj">
+              <td class="tdproj">Description:</td>
+              <td>{{projectDetails.description}}</td>
+            </tr>
+            <tr class="trproj">
+              <td class="tdproj">Started:</td>
+              <td>{{projectDetails.startDate.substring(0,10)}}</td>
+            </tr>
+            <tr class="trproj">
+              <td class="tdproj">Finished:</td>
+              <td>{{projectDetails.endDate.substring(0,10)}}</td>
+            </tr>
+            <tr class="trproj">
+              <td class="tdproj">Estimated time:</td>
+              <td>{{projectDetails.estimatedTime}}</td>
+            </tr>
+          </table> -->
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample2">
+        <div class="card card-body">
+          Gant diagram :)
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <h1 class="">Tasks:</h1>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end me-5 ">
+      <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(-1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+          <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+        </svg>
+      </a></li>
+      <li class="page-item"><a class="page-link">{{TaskPageNumber}}</a></li>
+      <li class="page-item">
+        <a class="page-link" (click)="setTaskPageNumber(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+        <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+      </svg>
+    </a>
+    </li>
+    </ul>
+  </nav>
+
+  <table class="table">
     <thead>
-      <tr>
+      <tr class="tr">
         <th scope="col">Task Name</th>
         <th scope="col">Status</th>
         <th scope="col">Deadline</th>
@@ -67,18 +177,51 @@
       </tr>
     </thead>
     <tbody  >
-      <tr *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
+      <tr class="tr" *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
-        <td *ngIf="row.archived == false">{{row.name}}</td>
+        <td *ngIf="row.archived == false">{{row.name}}</td> 
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
-        <td *ngIf="row.archived == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">{{row.status}}</td>
-        <td *ngIf="row.archived == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">{{row.status}}</td>
-        <td *ngIf="row.archived == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
-        <td *ngIf="row.archived == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-start" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z"/>
+            <path d="M3 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7z"/>
+          </svg>
+        </td>
+        <td *ngIf="row.archived == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-center" viewBox="0 0 16 16">
+            <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"/>
+          </svg>
 
-        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
-        <td *ngIf="row.archived == false">{{row.deadline}}</td>
+        </td>
+        <td *ngIf="row.archived == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-end" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
+            <path d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/>
+          </svg>
+        </td>
+        <td *ngIf="row.archived == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
+          </svg>
+        </td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline.substring(0,10)}}</td>
+        <td *ngIf="row.archived == false">{{row.deadline.substring(0,10)}}</td>
+
+
+        <td *ngFor=" let subrow of row.assignees"> 
+          <li>{{subrow.fullname}}</li>
+        </td>
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
         <td *ngIf="row.archived == false">{{row.assignees}}</td>
@@ -90,11 +233,23 @@
         <td *ngIf="row.archived == false">{{row.prerequisitesTaskIds}}</td>
 
         <td *ngIf="row.archived==false">
-          <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >Edit</button>
+          <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></button>
 
-          <button class="btn btn-secondary" (click)="archiveTask(row,true)">Archive</button>
+          <button class="btn btn-secondary" (click)="archiveTask(row,true)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+            <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+          </svg></button>
          
-          <button type="button" (click)="deleteTask(row)" class="btn btn-danger">Delete</button>
+          <button type="button" (click)="deleteTask(row)" class="btn btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </button>
         </td>
         <td *ngIf="row.archived">
           <button class="btn btn-dark" (click)="archiveTask(row,false)">Reactivate</button>
@@ -102,14 +257,7 @@
       </tr>
     </tbody>
   </table>
-  
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-end">
-    <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(-1)">Previous</a></li>
-    <li class="page-item"><a class="page-link">{{TaskPageNumber}}</a></li>
-    <li class="page-item"><a class="page-link" (click)="setTaskPageNumber(1)">Next</a></li>
-  </ul>
-</nav>
+
 
   <!-- Modal -->
 <div class="modal fade" id="TaskAddModal" tabindex="-1" aria-labelledby="TaskAddModalLabel" aria-hidden="true">
@@ -129,19 +277,19 @@
   
             <label for="exampleInputEmail6" class="form-label">Status</label>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="Not Started" value="Not Started" checked>
               <label class="form-check-label" for="exampleRadios1">
                 Not Started
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="In Progress">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="In Progress" value="In Progress">
               <label class="form-check-label" for="exampleRadios2">
                 In Progress
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="Finished">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="Done" value="Done">
               <label class="form-check-label" for="exampleRadios2">
                 Finished
               </label>
@@ -156,22 +304,25 @@
 
             <label for="exampleInputPassword3">Workers:</label>
             <ul class="list-group">
-              <div *ngFor="let row of userData">
-                <li class="list-group-item">
-                  <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched">
-                  <label class="form-check-label stretched-link" for="firstCheckboxStretched">{{row.fullname}}</label>
-                </li>
-              </div>
-            </ul>
+              <li class="list-group-item" *ngFor="let row of userData" >
+                <input class="form-check-input me-1" type="checkbox" name="workers" id="firstCheckbox" (change)="WorkerAdded(row.id)" value="{{row.id}}" formControlName="{{row.id}}">
+                <label class="form-check-label" for="firstCheckbox"  >{{row.fullname}}</label>
+              </li>
+            </ul>  
 
             <div class="mb-3">
               <label for="exampleInputPassword4" class="form-label">Description</label>
               <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
             </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword5" class="form-label">Prerequisite</label>
-              <input type="text" formControlName="prerequisite" class="form-control" id="exampleInputPassword1">
-            </div>
+
+            <label for="exampleInputPassword3">Prerequisite:</label>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let row of tasksOfProject">
+                <input class="form-check-input me-1" type="checkbox" value="" name="prerequisite" id="firstCheckbox" (change)="PrerequisiteAdded(row.id)">
+                <label class="form-check-label" for="firstCheckbox">{{row.name}}</label>
+              </li>
+            </ul>  
+
           </form>
         </div>
         <div class="modal-footer">
@@ -183,6 +334,22 @@
     </div>
   </div>
 
+
+    <!-- CREATE MODAL -->
+<div class="modal fade " id="FinishModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FinishModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    
+      <div class="modal-body">
+        <p>Are you sure you want to finish the project ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Not yet</button>
+        <button type="button" class="btn btn-primary">Yes!</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal MILESTONE -->
 <div class="modal fade" id="MilestoneAddModal" tabindex="-1" aria-labelledby="MilestoneAddModalLabel" aria-hidden="true">
@@ -247,10 +414,30 @@
 
 
 
-  <h1>Milestones:</h1>
-  <table class="table mt-5">
+
+
+  <h1 class="">Milestones:</h1>
+
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end me-5 ">
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(-1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+          <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+        </svg>
+      </a></li>
+      <li class="page-item"><a class="page-link">{{MilestonePageNumber}}</a></li>
+      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+          <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+        </svg>
+      </a></li>
+    </ul>
+  </nav>
+
+  <table class="table">
     <thead>
-      <tr>
+      <tr class="tr">
         <th scope="col">Milestone Name</th>
         <th scope="col">Status</th>
         <th scope="col">Deadline</th>
@@ -260,44 +447,76 @@
       </tr>
     </thead>
     <tbody >
-      <tr *ngFor="let row of milestoneData.slice(MilestonePageNumber*5-5, MilestonePageNumber*5);">
+      <tr class="tr" *ngFor="let row of milestoneData.slice(MilestonePageNumber*5-5, MilestonePageNumber*5);">
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
-        <td *ngIf="Archive == false">{{row.name}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
+        <td *ngIf="row.archived == false">{{row.name}}</td>
 
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
-        <td *ngIf="Archive == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">{{row.status}}</td>
-        <td *ngIf="Archive == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">{{row.status}}</td>
-        <td *ngIf="Archive == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">{{row.status}}</td>
-        <td *ngIf="Archive == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">{{row.status}}</td>
-
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.deadline}}</td>
-        <td *ngIf="Archive == false">{{row.deadline}}</td>
-
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
-        <td *ngIf="Archive == false">{{row.description}}</td>
-
-        <td *ngIf="Archive" class="p-3 mb-2 bg-secondary text-white"> {{row.tasks}}</td>
-        <td *ngIf="Archive == false">{{row.tasks}}</td>
-
-        <td *ngIf="Archive==false">
-          <button type="button" (click)="onEditMilestone(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >Edit</button>
-
-          <button class="btn btn-secondary" (click)="setToArchive()">Archive</button>
-         
-          <button type="button" (click)="deleteMilestone(row)" class="btn btn-danger">Delete</button>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.status}}</td>
+        <td *ngIf="row.archived == false && row.status =='Done'" class="p-3 mb-2 bg-success text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-start" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z"/>
+            <path d="M3 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7z"/>
+          </svg>
         </td>
-        <td *ngIf="Archive">
+        <td *ngIf="row.archived == false && row.status =='In Progress'" class="p-3 mb-2 bg-warning text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-center" viewBox="0 0 16 16">
+            <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"/>
+          </svg>
+
+        </td>
+        <td *ngIf="row.archived == false && row.status =='Not Started'" class="p-3 mb-2 bg-secondary text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-end" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
+            <path d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/>
+          </svg>
+        </td>
+        <td *ngIf="row.archived == false && row.status =='Stopped'" class="p-3 mb-2 bg-danger text-black">
+          {{row.status}}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
+          </svg>
+        </td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.deadline.substring(0,10)}}</td>
+        <td *ngIf="row.archived == false">{{row.deadline.substring(0,10)}}</td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
+        <td *ngIf="row.archived == false">{{row.description}}</td>
+
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white"> {{row.tasks}}</td>
+        <td *ngIf="row.archived == false">{{row.tasks}}</td>
+
+        <td *ngIf="row.archived==false">
+          <button type="button" (click)="onEditMilestone(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></button>
+
+          <button class="btn btn-secondary" (click)="setToArchive()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+              <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+          </button>
+         
+          <button type="button" (click)="deleteMilestone(row)" class="btn btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </button>
+        </td>
+        <td *ngIf="row.archived">
           <button class="btn btn-dark" (click)="setToActive()">Reactivate</button>
         </td>
       </tr>
     </tbody>
   </table>
-
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(-1)">Previous</a></li>
-      <li class="page-item"><a class="page-link">{{MilestonePageNumber}}</a></li>
-      <li class="page-item"><a class="page-link" (click)="setMilestonePageNumber(1)">Next</a></li>
-    </ul>
-  </nav>

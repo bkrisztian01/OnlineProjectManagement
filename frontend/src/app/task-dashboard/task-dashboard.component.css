@@ -1,0 +1,83 @@
+
+
+.table{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    box-shadow: 5px 10px 15px #bababa;
+    text-align: center;
+}
+
+thead{
+    background-color: #2a9d8f;
+    color: white;
+    box-shadow: 0 5px 10px #bababa;
+    vertical-align: middle;
+}
+
+th{
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    font-weight: 900;
+}
+
+tbody{
+    background-color: white;
+}
+
+
+/* tbody tr:last-of-type{
+    border-bottom: 2px solid #2a9d8f;
+} */
+
+.tr:nth-child(even){
+    background-color:#eef6f5 ;
+}
+
+h1{
+    padding: 0rem 1rem;
+    letter-spacing: 0.2rem;
+    font-weight: 500;
+}
+
+.btn-info{
+    background-color:#e76f51 ;
+}
+
+.btn-primary{
+    background-color:#2a9d8f ;
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-success{
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-danger{
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-secondary{
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-three{
+    box-shadow: none;
+    background-color:#2a9d8f ;
+}
+
+.page-link{
+    color: #264653;
+}
+
+.tb{
+    width: 50%;
+}
+
+.tdproj{
+    font-weight: 900;
+}
