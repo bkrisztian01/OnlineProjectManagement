@@ -69,6 +69,10 @@ export class ApiService {
     return this.http.post<any>(`${this.apiAddress}/user/login`,data).pipe(map((res:any)=>{return res;}))
   }
 
+  signUp(data:any){
+    return this.http.post<any>(`${this.apiAddress}/user/signup`,data).pipe(map((res:any)=>{return res;}))
+  }
+
   setAccessToken(data:String){
     this.AccessToken = data;
   }
