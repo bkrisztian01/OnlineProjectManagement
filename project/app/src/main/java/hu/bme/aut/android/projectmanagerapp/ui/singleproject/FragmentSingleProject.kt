@@ -5,52 +5,85 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
-import hu.bme.aut.android.projectmanagerapp.model.Project
-import hu.bme.aut.android.projectmanagerapp.model.User
-import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneDirections
-import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
-import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
-import java.util.*
+import hu.bme.aut.android.projectmanagerapp.data.project.Project
+import hu.bme.aut.android.projectmanagerapp.data.user.User
+import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.tasks.TaskResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.tasks.TaskResponseSuccess
+import hu.bme.aut.android.projectmanagerapp.ui.tasks.TasksViewModel
 
 class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelectedListener {
     private var _binding: FragmentSingleprojectBinding? = null
     private val binding get() = _binding!!
-    private lateinit var user: User
     private lateinit var project: Project
-    //private lateinit var token: String
+    private var projectid=-1
+    private val singleProjectViewModel: SingleProjectViewModel by viewModels()
+    private lateinit var token: String
+    private val tasksViewModel: TasksViewModel by viewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentSingleprojectBinding.inflate(inflater, container, false)
         val view = binding.root
+        binding.loading.hide()
+        binding.scrollproject.setVisibility(View.GONE)
+        binding.tvProjectName.setVisibility(View.GONE)
         if (arguments!=null) {
             val args: FragmentSingleProjectArgs by navArgs()
-            project = args.project
-            user=args.user
-            //token=args.token
+            projectid = args.projectid
+            token=args.token
 
         }
         binding.toolbarsingleproject.inflateMenu(R.menu.menu_singleproject_toolbar)
         binding.toolbarsingleproject.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
-        loadProject()
         return view
     }
     override fun onResume() {
         super.onResume()
+
+        singleProjectViewModel.getSingleProject(token, projectid)?.observe(this) { singleProjectViewState ->
+            render(singleProjectViewState)
+        }
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
     }
+
+    private fun render(result: SingleProjectViewState?) {
+        when (result) {
+            is InProgress -> {
+                binding.loading.show()
+            }
+            is SingleProjectResponseSuccess -> {
+                binding.loading.hide()
+                project= result.data
+                loadProject()
+                binding.scrollproject.setVisibility(View.VISIBLE)
+                binding.tvProjectName.setVisibility(View.VISIBLE)
+            }
+            is SingleProjectResponseError -> {
+                this.view?.let {
+                    Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
+                }
+
+            }
+            else -> {}
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -62,8 +95,8 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
             R.id.menu_help->{
                 if (context != null) {
                     AlertDialog.Builder(context)
-                        .setTitle("Help")
-                        .setMessage("Here is some information on the project!")
+                        .setTitle(R.string.help)
+                        .setMessage(R.string.proj_info)
                         .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
@@ -77,37 +110,59 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
             else -> super.onOptionsItemSelected(item)
         }
     }
-    private fun loadProject(){
+    private fun loadProject() {
         binding.tvProjectName.setText(project.name+" info")
-        val sdate= project.startDate.substring(   0,10)+" "+project.startDate.substring(11,19)
-        val edate=project.endDate.substring(   0,10)+" "+project.endDate.substring(11,19)
-        binding.tStartDate.setText(sdate)
-        binding.tEndDate.setText(edate)
-        binding.tDesc.setText(project.description)
-        binding.tLength.setText(project.estimatedTime.toString()+ " days")
-        binding.tvsDate.text=unfinishedtasks().toString()
-    }
-    private fun unfinishedtasks(): Int{
-        val itr1 = project.milestones.listIterator()
-        var num=0
-        while (itr1.hasNext()) {
-            val itr2=itr1.next().tasks.listIterator()
-            while(itr2.hasNext()){
-                if(itr2.next().status!="Finished")
-                    num++
-            }
+        if(project.startDate!=null){
+            val sdate= project.startDate
+            binding.tStartDate.setText(sdate)
+        }else
+            binding.tStartDate.setText(R.string.unspecified_startdate)
 
+        if (project.endDate!=null) {
+            val edate =project.endDate
+            binding.tvDeadline.setText(edate)
+        }else
+            binding.tvDeadline.setText(R.string.unspecified_deadline)
+
+        if (project.estimatedTime!=null){
+            binding.tLength.setText(project.estimatedTime.toString()+ " days")
+        }else
+            binding.tLength.setText(R.string.unspecified_length)
+        binding.tDesc.setText(project.description)
+        unfinishedtasks()
+    }
+    private fun unfinishedtasks(){
+        tasksViewModel.getTasksByProject(token, projectid,1)?.observe(this){ taskViewState ->
+            when (taskViewState) {
+                is hu.bme.aut.android.projectmanagerapp.ui.tasks.InProgress -> {
+                    binding.tvsDate.text="Loading..."
+                }
+                is TaskResponseSuccess -> {
+                    var num=0
+                    val itr = taskViewState.data?.listIterator()
+                    if (itr != null) {
+                        while (itr.hasNext()) {
+                            if(itr.next().status!="Done")
+                                num++
+                        }
+                    }
+                    binding.tvsDate.text=num.toString()
+                }
+                is TaskResponseError -> {
+                    binding.tvsDate.text="Couldn't get data from server!"
+
+                }
+            }
         }
-        return num
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUser(user))
+                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUser(token))
                 return true
             }
             R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentProject(user))
+                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentProject(token))
                 return true
             }
             R.id.taskspage->{

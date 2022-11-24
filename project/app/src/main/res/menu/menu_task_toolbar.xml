@@ -9,8 +9,13 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menu_milestones"
+        android:icon="@drawable/ic_icons8_milestone_30"
+        android:title="@string/milestone"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menu_project"
-        android:icon="@drawable/ic_assignment"
+        android:icon="@drawable/ic_icons8_group_of_projects_50"
         android:title="@string/project"
         app:showAsAction="always" />
     <item

@@ -1,12 +1,17 @@
 package hu.bme.aut.android.projectmanagerapp.network.task
 
-import hu.bme.aut.android.projectmanagerapp.data.project.ProjectResult
-import hu.bme.aut.android.projectmanagerapp.data.task.TaskResult
+import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TaskAPI {
-    @GET("/tasks")
-    fun getTasks(): Call<TaskResult>
+    @GET("/projects/{projectid}/milestones/{milestoneid}/tasks/")
+    fun getTasks(@Header("Authorization") token: String, @Path ("projectid") projectid:Int, @Path("milestoneid") milestoneid: Int,@Query("pageNumber") pagenum: Int): Call<List<Task>>
 
+
+    @GET("/projects/{projectid}/tasks/")
+    fun getTasksByProject(@Header("Authorization") token: String, @Path ("projectid") projectid:Int, @Query("pageNumber") pagenum: Int): Call<List<Task>>
 }

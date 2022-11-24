@@ -8,13 +8,13 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.ItemMilestoneBinding
-import hu.bme.aut.android.projectmanagerapp.model.Milestone
-import hu.bme.aut.android.projectmanagerapp.model.Project
-import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.data.milestone.Milestone
+import hu.bme.aut.android.projectmanagerapp.data.project.Project
+import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneDirections
 import java.util.ArrayList
 
-class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private val project: Project, private val user: User) : RecyclerView.Adapter<MilestoneAdapter.ViewHolder>() {
+class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private val projectid: Int, private val token: String) : RecyclerView.Adapter<MilestoneAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemMilestoneBinding) : RecyclerView.ViewHolder(binding.root) {
         val milestonebutton = itemView.findViewById<Button>(R.id.btnmilestone)
     }
@@ -39,7 +39,7 @@ class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private va
         val milestone: Milestone = milestones[position]
         val button = viewHolder.milestonebutton
         button.setOnClickListener {
-            viewHolder.binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(project,user,milestone))
+            viewHolder.binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(token,projectid,milestone.id,milestone.name))
         }
         when(position%10){
             0 ->{ button.setBackgroundColor(Color.parseColor("#5a90ed")) }

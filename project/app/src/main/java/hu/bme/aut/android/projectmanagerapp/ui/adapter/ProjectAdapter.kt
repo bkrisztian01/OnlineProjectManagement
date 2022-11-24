@@ -4,18 +4,16 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.ItemProjectBinding
-import hu.bme.aut.android.projectmanagerapp.model.Project
-import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.data.project.Project
+import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
 import java.util.*
 
-class ProjectAdapter (private val user: User, private var projects: ArrayList<Project>) : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
+class ProjectAdapter (private var projects: ArrayList<Project>, private val token: String) : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemProjectBinding) : RecyclerView.ViewHolder(binding.root) {
         val projectbutton = itemView.findViewById<Button>(R.id.btnproject)
@@ -39,7 +37,7 @@ class ProjectAdapter (private val user: User, private var projects: ArrayList<Pr
         val project: Project = projects[position]
         val button = viewHolder.projectbutton
         button.setOnClickListener {
-            viewHolder.binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentMilestone(project,user))
+            viewHolder.binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentNav(token,project.id,project.name))
         }
 
         when(position%10){

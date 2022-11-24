@@ -1,37 +1,29 @@
 package hu.bme.aut.android.projectmanagerapp.ui.user
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.android.projectmanagerapp.R
-import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBinding
-import hu.bme.aut.android.projectmanagerapp.databinding.FragmentTasksBinding
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentUserBinding
-import hu.bme.aut.android.projectmanagerapp.model.User
-import hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentProjectDirections
-import hu.bme.aut.android.projectmanagerapp.ui.singleproject.FragmentSingleProjectDirections
-import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksArgs
-import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
+import hu.bme.aut.android.projectmanagerapp.data.user.User
 
 class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
     private lateinit var user: User
-    //private lateinit var token:String
+    private lateinit var token:String
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View?{
         _binding = FragmentUserBinding.inflate(inflater, container, false)
@@ -90,25 +82,51 @@ class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener 
     private fun setUp(){
         if (arguments!=null) {
             val args: FragmentUserArgs by navArgs()
-            user=args.user
-            //token=args.token
-            binding.tvtUser2.text=user.username
-            binding.tvtName.text=user.fullname
-            binding.tvEmail.text=user.email
+            token=args.token
+            userViewModel.getUser(token)?.observe(this) { userViewState ->
+                render(userViewState)
+            }
         }
     }
+
+    private fun render(result: UserViewState?) {
+        when (result) {
+            is InProgress -> {
+                binding.loading.bringToFront()
+                binding.loading.show()
+
+            }
+            is UserResponseSuccess -> {
+                binding.loading.hide()
+                user = result.data
+                binding.tvtUser2.text=user.username
+                binding.tvtName.text=user.fullname
+                binding.tvEmail.text=user.email
+
+            }
+            is UserResponseError -> {
+                binding.loading.hide()
+                this.view?.let {
+                    Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                }
+
+            }
+            else -> {}
+        }
+
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.accountpage->{
-                //binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUser(user))
                 return true
             }
             R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentProject(user))
+                binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentProject(token))
                 return true
             }
             R.id.taskspage->{
-                binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentUpcomingTasks(user))
+                //binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentUpcomingTasks(user))
                 return true
             }
             else->{

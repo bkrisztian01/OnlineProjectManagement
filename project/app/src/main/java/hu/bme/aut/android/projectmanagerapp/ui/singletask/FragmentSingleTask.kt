@@ -1,7 +1,6 @@
 package hu.bme.aut.android.projectmanagerapp.ui.singletask
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -16,25 +15,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBinding
-import hu.bme.aut.android.projectmanagerapp.model.Project
-import hu.bme.aut.android.projectmanagerapp.model.Task
-import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.data.task.Task
+import hu.bme.aut.android.projectmanagerapp.data.user.User
+import hu.bme.aut.android.projectmanagerapp.ui.adapter.PreReqAdapter
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.concurrent.TimeUnit
 
 class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
-    private lateinit var project: Project
+
+    private var taskid=-1
     private lateinit var task: Task
     private var _binding: FragmentSingletaskBinding? = null
     private val binding get() = _binding!!
-    private lateinit var user : User
     private val singleTaskViewModel: SingleTaskViewModel by viewModels()
-    //private lateinit var token: String
+    private lateinit var token: String
+    private var projid=-1
+    private var prereqtasks: ArrayList<Task> = ArrayList()
+    private lateinit var adapter: PreReqAdapter
 
 
 
@@ -52,43 +57,33 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentSingletaskBinding.inflate(inflater, container, false)
         val view = binding.root
+        binding.loading.hide()
+        binding.tvTaskName.setVisibility(View.GONE)
+        binding.scrolltask.setVisibility(View.GONE)
+
+
+
         if (arguments!=null) {
             val args: FragmentSingleTaskArgs by navArgs()
-            project = args.project
-            task=args.task
-            user=args.user
-            //token=args.token
-
+            taskid=args.taskid
+            token=args.token
+            projid=args.projectid
         }
         binding.toolbarsingletask.inflateMenu(R.menu.menu_singleproject_toolbar)
         binding.toolbarsingletask.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
+        singleTaskViewModel.getSingleTask(token,projid,taskid)?.observe(this) { singleTaskViewState ->
+            render(singleTaskViewState)
+        }
 
-            binding.savebtn.setOnClickListener{
-                task.status=binding.spStatus.selectedItem.toString().filter { !it.isWhitespace() }
-                if(binding.spStatus.selectedItem.toString()=="Done") {
-                    binding.konfettiView.bringToFront()
-                    binding.konfettiView.start(party)
-                }
-                singleTaskViewModel.updateTask(task)
-                Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
-            }
-            binding.discardbtn.setOnClickListener {
-                loadTask()
-                binding.spStatus.setSelection(setting)
-            }
-            loadTask()
-
-            binding.spStatus.adapter = ArrayAdapter(
-                requireContext(),
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                resources.getStringArray(R.array.status_array)
-
-            )
-            binding.spStatus.onItemSelectedListener = this
-            binding.spStatus.setSelection(setting)
-            return view
+        binding.spStatus.adapter = ArrayAdapter(
+            requireContext(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            resources.getStringArray(R.array.status_array))
+        binding.spStatus.onItemSelectedListener = this
+        binding.spStatus.setSelection(setting)
+        return view
         }
         override fun onDestroyView() {
             super.onDestroyView()
@@ -122,97 +117,181 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
         super.onResume()
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+        val manager = LinearLayoutManager(this.activity)
+        val recyclerView = activity?.findViewById(R.id.rvPreReq) as RecyclerView
+        recyclerView.layoutManager = manager
+    }
+
+    private fun render(result: SingleTaskViewState?) {
+        when (result) {
+            is InProgress -> {
+                binding.loading.show()
+            }
+            is SingleTaskResponseSuccess -> {
+                task= result.data
+                binding.loading.hide()
+                binding.savebtn.setOnClickListener{
+                    task.status=binding.spStatus.selectedItem.toString()
+                    if(binding.spStatus.selectedItem.toString()=="Done") {
+                        binding.konfettiView.bringToFront()
+                        binding.konfettiView.start(party)
+                    }
+                    singleTaskViewModel.updateTask(token,projid,task)
+                    Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
+                }
+                if(prereqtasks.isNotEmpty())
+                    prereqtasks.clear()
+                binding.discardbtn.setOnClickListener {
+                    loadTask()
+                    binding.spStatus.setSelection(setting)
+                }
+                loadTask()
+                binding.scrolltask.setVisibility(View.VISIBLE)
+                binding.tvTaskName.setVisibility(View.VISIBLE)
+
+            }
+            is SingleTaskResponseError -> {
+                this.view?.let {
+                    Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                }
+
+            }
+            else -> {}
+        }
     }
 
 
-
-        private fun  loadTask(){
-            when (task.status) {
-                "In Progress" -> {
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
-                    binding.spStatus.setSelection(0)
-                    setting=0
-                }
-                "Done" ->{
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
-                    binding.spStatus.setSelection(3)
-                    setting=3
-                }
-                "Stopped" -> {
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
-                    binding.spStatus.setSelection(2)
-                    setting=2
-                }
-                "Not Started" ->{
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                    binding.spStatus.setSelection(1)
-                    setting=1
-                }
-                else->{
-                }
+    private fun  loadTask(){
+        when (task.status) {
+            "In Progress" -> {
+                binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                binding.spStatus.setSelection(0)
+                setting=0
             }
-
-
-            binding.tvTaskName.setText(task.name+" info")
-            binding.tEndDate.setText(task.deadline.substring(   0,10)+" "+project.startDate.substring(11,19))
-            binding.ttDesc.setText(task.description)
-            val itr = task.assignees.listIterator()
-            var workers =""
-            while (itr.hasNext()) {
-                workers+=itr.next().fullname
-
+            "Done" ->{
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                binding.spStatus.setSelection(3)
+                setting=3
             }
-            binding.tWorkers.text=workers
-
-
+            "Stopped" -> {
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
+                binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+                binding.spStatus.setSelection(2)
+                setting=2
+            }
+            "Not Started" ->{
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                binding.spStatus.setSelection(1)
+                setting=1
+            }
+            else->{
+            }
         }
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-            when (pos){
-                0 -> {
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
+        binding.tvTaskName.setText(task.name+" info")
+        if(task.deadline!=null)
+            binding.tvDeadline.setText(task.deadline!!)
+        else
+            binding.tvDeadline.setText("No deadline specified")
+        binding.ttDesc.setText(task.description)
+        if(task.assignees==null)
+            binding.tWorkers.text="No assignees"
+        else {
+            if(task.assignees!!.isEmpty())
+                binding.tWorkers.text="No assignees"
+            else {
+                val itr = task.assignees!!.listIterator()
+                var workers = ""
+                while (itr.hasNext()) {
+                    workers += itr.next().fullname
                 }
-                1 -> {
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
-                }
-                2 -> {
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
-                }
-                3 -> {
-                    binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
-                    binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
-                }
+                binding.tWorkers.text = workers
             }
-
-
         }
 
-        override fun onNothingSelected(parent: AdapterView<*>) {
-        }
+        if(task.prerequisiteTaskIDs!=null){
+            binding.rvPreReq.visibility=View.VISIBLE
+            binding.tvNoPrereq.visibility=View.GONE
+            val itr= task.prerequisiteTaskIDs!!.listIterator()
+            while(itr.hasNext()) {
+                singleTaskViewModel.getSingleTask(token, projid, itr.next())
+                    ?.observe(this) { singleTaskViewState ->
+                        when (singleTaskViewState) {
+                            is InProgress -> {
+                                binding.loading.show()
+                            }
+                            is SingleTaskResponseSuccess -> {
+                                prereqtasks.add(singleTaskViewState.data)
+                                if (singleTaskViewState.data.status != "Done")
+                                    binding.savebtn.isEnabled = false
 
-        override fun onNavigationItemSelected(item: MenuItem): Boolean {
-            when (item.itemId){
-                R.id.accountpage->{
-                    binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUser(user))
-                    return true
-                }
-                R.id.homepage->{
-                    binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentProject(user))
-                    return true
-                }
-                R.id.taskspage->{
-                    binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUpcomingTasks(user))
-                    return true
-                }
-                else->{
-                    return false
-                }
+                            }
+                            is SingleTaskResponseError -> {
+                                this.view?.let {
+                                    Snackbar.make(
+                                        it,
+                                        "Couldn't reach server!",
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
+
+                            }
+                            else -> {}
+                        }
+                    }
+            }
+        adapter= PreReqAdapter(token,prereqtasks,projid)
+        binding.rvPreReq.adapter=adapter
+        }
+        else {
+            binding.rvPreReq.visibility=View.GONE
+            binding.tvNoPrereq.visibility=View.VISIBLE
+        }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        when (pos){
+            0 -> {
+                binding.spStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#F9CB9C"))
+            }
+            1 -> {
+                binding.spStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#CCCCCC"))
+            }
+            2 -> {
+                binding.spStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#EA9999"))
+            }
+            3 -> {
+                binding.spStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                binding.mtcardview.setBackgroundColor(Color.parseColor("#B6D7A8"))
             }
         }
     }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.accountpage->{
+                binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUser(token))
+                return true
+            }
+            R.id.homepage->{
+                binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentProject(token))
+                return true
+            }
+            R.id.taskspage->{
+                //binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUpcomingTasks(token))
+                return true
+            }
+            else->{
+                return false
+            }
+        }
+    }
+}

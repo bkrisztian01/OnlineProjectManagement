@@ -14,6 +14,21 @@
     android:layout_height="match_parent"
     android:background="#372859EC"
     android:orientation="vertical">
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading"
+        style="@style/Widget.App.CircularProgressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="200dp"
+        android:indeterminate="true"
+        app:indicatorSize="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <nl.dionsegijn.konfetti.xml.KonfettiView
@@ -40,6 +55,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrolltask"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/tvTaskName"
@@ -100,7 +116,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
                 android:layout_marginTop="@dimen/mtrl_card_spacing"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
@@ -109,16 +125,16 @@
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
 
                 <TextView
-                    android:id="@+id/tEndDate"
+                    android:id="@+id/tvDeadline"
 
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
                     android:background="@color/md_theme_dark_primary"
                     android:backgroundTint="@color/md_theme_dark_primary"
-                    android:text="2022.10.01."
+                    android:gravity="center"
+                    android:text="@string/_2022_10_01"
                     android:textColor="@color/md_theme_dark_inversePrimary"
                     android:textSize="16sp" />
             </com.google.android.material.card.MaterialCardView>
@@ -138,7 +154,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
                 android:layout_marginTop="@dimen/mtrl_card_spacing"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
@@ -149,13 +165,13 @@
                 <TextView
                     android:id="@+id/tWorkers"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
                     android:background="@color/md_theme_dark_primary"
+                    android:gravity="center_vertical"
                     android:scrollbarAlwaysDrawHorizontalTrack="false"
-                    android:text="Random Workers"
+                    android:text=""
                     android:textColor="@color/md_theme_dark_inversePrimary"
                     android:textSize="16sp"
                     android:visibility="visible" />
@@ -176,7 +192,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
                 android:layout_marginTop="@dimen/mtrl_card_spacing"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
@@ -186,15 +202,66 @@
 
                 <TextView
                     android:id="@+id/ttDesc"
-                    android:layout_width="393dp"
-                    android:layout_height="191dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/md_theme_dark_primary"
+                    android:gravity="center_vertical"
                     android:scrollHorizontally="true"
-                    android:text="Random description"
+                    android:text=""
                     android:textColor="@color/md_theme_dark_inversePrimary"
                     android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvPreReq"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical"
+                android:text="@string/prerequisite_tasks"
+                android:textColor="@color/md_theme_dark_onPrimary"
+                android:textSize="20sp" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:background="@color/md_theme_dark_primary"
+                android:backgroundTint="@color/md_theme_dark_primary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPreReq"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewProject" />
+
+                <TextView
+                    android:id="@+id/tvNoPrereq"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/there_are_no_prerequisite_tasks"
+                    android:background="@color/md_theme_dark_primary"
+                    android:gravity="center_vertical"
+                    android:scrollHorizontally="true"
+                    android:textColor="@color/md_theme_dark_inversePrimary"
+                    android:textSize="16sp"
+
+                    />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
@@ -224,7 +291,6 @@
         android:id="@+id/savebtn"
         android:layout_width="141dp"
         android:layout_height="0dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="43dp"
@@ -248,16 +314,14 @@
         android:id="@+id/discardbtn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="false"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_marginStart="43dp"
         android:layout_marginBottom="30dp"
-        android:contentDescription="Discard"
+        android:contentDescription=""
         android:cursorVisible="false"
         android:elegantTextHeight="true"
-        android:text="Discard"
+        android:text="@string/discard"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         app:backgroundTint="#2196F3"

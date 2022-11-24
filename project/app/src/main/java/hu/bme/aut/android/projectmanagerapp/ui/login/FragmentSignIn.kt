@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSigninBinding
-import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 
 class FragmentSignIn : Fragment() {
@@ -51,8 +51,8 @@ class FragmentSignIn : Fragment() {
 
             if(error){} else{
                 Toast.makeText(context, "You created an account!", Toast.LENGTH_LONG).show()
-                userViewModel.createUser(User(3,binding.editTextUser.text.toString(),
-                    binding.editTextPw.text.toString(),binding.editTextName.text.toString(),binding.editTextEmailadress.text.toString()))
+                userViewModel.createUser(binding.editTextUser.text.toString(), binding.editTextPw.text.toString(),binding.editTextName.text.toString(),binding.editTextEmailadress.text.toString())
+
                 Toast.makeText(context, "You created an account!", Toast.LENGTH_LONG).show()
                 binding.root.findNavController().navigate(FragmentSignInDirections.actionFragmentSignInToFragmentWelcome())
 

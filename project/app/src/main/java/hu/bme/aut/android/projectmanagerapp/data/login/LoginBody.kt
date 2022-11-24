@@ -4,6 +4,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class LoginBody (
-    val email: String,
+    val username: String,
     val password: String
 )

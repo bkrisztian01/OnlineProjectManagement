@@ -17,9 +17,9 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentUpcomingTasksBinding
-import hu.bme.aut.android.projectmanagerapp.model.Project
-import hu.bme.aut.android.projectmanagerapp.model.Task
-import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.data.project.Project
+import hu.bme.aut.android.projectmanagerapp.data.task.Task
+import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.UpcomingTaskAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.projects.*
 import hu.bme.aut.android.projectmanagerapp.ui.projects.InProgress
@@ -32,7 +32,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     private val binding get() = _binding!!
     private lateinit var user: User
     private val projectViewModel : ProjectViewModel by viewModels()
-    //private lateinit var token: String
+    private lateinit var token: String
 
 
     override fun onCreateView(
@@ -42,7 +42,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
         if (arguments!=null) {
             val args: FragmentUpcomingTasksArgs by navArgs()
             user = args.user
-            //token=args.token
+            token="a2"
         }
 
         binding.toolbarupcomingtasks.inflateMenu(R.menu.menu_project_toolbar)
@@ -90,7 +90,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
             projects.clear()
         if(tasks.isNotEmpty())
             tasks.clear()
-        projectViewModel.getProjects(/*token*/)?.observe(this) { projectsViewState ->
+        projectViewModel.getProjects(token,1)?.observe(this) { projectsViewState ->
             render(projectsViewState)
         }
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
@@ -106,13 +106,13 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
                 binding.loadingview.hide()
                 val itr = result.data.listIterator()
                 while (itr.hasNext()) {
-                    itr.next().tasks.forEach {
+                    /*itr.next().tasks.forEach {
                         if(it.status!="Done") {
                             projects.add(itr.next())
                             tasks.add(it)
                         }
 
-                    }
+                    }*/
                     /*
                     val itr1= itr.next().tasks.listIterator()
                     while(itr1.hasNext()){
@@ -145,11 +145,11 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser(user))
+                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser("user"))
                 true
             }
             R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject(user))
+                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject("a"))
                 true
             }
             R.id.taskspage->{

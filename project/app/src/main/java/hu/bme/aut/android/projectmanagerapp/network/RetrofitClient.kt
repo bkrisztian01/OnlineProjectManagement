@@ -7,21 +7,35 @@ import hu.bme.aut.android.projectmanagerapp.network.singleproject.SingleProjectA
 import hu.bme.aut.android.projectmanagerapp.network.singletask.SingleTaskAPI
 import hu.bme.aut.android.projectmanagerapp.network.task.TaskAPI
 import hu.bme.aut.android.projectmanagerapp.network.user.UserAPI
-import okhttp3.OkHttpClient
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
+
 
 object  RetrofitClient {
-    const val MainServer="https://opmapi.azurewebsites.net/";
+    const val MainServer="https://opmapi2.azurewebsites.net/";
     val retrofitClient: Retrofit.Builder by lazy {
         val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.BUILD_TYPE.contentEquals("debug"))
             HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        val cookieJar: CookieJar = object : CookieJar {
+            private val cookieStore: HashMap<String, List<Cookie>> = HashMap()
+            override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+                cookieStore[url.host] = cookies
+            }
+
+            override fun loadForRequest(url: HttpUrl): List<Cookie> {
+                val cookies = cookieStore[url.host]
+                return cookies ?: ArrayList()
+            }
+        }
 
         val logging = HttpLoggingInterceptor()
         logging.setLevel(levelType)
 
-        val okHttpClient = OkHttpClient.Builder()
+        val okHttpClient = OkHttpClient.Builder().cookieJar(cookieJar)
+
         okHttpClient.addInterceptor(logging)
 
         Retrofit.Builder()
@@ -29,6 +43,12 @@ object  RetrofitClient {
             .client(okHttpClient.build())
             .addConverterFactory(MoshiConverterFactory.create())
     }
+
+
+
+
+
+
 
     val projectApiInterface: ProjectAPI by lazy {
         retrofitClient
@@ -60,5 +80,27 @@ object  RetrofitClient {
         retrofitClient
             .build()
             .create(UserAPI::class.java)
+    }
+}
+
+private class SessionCookieJar : CookieJar {
+    private var cookies: List<Cookie>? = null
+    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+        if (url.encodedPath.endsWith("login")) {
+            this.cookies = ArrayList(cookies)
+        }
+    }
+
+    override fun loadForRequest(url: HttpUrl): List<Cookie> {
+        if (!url.encodedPath.endsWith("login") && cookies != null) {
+            val better=ArrayList<Cookie>()
+            val itr= cookies!!.listIterator()
+            itr.next()
+            while(itr.hasNext())
+                better.add(itr.next())
+
+            return better
+        } else
+            return Collections.emptyList()
     }
 }
