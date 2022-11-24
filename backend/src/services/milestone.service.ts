@@ -84,20 +84,25 @@ export async function updateMilestoneById(
 
   let tasks;
   if (taskIds) {
-    tasks = await Task.find({
-      relations: ['project'],
-      where: {
-        id: In(taskIds),
-        project: {
-          id: milestone.project.id,
+    if (taskIds.length === 0) {
+      tasks = [];
+    } else {
+      tasks = await Task.find({
+        relations: ['project'],
+        where: {
+          id: In(taskIds),
+          project: {
+            id: milestone.project.id,
+          },
         },
-      },
-    });
+      });
+    }
+
+    if (tasks.length == 0 && taskIds.length > 0) {
+      throw new Conflict('Task and milestone is not in the same project');
+    }
   }
 
-  if (tasks.length == 0) {
-    throw new Conflict('Task and milestone is not in the same project');
-  }
   milestone.name = name || milestone.name;
   milestone.description = description || milestone.description;
   milestone.deadline = deadline || milestone.deadline;

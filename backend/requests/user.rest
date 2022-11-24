@@ -1,5 +1,5 @@
 @host = https://opmapi2.azurewebsites.net
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTIxMjIzNSwiZXhwIjoxNjY5MjEyMzU1fQ.eStMEOv9jbhoZ6QDrfKB0MQBRuoSqTqhgfjIIvYXZYA
+@token = 
 
 #Get users
 GET {{host}}/users

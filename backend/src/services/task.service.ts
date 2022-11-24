@@ -88,20 +88,28 @@ export async function updateTaskById(
 
   let assignees;
   if (assigneeIds) {
-    assignees = await User.createQueryBuilder('users')
-      .select('users')
-      .where('users.id IN (:...assigneeIds)', { assigneeIds: assigneeIds })
-      .getMany();
+    if (assigneeIds.length === 0) {
+      assignees = [];
+    } else {
+      assignees = await User.createQueryBuilder('users')
+        .select('users')
+        .where('users.id IN (:...assigneeIds)', { assigneeIds: assigneeIds })
+        .getMany();
+    }
   }
 
   let prerequisiteTasks;
   if (prerequisiteTaskIds) {
-    prerequisiteTasks = await Task.createQueryBuilder('task')
-      .select('task')
-      .where('task.id IN (:...prerequisiteTaskIds)', {
-        prerequisiteTaskIds: prerequisiteTaskIds,
-      })
-      .getMany();
+    if (prerequisiteTasks.length === 0) {
+      prerequisiteTasks = [];
+    } else {
+      prerequisiteTasks = await Task.createQueryBuilder('task')
+        .select('task')
+        .where('task.id IN (:...prerequisiteTaskIds)', {
+          prerequisiteTaskIds: prerequisiteTaskIds,
+        })
+        .getMany();
+    }
   }
 
   task.name = name || task.name;
