@@ -6,15 +6,19 @@ import {
   getTasks,
   setArchivedTaskById,
   updateTaskById,
-} from '../services/tasks.service';
-import { Status } from '../util/Status';
+} from '../services/task.service';
 
 export async function getTaskHandler(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getTasks());
+  res.send(
+    await getTasks(
+      parseInt(req.params.projectId),
+      Number(req.query.pageNumber),
+    ),
+  );
 }
 
 export async function postTaskHandler(
@@ -24,14 +28,15 @@ export async function postTaskHandler(
 ) {
   try {
     const task = await createTask(
-      req.body.projectId,
+      parseInt(req.params.projectId),
       req.body.name,
       req.body.description,
+      req.body.status,
       req.body.deadline,
     );
     res.send(task);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -40,7 +45,10 @@ export async function getTaskByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  const task = await getTaskById(parseInt(req.params.id));
+  const task = await getTaskById(
+    parseInt(req.params.id),
+    parseInt(req.params.projectId),
+  );
   if (!task) {
     res.status(404).send('Task was not found');
     return;
@@ -56,10 +64,11 @@ export async function updateTaskByIdHandler(
 ) {
   try {
     const task = await updateTaskById(
+      parseInt(req.params.projectId),
       parseInt(req.params.id),
       req.body.name,
       req.body.description,
-      Status[req.body.status as keyof typeof Status],
+      req.body.status,
       req.body.deadline,
       req.body.assigneeIds,
       req.body.prerequisiteTaskIds,
@@ -67,7 +76,7 @@ export async function updateTaskByIdHandler(
 
     res.send(task);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -77,10 +86,13 @@ export async function deleteTaskByIdHandler(
   next: NextFunction,
 ) {
   try {
-    await deleteTaskById(parseInt(req.params.id));
+    await deleteTaskById(
+      parseInt(req.params.id),
+      parseInt(req.params.projectId),
+    );
     res.send('Successful operation');
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -90,9 +102,13 @@ export async function setArchivedTaskByIdHandler(
   next: NextFunction,
 ) {
   try {
-    await setArchivedTaskById(parseInt(req.params.id), req.body.archived);
+    await setArchivedTaskById(
+      parseInt(req.params.id),
+      parseInt(req.params.projectId),
+      req.body.archived,
+    );
     res.send('Successful operation');
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }

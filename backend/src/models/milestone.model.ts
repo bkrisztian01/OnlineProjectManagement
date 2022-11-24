@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Status } from '../util/Status';
-import { Project } from './projects.model';
-import { Task } from './tasks.model';
+import { Project } from './project.model';
+import { Task } from './task.model';
 
 @Entity({ name: 'milestone' })
 export class Milestone extends BaseEntity {
@@ -18,7 +18,7 @@ export class Milestone extends BaseEntity {
   @Column('varchar', { length: 50 })
   name: string;
 
-  @Column('text', { nullable: true })
+  @Column('text', { default: '' })
   description: string;
 
   @Column({ type: 'date', nullable: true })
@@ -30,6 +30,9 @@ export class Milestone extends BaseEntity {
     default: Status.NotStarted,
   })
   status: Status;
+
+  @Column({ default: false })
+  archived: Boolean;
 
   @OneToMany(() => Task, task => task.milestone)
   tasks: Task[];

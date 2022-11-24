@@ -1,5 +1,5 @@
-@host = https://opmapi2.azurewebsites.net
-@token = 
+@host = http://127.0.0.1:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWF0IjoxNjY5MDY4MzE3LCJleHAiOjE2NjkwNjg0Mzd9.fL5wspV_RXnAbzcsoK2zo8y2N4JUALUzWlf4jjZLE7U
 
 #Get users
 GET {{host}}/users
@@ -7,7 +7,7 @@ GET {{host}}/users
 ###
 
 #Login
-POST {{host}}/user/login
+GET {{host}}/user/login
 Content-Type: application/json
 
 {
@@ -39,11 +39,6 @@ GET {{host}}/user/logout
 GET {{host}}/refresh
 Authorization: Bearer {{token}}
 
-###
-
-#Get current logged in user
-GET {{host}}/user/current
-Authorization: Bearer {{token}}
 
 ###
 

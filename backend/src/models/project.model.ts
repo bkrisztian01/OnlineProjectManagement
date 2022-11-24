@@ -5,8 +5,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Milestone } from './milestones.model';
-import { Task } from './tasks.model';
+import { Status } from '../util/Status';
+import { Milestone } from './milestone.model';
+import { Task } from './task.model';
+import { UserRole } from './userRole.model';
 
 @Entity({ name: 'project' })
 export class Project extends BaseEntity {
@@ -18,6 +20,13 @@ export class Project extends BaseEntity {
 
   @Column('text', { default: '' })
   description: string;
+
+  @Column({
+    type: 'enum',
+    enum: Status,
+    default: Status.NotStarted,
+  })
+  status: Status;
 
   @Column({
     type: 'date',
@@ -37,4 +46,7 @@ export class Project extends BaseEntity {
 
   @OneToMany(() => Milestone, milestone => milestone.project)
   milestones: Milestone[];
+
+  @OneToMany(() => UserRole, userRole => userRole.project)
+  userRoles: UserRole[];
 }

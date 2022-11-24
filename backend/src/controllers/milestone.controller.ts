@@ -4,15 +4,22 @@ import {
   deleteMilestoneById,
   getMilestoneById,
   getMilestones,
+  getMilestoneTasks,
+  setArchivedMilestoneById,
   updateMilestoneById,
-} from '../services/milestones.service';
+} from '../services/milestone.service';
 
 export async function getMilestonesHandler(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getMilestones());
+  res.send(
+    await getMilestones(
+      parseInt(req.params.projectId),
+      Number(req.query.pageNumber),
+    ),
+  );
 }
 
 export async function postMilestoneHandler(
@@ -22,7 +29,7 @@ export async function postMilestoneHandler(
 ) {
   try {
     const milestone = await createMilestone(
-      req.body.projectId,
+      parseInt(req.params.projectId),
       req.body.name,
       req.body.description,
       req.body.status,
@@ -31,7 +38,7 @@ export async function postMilestoneHandler(
 
     res.send(milestone);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -40,7 +47,10 @@ export async function getMilestoneByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  const milestone = await getMilestoneById(parseInt(req.params.id));
+  const milestone = await getMilestoneById(
+    parseInt(req.params.id),
+    parseInt(req.params.projectId),
+  );
   if (!milestone) {
     res.status(404).send('Milestone was not found');
     return;
@@ -56,6 +66,7 @@ export async function updateMilestoneByIdHandler(
 ) {
   try {
     const milestone = await updateMilestoneById(
+      parseInt(req.params.projectId),
       parseInt(req.params.id),
       req.body.name,
       req.body.description,
@@ -66,7 +77,7 @@ export async function updateMilestoneByIdHandler(
 
     res.status(200).send(milestone);
   } catch (e: any) {
-    res.status(e.httpStatus).send(e.message);
+    res.status(e.httpStatus || 500).send(e.message);
   }
 }
 
@@ -75,7 +86,41 @@ export async function deleteMilestoneByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  deleteMilestoneById(parseInt(req.params.id));
+  deleteMilestoneById(parseInt(req.params.id), parseInt(req.params.projectId));
 
   res.status(200).send('Successful operation');
+}
+
+export async function setArchivedMilestoneByIdHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    await setArchivedMilestoneById(
+      parseInt(req.params.id),
+      parseInt(req.params.projectId),
+      req.body.archived,
+    );
+    res.send('Successful operation');
+  } catch (e: any) {
+    res.status(e.httpStatus || 500).send(e.message);
+  }
+}
+
+export async function getMilestoneTasksHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    res.send(
+      await getMilestoneTasks(
+        parseInt(req.params.id),
+        parseInt(req.params.projectId),
+      ),
+    );
+  } catch (e: any) {
+    res.status(e.httpStatus || 500).send(e.message);
+  }
 }

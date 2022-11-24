@@ -1,10 +1,12 @@
 import { array, bool, number, object, string } from 'yup';
 import { Status } from '../util/Status';
 
-const params = {
-  params: object({
-    id: string().required(),
-  }),
+const id = {
+  id: string().required(),
+};
+
+const projectId = {
+  projectId: string().required(),
 };
 
 const deadline = {
@@ -20,21 +22,40 @@ const status = {
     'is-status',
     d => `${d.path} is not a valid status`,
     value =>
-      value === undefined || Status[value as keyof typeof Status] !== undefined,
+      value === undefined || (<any>Object).values(Status).includes(value),
   ),
 };
 
+export const getTasksSchema = object({
+  params: object({
+    ...projectId,
+  }),
+  query: object({
+    pageNumber: string().test(
+      'convertable-to-number',
+      d => `${d.path} must be a number`,
+      value => value === undefined || !isNaN(Number(value)),
+    ),
+  }),
+});
+
 export const createTaskSchema = object({
+  params: object({
+    ...projectId,
+  }),
   body: object({
-    projectId: number().required(),
     name: string().required(),
     description: string(),
+    ...status,
     ...deadline,
   }),
 });
 
 export const updateTaskByIdSchema = object({
-  ...params,
+  params: object({
+    ...id,
+    ...projectId,
+  }),
   body: object({
     name: string(),
     description: string(),
@@ -46,15 +67,24 @@ export const updateTaskByIdSchema = object({
 });
 
 export const getTaskByIdSchema = object({
-  ...params,
+  params: object({
+    ...id,
+    ...projectId,
+  }),
 });
 
 export const deleteTaskByIdSchema = object({
-  ...params,
+  params: object({
+    ...id,
+    ...projectId,
+  }),
 });
 
 export const archiveTaskByIdSchema = object({
-  ...params,
+  params: object({
+    ...id,
+    ...projectId,
+  }),
   body: object({
     archived: bool().required(),
   }),
