@@ -24,6 +24,9 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingletaskBindin
 import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.PreReqAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
+import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
@@ -40,6 +43,7 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
     private var projid=-1
     private var prereqtasks: ArrayList<Task> = ArrayList()
     private lateinit var adapter: PreReqAdapter
+    private val loginViewModel : UserViewModel by viewModels()
 
 
 
@@ -73,9 +77,8 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
         binding.toolbarsingletask.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
-        singleTaskViewModel.getSingleTask(token,projid,taskid)?.observe(this) { singleTaskViewState ->
-            render(singleTaskViewState)
-        }
+        load()
+
 
         binding.spStatus.adapter = ArrayAdapter(
             requireContext(),
@@ -85,7 +88,14 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
         binding.spStatus.setSelection(setting)
         return view
         }
-        override fun onDestroyView() {
+
+    private fun load() {
+        singleTaskViewModel.getSingleTask(token,projid,taskid)?.observe(this) { singleTaskViewState ->
+            render(singleTaskViewState)
+        }
+    }
+
+    override fun onDestroyView() {
             super.onDestroyView()
             _binding = null
         }
@@ -151,8 +161,32 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
 
             }
             is SingleTaskResponseError -> {
-                this.view?.let {
-                    Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                if(result.exceptionMsg=="401") {
+                    loginViewModel.getRefreshToken().observe(this) { loginViewState ->
+                        run {
+                            when (loginViewState) {
+                                is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
+                                is LoginResponseSuccess -> {
+                                    token = loginViewState.data.accessToken
+                                    load()
+                                }
+                                is LoginResponseError -> {
+                                    this.view?.let {
+                                        Snackbar.make(
+                                            it,
+                                            R.string.server_error,
+                                            Snackbar.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    this.view?.let {
+                        Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
+                    }
                 }
 
             }

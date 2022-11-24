@@ -38,6 +38,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
     private lateinit var manager: LinearLayoutManager
     private var pageNumber=1
     private var isScrolling=false
+    private var more=true
     private lateinit var recyclerView: RecyclerView
 
 
@@ -117,6 +118,8 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
 
     override fun onResume() {
         super.onResume()
+        more=true
+        pageNumber=1
         manager = LinearLayoutManager(this.activity)
         recyclerView = activity?.findViewById(R.id.rvProjects) as RecyclerView
         recyclerView.layoutManager = manager
@@ -136,11 +139,11 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                 val currentItems = manager.childCount
                 val totalItems = manager.itemCount
                 val scrollOutItems = manager.findFirstVisibleItemPosition()
-                if (isScrolling &&currentItems + scrollOutItems == totalItems) {
+                if (more &&isScrolling &&currentItems + scrollOutItems == totalItems) {
                     isScrolling = false
                     pageNumber++
                     load()
-                    //adapter.notifyDataSetChanged()
+
                 }
             }
         })
@@ -195,13 +198,18 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
             is ProjectsResponseSuccess -> {
                 binding.loading.hide()
                 val itr = result.data.listIterator()
-                while (itr.hasNext()) {
-                    val item=itr.next()
-                    projects.add(item)
+                if(result.data.isNotEmpty()) {
+                    while (itr.hasNext()) {
+                        val item = itr.next()
+                        projects.add(item)
+                    }
+                    adapter = ProjectAdapter(projects, token)
+                    recyclerView.adapter = adapter
                 }
-
-                adapter = ProjectAdapter(projects,token)
-                recyclerView.adapter = adapter
+                else{
+                    pageNumber--
+                    more=false
+                }
 
             }
             is ProjectsResponseError -> {
@@ -212,26 +220,25 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                             when (loginViewState) {
                                 is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
                                 is LoginResponseSuccess -> {
-                                    token = loginViewState.data.toString()
+                                    token = loginViewState.data.accessToken
                                     load()
                                 }
                                 is LoginResponseError -> {
                                     this.view?.let {
                                         Snackbar.make(
                                             it,
-                                            "Couldn't reach server!",
+                                            R.string.server_error,
                                             Snackbar.LENGTH_LONG
                                         ).show()
                                     }
                                 }
                             }
-
                         }
                     }
                 }
                 else{
                     this.view?.let {
-                        Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
                     }
                 }
 

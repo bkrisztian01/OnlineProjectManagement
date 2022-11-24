@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,6 +21,9 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentMilestoneBinding
 import hu.bme.aut.android.projectmanagerapp.data.milestone.Milestone
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.MilestoneAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
+import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import kotlin.collections.ArrayList
 
 class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedListener{
@@ -31,6 +35,12 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
     private lateinit var adapter: MilestoneAdapter
     private lateinit var token: String
     private var projid=-1
+    private val loginViewModel : UserViewModel by viewModels()
+    private lateinit var manager: LinearLayoutManager
+    private var pageNumber=1
+    private var isScrolling=false
+    private var more=true
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         _binding = FragmentMilestoneBinding.inflate(inflater, container, false)
@@ -53,6 +63,8 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
     }
     override fun onResume() {
         super.onResume()
+        more=true
+        pageNumber=1
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
         val searchView=activity!!.findViewById(R.id.menu_search) as SearchView
@@ -68,11 +80,42 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
                 return false
             }
         })
+        manager = LinearLayoutManager(this.activity)
+        recyclerView = activity?.findViewById(R.id.rvMilestones) as RecyclerView
+        recyclerView.layoutManager = manager
+        if(milestones.isNotEmpty())
+            milestones.clear()
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val currentItems = manager.childCount
+                val totalItems = manager.itemCount
+                val scrollOutItems = manager.findFirstVisibleItemPosition()
+                if (more &&isScrolling &&currentItems + scrollOutItems == totalItems) {
+                    isScrolling = false
+                    pageNumber++
+                    load()
+
+                }
+            }
+        })
+        load()
     }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         val context = this.activity
         return when (item.itemId){
@@ -96,21 +139,14 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
                 drawer.open()
                 return true
             }
-
-
             else -> super.onOptionsItemSelected(item)
-
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle? ) {
-        super.onViewCreated(view,savedInstanceState)
-        if(milestones.isNotEmpty())
-            milestones.clear()
-        milestoneViewModel.getMilestones(token,projid)?.observe(this) { milestoneViewState ->
+    private fun load(){
+        milestoneViewModel.getMilestones(token,projid,pageNumber)?.observe(this) { milestoneViewState ->
             render(milestoneViewState)
         }
-
     }
 
 
@@ -123,21 +159,49 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
             is MilestoneResponseSuccess -> {
                 binding.loading.hide()
                 binding.rvMilestones.visibility=View.VISIBLE
-                val itr = result.data?.listIterator()
-                if (itr != null) {
-                    while (itr.hasNext()) {
-                        milestones.add(itr.next())
+                if(result.data.isNotEmpty()) {
+                    val itr = result.data?.listIterator()
+                    if (itr != null) {
+                        while (itr.hasNext()) {
+                            milestones.add(itr.next())
+                        }
                     }
+                    adapter = MilestoneAdapter(milestones, projid, token)
+                    recyclerView.adapter = adapter
+                }else{
+                    pageNumber--
+                    more=false
                 }
-                val recyclerView = activity?.findViewById(R.id.rvMilestones) as RecyclerView
-                adapter = MilestoneAdapter(milestones,projid,token)
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(this.activity)
+
             }
             is MilestoneResponseError -> {
                 binding.loading.hide()
-                this.view?.let {
-                    Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                if(result.exceptionMsg=="401") {
+                    loginViewModel.getRefreshToken().observe(this) { loginViewState ->
+                        run {
+                            when (loginViewState) {
+                                is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
+                                is LoginResponseSuccess -> {
+                                    token = loginViewState.data.accessToken
+                                    load()
+                                }
+                                is LoginResponseError -> {
+                                    this.view?.let {
+                                        Snackbar.make(
+                                            it,
+                                            R.string.server_error,
+                                            Snackbar.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    this.view?.let {
+                        Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
+                    }
                 }
 
             }
@@ -171,11 +235,7 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
                     filteredlist.add(item)
                 }
             }
-            /*if (filteredlist.isEmpty()) {
-                adapter.filterList(null)
-            } else {*/
-                adapter.filterList(filteredlist)
-            //}
+            adapter.filterList(filteredlist)
         }
 
 

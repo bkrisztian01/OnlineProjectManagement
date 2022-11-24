@@ -7,7 +7,7 @@ import hu.bme.aut.android.projectmanagerapp.repository.milestone.MilestoneReposi
 class MilestoneViewModel: ViewModel() {
     private var milestoneRepository: MilestoneRepository = MilestoneRepository()
 
-    fun getMilestones(token: String,projectid: Int) : LiveData<MilestonesViewState>? {
-        return milestoneRepository.getMilestones(token, projectid)
+    fun getMilestones(token: String,projectid: Int, pageNumber: Int) : LiveData<MilestonesViewState>? {
+        return milestoneRepository.getMilestones(token, projectid, pageNumber)
     }
 }

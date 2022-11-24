@@ -16,8 +16,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object MilestoneNetworkDataSource {
-    fun getMilestones(token: String,projectid: Int): MutableLiveData<MilestonesViewState> {
-        val call = RetrofitClient.milestoneApiInterface.getMilestones("Bearer "+token, projectid)
+    fun getMilestones(token: String,projectid: Int,pageNumber:Int): MutableLiveData<MilestonesViewState> {
+        val call = RetrofitClient.milestoneApiInterface.getMilestones("Bearer "+token, projectid,pageNumber)
         val milestoneResultData = MutableLiveData<MilestonesViewState>()
         call.enqueue(object: Callback<List<Milestone>> {
             override fun onResponse(call: Call<List<Milestone>>, response: Response<List<Milestone>>) {

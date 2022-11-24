@@ -91,7 +91,7 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
                             when (loginViewState) {
                                 is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
                                 is LoginResponseSuccess -> {
-                                    token = loginViewState.data.toString()
+                                    token = loginViewState.data.accessToken
                                     load()
                                 }
                                 is LoginResponseError -> {

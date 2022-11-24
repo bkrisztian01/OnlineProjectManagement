@@ -21,6 +21,9 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentTasksBinding
 import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
+import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import kotlin.collections.ArrayList
 
 class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener {
@@ -33,11 +36,12 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
     private var projectid=-1
     private var milestoneid=-1
     private val tasksViewModel: TasksViewModel by viewModels()
-
+    private val loginViewModel : UserViewModel by viewModels()
     private lateinit var manager: LinearLayoutManager
     private var pageNumber=1
     private var isScrolling=false
     private lateinit var recyclerView: RecyclerView
+    private var more=true
 
 
 
@@ -67,6 +71,8 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
     }
     override fun onResume() {
         super.onResume()
+        more=true
+        pageNumber=1
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
         val searchView:SearchView = activity!!.findViewById(R.id.menu_search) as SearchView
@@ -103,7 +109,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                 val currentItems = manager.childCount
                 val totalItems = manager.itemCount
                 val scrollOutItems = manager.findFirstVisibleItemPosition()
-                if (isScrolling &&currentItems + scrollOutItems == totalItems) {
+                if (more&&isScrolling &&currentItems + scrollOutItems == totalItems) {
                     isScrolling = false
                     pageNumber++
                     loadTasks()
@@ -171,22 +177,49 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
             }
             is TaskResponseSuccess -> {
                 binding.loading.hide()
-                val itr = result.data?.listIterator()
-                if (itr != null) {
-                    while (itr.hasNext()) {
-                        tasks.add(itr.next())
+                if(result.data.isNotEmpty()) {
+                    val itr = result.data?.listIterator()
+                    if (itr != null) {
+                        while (itr.hasNext()) {
+                            tasks.add(itr.next())
+                        }
                     }
+                    adapter = TaskAdapter(tasks, projectid, token)
+                    recyclerView.adapter = adapter
+                }else{
+                    pageNumber--
+                    more=false
                 }
-
-
-                adapter = TaskAdapter(tasks,projectid,token)
-                recyclerView.adapter = adapter
 
             }
             is TaskResponseError -> {
                 binding.loading.hide()
-                this.view?.let {
-                    Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                if(result.exceptionMsg=="401") {
+                    loginViewModel.getRefreshToken().observe(this) { loginViewState ->
+                        run {
+                            when (loginViewState) {
+                                is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
+                                is LoginResponseSuccess -> {
+                                    token = loginViewState.data.accessToken
+                                    loadTasks()
+                                }
+                                is LoginResponseError -> {
+                                    this.view?.let {
+                                        Snackbar.make(
+                                            it,
+                                            R.string.server_error,
+                                            Snackbar.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    this.view?.let {
+                        Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
+                    }
                 }
 
             }

@@ -20,9 +20,12 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentSingleprojectBin
 import hu.bme.aut.android.projectmanagerapp.data.project.Project
 import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.TaskResponseError
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.TaskResponseSuccess
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.TasksViewModel
+import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 
 class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelectedListener {
     private var _binding: FragmentSingleprojectBinding? = null
@@ -32,6 +35,7 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
     private val singleProjectViewModel: SingleProjectViewModel by viewModels()
     private lateinit var token: String
     private val tasksViewModel: TasksViewModel by viewModels()
+    private val loginViewModel : UserViewModel by viewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
@@ -44,8 +48,8 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
             val args: FragmentSingleProjectArgs by navArgs()
             projectid = args.projectid
             token=args.token
-
         }
+        load()
         binding.toolbarsingleproject.inflateMenu(R.menu.menu_singleproject_toolbar)
         binding.toolbarsingleproject.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
@@ -55,11 +59,15 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
     override fun onResume() {
         super.onResume()
 
+
+        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        navigationView.setNavigationItemSelectedListener(this)
+    }
+
+    private fun load(){
         singleProjectViewModel.getSingleProject(token, projectid)?.observe(this) { singleProjectViewState ->
             render(singleProjectViewState)
         }
-        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
-        navigationView.setNavigationItemSelectedListener(this)
     }
 
     private fun render(result: SingleProjectViewState?) {
@@ -75,8 +83,32 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
                 binding.tvProjectName.setVisibility(View.VISIBLE)
             }
             is SingleProjectResponseError -> {
-                this.view?.let {
-                    Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
+                if(result.exceptionMsg=="401") {
+                    loginViewModel.getRefreshToken().observe(this) { loginViewState ->
+                        run {
+                            when (loginViewState) {
+                                is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
+                                is LoginResponseSuccess -> {
+                                    token = loginViewState.data.accessToken
+                                    load()
+                                }
+                                is LoginResponseError -> {
+                                    this.view?.let {
+                                        Snackbar.make(
+                                            it,
+                                            R.string.server_error,
+                                            Snackbar.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    this.view?.let {
+                        Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
+                    }
                 }
 
             }
