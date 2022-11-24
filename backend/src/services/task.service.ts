@@ -100,7 +100,7 @@ export async function updateTaskById(
 
   let prerequisiteTasks;
   if (prerequisiteTaskIds) {
-    if (prerequisiteTasks.length === 0) {
+    if (prerequisiteTaskIds.length === 0) {
       prerequisiteTasks = [];
     } else {
       prerequisiteTasks = await Task.createQueryBuilder('task')
