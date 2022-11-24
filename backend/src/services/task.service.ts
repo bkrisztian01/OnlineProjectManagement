@@ -86,17 +86,23 @@ export async function updateTaskById(
     throw new NotFound('Task was not found');
   }
 
-  const assignees = await User.createQueryBuilder('users')
-    .select('users')
-    .where('users.id IN (:...assigneeIds)', { assigneeIds: assigneeIds })
-    .getMany();
+  let assignees;
+  if (assigneeIds) {
+    assignees = await User.createQueryBuilder('users')
+      .select('users')
+      .where('users.id IN (:...assigneeIds)', { assigneeIds: assigneeIds })
+      .getMany();
+  }
 
-  const prerequisiteTasks = await Task.createQueryBuilder('task')
-    .select('task')
-    .where('task.id IN (:...prerequisiteTaskIds)', {
-      prerequisiteTaskIds: prerequisiteTaskIds,
-    })
-    .getMany();
+  let prerequisiteTasks;
+  if (prerequisiteTaskIds) {
+    prerequisiteTasks = await Task.createQueryBuilder('task')
+      .select('task')
+      .where('task.id IN (:...prerequisiteTaskIds)', {
+        prerequisiteTaskIds: prerequisiteTaskIds,
+      })
+      .getMany();
+  }
 
   task.name = name || task.name;
   task.description = description || task.description;

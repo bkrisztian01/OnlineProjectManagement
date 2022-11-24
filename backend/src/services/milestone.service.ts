@@ -82,15 +82,18 @@ export async function updateMilestoneById(
     throw new NotFound('Milestone was not found');
   }
 
-  const tasks = await Task.find({
-    relations: ['project'],
-    where: {
-      id: In(taskIds),
-      project: {
-        id: milestone.project.id,
+  let tasks;
+  if (taskIds) {
+    tasks = await Task.find({
+      relations: ['project'],
+      where: {
+        id: In(taskIds),
+        project: {
+          id: milestone.project.id,
+        },
       },
-    },
-  });
+    });
+  }
 
   if (tasks.length == 0) {
     throw new Conflict('Task and milestone is not in the same project');
