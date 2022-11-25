@@ -8,24 +8,24 @@
             class="img-fluid" alt="Phone image">
         </div>
         <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-          <form>
+          <form [formGroup]="formValue">
             <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h1>
-            <!-- Email input -->
+            <!-- Username input -->
             <div class="form-outline mb-4">
-                <label class="form-label" for="form1Example13">Email address</label>
-              <input type="email" id="form1Example13" class="form-control form-control-lg" />
+                <label class="form-label" for="form1Example13">Username</label>
+              <input type="text" id="form1Example13" class="form-control form-control-lg" formControlName="username" />
               
             </div>
   
             <!-- Password input -->
             <div class="form-outline mb-4">
                 <label class="form-label" for="form1Example23">Password</label>
-              <input type="password" id="form1Example23" class="form-control form-control-lg" />
+              <input type="password" id="form1Example23" class="form-control form-control-lg" formControlName="password" />
               
             </div>
   
             <!-- Submit button -->
-            <button type="submit" class="btn btn-primary btn-lg btn-block" routerLink="/dashboard">Sign in</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" (click)="NewLogin()"  >Sign in</button>
 
             <div>
                 <p class="mb-0">Don't have an account?</p>
