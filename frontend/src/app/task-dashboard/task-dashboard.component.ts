@@ -137,10 +137,13 @@ export class TaskDashboardComponent implements OnInit {
   getProjectDetails(){
     this.api.getProjectData(this.projectId,this.AccessToken).subscribe(res=>{
       this.projectDetails = res;
-      //console.log(this.projectDetails);
-      this.tasksOfProject = this.projectDetails.tasks
+      console.log(this.projectDetails);
     })
     
+  }
+
+  finishProject(){
+
   }
 
   deleteTask(row: any){
