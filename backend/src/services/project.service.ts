@@ -1,5 +1,5 @@
 import { NotFound } from '@curveball/http-errors/dist';
-import { In } from 'typeorm';
+import { In, SelectQueryBuilder } from 'typeorm';
 import { AppDataSource } from '../dataSource';
 import { Project } from '../models/project.model';
 import { User } from '../models/user.model';
@@ -20,31 +20,50 @@ function nullCheck(project: Project) {
 }
 
 export async function getProjects(userId: number, pageNumber?: number) {
-  let options: any = {
-    take: PAGE_SIZE,
-    order: { id: 'ASC' },
-  };
+  const query: SelectQueryBuilder<any> = Project.createQueryBuilder('project')
+    .take(PAGE_SIZE)
+    .orderBy('project.id', 'ASC');
 
   const adminRole = await UserRole.findOne({
     where: { user: { id: userId }, role: Role.Admin },
   });
 
   if (!adminRole) {
-    options.where = {
-      userRoles: {
-        user: {
-          id: userId,
-        },
-      },
-    };
+    query
+      .leftJoinAndSelect('project.userRoles', 'userRole')
+      .leftJoinAndSelect('userRole.user', 'user')
+      .where('user.id = :userId', { userId })
+      .select([
+        'project.id',
+        'project.name',
+        'project.description',
+        'project.status',
+        'project.startDate',
+        'project.endDate',
+        'project.estimatedTime',
+        'userRole.role as userRole',
+      ]);
   }
 
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
-    options.skip = skipAmount;
+    query.skip(skipAmount);
   }
 
-  const projects = await Project.find(options);
+  const projects = ((await query.execute()) as any[]).map(item => {
+    return {
+      id: item.project_id,
+      name: item.project_name,
+      description: item.project_description,
+      status: item.project_status,
+      startDate: item.project_startDate,
+      endDate: item.project_endDate,
+      estimatedTime: item.project_estimatedTime,
+      userRole: item.userrole,
+    };
+  });
+
+  // const projects = await query.execute();
 
   return projects;
 }
