@@ -1,6 +1,6 @@
 # @host = https://opmapi2.azurewebsites.net
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3Nzg3MiwiZXhwIjoxNjY5Mzg1MDcyfQ.znEokcWM49uzd9tmqjS7V5HTkeW-unS1SVhkJhHK5vs
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM4ODQ4NiwiZXhwIjoxNjY5Mzg4NjA2fQ._bkrCXLE4J1wWWgnNkZceDpKe1ARtTFOvUXgfnr4Xig
 
 #Get projects
 GET {{host}}/projects?pageNumber=1
@@ -32,8 +32,8 @@ Authorization: Bearer {{token}}
   "endDate": null,
   "status": "In Progress",
   "estimatedTime": 123,
-  "managerId": 1,
-  "memberIds": [2, 3]
+  "managerId": 2,
+  "memberIds": []
 }
 
 ###

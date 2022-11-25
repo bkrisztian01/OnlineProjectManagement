@@ -16,7 +16,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Create milestone
-POST {{host}}/projects/2/milestones
+POST {{host}}/projects/1/milestones
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -30,7 +30,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Update milestone
-PUT {{host}}/projects/2/milestones/1
+PUT {{host}}/projects/1/milestones/1
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -45,13 +45,13 @@ Authorization:Bearer {{token}}
 ###
 
 #Delete milestone
-DELETE {{host}}/projects/1/milestones/3
+DELETE {{host}}/projects/2/milestones/3
 Authorization:Bearer {{token}}
 
 ###
 
 #Archive milestone
-PUT {{host}}/projects/2/milestones/1/archive
+PUT {{host}}/projects/1/milestones/1/archive
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -62,5 +62,5 @@ Authorization:Bearer {{token}}
 ###
 
 #Get milestone tasks
-GET {{host}}/projects/2/milestones/1/tasks
+GET {{host}}/projects/2/milestones/2/tasks
 Authorization: Bearer {{token}}
