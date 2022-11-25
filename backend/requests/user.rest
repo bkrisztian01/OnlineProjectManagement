@@ -1,5 +1,6 @@
-@host = https://opmapi2.azurewebsites.net
-@token = 
+# @host = https://opmapi2.azurewebsites.net
+@host = http://localhost:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3MDQ5MCwiZXhwIjoxNjY5Mzc3NjkwfQ.rsynQNusHZVYgt5t4rs-E6g_XgyWh5W7cu_d2O6t7h4
 
 #Get users
 GET {{host}}/users
@@ -43,6 +44,12 @@ Authorization: Bearer {{token}}
 
 #Get current logged in user
 GET {{host}}/user/current
+Authorization: Bearer {{token}}
+
+###
+
+#Get users tasks
+GET {{host}}/user/tasks
 Authorization: Bearer {{token}}
 
 ###

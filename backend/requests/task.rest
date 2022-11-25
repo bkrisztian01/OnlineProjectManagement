@@ -1,10 +1,10 @@
 # @host = https://opmapi2.azurewebsites.net
 @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTI5NzM4OSwiZXhwIjoxNjY5Mjk3NTA5fQ._fMkhYo0EATGDu9z68WCt-TdVs8J5-FP9fsr3oVdIKU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3MDQ5MCwiZXhwIjoxNjY5Mzc3NjkwfQ.rsynQNusHZVYgt5t4rs-E6g_XgyWh5W7cu_d2O6t7h4
 
 #Get tasks
-GET {{host}}/projects/2/tasks?pageNumber=1
+GET {{host}}/projects/1/tasks?pageNumber=1
 Authorization:Bearer {{token}}
 
 ###
@@ -30,7 +30,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Update task
-PUT {{host}}/projects/1/tasks/1
+PUT {{host}}/projects/2/tasks/2
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -39,7 +39,7 @@ Authorization:Bearer {{token}}
   "description": "description",
   "status": "Done",
   "deadline": "1999-01-10",
-  "assigneeIds": []
+  "assigneeIds": [2]
 }
 
 ###

@@ -1,5 +1,6 @@
-@host = https://opmapi2.azurewebsites.net
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTIxNzAzMiwiZXhwIjoxNjY5MjE3MTUyfQ.2O_4TUPRHD_WB5p3feztwSo6QF8dFBvl3QFd9MsAQPE
+# @host = https://opmapi2.azurewebsites.net
+@host = http://localhost:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3MDQ5MCwiZXhwIjoxNjY5Mzc3NjkwfQ.rsynQNusHZVYgt5t4rs-E6g_XgyWh5W7cu_d2O6t7h4
 
 #Get projects
 GET {{host}}/projects?pageNumber=1
