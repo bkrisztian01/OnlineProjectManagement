@@ -1,4 +1,7 @@
 import {
+  AfterInsert,
+  AfterLoad,
+  AfterUpdate,
   BaseEntity,
   Column,
   Entity,
@@ -49,4 +52,21 @@ export class Project extends BaseEntity {
 
   @OneToMany(() => UserRole, userRole => userRole.project)
   userRoles: UserRole[];
+
+  @AfterLoad()
+  @AfterInsert()
+  @AfterUpdate()
+  async nullChecks() {
+    if (!this.startDate) {
+      this.startDate = '';
+    }
+
+    if (!this.endDate) {
+      this.endDate = '';
+    }
+
+    if (!this.estimatedTime) {
+      this.estimatedTime = 0;
+    }
+  }
 }

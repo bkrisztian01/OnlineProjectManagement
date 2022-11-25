@@ -1,4 +1,7 @@
 import {
+  AfterInsert,
+  AfterLoad,
+  AfterUpdate,
   BaseEntity,
   Column,
   CreateDateColumn,
@@ -61,4 +64,13 @@ export class Task extends BaseEntity {
     name: 'projectId',
   })
   project: Project;
+
+  @AfterLoad()
+  @AfterInsert()
+  @AfterUpdate()
+  async nullChecks() {
+    if (!this.deadline) {
+      this.deadline = '';
+    }
+  }
 }

@@ -1,4 +1,7 @@
 import {
+  AfterInsert,
+  AfterLoad,
+  AfterUpdate,
   BaseEntity,
   Column,
   Entity,
@@ -41,4 +44,13 @@ export class Milestone extends BaseEntity {
     onDelete: 'CASCADE',
   })
   project: Project;
+
+  @AfterLoad()
+  @AfterInsert()
+  @AfterUpdate()
+  async nullChecks() {
+    if (!this.deadline) {
+      this.deadline = '';
+    }
+  }
 }
