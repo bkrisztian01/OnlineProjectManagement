@@ -20,10 +20,10 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
   entities: [Milestone, Project, UserRole, User, RefreshToken, Task],
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  // ssl: true,
+  // extra: {
+  //   ssl: {
+  //     rejectUnauthorized: false,
+  //   },
+  // },
 });

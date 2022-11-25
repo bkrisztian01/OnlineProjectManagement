@@ -1,6 +1,7 @@
 @host = http://localhost:5000
 #Place your access token here
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTI5NzY0NCwiZXhwIjoxNjY5Mjk3NzY0fQ.YgpbQ2Sx-ZMA7O3YQtAOtQGefqOMxWZSxMkJQiSpXo8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3Nzg3MiwiZXhwIjoxNjY5Mzg1MDcyfQ.znEokcWM49uzd9tmqjS7V5HTkeW-unS1SVhkJhHK5vs
+
 
 # Get milestones
 GET {{host}}/projects/2/milestones?pageNumber=1
@@ -29,7 +30,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Update milestone
-PUT {{host}}/projects/2/milestones/1
+PUT {{host}}/projects/1/milestones/1
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -44,13 +45,13 @@ Authorization:Bearer {{token}}
 ###
 
 #Delete milestone
-DELETE {{host}}/projects/1/milestones/3
+DELETE {{host}}/projects/2/milestones/3
 Authorization:Bearer {{token}}
 
 ###
 
 #Archive milestone
-PUT {{host}}/projects/2/milestones/1/archive
+PUT {{host}}/projects/1/milestones/1/archive
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -61,5 +62,5 @@ Authorization:Bearer {{token}}
 ###
 
 #Get milestone tasks
-GET {{host}}/projects/2/milestones/1/tasks
+GET {{host}}/projects/2/milestones/2/tasks
 Authorization: Bearer {{token}}
