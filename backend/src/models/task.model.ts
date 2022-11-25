@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
@@ -30,6 +31,11 @@ export class Task extends BaseEntity {
     default: Status.NotStarted,
   })
   status: Status;
+
+  @CreateDateColumn({
+    type: 'date',
+  })
+  startDate: string;
 
   @Column({ type: 'date', nullable: true })
   deadline: string;
