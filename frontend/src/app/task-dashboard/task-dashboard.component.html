@@ -38,11 +38,31 @@
             <li><hr class="dropdown-divider"></li>
 
             <div *ngFor="let row of projectData">
-              <button class="dropdown-item" type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'Done' " class="dropdown-item" type="button" (click)="setProjectId(row)">
                 {{row.name}}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                <span class="badge text-bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-                </svg>
+                </svg></span>
+              </button>
+              <button *ngIf="row.status == 'Not Started' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+                {{row.name}}
+                <span class="badge text-bg-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-end" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
+                  <path d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/>
+                </svg></span>
+              </button>
+              <button *ngIf="row.status == 'In Progress' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+                {{row.name}}
+                <span class="badge text-bg-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-center" viewBox="0 0 16 16">
+                  <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"/>
+                </svg></span>
+              </button>
+              <button *ngIf="row.status == 'Stopped' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+                {{row.name}}
+                <span class="badge text-bg-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
+                </svg></span>
               </button>
               <li><hr class="dropdown-divider"></li>
             </div>
@@ -109,7 +129,7 @@
       <div class="collapse multi-collapse" id="multiCollapseExample1">
         <div class="card card-body">
 
-          <!-- <table class="tb" >
+          <table class="tb" >
             <tr class="trproj">
               <td class="tdproj">Name:</td>
               <td>{{projectDetails.name}}</td>
@@ -118,19 +138,23 @@
               <td class="tdproj">Description:</td>
               <td>{{projectDetails.description}}</td>
             </tr>
-            <tr class="trproj">
+            <!-- <tr class="trproj">
               <td class="tdproj">Started:</td>
               <td>{{projectDetails.startDate.substring(0,10)}}</td>
-            </tr>
+            </tr> -->
             <tr class="trproj">
+              <td class="tdproj">Status:</td>
+              <td>{{projectDetails.status}}</td>
+            </tr>
+            <!-- <tr class="trproj">
               <td class="tdproj">Finished:</td>
               <td>{{projectDetails.endDate.substring(0,10)}}</td>
             </tr>
             <tr class="trproj">
               <td class="tdproj">Estimated time:</td>
               <td>{{projectDetails.estimatedTime}}</td>
-            </tr>
-          </table> -->
+            </tr> -->
+          </table>
         </div>
       </div>
     </div>
@@ -294,6 +318,12 @@
                 Finished
               </label>
             </div>
+            <div class="form-check">
+              <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="Stopped" value="Stopped">
+              <label class="form-check-label" for="exampleRadios2">
+                Stopped
+              </label>
+            </div>
   
   
   
@@ -335,7 +365,7 @@
   </div>
 
 
-    <!-- CREATE MODAL -->
+    <!-- FINISH MODAL -->
 <div class="modal fade " id="FinishModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FinishModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -345,7 +375,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Not yet</button>
-        <button type="button" class="btn btn-primary">Yes!</button>
+        <button type="button" class="btn btn-primary" (click)="finishProject()">Yes!</button>
       </div>
     </div>
   </div>
@@ -384,6 +414,12 @@
             <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="Finished">
             <label class="form-check-label" for="exampleRadios2">
               Finished
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="Stopped" value="Stopped">
+            <label class="form-check-label" for="exampleRadios2">
+              Stopped
             </label>
           </div>
           <div class="mb-3">
