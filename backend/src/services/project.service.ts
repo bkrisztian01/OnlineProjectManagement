@@ -1,5 +1,10 @@
 import { NotFound } from '@curveball/http-errors/dist';
+import { In, SelectQueryBuilder } from 'typeorm';
+import { AppDataSource } from '../dataSource';
 import { Project } from '../models/project.model';
+import { User } from '../models/user.model';
+import { UserRole } from '../models/userRole.model';
+import { Role } from '../util/Role';
 import { Status } from '../util/Status';
 
 const PAGE_SIZE = 5;
@@ -14,16 +19,51 @@ function nullCheck(project: Project) {
   return project;
 }
 
-export async function getProjects(pageNumber?: number) {
-  const query = Project.createQueryBuilder('project')
+export async function getProjects(userId: number, pageNumber?: number) {
+  const query: SelectQueryBuilder<any> = Project.createQueryBuilder('project')
     .take(PAGE_SIZE)
     .orderBy('project.id', 'ASC');
+
+  const adminRole = await UserRole.findOne({
+    where: { user: { id: userId }, role: Role.Admin },
+  });
+
+  if (!adminRole) {
+    query
+      .leftJoinAndSelect('project.userRoles', 'userRole')
+      .leftJoinAndSelect('userRole.user', 'user')
+      .where('user.id = :userId', { userId })
+      .select([
+        'project.id',
+        'project.name',
+        'project.description',
+        'project.status',
+        'project.startDate',
+        'project.endDate',
+        'project.estimatedTime',
+        'userRole.role as userRole',
+      ]);
+  }
 
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
     query.skip(skipAmount);
   }
-  const projects = await query.getMany();
+
+  const projects = ((await query.execute()) as any[]).map(item => {
+    return {
+      id: item.project_id,
+      name: item.project_name,
+      description: item.project_description,
+      status: item.project_status,
+      startDate: item.project_startDate,
+      endDate: item.project_endDate,
+      estimatedTime: item.project_estimatedTime,
+      userRole: item.userrole,
+    };
+  });
+
+  // const projects = await query.execute();
 
   return projects;
 }
@@ -35,24 +75,88 @@ export async function createProject(
   endDate: string,
   status: Status,
   estimatedTime: number,
+  managerId: number,
+  memberIds: number[],
 ) {
-  const project = Project.create({
-    name,
-    description: description || '',
-    startDate,
-    endDate,
-    status,
-    estimatedTime,
+  const manager = await User.findOne({
+    where: { id: managerId },
   });
-  await project.save();
-  return nullCheck(project);
+  if (!manager) {
+    throw new NotFound(`User with id ${managerId} was not found.`);
+  }
+
+  const uniqueMemberIds = [...new Set(memberIds)];
+  const members = await User.find({
+    where: {
+      id: In(uniqueMemberIds),
+    },
+  });
+
+  if (members.length < uniqueMemberIds.length) {
+    throw new NotFound(`Some users was not found in memberIds`);
+  }
+
+  let result;
+  await AppDataSource.transaction(async transactionalEntityManager => {
+    const project = Project.create({
+      name,
+      description: description || '',
+      startDate,
+      endDate,
+      status,
+      estimatedTime,
+    });
+
+    result = await transactionalEntityManager.save(project);
+
+    const managerRole = UserRole.create({
+      project,
+      user: manager,
+      role: Role.Manager,
+    });
+
+    await transactionalEntityManager.save(managerRole);
+
+    members.forEach(async member => {
+      const memberRole = UserRole.create({
+        project,
+        user: member,
+        role: Role.Member,
+      });
+
+      await transactionalEntityManager.save(memberRole);
+    });
+  });
+
+  return nullCheck(result);
 }
 
-export async function getProjectById(id: number) {
-  return await Project.findOne({
+export async function getProjectById(id: number, userId: number) {
+  let project: any = await Project.findOne({
     where: { id },
-    relations: ['tasks', 'milestones'],
   });
+
+  let userRole = await UserRole.findOne({
+    where: {
+      project: { id },
+      user: { id: userId },
+    },
+  });
+
+  if (!userRole) {
+    userRole = await UserRole.findOne({
+      where: {
+        user: { id: userId },
+        role: Role.Admin,
+      },
+    });
+  }
+
+  if (userRole) {
+    project.userRole = userRole.role;
+  }
+
+  return project;
 }
 
 export async function updateProjectById(
@@ -83,7 +187,9 @@ export async function updateProjectById(
 }
 
 export async function deleteProjectById(id: number) {
-  const project = await getProjectById(id);
+  const project = await Project.findOne({
+    where: { id },
+  });
   if (project) {
     Project.remove(project);
   }

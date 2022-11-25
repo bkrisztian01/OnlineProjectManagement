@@ -11,9 +11,14 @@ GET {{host}}/users
 POST {{host}}/user/login
 Content-Type: application/json
 
+# {
+#   "username": "testuser",
+#   "password": "test123"
+# }
+
 {
-  "username": "testuser",
-  "password": "test123"
+  "username": "admin",
+  "password": "admin"
 }
 
 ###
@@ -43,7 +48,13 @@ Authorization: Bearer {{token}}
 ###
 
 #Get current logged in user
-GET {{host}}/user/current
+GET {{host}}/users/current
+Authorization: Bearer {{token}}
+
+###
+
+#Get users tasks
+GET {{host}}/user/tasks
 Authorization: Bearer {{token}}
 
 ###

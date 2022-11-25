@@ -4,6 +4,7 @@ import {
   getLoginUserHandler,
   getLogoutUserHandler,
   getUsersHandler,
+  getUsersTasksHandler,
   postSignupUserHandler,
 } from '../controllers/user.controller';
 import validateRequest from '../middlewares/validateRequest';
@@ -25,5 +26,7 @@ router
 router.route('/users').get(getUsersHandler);
 
 router.route('/users/current').get(verifyJwt, getCurrentUserHandler);
+
+router.route('/user/tasks').get(verifyJwt, getUsersTasksHandler);
 
 export = router;
