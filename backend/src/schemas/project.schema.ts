@@ -3,7 +3,7 @@ import { Status } from '../util/Status';
 
 const params = {
   params: object({
-    id: string().required(),
+    projectId: string().required(),
   }),
 };
 

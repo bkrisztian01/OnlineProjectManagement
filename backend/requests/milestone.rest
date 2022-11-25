@@ -1,6 +1,7 @@
 @host = http://localhost:5000
 #Place your access token here
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTI5NzY0NCwiZXhwIjoxNjY5Mjk3NzY0fQ.YgpbQ2Sx-ZMA7O3YQtAOtQGefqOMxWZSxMkJQiSpXo8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3Nzg3MiwiZXhwIjoxNjY5Mzg1MDcyfQ.znEokcWM49uzd9tmqjS7V5HTkeW-unS1SVhkJhHK5vs
+
 
 # Get milestones
 GET {{host}}/projects/2/milestones?pageNumber=1
@@ -15,7 +16,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Create milestone
-POST {{host}}/projects/1/milestones
+POST {{host}}/projects/2/milestones
 Content-Type: application/json
 Authorization:Bearer {{token}}
 

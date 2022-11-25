@@ -1,7 +1,7 @@
 # @host = https://opmapi2.azurewebsites.net
 @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3MDQ5MCwiZXhwIjoxNjY5Mzc3NjkwfQ.rsynQNusHZVYgt5t4rs-E6g_XgyWh5W7cu_d2O6t7h4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3Nzg3MiwiZXhwIjoxNjY5Mzg1MDcyfQ.znEokcWM49uzd9tmqjS7V5HTkeW-unS1SVhkJhHK5vs
 
 #Get tasks
 GET {{host}}/projects/1/tasks?pageNumber=1
@@ -10,13 +10,13 @@ Authorization:Bearer {{token}}
 ###
 
 #Get task by id
-GET {{host}}/projects/2/tasks/2
+GET {{host}}/projects/1/tasks/1
 Authorization:Bearer {{token}}
 
 ###
 
 #Create task
-POST {{host}}/projects/2/tasks
+POST {{host}}/projects/1/tasks
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -30,7 +30,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Update task
-PUT {{host}}/projects/2/tasks/2
+PUT {{host}}/projects/1/tasks/1
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -50,5 +50,5 @@ Content-Type: application/json
 Authorization:Bearer {{token}}
 
 {
-  "archived": true
+  "archived": false
 }

@@ -38,7 +38,7 @@ export async function getProjectByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  const project = await getProjectById(parseInt(req.params.id));
+  const project = await getProjectById(parseInt(req.params.projectId));
   if (!project) {
     res.status(404).send('Project was not found');
     return;
@@ -54,7 +54,7 @@ export async function updateProjectByIdHandler(
 ) {
   try {
     const project = await updateProjectById(
-      parseInt(req.params.id),
+      parseInt(req.params.projectId),
       req.body.name,
       req.body.description,
       req.body.startDate,
@@ -74,7 +74,7 @@ export async function deleteProjectByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  await deleteProjectById(parseInt(req.params.id));
+  await deleteProjectById(parseInt(req.params.projectId));
 
-  res.status(204).send('No content');
+  res.sendStatus(204);
 }

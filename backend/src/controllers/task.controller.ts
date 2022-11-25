@@ -90,7 +90,7 @@ export async function deleteTaskByIdHandler(
       parseInt(req.params.id),
       parseInt(req.params.projectId),
     );
-    res.send('Successful operation');
+    res.sendStatus(204);
   } catch (e: any) {
     res.status(e.httpStatus || 500).send(e.message);
   }

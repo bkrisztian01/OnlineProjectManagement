@@ -1,3 +1,4 @@
+import { UserRole } from './models/userRole.model';
 import {
   createMilestone,
   updateMilestoneById,
@@ -5,6 +6,7 @@ import {
 import { createProject } from './services/project.service';
 import { createTask } from './services/task.service';
 import { createUser } from './services/user.service';
+import { Role } from './util/Role';
 import { Status } from './util/Status';
 
 export async function initTestData() {
@@ -15,6 +17,10 @@ export async function initTestData() {
     'Kovács Mariann',
     'kovimari@gmail.com',
   );
+  await UserRole.create({
+    user: await createUser('admin', 'admin', 'The Admin', 'admin@example.com'),
+    role: Role.Admin,
+  }).save();
   await createProject(
     'Project #1',
     'Test project',
