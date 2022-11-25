@@ -1,4 +1,4 @@
-import { number, object, string } from 'yup';
+import { array, number, object, string } from 'yup';
 import { Status } from '../util/Status';
 
 const params = {
@@ -45,6 +45,8 @@ export const createProjectSchema = object({
     ...status,
     ...dates,
     estimatedTime: number().nullable(),
+    managerId: number().required(),
+    memberIds: array().of(number()),
   }),
 });
 

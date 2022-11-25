@@ -22,6 +22,8 @@ export async function initTestData() {
     null,
     Status.NotStarted,
     null,
+    1,
+    [2],
   );
   await createProject(
     'MobWeb házi',
@@ -30,6 +32,8 @@ export async function initTestData() {
     null,
     Status.InProgress,
     null,
+    2,
+    [1],
   );
   await createTask(1, 'Task #1', 'Test task', Status.NotStarted, '2022-12-12');
   await createTask(
