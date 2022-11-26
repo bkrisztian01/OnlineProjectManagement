@@ -1,6 +1,6 @@
 # @host = https://opmapi2.azurewebsites.net
 @host = http://localhost:5000
-@token = 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Njk0Njc3OTEsImV4cCI6MTY2OTQ2NzkxMX0.yJ8YJwTh-VxaBD3uipTX6hk9u8iJamVpkIGAFiwrEi0
 
 #Get users
 GET {{host}}/users
@@ -11,15 +11,15 @@ GET {{host}}/users
 POST {{host}}/user/login
 Content-Type: application/json
 
-# {
-#   "username": "testuser",
-#   "password": "test123"
-# }
-
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "testuser",
+  "password": "test123"
 }
+
+# {
+#   "username": "admin",
+#   "password": "admin"
+# }
 
 ###
 

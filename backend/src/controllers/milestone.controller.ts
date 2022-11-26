@@ -34,6 +34,7 @@ export async function postMilestoneHandler(
       req.body.description,
       req.body.status,
       req.body.deadline,
+      req.body.taskIds,
     );
 
     res.send(milestone);

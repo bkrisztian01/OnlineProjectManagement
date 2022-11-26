@@ -33,6 +33,8 @@ export async function postTaskHandler(
       req.body.description,
       req.body.status,
       req.body.deadline,
+      req.body.assigneeIds,
+      req.body.prerequisiteTaskIds,
     );
     res.send(task);
   } catch (e: any) {

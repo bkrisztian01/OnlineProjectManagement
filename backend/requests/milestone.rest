@@ -1,6 +1,6 @@
 @host = http://localhost:5000
 #Place your access token here
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTM3Nzg3MiwiZXhwIjoxNjY5Mzg1MDcyfQ.znEokcWM49uzd9tmqjS7V5HTkeW-unS1SVhkJhHK5vs
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ2OTA2OCwiZXhwIjoxNjY5NDc2MjY4fQ.o6m2AupdUrzpK-Hyp7J2_JQNiHQgJcV-iiBVgjAL_ps
 
 
 # Get milestones
@@ -10,7 +10,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Get milestone by id
-GET {{host}}/projects/2/milestones/1
+GET {{host}}/projects/1/milestones/3
 Authorization:Bearer {{token}}
 
 ###
@@ -24,7 +24,8 @@ Authorization:Bearer {{token}}
   "name": "TestVersion1",
   "description": "Description",
   "deadline": "2022-2-2",
-  "status": "Stopped"
+  "status": "Stopped",
+  "taskIds": [1]
 }
 
 ###
@@ -62,5 +63,5 @@ Authorization:Bearer {{token}}
 ###
 
 #Get milestone tasks
-GET {{host}}/projects/2/milestones/2/tasks
+GET {{host}}/projects/1/milestones/3/tasks
 Authorization: Bearer {{token}}
