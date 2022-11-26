@@ -9,7 +9,7 @@ import { identifierName } from '@angular/compiler';
 
 export class ApiService {
 
-  private apiAddress = "https://opmapi2.azurewebsites.net"
+  private apiAddress = "https://opmapi.azurewebsites.net"
 
   private AccessToken!: String;
 
@@ -33,18 +33,22 @@ export class ApiService {
 
 
 
-  postMilestone(data: any,id:number){
-    return this.http.post<any>(`${this.apiAddress}/projects/`+id+`/milestones`,data).pipe(map((res:any)=>{return res;}))
+  postMilestone(data: any,id:number,AccessToken:String){
+    return this.http.post<any>(`${this.apiAddress}/projects/`+id+`/milestones`,data, {headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
-  getMilestone(id:number){
-    return this.http.get<any>(`${this.apiAddress}/projects/`+id+`/milestones`).pipe(map((res:any)=>{return res;}))
+  getMilestone(id:number,AccessToken:String){
+    return this.http.get<any>(`${this.apiAddress}/projects/`+id+`/milestones`, {headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
 
-  updateMilestone(data: any,id:number,id2:number){
-    return this.http.put<any>(`${this.apiAddress}/projects/`+id2+`/milestones/`+id,data).pipe(map((res:any)=>{return res;}))
+  updateMilestone(data: any,id:number,id2:number,AccessToken:String){
+    return this.http.put<any>(`${this.apiAddress}/projects/`+id2+`/milestones/`+id,data, {headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
-  deleteMilestone(id:number,id2:number){
-    return this.http.delete<any>(`${this.apiAddress}/projects/`+id2+`/milestones/`+id).pipe(map((res:any)=>{return res;}))
+  deleteMilestone(id:number,id2:number,AccessToken:String){
+    return this.http.delete<any>(`${this.apiAddress}/projects/`+id2+`/milestones/`+id, {headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
+  }
+
+  archiveMilestone(data:any,id:number, id2:number,AccessToken: String){
+    return this.http.put<any>(`${this.apiAddress}/projects/`+id2+`/milestones/`+id+`/archive`,data,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
 
 
@@ -55,6 +59,10 @@ export class ApiService {
 
   getAllProjects(AccessToken:String){
     return this.http.get<any>(`${this.apiAddress}/projects`,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
+  }
+
+  FinishProject(data: any,id:number,AccessToken:String){
+    return this.http.put<any>(`${this.apiAddress}/projects/`+id,data, {headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
 
   getAllUsers(AccessToken:String){
@@ -79,4 +87,6 @@ export class ApiService {
   AccessTokenThrow(){
     return this.AccessToken;
   }
+
+
 }

@@ -111,12 +111,12 @@
   </div>
 -->
   <p> 
-    <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+      <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">
       Project details
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-body-text" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
       </svg>
-    </a>
+    </button>
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
       Gantt Chart
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
@@ -129,7 +129,7 @@
       <div class="collapse multi-collapse" id="multiCollapseExample1">
         <div class="card card-body">
 
-          <table class="tb" >
+           <table class="tb" >
             <tr class="trproj">
               <td class="tdproj">Name:</td>
               <td>{{projectDetails.name}}</td>
@@ -138,30 +138,30 @@
               <td class="tdproj">Description:</td>
               <td>{{projectDetails.description}}</td>
             </tr>
-            <!-- <tr class="trproj">
+             <tr class="trproj">
               <td class="tdproj">Started:</td>
               <td>{{projectDetails.startDate.substring(0,10)}}</td>
-            </tr> -->
+            </tr> 
             <tr class="trproj">
               <td class="tdproj">Status:</td>
               <td>{{projectDetails.status}}</td>
             </tr>
-            <!-- <tr class="trproj">
+             <tr class="trproj">
               <td class="tdproj">Finished:</td>
               <td>{{projectDetails.endDate.substring(0,10)}}</td>
             </tr>
             <tr class="trproj">
               <td class="tdproj">Estimated time:</td>
               <td>{{projectDetails.estimatedTime}}</td>
-            </tr> -->
-          </table>
+            </tr> 
+          </table> 
         </div>
       </div>
     </div>
     <div class="col">
       <div class="collapse multi-collapse" id="multiCollapseExample2">
         <div class="card card-body">
-          Gant diagram :)
+          <app-gantt></app-gantt> 
         </div>
       </div>
     </div>
@@ -243,18 +243,14 @@
         <td *ngIf="row.archived == false">{{row.deadline.substring(0,10)}}</td>
 
 
-        <td *ngFor=" let subrow of row.assignees"> 
-          <li>{{subrow.fullname}}</li>
-        </td>
-
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.assignees}}</td>
         <td *ngIf="row.archived == false">{{row.assignees}}</td>
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.description}}</td>
         <td *ngIf="row.archived == false">{{row.description}}</td>
 
-        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white"> {{row.prerequisitesTaskIds}}</td>
-        <td *ngIf="row.archived == false">{{row.prerequisitesTaskIds}}</td>
+        <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white"> {{row.prerequisiteTasks.toString()}}</td>
+        <td *ngIf="row.archived == false">{{row.prerequisiteTasks.toString()}}</td>
 
         <td *ngIf="row.archived==false">
           <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
@@ -335,7 +331,7 @@
             <label for="exampleInputPassword3">Workers:</label>
             <ul class="list-group">
               <li class="list-group-item" *ngFor="let row of userData" >
-                <input class="form-check-input me-1" type="checkbox" name="workers" id="firstCheckbox" (change)="WorkerAdded(row.id)" value="{{row.id}}" formControlName="{{row.id}}">
+                <input class="form-check-input me-1" type="checkbox" name="workers" id="firstCheckbox" (change)="WorkerAdded(row.id)" formControlName="workers">
                 <label class="form-check-label" for="firstCheckbox"  >{{row.fullname}}</label>
               </li>
             </ul>  
@@ -347,8 +343,8 @@
 
             <label for="exampleInputPassword3">Prerequisite:</label>
             <ul class="list-group">
-              <li class="list-group-item" *ngFor="let row of tasksOfProject">
-                <input class="form-check-input me-1" type="checkbox" value="" name="prerequisite" id="firstCheckbox" (change)="PrerequisiteAdded(row.id)">
+              <li class="list-group-item" *ngFor="let row of taskData">
+                <input class="form-check-input me-1" type="checkbox"  name="prerequisite" id="firstCheckbox" (change)="PrerequisiteAdded(row.id)" formControlName="prerequisite">
                 <label class="form-check-label" for="firstCheckbox">{{row.name}}</label>
               </li>
             </ul>  
@@ -375,7 +371,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Not yet</button>
-        <button type="button" class="btn btn-primary" (click)="finishProject()">Yes!</button>
+        <button type="button" class="btn btn-primary" (click)="FinishingProject()" data-bs-dismiss="modal">Yes!</button>
       </div>
     </div>
   </div>
@@ -432,8 +428,13 @@
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword5" class="form-label">Required Tasks</label>
-            <input type="text" formControlName="tasks" class="form-control" id="exampleInputPassword1">
           </div>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let row of taskData">
+              <input class="form-check-input me-1" type="checkbox"  name="tasks" id="firstCheckbox" (change)="RequiredTaskAdded(row.id)" formControlName="tasks">
+              <label class="form-check-label" for="firstCheckbox">{{row.name}}</label>
+            </li>
+          </ul>  
         </form>
       </div>
       <div class="modal-footer">
@@ -537,7 +538,7 @@
             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
           </svg></button>
 
-          <button class="btn btn-secondary" (click)="setToArchive()">
+          <button class="btn btn-secondary" (click)="archiveMilestone(row,true)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
               <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
             </svg>
@@ -551,7 +552,7 @@
           </button>
         </td>
         <td *ngIf="row.archived">
-          <button class="btn btn-dark" (click)="setToActive()">Reactivate</button>
+          <button class="btn btn-dark" (click)="archiveMilestone(row,false)">Reactivate</button>
         </td>
       </tr>
     </tbody>
