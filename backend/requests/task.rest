@@ -1,8 +1,7 @@
-# @host = https://opmapi2.azurewebsites.net
-@host = http://localhost:5000
+@host = https://opmapi.azurewebsites.net
+# @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ4MDc1NSwiZXhwIjoxNjY5NDgwODc1fQ.JMjpfz9BY3oUmeI-2Nd_pA8hPaacvS0HDgsek5M1Hg4
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ4NjU4MSwiZXhwIjoxNjY5NDg2NzAxfQ.fsqktGPpHN2wN4ILDy8_okYJRdo4gEWvtKItuHspR7k
 #Get tasks
 GET {{host}}/projects/1/tasks?pageNumber=1
 Authorization:Bearer {{token}}
@@ -21,12 +20,12 @@ Content-Type: application/json
 Authorization:Bearer {{token}}
 
 {
-  "name": "Test task #2",
+  "name": "Nem",
   "description": "description",
   "deadline": "2022-01-11",
   "status": "Done",
   "prerequisiteTaskIds": [1],
-  "assigneeIds": [1]
+  "assigneeIds": []
 }
 
 ###

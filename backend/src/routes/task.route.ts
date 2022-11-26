@@ -7,7 +7,9 @@ import {
   setArchivedTaskByIdHandler,
   updateTaskByIdHandler,
 } from '../controllers/task.controller';
+import { getUsersTasksHandler } from '../controllers/user.controller';
 import validateRequest from '../middlewares/validateRequest';
+import { verifyJwt } from '../middlewares/verifyJwt';
 import {
   archiveTaskByIdSchema,
   createTaskSchema,
@@ -33,5 +35,7 @@ router
 router
   .route('/projects/:projectId/tasks/:id/archive')
   .put(validateRequest(archiveTaskByIdSchema), setArchivedTaskByIdHandler);
+
+router.route('/user/tasks').get(verifyJwt, getUsersTasksHandler);
 
 export = router;
