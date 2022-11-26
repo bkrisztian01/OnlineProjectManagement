@@ -48,6 +48,8 @@ export const createTaskSchema = object({
     description: string(),
     ...status,
     ...deadline,
+    assigneeIds: array().of(number()),
+    prerequisiteTaskIds: array().of(number()),
   }),
 });
 

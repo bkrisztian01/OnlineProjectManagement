@@ -1,15 +1,16 @@
 @host = http://localhost:5000
+# @host = https://opmapi2.azurewebsites.net
 #Place your access token here
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTI5NzY0NCwiZXhwIjoxNjY5Mjk3NzY0fQ.YgpbQ2Sx-ZMA7O3YQtAOtQGefqOMxWZSxMkJQiSpXo8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ4MzIyNCwiZXhwIjoxNjY5NDgzMzQ0fQ.TRWZMaGnHbREaSG1bDWf2kPBeYDwLHhtNxToRQVWvJQ
 
 # Get milestones
-GET {{host}}/projects/2/milestones?pageNumber=1
+GET {{host}}/projects/1/milestones?pageNumber=1
 Authorization:Bearer {{token}}
 
 ###
 
 #Get milestone by id
-GET {{host}}/projects/2/milestones/1
+GET {{host}}/projects/1/milestones/1
 Authorization:Bearer {{token}}
 
 ###
@@ -23,7 +24,8 @@ Authorization:Bearer {{token}}
   "name": "TestVersion1",
   "description": "Description",
   "deadline": "2022-2-2",
-  "status": "Stopped"
+  "status": "Stopped",
+  "taskIds": [5]
 }
 
 ###

@@ -48,6 +48,7 @@ export const createMilestoneSchema = object({
     description: string(),
     ...status,
     ...deadline,
+    taskIds: array().of(number()),
   }),
 });
 
