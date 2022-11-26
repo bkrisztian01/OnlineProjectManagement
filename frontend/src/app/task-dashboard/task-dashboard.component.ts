@@ -55,6 +55,7 @@ export class TaskDashboardComponent implements OnInit {
     this.getAllProjects();
     this.getAllUsers();
     this.getProjectDetails();
+    this.projectName = this.projectDetails.name
 
   }
 
