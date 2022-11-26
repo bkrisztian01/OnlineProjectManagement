@@ -38,6 +38,7 @@ export class TaskDashboardComponent implements OnInit {
       description: [''],
       prerequisite:['']
     })
+    
     this.AccessToken = this.api.AccessTokenThrow();
 
     //console.log(this.AccessToken)
@@ -80,13 +81,6 @@ export class TaskDashboardComponent implements OnInit {
     this.getAllMilestones;
   }
 
-  Archive: boolean=false;
-  setToArchive(){
-    this.Archive=true;
-  }
-  setToActive(){
-    this.Archive=false;
-  }
 
 
 
@@ -103,8 +97,10 @@ export class TaskDashboardComponent implements OnInit {
       prerequisiteTaskIds: this.prerequisitesOfTask
     }
 
+    //console.log(reqBody.assigneeIds);
     //console.log(reqBody);
     
+    this.formValue.reset();
     this.api.postTask(reqBody,this.projectId,this.AccessToken).subscribe(res=>{
       alert("Task added succesfully!");
       let ref = document.getElementById('close');
@@ -125,25 +121,33 @@ export class TaskDashboardComponent implements OnInit {
   getAllTasks(){
     this.api.getTask(this.projectId,this.AccessToken).subscribe(res=>{
       this.taskData = res;
-      console.log(this.taskData);
+      //console.log(this.taskData);
       
-      //this.TaskWorkers = res
-      //console.log(this.TaskWorkers.assigneeIds);
+      for(let row of this.taskData){
+        let temp: String = ''
+        let temp2: String = ''
+        for(let subrow of row.assignees){
+          temp = temp+ subrow.fullname+' ,'
+        }
+        for(let subrow of row.prerequisiteTasks){
+          temp2= temp2+  subrow.name+' ,'
+        }
+        row.assignees = temp;
+        row.prerequisiteTasks = temp2;
+        
+        
+      }
     })
   }
 
   projectDetails !: any
-  tasksOfProject !: any
   getProjectDetails(){
     this.api.getProjectData(this.projectId,this.AccessToken).subscribe(res=>{
       this.projectDetails = res;
-      console.log(this.projectDetails);
+      //console.log(this.projectDetails);
+
     })
     
-  }
-
-  finishProject(){
-
   }
 
   deleteTask(row: any){
@@ -158,13 +162,12 @@ export class TaskDashboardComponent implements OnInit {
   onEdit(row:any){
     this.showAdd=false;
     this.showUpdate=true;
+    this.formValue.reset()
     this.taskObject.id = row.id;
     this.formValue.controls['text'].setValue(row.name);
     this.formValue.controls['statusbar'].setValue(row.status);
     this.formValue.controls['day'].setValue(row.deadline);
-    //this.formValue.controls['worker'].setValue(row.assignees);
     this.formValue.controls['description'].setValue(row.description);
-    this.formValue.controls['prerequisiteTaskIds'].setValue(row.prerequisite);
   }
 
   clickAddTask(){
@@ -179,10 +182,11 @@ export class TaskDashboardComponent implements OnInit {
       name: this.formValue.value.text,
       description: this.formValue.value.description,
       deadline: this.formValue.value.day,
-      status: this.formValue.value.statusbar ,
-      //assigneeIds: [],
-      //prerequisiteTaskIds: [],
+      status: this.formValue.value.statusbar,
+      assigneeIds: this.workersOfTask,
+      prerequisiteTaskIds: this.prerequisitesOfTask,
     }
+    this.formValue.reset();
     this.api.updateTask(reqBody,this.taskObject.id,this.projectId,this.AccessToken).subscribe(
       res=>{
         alert("Update succesful!");
@@ -193,6 +197,8 @@ export class TaskDashboardComponent implements OnInit {
       }
     
     )
+    this.workersOfTask.splice(0)
+    this.prerequisitesOfTask.splice(0)
   }
 
   //MILESTONES//
@@ -215,9 +221,10 @@ export class TaskDashboardComponent implements OnInit {
       name: this.milestoneValue.value.text,
       description: this.milestoneValue.value.description,
       deadline: this.milestoneValue.value.day,
+      taskIds: this.requiredTasks
     }
 
-    this.api.postMilestone(reqBody,this.projectId).subscribe(res=>{
+    this.api.postMilestone(reqBody,this.projectId,this.AccessToken).subscribe(res=>{
         alert("Milestone added succesfully!");
         let ref = document.getElementById('close');
         ref?.click();
@@ -227,14 +234,27 @@ export class TaskDashboardComponent implements OnInit {
     err=>{
       alert("Something went wrong!")
     }
-    )}
+    )
+    this.requiredTasks.splice(0)
+  }
+
     getAllMilestones(){
-      this.api.getProjectData(this.projectId,this.AccessToken).subscribe(res=>{
-        this.milestoneData = res.milestones;
+      this.api.getMilestone(this.projectId,this.AccessToken).subscribe(res=>{
+        this.milestoneData = res;
+        
+
+        for(let row of this.milestoneData){
+          let temp: String = ''
+          for(let subrow of row.tasks){
+            
+            temp = temp+ subrow.name +' ,'
+          }
+          row.tasks = temp;
+        }
       })
     }
     deleteMilestone(row: any){
-      this.api.deleteMilestone(row.id,this.projectId).subscribe(
+      this.api.deleteMilestone(row.id,this.projectId,this.AccessToken).subscribe(
         res=>{
           alert("Milestone deleted");
           this.getAllMilestones();
@@ -269,21 +289,28 @@ export class TaskDashboardComponent implements OnInit {
       this.getAllTasks();
     }
 
+    archiveMilestone(row:any, Archivation:boolean){
+      const reqBody={
+        archived: Archivation
+      }
+      this.api.archiveMilestone(reqBody,row.id,this.projectId,this.AccessToken).subscribe(
+        res=>{
+          this.getAllMilestones();
+          
+        }
+      )
+      this.getAllMilestones();
+    }
+
     updateMilestone(){
-      // this.milestoneObject.name = this.milestoneValue.value.text;
-      // this.milestoneObject.status = this.milestoneValue.value.statusbar;
-      // this.milestoneObject.deadline = this.milestoneValue.value.day;
-      // this.milestoneObject.description = this.milestoneValue.value.description;
-      //this.milestoneObject.tasks = this.formValue.value.tasks;
+
       const reqBody = {
         name: this.milestoneValue.value.text,
         description: this.milestoneValue.value.description,
         deadline: this.milestoneValue.value.day,
-        // status: ,
-        //assigneeIds: [],
-        //prerequisiteTaskIds: [],
+        taskIds: this.requiredTasks
       }
-      this.api.updateMilestone(reqBody,this.milestoneObject.id,this.projectId).subscribe(
+      this.api.updateMilestone(reqBody,this.milestoneObject.id,this.projectId,this.AccessToken).subscribe(
         res=>{
           alert("Update successful!");
           let ref = document.getElementById('close');
@@ -293,6 +320,7 @@ export class TaskDashboardComponent implements OnInit {
         }
       
       )
+      this.requiredTasks.splice(0)
     }
     projectData!: any;
     getAllProjects(){
@@ -307,27 +335,68 @@ export class TaskDashboardComponent implements OnInit {
       this.api.getAllUsers(this.AccessToken).subscribe(res=>{
         this.userData = res
         //console.log(this.userData);
-        
       })
     }
 
-    workersOfTask : Array<number> = [];
-    WorkerAdded(worker:number){ 
+    workersOfTask : Array<Number> = [];
+    WorkerAdded(worker:Number){ 
 
-      //console.log(worker);
-      
-      //this.workersOfTask += worker
-      //this.workersOfTask.length++
+      if(this.workersOfTask.includes(worker)){
+        this.workersOfTask.forEach((element,index)=>{
+          if(element==worker) this.workersOfTask.splice(index,1);
+       });
+       return;
+      }
       this.workersOfTask.push(worker)
       //console.log(this.workersOfTask);
       
     }
 
     prerequisitesOfTask : Array<number> = [];
-    PrerequisiteAdded(task:any){ 
+    PrerequisiteAdded(task:number){ 
 
-      this.workersOfTask.push(task)
+      if(this.prerequisitesOfTask.includes(task)){
+        this.prerequisitesOfTask.forEach((element,index)=>{
+          if(element==task) this.prerequisitesOfTask.splice(index,1);
+       });
+       return;
+      }
+      this.prerequisitesOfTask.push(task)
+
+      //console.log(this.prerequisitesOfTask);
+
       
+
     }
 
+    requiredTasks: Array<number> = [];
+    RequiredTaskAdded(task: number){
+
+      if(this.requiredTasks.includes(task)){
+        this.requiredTasks.forEach((element,index)=>{
+          if(element==task) this.requiredTasks.splice(index,1);
+       });
+       return;
+      }
+      this.requiredTasks.push(task)
+    }
+
+    FinishingProject(){
+      const reqBody={
+        name: this.projectName,
+        status: "Done"
+      }
+      this.api.FinishProject(reqBody,this.projectId,this.AccessToken).subscribe(
+        res=>{
+          alert("Finishing successful!");
+          let ref = document.getElementById('close');
+          ref?.click();
+          this.getProjectDetails();
+          this.getAllProjects();
+        }
+      
+      )
+      //console.log(this.projectData);
+      
+    }
 }
