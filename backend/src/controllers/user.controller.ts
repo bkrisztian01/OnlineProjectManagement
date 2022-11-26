@@ -3,7 +3,6 @@ import {
   createUser,
   getUserById,
   getUsers,
-  getUsersTasks,
   logoutUser,
   validatePassword,
 } from '../services/user.service';
@@ -86,12 +85,4 @@ export async function getCurrentUserHandler(
       email: user.email,
     });
   }
-}
-
-export async function getUsersTasksHandler(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
-  res.send(await getUsersTasks(res.locals.jwt));
 }

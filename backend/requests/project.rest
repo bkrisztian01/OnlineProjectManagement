@@ -1,6 +1,5 @@
-# @host = https://opmapi2.azurewebsites.net
-@host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ2Njk3NiwiZXhwIjoxNjY5NDY3MDk2fQ.ZYNuGkz6KWFpETJ-eJjqFMa7JK-8HImA04l7aB3_3x0
+@host = https://opmapi2.azurewebsites.net
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTIxNzAzMiwiZXhwIjoxNjY5MjE3MTUyfQ.2O_4TUPRHD_WB5p3feztwSo6QF8dFBvl3QFd9MsAQPE
 
 #Get projects
 GET {{host}}/projects?pageNumber=1
@@ -9,13 +8,13 @@ Authorization: Bearer {{token}}
 ###
 
 #Get project by id
-GET {{host}}/projects/2
+GET {{host}}/projects/1
 Authorization: Bearer {{token}}
 
 ###
 
 #Delete project by id
-DELETE {{host}}/projects/2
+DELETE {{host}}/projects/1
 Authorization: Bearer {{token}}
 
 ###
@@ -31,15 +30,13 @@ Authorization: Bearer {{token}}
   "startDate": "2022-11-22",
   "endDate": null,
   "status": "In Progress",
-  "estimatedTime": 123,
-  "managerId": 1,
-  "memberIds": []
+  "estimatedTime": 123
 }
 
 ###
 
 #Update project
-PUT {{host}}/projects/2
+PUT {{host}}/projects/3
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

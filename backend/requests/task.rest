@@ -1,22 +1,22 @@
 # @host = https://opmapi2.azurewebsites.net
 @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ2ODU0MywiZXhwIjoxNjY5NDc1NzQzfQ.GoxZImIPQHNsGgN34MRkih4Ank6AoYLSW6yn-lmiCf0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTI5NzM4OSwiZXhwIjoxNjY5Mjk3NTA5fQ._fMkhYo0EATGDu9z68WCt-TdVs8J5-FP9fsr3oVdIKU
 
 #Get tasks
-GET {{host}}/projects/1/tasks?pageNumber=1
+GET {{host}}/projects/2/tasks?pageNumber=1
 Authorization:Bearer {{token}}
 
 ###
 
 #Get task by id
-GET {{host}}/projects/1/tasks/3
+GET {{host}}/projects/2/tasks/2
 Authorization:Bearer {{token}}
 
 ###
 
 #Create task
-POST {{host}}/projects/1/tasks
+POST {{host}}/projects/2/tasks
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -24,9 +24,7 @@ Authorization:Bearer {{token}}
   "name": "Test task #2",
   "description": "description",
   "deadline": "2022-01-11",
-  "status": "Done",
-  "assigneeIds": [1, 2],
-  "prerequisiteTaskIds: []"
+  "status": "Done"
 }
 
 ###
@@ -41,7 +39,7 @@ Authorization:Bearer {{token}}
   "description": "description",
   "status": "Done",
   "deadline": "1999-01-10",
-  "assigneeIds": [1]
+  "assigneeIds": []
 }
 
 ###
@@ -52,5 +50,5 @@ Content-Type: application/json
 Authorization:Bearer {{token}}
 
 {
-  "archived": false
+  "archived": true
 }

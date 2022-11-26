@@ -48,32 +48,10 @@ export async function createMilestone(
   description: string,
   status: Status,
   deadline: string,
-  taskIds: number[],
 ) {
   const project = await Project.findOne({ where: { id: projectId } });
   if (!project) {
     throw new NotFound('Project was not found');
-  }
-
-  let tasks;
-  if (taskIds) {
-    if (taskIds.length === 0) {
-      tasks = [];
-    } else {
-      tasks = await Task.find({
-        relations: ['project'],
-        where: {
-          id: In(taskIds),
-          project: {
-            id: project.id,
-          },
-        },
-      });
-    }
-
-    if (tasks.length < taskIds.length && taskIds.length > 0) {
-      throw new Conflict('Task and milestone is not in the same project');
-    }
   }
 
   const milestone = Milestone.create({
@@ -82,7 +60,6 @@ export async function createMilestone(
     deadline,
     project,
     status,
-    tasks,
   });
 
   return nullCheck(await milestone.save());
@@ -121,7 +98,7 @@ export async function updateMilestoneById(
       });
     }
 
-    if (tasks.length < taskIds.length && taskIds.length > 0) {
+    if (tasks.length == 0 && taskIds.length > 0) {
       throw new Conflict('Task and milestone is not in the same project');
     }
   }

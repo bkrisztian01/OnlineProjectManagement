@@ -34,7 +34,6 @@ export async function postMilestoneHandler(
       req.body.description,
       req.body.status,
       req.body.deadline,
-      req.body.taskIds,
     );
 
     res.send(milestone);
@@ -89,7 +88,7 @@ export async function deleteMilestoneByIdHandler(
 ) {
   deleteMilestoneById(parseInt(req.params.id), parseInt(req.params.projectId));
 
-  res.sendStatus(204);
+  res.status(200).send('Successful operation');
 }
 
 export async function setArchivedMilestoneByIdHandler(

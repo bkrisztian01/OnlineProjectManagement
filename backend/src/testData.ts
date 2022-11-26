@@ -1,4 +1,3 @@
-import { UserRole } from './models/userRole.model';
 import {
   createMilestone,
   updateMilestoneById,
@@ -6,7 +5,6 @@ import {
 import { createProject } from './services/project.service';
 import { createTask } from './services/task.service';
 import { createUser } from './services/user.service';
-import { Role } from './util/Role';
 import { Status } from './util/Status';
 
 export async function initTestData() {
@@ -17,10 +15,6 @@ export async function initTestData() {
     'Kovács Mariann',
     'kovimari@gmail.com',
   );
-  await UserRole.create({
-    user: await createUser('admin', 'admin', 'The Admin', 'admin@example.com'),
-    role: Role.Admin,
-  }).save();
   await createProject(
     'Project #1',
     'Test project',
@@ -28,8 +22,6 @@ export async function initTestData() {
     null,
     Status.NotStarted,
     null,
-    1,
-    [2],
   );
   await createProject(
     'MobWeb házi',
@@ -38,26 +30,14 @@ export async function initTestData() {
     null,
     Status.InProgress,
     null,
-    2,
-    [1],
   );
-  await createTask(
-    1,
-    'Task #1',
-    'Test task',
-    Status.NotStarted,
-    '2022-12-12',
-    [],
-    [],
-  );
+  await createTask(1, 'Task #1', 'Test task', Status.NotStarted, '2022-12-12');
   await createTask(
     2,
     'Engedélyek',
     'PermissionDispatcher',
     Status.InProgress,
     null,
-    [],
-    [],
   );
   await createMilestone(
     2,
@@ -65,7 +45,6 @@ export async function initTestData() {
     'MainActivity',
     Status.InProgress,
     '2022-11-19',
-    [],
   );
 
   await updateMilestoneById(2, 1, null, null, null, null, [2]);

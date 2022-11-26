@@ -2,7 +2,6 @@ import { Conflict, Unauthorized } from '@curveball/http-errors/dist';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { RefreshToken } from '../models/refreshToken.model';
-import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
 
 export async function validatePassword(username: string, password: string) {
@@ -10,12 +9,12 @@ export async function validatePassword(username: string, password: string) {
     where: {
       username,
     },
-    select: ['id', 'username', 'password'],
   });
 
   if (!user) {
     throw new Unauthorized('Unauthorized');
   }
+
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
     throw new Unauthorized('Unauthorized');
@@ -100,16 +99,4 @@ export async function logoutUser(refreshToken: string) {
   RefreshToken.delete({
     refreshToken,
   });
-}
-
-export async function getUsersTasks(userId: number) {
-  const tasks = Task.find({
-    where: {
-      assignees: {
-        id: userId,
-      },
-    },
-  });
-
-  return tasks;
 }

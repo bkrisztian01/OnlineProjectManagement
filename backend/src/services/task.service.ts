@@ -22,7 +22,7 @@ function nullCheck(task: Task) {
 export async function getTaskById(id: number, projectId: number) {
   const task = await Task.findOne({
     where: { id, project: { id: projectId } },
-    relations: ['milestone', 'assignees', 'prerequisiteTasks'],
+    relations: ['milestone'],
   });
 
   if (!task) {
@@ -38,21 +38,12 @@ export async function getTasks(projectId: number, pageNumber?: number) {
     .orderBy('task.id', 'ASC')
     .where('task.project.id = :projectId', { projectId });
 
-  let options: any = {
-    where: {
-      project: { id: projectId },
-    },
-    order: { id: 'ASC' },
-    take: PAGE_SIZE,
-    relations: ['assignees', 'prerequisiteTasks', 'milestone'],
-  };
-
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
-    options.skip = skipAmount;
+    query.skip(skipAmount);
   }
 
-  const tasks = await Task.find(options);
+  const tasks = await query.getMany();
 
   return tasks;
 }
@@ -63,38 +54,10 @@ export async function createTask(
   description: string,
   status: Status,
   deadline: string,
-  assigneeIds: number[],
-  prerequisiteTaskIds: number[],
 ) {
   const project = await Project.findOne({ where: { id: projectId } });
   if (!project) {
     throw new NotFound('Project was not found');
-  }
-
-  let assignees = [];
-  if (assigneeIds) {
-    if (assigneeIds.length === 0) {
-      assignees = [];
-    } else {
-      assignees = await User.createQueryBuilder('users')
-        .select('users')
-        .where('users.id IN (:...assigneeIds)', { assigneeIds: assigneeIds })
-        .getMany();
-    }
-  }
-
-  let prerequisiteTasks = [];
-  if (prerequisiteTaskIds) {
-    if (prerequisiteTaskIds.length === 0) {
-      prerequisiteTasks = [];
-    } else {
-      prerequisiteTasks = await Task.createQueryBuilder('task')
-        .select('task')
-        .where('task.id IN (:...prerequisiteTaskIds)', {
-          prerequisiteTaskIds: prerequisiteTaskIds,
-        })
-        .getMany();
-    }
   }
 
   const task = Task.create({
@@ -103,8 +66,6 @@ export async function createTask(
     deadline,
     status,
     project,
-    assignees,
-    prerequisiteTasks,
   });
 
   return nullCheck(await task.save());
