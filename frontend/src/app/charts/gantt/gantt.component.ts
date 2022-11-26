@@ -61,57 +61,57 @@ export class GanttComponent implements OnInit {
     };
   }
   ngOnInit(): void {
-    //this.getAllTasks()
+    this.getAllTasks()
     this.initializeChart()
   }
 
   initializeChart(){
     this.chartOptions = {
       series: [
-        {
-          data: [
-            {
-              x: "Analysis",
-              y: [
-                new Date("2019-02-27").getTime(),
-                new Date("2019-03-04").getTime()
-              ],
-              fillColor: "#008FFB"
-            },
-            {
-              x: "Design",
-              y: [
-                new Date("2019-03-04").getTime(),
-                new Date("2019-03-08").getTime()
-              ],
-              fillColor: "#00E396"
-            },
-            {
-              x: "Coding",
-              y: [
-                new Date("2019-03-07").getTime(),
-                new Date("2019-03-10").getTime()
-              ],
-              fillColor: "#775DD0"
-            },
-            {
-              x: "Testing",
-              y: [
-                new Date("2019-03-08").getTime(),
-                new Date("2019-03-12").getTime()
-              ],
-              fillColor: "#FEB019"
-            },
-            {
-              x: "Deployment",
-              y: [
-                new Date("2019-03-12").getTime(),
-                new Date("2019-03-17").getTime()
-              ],
-              fillColor: "#FF4560"
-            }
-          ]
-        }
+        // {
+        //   data: [
+        //     // {
+        //     //   x: "Analysis",
+        //     //   y: [
+        //     //     new Date("2019-02-27").getTime(),
+        //     //     new Date("2019-03-04").getTime()
+        //     //   ],
+        //     //   fillColor: "#008FFB"
+        //     // },
+        //     // {
+        //     //   x: "Design",
+        //     //   y: [
+        //     //     new Date("2019-03-04").getTime(),
+        //     //     new Date("2019-03-08").getTime()
+        //     //   ],
+        //     //   fillColor: "#00E396"
+        //     // },
+        //     // {
+        //     //   x: "Coding",
+        //     //   y: [
+        //     //     new Date("2019-03-07").getTime(),
+        //     //     new Date("2019-03-10").getTime()
+        //     //   ],
+        //     //   fillColor: "#775DD0"
+        //     // },
+        //     // {
+        //     //   x: "Testing",
+        //     //   y: [
+        //     //     new Date("2019-03-08").getTime(),
+        //     //     new Date("2019-03-12").getTime()
+        //     //   ],
+        //     //   fillColor: "#FEB019"
+        //     // },
+        //     // {
+        //     //   x: "Deployment",
+        //     //   y: [
+        //     //     new Date("2019-03-12").getTime(),
+        //     //     new Date("2019-03-17").getTime()
+        //     //   ],
+        //     //   fillColor: "#FF4560"
+        //     // }
+        //   ]
+        // }
       ],
       chart: {
         height: 350,
@@ -134,6 +134,8 @@ export class GanttComponent implements OnInit {
         }
       }
     };
+    console.log(this.chartOptions.series);
+    
   }
 
   tasks!: any;
@@ -143,19 +145,15 @@ export class GanttComponent implements OnInit {
       this.tasks = res;
       console.log(this.tasks);
       for(let row of this.tasks){
-        let name:any = row.name;
-        let y1  =''+row.startDate+'';
-        let y2 = row.deadline;
-        let color = "#FF4560"
-        let type:any = y1+","+y2
-        let data: number[] = [name,type,color]
-        // const data={
-        //   x: name,
-        //   y: type,
-        //   color: color,
-        // }
+        let x:any = row.name;
+        let y1:Date  =row.startDate;
+        let y2: Date = row.deadline;
+        let fillcolor = "#FF4560"
+        let type:any = [y1.getTime(),y2.getTime()]
+
+        let data = [x,fillcolor,type]
         this.chartOptions.series?.push(
-          {name,type,color,data}
+          {data}
           )
           console.log(data);
       }
