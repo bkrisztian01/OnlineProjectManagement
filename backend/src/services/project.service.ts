@@ -1,5 +1,10 @@
 import { NotFound } from '@curveball/http-errors/dist';
+import { In } from 'typeorm';
+import { AppDataSource } from '../dataSource';
 import { Project } from '../models/project.model';
+import { User } from '../models/user.model';
+import { UserRole } from '../models/userRole.model';
+import { Role } from '../util/Role';
 import { Status } from '../util/Status';
 
 const PAGE_SIZE = 5;
@@ -35,17 +40,60 @@ export async function createProject(
   endDate: string,
   status: Status,
   estimatedTime: number,
+  managerId: number,
+  memberIds: number[],
 ) {
-  const project = Project.create({
-    name,
-    description: description || '',
-    startDate,
-    endDate,
-    status,
-    estimatedTime,
+  const manager = await User.findOne({
+    where: { id: managerId },
   });
-  await project.save();
-  return nullCheck(project);
+  if (!manager) {
+    throw new NotFound(`User with id ${managerId} was not found.`);
+  }
+
+  const uniqueMemberIds = [...new Set(memberIds)];
+  const members = await User.find({
+    where: {
+      id: In(uniqueMemberIds),
+    },
+  });
+
+  if (members.length < uniqueMemberIds.length) {
+    throw new NotFound(`Some users was not found in memberIds`);
+  }
+
+  let result;
+  await AppDataSource.transaction(async transactionalEntityManager => {
+    const project = Project.create({
+      name,
+      description: description || '',
+      startDate,
+      endDate,
+      status,
+      estimatedTime,
+    });
+
+    result = await transactionalEntityManager.save(project);
+
+    const managerRole = UserRole.create({
+      project,
+      user: manager,
+      role: Role.Manager,
+    });
+
+    await transactionalEntityManager.save(managerRole);
+
+    members.forEach(async member => {
+      const memberRole = UserRole.create({
+        project,
+        user: member,
+        role: Role.Member,
+      });
+
+      await transactionalEntityManager.save(memberRole);
+    });
+  });
+
+  return nullCheck(result);
 }
 
 export async function getProjectById(id: number) {

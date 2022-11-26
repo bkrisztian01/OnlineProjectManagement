@@ -27,6 +27,8 @@ export async function postProjectHandler(
     req.body.endDate,
     req.body.status,
     req.body.estimatedTime,
+    req.body.managerId,
+    req.body.memberIds,
   );
   res.send(project);
 }
