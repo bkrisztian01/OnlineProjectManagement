@@ -38,12 +38,21 @@ export async function getTasks(projectId: number, pageNumber?: number) {
     .orderBy('task.id', 'ASC')
     .where('task.project.id = :projectId', { projectId });
 
+  let options: any = {
+    where: {
+      project: { id: projectId },
+    },
+    order: { id: 'ASC' },
+    take: PAGE_SIZE,
+    relations: ['assignees', 'prerequisiteTasks'],
+  };
+
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
-    query.skip(skipAmount);
+    options.skip = skipAmount;
   }
 
-  const tasks = await query.getMany();
+  const tasks = await Task.find(options);
 
   return tasks;
 }
