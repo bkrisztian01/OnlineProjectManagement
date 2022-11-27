@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   formValue !: FormGroup;
   login!: Login;
-  @Output() AccessToken !:String;
+  @Output() AccessToken !:any;
 
   constructor(private formbuilder: FormBuilder, private api: ApiService, private route:ActivatedRoute, private router: Router){}
 
@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
       alert("Logged in succesfully!");
       this.AccessToken = res.accessToken;
       this.api.setAccessToken(this.AccessToken);
+      localStorage.setItem('token',this.AccessToken)
       
       let ref = document.getElementById('close');
       ref?.click();

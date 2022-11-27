@@ -5,7 +5,7 @@ import { ApiService } from '../services/api.service';
 import { Milestone } from '../model/milestones.model';
 import { User } from '../model/users.model';
 import { Observable } from 'rxjs';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexChart, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexXAxis, ChartComponent } from 'ng-apexcharts';
 // import { TaskObjects } from './task-dashboard.model';
 
 export type ChartOptions = {
@@ -50,7 +50,7 @@ export class TaskDashboardComponent implements OnInit {
   TaskPageNumber:any = 1;
   MilestonePageNumber = 1;
 
-  AccessToken!: String;
+  AccessToken!: any;
 
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> ;
@@ -95,7 +95,6 @@ export class TaskDashboardComponent implements OnInit {
     })
     this.AccessToken = this.api.AccessTokenThrow();
 
-    //console.log(this.AccessToken)
     this.getAllTasks();
     this.getAllMilestones();
     this.getAllProjects();
@@ -203,7 +202,7 @@ export class TaskDashboardComponent implements OnInit {
       }
       this.chartOptions.labels = ["Done","In Progress","Stopped","Not Started"]
       this.chartOptions.series = [finished,InProgress,Stopped,NotStarted]
-      this.ChartOptionsRadial.series = [finished,InProgress,Stopped,NotStarted]
+      this.ChartOptionsRadial.series = [finished,InProgress,NotStarted,Stopped]
     
   }
 
@@ -246,7 +245,6 @@ export class TaskDashboardComponent implements OnInit {
       this.ChartOptionsGantt.series?.push(
         {data}
         )
-        console.log(this.ChartOptionsGantt.series);
         
   }
 
@@ -285,7 +283,6 @@ export class TaskDashboardComponent implements OnInit {
       managerId: Number(this.projectValue.value.manager),
       memberIds: this.membersOfProject
     }
-    console.log(reqBody);
     
     this.projectValue.reset();
     this.api.postProject(reqBody,this.AccessToken).subscribe(res=>{
@@ -327,9 +324,6 @@ export class TaskDashboardComponent implements OnInit {
       assigneeIds: this.workersOfTask,
       prerequisiteTaskIds: this.prerequisitesOfTask
     }
-
-    //console.log(reqBody.assigneeIds);
-    //console.log(reqBody);
     
     this.formValue.reset();
     this.api.postTask(reqBody,this.projectId,this.AccessToken).subscribe(res=>{
@@ -352,7 +346,6 @@ export class TaskDashboardComponent implements OnInit {
   getAllTasks(){
     this.api.getTask(this.projectId,this.AccessToken).subscribe(res=>{
       this.taskData = res;
-      //console.log(this.taskData);
       
       for(let row of this.taskData){
         let temp: String = ''
@@ -363,21 +356,35 @@ export class TaskDashboardComponent implements OnInit {
         for(let subrow of row.prerequisiteTasks){
           temp2= temp2+  subrow.name+' ,'
         }
-        row.assignees = temp;
-        row.prerequisiteTasks = temp2;
+        row.assignees = temp.slice(0,-1);
+        row.prerequisiteTasks = temp2.slice(0,-1);
         
         if(this.taskData.length!=0) this.initializeChart();
         this.initializeGanttChart()
 
       }
-    })
+    },
+    (error)=>{
+      this.RefreshingToken();
+      this.getAllTasks();
+    }
+    )
+  }
+
+  RefreshingToken(){
+    this.api.refreshToken().subscribe(res=>{
+      this.AccessToken = res.accessToken
+      console.log(this.AccessToken);
+      }
+      
+      
+    )
   }
 
   projectDetails !: any
   getProjectDetails(){
     this.api.getProjectData(this.projectId,this.AccessToken).subscribe(res=>{
       this.projectDetails = res;
-      //console.log(this.projectDetails);
     })
     
   }
@@ -481,7 +488,7 @@ export class TaskDashboardComponent implements OnInit {
             
             temp = temp+ subrow.name +' ,'
           }
-          row.tasks = temp;
+          row.tasks = temp.slice(0,-1);
         }
       })
     }
@@ -544,6 +551,7 @@ export class TaskDashboardComponent implements OnInit {
       }
       this.api.updateMilestone(reqBody,this.milestoneObject.id,this.projectId,this.AccessToken).subscribe(
         res=>{
+          
           alert("Update successful!");
           let ref = document.getElementById('close');
           ref?.click();
@@ -558,7 +566,6 @@ export class TaskDashboardComponent implements OnInit {
     getAllProjects(){
       this.api.getAllProjects(this.AccessToken).subscribe(res=>{
         this.projectData = res
-        //console.log(this.projectData)
       })
     }
 
@@ -566,7 +573,6 @@ export class TaskDashboardComponent implements OnInit {
     getAllUsers(){
       this.api.getAllUsers(this.AccessToken).subscribe(res=>{
         this.userData = res
-        //console.log(this.userData);
       })
     }
 
@@ -580,7 +586,6 @@ export class TaskDashboardComponent implements OnInit {
        return;
       }
       this.workersOfTask.push(worker)
-      //console.log(this.workersOfTask);
       
     }
 
@@ -594,10 +599,6 @@ export class TaskDashboardComponent implements OnInit {
        return;
       }
       this.prerequisitesOfTask.push(task)
-
-      //console.log(this.prerequisitesOfTask);
-
-      
 
     }
 
@@ -628,7 +629,6 @@ export class TaskDashboardComponent implements OnInit {
         }
       
       )
-      //console.log(this.projectData);
       
     }
 }
