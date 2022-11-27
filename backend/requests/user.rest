@@ -11,9 +11,13 @@ GET {{host}}/users
 POST {{host}}/user/login
 Content-Type: application/json
 
+# {
+#   "username": "testuser",
+#   "password": "test123"
+# }
 {
-  "username": "testuser",
-  "password": "test123"
+  "username": "kengushi",
+  "password": "kengushi"
 }
 
 ###
@@ -23,10 +27,10 @@ POST {{host}}/user/signup
 Content-Type: application/json
 
 {
-  "username": ":)",
-  "fullname": "Test User",
-  "email": "testuser@example.com",
-  "password": "asd123QWE"
+  "username": "kengushi",
+  "fullname": "Ken Gushi",
+  "email": "kengushi@example.com",
+  "password": "kengushi"
 }
 
 ###

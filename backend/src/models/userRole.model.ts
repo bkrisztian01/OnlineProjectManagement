@@ -21,9 +21,11 @@ export class UserRole extends BaseEntity {
   })
   role: Role;
 
-  @ManyToOne(() => Project, project => project.userRoles)
+  @ManyToOne(() => Project, project => project.userRoles, {
+    onDelete: 'CASCADE',
+  })
   project: Project;
 
-  @ManyToOne(() => User, user => user.userRoles)
+  @ManyToOne(() => User, user => user.userRoles, { onDelete: 'CASCADE' })
   user: User;
 }

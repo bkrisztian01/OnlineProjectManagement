@@ -6,6 +6,7 @@ import {
   postProjectHandler,
   updateProjectByIdHandler,
 } from '../controllers/project.controller';
+import { modifyProject, viewProject } from '../middlewares/permission/project';
 import validateRequest from '../middlewares/validateRequest';
 import {
   createProjectSchema,
@@ -23,9 +24,21 @@ router
   .post(validateRequest(createProjectSchema), postProjectHandler);
 
 router
-  .route('/projects/:id')
-  .get(validateRequest(getProjectByIdSchema), getProjectByIdHandler)
-  .put(validateRequest(updateProjectByIdSchema), updateProjectByIdHandler)
-  .delete(validateRequest(deleteProjectByIdSchema), deleteProjectByIdHandler);
+  .route('/projects/:projectId')
+  .get(
+    validateRequest(getProjectByIdSchema),
+    viewProject,
+    getProjectByIdHandler,
+  )
+  .put(
+    validateRequest(updateProjectByIdSchema),
+    modifyProject,
+    updateProjectByIdHandler,
+  )
+  .delete(
+    validateRequest(deleteProjectByIdSchema),
+    modifyProject,
+    deleteProjectByIdHandler,
+  );
 
 export = router;
