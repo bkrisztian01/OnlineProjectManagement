@@ -104,7 +104,7 @@ export class TaskDashboardComponent implements OnInit {
       description: this.projectValue.value.description,
       status: this.projectValue.value.statusbar,
       estimatedTime: this.projectValue.value.day,
-      managerId: this.projectValue.value.manager,
+      managerId: Number(this.projectValue.value.manager),
       memberIds: this.membersOfProject
     }
     console.log(reqBody);

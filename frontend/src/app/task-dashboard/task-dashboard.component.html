@@ -154,6 +154,9 @@
               <td class="tdproj">Estimated time:</td>
               <td>{{projectDetails.estimatedTime}}</td>
             </tr> 
+            <div class="d-grid gap-2">
+              <button class="btn btn-success" type="button">Button</button>
+            </div>
           </table> 
           
         </div>
@@ -620,7 +623,7 @@
           <label for="exampleInputPassword4" class="form-label">Manager:</label>
           <div class="form-check" *ngFor="let row of userData">
             
-            <input class="form-check-input" formControlName="manager" type="radio" name="manager" id="exampleRadios1" value="{{row.id}}" checked>
+            <input class="form-check-input" formControlName="manager" type="radio" name="manager" id="exampleRadios1" value={{row.id}} checked>
             <label class="form-check-label" for="exampleRadios1">
               {{row.fullname}}
             </label>

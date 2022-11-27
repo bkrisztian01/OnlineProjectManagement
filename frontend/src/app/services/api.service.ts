@@ -9,7 +9,7 @@ import { identifierName } from '@angular/compiler';
 
 export class ApiService {
 
-  private apiAddress = "https://opmapi.azurewebsites.net"
+  private apiAddress = "https://opmapi2.azurewebsites.net"
 
   private AccessToken!: String;
   private ProjectID!: number;
