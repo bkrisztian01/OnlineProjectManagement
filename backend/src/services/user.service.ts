@@ -1,9 +1,11 @@
 import { Conflict, Unauthorized } from '@curveball/http-errors/dist';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { Between, Not } from 'typeorm';
 import { RefreshToken } from '../models/refreshToken.model';
 import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
+import { Status } from '../util/Status';
 
 export async function validatePassword(username: string, password: string) {
   const user = await User.findOne({
@@ -103,11 +105,19 @@ export async function logoutUser(refreshToken: string) {
 }
 
 export async function getUsersTasks(userId: number) {
+  const date = new Date(Date.now());
+  date.setDate(date.getDate() + 14);
+  const dateString = date.toLocaleString('en-CA').split(',')[0];
   const tasks = Task.find({
     where: {
       assignees: {
         id: userId,
       },
+      deadline: Between(
+        new Date(Date.now()).toLocaleString('en-CA').split(',')[0],
+        dateString,
+      ),
+      status: Not<Status.Done>(Status.Done),
     },
   });
 

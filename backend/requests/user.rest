@@ -1,6 +1,6 @@
 # @host = https://opmapi2.azurewebsites.net
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ4NjU4MSwiZXhwIjoxNjY5NDg2NzAxfQ.fsqktGPpHN2wN4ILDy8_okYJRdo4gEWvtKItuHspR7k
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTU1NTEzOCwiZXhwIjoxNjY5NTYyMzM4fQ.fAhboT78ThMn5xoE1yxMWwVNc0-EioTC1cR9f6v8lJk
 
 #Get users
 GET {{host}}/users
@@ -11,14 +11,15 @@ GET {{host}}/users
 POST {{host}}/user/login
 Content-Type: application/json
 
-# {
-#   "username": "testuser",
-#   "password": "test123"
-# }
 {
-  "username": "kengushi",
-  "password": "kengushi"
+  "username": "testuser",
+  "password": "test123"
 }
+
+# {
+#   "username": "kengushi",
+#   "password": "kengushi"
+# }
 
 ###
 
