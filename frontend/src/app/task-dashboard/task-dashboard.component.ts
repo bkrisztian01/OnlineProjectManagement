@@ -1,17 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder,FormGroup } from '@angular/forms';
 import { Task } from '../model/tasks.model';
 import { ApiService } from '../services/api.service';
 import { Milestone } from '../model/milestones.model';
 import { User } from '../model/users.model';
 import { Observable } from 'rxjs';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
 // import { TaskObjects } from './task-dashboard.model';
+
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  colors :string[],
+  responsive: ApexResponsive[];
+  labels: any;
+};
+export type ChartOptionsGantt = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  plotOptions: ApexPlotOptions;
+};
+export type ChartOptionsRadial = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  labels: string[];
+  colors: string[];
+  legend: ApexLegend;
+  plotOptions: ApexPlotOptions;
+  responsive: ApexResponsive | ApexResponsive[];
+};
 
 @Component({
   selector: 'app-task-dashboard',
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.css']
 })
+
+
 export class TaskDashboardComponent implements OnInit {
 
   formValue !: FormGroup;
@@ -25,6 +51,15 @@ export class TaskDashboardComponent implements OnInit {
   MilestonePageNumber = 1;
 
   AccessToken!: String;
+
+  @ViewChild("chart") chart!: ChartComponent;
+  public chartOptions!: Partial<ChartOptions> ;
+
+  @ViewChild("chart") chart2!: ChartComponent;
+  public ChartOptionsGantt!: Partial<ChartOptionsGantt> ;
+
+  @ViewChild("chart") chart3!: ChartComponent;
+  public ChartOptionsRadial!: Partial<ChartOptionsRadial> ;
 
   constructor(private formbuilder: FormBuilder, private api: ApiService){}
 
@@ -72,6 +107,148 @@ export class TaskDashboardComponent implements OnInit {
 
   }
 
+  initializeChart(){
+    this.chartOptions = {
+      series: [],
+      chart: {
+        type: "donut",
+        width: 500,
+        height: 500
+      },
+      labels: [],
+      colors: ["#289A09", "#ffc133", "#FF4233","#96a2a3"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+              
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+    this.ChartOptionsRadial = {
+      series: [],
+      chart: {
+        height: 368,
+        type: "radialBar"
+      },
+      plotOptions: {
+        radialBar: {
+          offsetY: 0,
+          startAngle: 0,
+          endAngle: 270,
+          hollow: {
+            margin: 5,
+            size: "30%",
+            background: "transparent",
+            image: undefined
+          },
+          dataLabels: {
+            name: {
+              show: false
+            },
+            value: {
+              show: false
+            }
+          }
+        }
+      },
+      colors: ["#289A09", "#ffc133", "#96a2a3", "#FF4233"],
+      labels: ["Done", "In Progress", "Not Started", "Stopped"],
+      legend: {
+        show: true,
+        floating: true,
+        fontSize: "16px",
+        position: "left",
+        offsetX: 50,
+        offsetY: 10,
+        labels: {
+          useSeriesColors: true
+        },
+        formatter: function(seriesName, opts) {
+          return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
+        },
+        itemMargin: {
+          horizontal: 3
+        }
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            legend: {
+              show: false
+            }
+          }
+        }
+      ]
+    };
+
+      let finished=0
+      let InProgress=0
+      let Stopped=0
+      let NotStarted=0
+
+      for(let row of this.taskData){
+        if(row.status == "Done") finished++
+        else if(row.status == "In Progress") InProgress++
+        else if(row.status == "Stopped") Stopped++
+        else if(row.status == "Not Started") NotStarted++
+      }
+      this.chartOptions.labels = ["Done","In Progress","Stopped","Not Started"]
+      this.chartOptions.series = [finished,InProgress,Stopped,NotStarted]
+      this.ChartOptionsRadial.series = [finished,InProgress,Stopped,NotStarted]
+    
+  }
+
+  initializeGanttChart(){
+    this.ChartOptionsGantt = {
+          series: [ ],
+          chart: {
+            height: 332,
+            type: "rangeBar"
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true,
+              distributed: true,
+            }
+          },
+          xaxis: {
+            type: "datetime"
+          }
+        };
+
+      let data:any[] = [];
+      for(let row of this.taskData){
+
+        let x:number = row.name;
+        //let y1:Date  =row.startDate;
+        let y1 = new Date(row.startDate).getTime()
+        //let y2: Date = row.deadline;
+        let y2 = new Date(row.deadline).getTime()
+        let fillColor!: String
+        if(row.status=="In Progress")  fillColor = "#ffc133"
+        else if(row.status=="Stopped")  fillColor = "#ff4233"
+        else if(row.status=="Done")  fillColor = "#289a09"
+        else if(row.status=="Not Started")  fillColor = "#96a2a3"
+        
+        let y:number[] = [y1,y2]
+        data.push({x,y,fillColor})
+
+      }
+      this.ChartOptionsGantt.series?.push(
+        {data}
+        )
+        console.log(this.ChartOptionsGantt.series);
+        
+  }
 
   setProjectId(row: any){
     let newId=row.id;
@@ -81,6 +258,7 @@ export class TaskDashboardComponent implements OnInit {
     this.getAllMilestones();
     this.getProjectDetails();
     this.api.setProjectID(this.projectId)
+    
   }
 
   setTaskPageNumber(x:any ) {
@@ -188,7 +366,9 @@ export class TaskDashboardComponent implements OnInit {
         row.assignees = temp;
         row.prerequisiteTasks = temp2;
         
-        
+        if(this.taskData.length!=0) this.initializeChart();
+        this.initializeGanttChart()
+
       }
     })
   }
@@ -198,7 +378,6 @@ export class TaskDashboardComponent implements OnInit {
     this.api.getProjectData(this.projectId,this.AccessToken).subscribe(res=>{
       this.projectDetails = res;
       //console.log(this.projectDetails);
-
     })
     
   }

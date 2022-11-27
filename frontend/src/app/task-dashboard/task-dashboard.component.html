@@ -38,26 +38,26 @@
             <li><hr class="dropdown-divider"></li>
 
             <div *ngFor="let row of projectData">
-              <button *ngIf="row.status == 'Done' " class="dropdown-item" type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'Done' " class="dropdown-item" type="button" (click)="setProjectId(row)" data-bs-toggle="hide" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
                 </svg></span>
               </button>
-              <button *ngIf="row.status == 'Not Started' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'Not Started' " class="dropdown-item " type="button" (click)="setProjectId(row)" data-bs-toggle="hide" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-end" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
                   <path d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/>
                 </svg></span>
               </button>
-              <button *ngIf="row.status == 'In Progress' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'In Progress' " class="dropdown-item " type="button" (click)="setProjectId(row)" data-bs-toggle="hide" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-center" viewBox="0 0 16 16">
                   <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"/>
                 </svg></span>
               </button>
-              <button *ngIf="row.status == 'Stopped' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'Stopped' " class="dropdown-item " type="button" (click)="setProjectId(row)" data-bs-toggle="hide" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -117,10 +117,20 @@
         <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
       </svg>
     </button>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+    <button class="btn btn-primary" *ngIf="taskData.length==0" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2" disabled>
       Gantt Chart
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
         <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
+      </svg>
+    </button>
+    <button class="btn btn-primary" *ngIf="taskData.length!=0" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+        <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
+      </svg>
+      /
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pie-chart-fill" viewBox="0 0 16 16">
+        <path d="M15.985 8.5H8.207l-5.5 5.5a8 8 0 0 0 13.277-5.5zM2 13.292A8 8 0 0 1 7.5.015v7.778l-5.5 5.5zM8.5.015V7.5h7.485A8.001 8.001 0 0 0 8.5.015z"/>
       </svg>
     </button>
   </p>
@@ -154,9 +164,6 @@
               <td class="tdproj">Estimated time:</td>
               <td>{{projectDetails.estimatedTime}}</td>
             </tr> 
-            <div class="d-grid gap-2">
-              <button class="btn btn-success" type="button">Button</button>
-            </div>
           </table> 
           
         </div>
@@ -164,12 +171,51 @@
     </div>
     <div class="col">
       <div class="collapse multi-collapse" id="multiCollapseExample2">
-        <div class="card card-body">
-          <app-gantt></app-gantt> 
+        <div class="card card-body" *ngIf="ChartOptionsGantt!=undefined">
+          
+          <apx-chart *ngIf="ChartOptionsGantt!= undefined && taskData!=undefined"
+          [series]="ChartOptionsGantt.series!!"
+          [chart]="ChartOptionsGantt.chart!!"
+          [xaxis]="ChartOptionsGantt.xaxis!!"
+          [plotOptions]="ChartOptionsGantt.plotOptions!!">
+          </apx-chart>
         </div>
       </div>
     </div>
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample2">
+        <div class="card card-body" *ngIf="chartOptions!=undefined">
+          <apx-chart
+          [series]="chartOptions.series!!"
+          [chart]="chartOptions.chart!!"
+          [colors]="chartOptions.colors!!"
+          [labels]="chartOptions.labels"
+          >
+          </apx-chart> 
+        </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample2">
+          <div class="card card-body" *ngIf="ChartOptionsRadial!=undefined">
+            <apx-chart
+            [series]="ChartOptionsRadial.series!!"
+            [chart]="ChartOptionsRadial.chart!!"
+            [labels]="ChartOptionsRadial.labels!!"
+            [plotOptions]="ChartOptionsRadial.plotOptions!!"
+            [colors]="ChartOptionsRadial.colors!!"
+            [legend]="ChartOptionsRadial.legend!!"
+            
+            >
+            </apx-chart> 
+          </div>
+          </div>
+        </div>
   </div>
+  <!-- <div class="row"> -->
+    
+    <!-- </div> -->
+          
 
 
   <h1 class="">Tasks:</h1>
@@ -642,3 +688,4 @@
     </div>
   </div>
 </div> 
+
