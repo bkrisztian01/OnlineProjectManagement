@@ -12,6 +12,7 @@ export async function validatePassword(username: string, password: string) {
     where: {
       username,
     },
+    select: ['id', 'username', 'password', 'email', 'fullname'],
   });
 
   if (!user) {
