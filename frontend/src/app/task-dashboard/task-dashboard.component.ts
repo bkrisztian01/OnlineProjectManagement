@@ -376,6 +376,11 @@ export class TaskDashboardComponent implements OnInit {
     )
   }
 
+  SignOut(){
+    this.api.signOut().subscribe();
+    
+  }
+
   RefreshingToken(){
     this.api.refreshToken().subscribe(res=>{
       this.AccessToken = res.accessToken

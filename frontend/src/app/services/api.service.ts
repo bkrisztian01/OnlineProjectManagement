@@ -95,6 +95,10 @@ export class ApiService {
     return this.http.post<any>(`/api/user/login`,data).pipe(map((res:any)=>{return res;}))
   }
 
+  signOut(){
+    return this.http.get<any>(`/api/user/logout`);
+  }
+
   signUp(data:any){
     return this.http.post<any>(`/api/user/signup`,data).pipe(map((res:any)=>{return res;}))
   }
