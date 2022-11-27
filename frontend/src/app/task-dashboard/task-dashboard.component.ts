@@ -194,7 +194,6 @@ export class TaskDashboardComponent implements OnInit {
       let Stopped=0
       let NotStarted=0
 
-      console.log(this.taskData);
       
       for(let row of this.taskData){
         if(row.status == "Done") finished++
@@ -294,8 +293,10 @@ export class TaskDashboardComponent implements OnInit {
       this.projectValue.reset();
       this.getAllProjects();
     },
-    err=>{
+    (error)=>{
       alert("Something went wrong!")
+      this.RefreshingToken();
+      this.postProject();
     }
 
     )
@@ -336,8 +337,10 @@ export class TaskDashboardComponent implements OnInit {
 
       this.getAllTasks();
     },
-    err=>{
+    (error)=>{
       alert("Something went wrong!")
+      this.RefreshingToken();
+      this.postTaskDeatails();
     }
     )
     this.workersOfTask.splice(0)
@@ -348,7 +351,6 @@ export class TaskDashboardComponent implements OnInit {
   getAllTasks(){
     this.api.getTask(this.projectId,this.AccessToken).subscribe(res=>{
       this.taskData = res;
-      console.log(this.taskData);
       
       
       for(let row of this.taskData){
@@ -363,11 +365,9 @@ export class TaskDashboardComponent implements OnInit {
         row.assignees = temp.slice(0,-1);
         row.prerequisiteTasks = temp2.slice(0,-1);
       }
-      console.log("X");
         
       this.initializeChart();
       this.initializeGanttChart()
-      console.log("d");
     },
     (error)=>{
       this.RefreshingToken();
@@ -390,6 +390,10 @@ export class TaskDashboardComponent implements OnInit {
   getProjectDetails(){
     this.api.getProjectData(this.projectId,this.AccessToken).subscribe(res=>{
       this.projectDetails = res;
+    },
+    (error)=>{
+      this.RefreshingToken();
+      this.getProjectDetails();
     })
     
   }
@@ -400,6 +404,10 @@ export class TaskDashboardComponent implements OnInit {
       res=>{
         alert("Task deleted");
         this.getAllTasks();
+      },
+      (error)=>{
+        alert("Something went wrong!")
+        this.RefreshingToken();
       }
     )
   }
@@ -438,7 +446,12 @@ export class TaskDashboardComponent implements OnInit {
         ref?.click();
         this.formValue.reset();
         this.getAllTasks();
+      },
+      (error)=>{
+        alert("Something went wrong!")
+        this.RefreshingToken();
       }
+      
     
     )
     this.workersOfTask.splice(0)
@@ -475,8 +488,9 @@ export class TaskDashboardComponent implements OnInit {
         this.milestoneValue.reset();
         this.getAllMilestones();
     },
-    err=>{
+    (error)=>{
       alert("Something went wrong!")
+      this.RefreshingToken();
     }
     )
     this.requiredTasks.splice(0)
@@ -495,6 +509,10 @@ export class TaskDashboardComponent implements OnInit {
           }
           row.tasks = temp.slice(0,-1);
         }
+      },
+      (error)=>{
+        this.RefreshingToken();
+        this.getAllMilestones();
       })
     }
     deleteMilestone(row: any){
@@ -502,6 +520,10 @@ export class TaskDashboardComponent implements OnInit {
         res=>{
           alert("Milestone deleted");
           this.getAllMilestones();
+        },
+        (error)=>{
+          alert("Something went wrong!")
+          this.RefreshingToken();
         }
       )
     }
@@ -528,6 +550,10 @@ export class TaskDashboardComponent implements OnInit {
       this.api.archiveTask(reqBody,row.id,this.projectId,this.AccessToken).subscribe(
         res=>{
           this.getAllTasks();
+        },
+        (error)=>{
+          alert("Something went wrong!")
+          this.RefreshingToken();
         }
       )
       this.getAllTasks();
@@ -541,6 +567,10 @@ export class TaskDashboardComponent implements OnInit {
         res=>{
           this.getAllMilestones();
           
+        },
+        (error)=>{
+          alert("Something went wrong!")
+          this.RefreshingToken();
         }
       )
       this.getAllMilestones();
@@ -562,6 +592,10 @@ export class TaskDashboardComponent implements OnInit {
           ref?.click();
           this.milestoneValue.reset();
           this.getAllMilestones();
+        },
+        (error)=>{
+          alert("Something went wrong!")
+          this.RefreshingToken();
         }
       
       )
@@ -571,6 +605,10 @@ export class TaskDashboardComponent implements OnInit {
     getAllProjects(){
       this.api.getAllProjects(this.AccessToken).subscribe(res=>{
         this.projectData = res
+      },
+      (error)=>{
+        this.RefreshingToken();
+        this.getAllProjects();
       })
     }
 
@@ -578,6 +616,10 @@ export class TaskDashboardComponent implements OnInit {
     getAllUsers(){
       this.api.getAllUsers(this.AccessToken).subscribe(res=>{
         this.userData = res
+      },
+      (error)=>{
+        this.RefreshingToken();
+        this.getAllUsers();
       })
     }
 
@@ -631,6 +673,10 @@ export class TaskDashboardComponent implements OnInit {
           ref?.click();
           this.getProjectDetails();
           this.getAllProjects();
+        },
+        (error)=>{
+          alert("Something went wrong!")
+          this.RefreshingToken();
         }
       
       )
