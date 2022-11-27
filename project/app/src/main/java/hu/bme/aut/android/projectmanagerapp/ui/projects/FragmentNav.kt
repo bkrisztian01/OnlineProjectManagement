@@ -97,7 +97,7 @@ class FragmentNav: Fragment(), NavigationView.OnNavigationItemSelectedListener {
                 return true
             }
             R.id.taskspage->{
-                //binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentUpcomingTasks(user))
+                binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentUpcomingTasks(token))
                 return true
             }
             else->{

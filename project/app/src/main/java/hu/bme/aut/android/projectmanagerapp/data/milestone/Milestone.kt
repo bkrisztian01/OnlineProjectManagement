@@ -13,5 +13,4 @@ data class Milestone (
     val status: String,
     val archived: Boolean,
     val tasks: List<Task>?
-    //,val project: Project
     ): Serializable

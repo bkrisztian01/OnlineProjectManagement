@@ -161,6 +161,12 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
         }else
             binding.tLength.setText(R.string.unspecified_length)
         binding.tDesc.setText(project.description)
+        val itr= project.userRole
+        if (itr != null) {
+            binding.tvRole.text=itr
+        }else
+            binding.tvRole.text="No roles assigned"
+
         unfinishedtasks()
     }
     private fun unfinishedtasks(){
@@ -198,6 +204,7 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
                 return true
             }
             R.id.taskspage->{
+                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUpcomingTasks(token))
                 return true
             }
             else->{

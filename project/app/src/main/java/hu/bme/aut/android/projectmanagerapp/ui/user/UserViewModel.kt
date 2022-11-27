@@ -11,9 +11,9 @@ import hu.bme.aut.android.projectmanagerapp.ui.login.LoginViewState
 class UserViewModel: ViewModel() {
     private var userRepository: UserRepository = UserRepository()
 
-    fun createUser(username: String,password: String, name: String, email:String){
+    fun createUser(username: String,password: String, name: String, email:String): String{
         val taskbody= SignInBody(username,name,email,password)
-        userRepository.createUser(taskbody)
+        return userRepository.createUser(taskbody)
     }
 
     fun login(email:String, password:String): LiveData<LoginViewState>?{

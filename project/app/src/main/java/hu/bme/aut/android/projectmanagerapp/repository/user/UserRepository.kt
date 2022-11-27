@@ -12,8 +12,8 @@ class UserRepository {
     fun getUser(token: String): MutableLiveData<UserViewState> {
         return UserNetworkDataSource.getUser(token)
     }
-    fun createUser(signInBody: SignInBody){
-        UserNetworkDataSource.createUser(signInBody)
+    fun createUser(signInBody: SignInBody): String{
+        return UserNetworkDataSource.createUser(signInBody)
     }
     fun login(loginBody:LoginBody): MutableLiveData<LoginViewState>{
         return UserNetworkDataSource.login(loginBody)

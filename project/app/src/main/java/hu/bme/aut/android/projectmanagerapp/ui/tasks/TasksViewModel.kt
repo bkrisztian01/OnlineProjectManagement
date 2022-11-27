@@ -11,7 +11,10 @@ class TasksViewModel: ViewModel() {
         return taskRepository.getTasks(token,projid,milestoneid,pageNumber)
     }
     fun getTasksByProject(token:String, projid: Int,pageNumber: Int): LiveData<TasksViewState>?{
-        return taskRepository.getTasksByProject(token,projid,pageNumber
-        )
+        return taskRepository.getTasksByProject(token,projid,pageNumber)
+    }
+
+    fun getUpcomingTasks(token:String): LiveData<TasksViewState>?{
+        return taskRepository.getUpcomingTasks(token)
     }
 }

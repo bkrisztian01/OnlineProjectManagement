@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class UpcomingTaskAdapter (private val user: User, private val tasks: ArrayList<Task>, private val projects:ArrayList<Project>)
+class UpcomingTaskAdapter (private val token: String, private val tasks: ArrayList<Task>, private val projects:ArrayList<Project>)
     : RecyclerView.Adapter<UpcomingTaskAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         val taskbutton = itemView.findViewById<Button>(R.id.btntask)
@@ -33,15 +33,10 @@ class UpcomingTaskAdapter (private val user: User, private val tasks: ArrayList<
     override fun onBindViewHolder(viewHolder: UpcomingTaskAdapter.ViewHolder, position: Int) {
         val task: Task = tasks[position]
         val button = viewHolder.taskbutton
-        /*button.setOnClickListener {
-            var proj= projects.get(0)
-            val itr=projects.listIterator()
-            while(itr.hasNext()){
-                if(itr.next().tasks.contains(task))
-                    proj=itr.next()
-            }
-            viewHolder.binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentSingleTask(user,task.id))
-        }*/
+        button.setOnClickListener {
+            if(task.project!=null)
+            viewHolder.binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentSingleTask(token,task.project.id,task.id))
+        }
         val daynow = LocalDateTime.now().dayOfMonth
         val monthnow = LocalDateTime.now().month.value
         val yearnow = LocalDateTime.now().year
@@ -53,9 +48,9 @@ class UpcomingTaskAdapter (private val user: User, private val tasks: ArrayList<
             val timenow=Date(yearnow,monthnow,daynow)
             val difference=deadline.time-timenow.time
             val days= TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS)
-            if(days<5)
+            if(days<3)
                 button.setBackgroundColor(Color.parseColor("#EA9999"))
-            else if(days<10)
+            else if(days<7)
                 button.setBackgroundColor(Color.parseColor("#F9CB9C"))
             else
                 button.setBackgroundColor(Color.parseColor("#B6D7A8"))

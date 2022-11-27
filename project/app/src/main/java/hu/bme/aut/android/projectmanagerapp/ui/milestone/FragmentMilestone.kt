@@ -158,6 +158,7 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
             }
             is MilestoneResponseSuccess -> {
                 binding.loading.hide()
+                val ogsize=milestones.size
                 binding.rvMilestones.visibility=View.VISIBLE
                 if(result.data.isNotEmpty()) {
                     val itr = result.data?.listIterator()
@@ -168,6 +169,7 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
                     }
                     adapter = MilestoneAdapter(milestones, projid, token)
                     recyclerView.adapter = adapter
+                    recyclerView.scrollToPosition(ogsize)
                 }else{
                     pageNumber--
                     more=false
@@ -219,7 +221,7 @@ class FragmentMilestone : Fragment() ,NavigationView.OnNavigationItemSelectedLis
                     return true
                 }
                 R.id.taskspage->{
-                    //binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentUpcomingTasks(user))
+                    binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentUpcomingTasks(token))
                     return true
                 }
                 else->{

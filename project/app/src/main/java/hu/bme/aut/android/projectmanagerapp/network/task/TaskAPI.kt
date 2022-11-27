@@ -14,4 +14,7 @@ interface TaskAPI {
 
     @GET("/projects/{projectid}/tasks/")
     fun getTasksByProject(@Header("Authorization") token: String, @Path ("projectid") projectid:Int, @Query("pageNumber") pagenum: Int): Call<List<Task>>
+
+    @GET("/user/tasks")
+    fun getUpcomingTasks(@Header("Authorization") token: String): Call<List<Task>>
 }

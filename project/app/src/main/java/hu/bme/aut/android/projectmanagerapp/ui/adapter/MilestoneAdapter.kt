@@ -37,25 +37,61 @@ class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private va
 
     override fun onBindViewHolder(viewHolder: MilestoneAdapter.ViewHolder, position: Int) {
         val milestone: Milestone = milestones[position]
-        val button = viewHolder.milestonebutton
-        button.setOnClickListener {
-            viewHolder.binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(token,projectid,milestone.id,milestone.name))
-        }
-        when(position%10){
-            0 ->{ button.setBackgroundColor(Color.parseColor("#5a90ed")) }
-            1 ->{ button.setBackgroundColor(Color.parseColor("#5185e4")) }
-            2 ->{ button.setBackgroundColor(Color.parseColor("#487ada")) }
-            3 ->{ button.setBackgroundColor(Color.parseColor("#3f6fd0")) }
-            4 ->{ button.setBackgroundColor(Color.parseColor("#3765c7")) }
-            5 ->{ button.setBackgroundColor(Color.parseColor("#2e5abd")) }
-            6 ->{ button.setBackgroundColor(Color.parseColor("#2550b3")) }
-            7 ->{ button.setBackgroundColor(Color.parseColor("#1b45aa")) }
-            8 ->{ button.setBackgroundColor(Color.parseColor("#0f3ba0")) }
-            9 ->{ button.setBackgroundColor(Color.parseColor("#003196")) }
 
+        val button = viewHolder.milestonebutton
+        if(!milestone.archived) {
+            button.setOnClickListener {
+                viewHolder.binding.root.findNavController().navigate(
+                    FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(
+                        token,
+                        projectid,
+                        milestone.id,
+                        milestone.name
+                    )
+                )
+            }
+            when (position % 10) {
+                0 -> {
+                    button.setBackgroundColor(Color.parseColor("#5a90ed"))
+                }
+                1 -> {
+                    button.setBackgroundColor(Color.parseColor("#5185e4"))
+                }
+                2 -> {
+                    button.setBackgroundColor(Color.parseColor("#487ada"))
+                }
+                3 -> {
+                    button.setBackgroundColor(Color.parseColor("#3f6fd0"))
+                }
+                4 -> {
+                    button.setBackgroundColor(Color.parseColor("#3765c7"))
+                }
+                5 -> {
+                    button.setBackgroundColor(Color.parseColor("#2e5abd"))
+                }
+                6 -> {
+                    button.setBackgroundColor(Color.parseColor("#2550b3"))
+                }
+                7 -> {
+                    button.setBackgroundColor(Color.parseColor("#1b45aa"))
+                }
+                8 -> {
+                    button.setBackgroundColor(Color.parseColor("#0f3ba0"))
+                }
+                9 -> {
+                    button.setBackgroundColor(Color.parseColor("#003196"))
+                }
+
+            }
+            button.text = milestone.name
+            button.isEnabled = true
+        }else {
+            button.text = milestone.name + " [ARCHIVED"
+            button.isEnabled = false
+            button.setBackgroundColor(Color.parseColor("#CCCCCC"))
+            button.setTextColor(Color.parseColor("#4e4e4e"))
         }
-        button.text = milestone.name
-        button.isEnabled = true
+
     }
 
     override fun getItemCount(): Int {

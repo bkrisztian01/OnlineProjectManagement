@@ -177,6 +177,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
             }
             is TaskResponseSuccess -> {
                 binding.loading.hide()
+                val ogsize=tasks.size
                 if(result.data.isNotEmpty()) {
                     val itr = result.data?.listIterator()
                     if (itr != null) {
@@ -186,6 +187,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                     }
                     adapter = TaskAdapter(tasks, projectid, token)
                     recyclerView.adapter = adapter
+                    recyclerView.scrollToPosition(ogsize)
                 }else{
                     pageNumber--
                     more=false
@@ -237,7 +239,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                 return true
             }
             R.id.taskspage->{
-                //binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentUpcomingTasks())
+                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentUpcomingTasks(token))
                 return true
             }
             else->{

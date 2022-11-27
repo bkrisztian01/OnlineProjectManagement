@@ -204,9 +204,6 @@
         android:id="@+id/fragmentUpcomingTasks"
         android:name="hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentUpcomingTasks"
         android:label="FragmentUpcomingTasks" >
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.data.user.User" />
         <action
             android:id="@+id/action_fragmentUpcomingTasks_to_fragmentSingleTask"
             app:destination="@id/fragmentSingleTask" />
@@ -216,6 +213,9 @@
         <action
             android:id="@+id/action_fragmentUpcomingTasks_to_fragmentProject"
             app:destination="@id/fragmentProject" />
+        <argument
+            android:name="token"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleMilestone"

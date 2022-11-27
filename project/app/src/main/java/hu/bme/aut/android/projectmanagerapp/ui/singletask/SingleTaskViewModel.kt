@@ -12,9 +12,9 @@ class SingleTaskViewModel: ViewModel() {
     fun getSingleTask(token: String, projectid: Int, id: Int) : LiveData<SingleTaskViewState>? {
         return singleTaskRepository.getSingleTask(token, projectid,id)
     }
-    fun updateTask(token: String ,projectid: Int, task: Task){
+    fun updateTask(token: String ,projectid: Int, task: Task): LiveData<UpdateViewState>?{
         val taskbody=TaskBody(task.status)
         val id=task.id
-        singleTaskRepository.updateTask(token,projectid,id, taskbody)
+        return singleTaskRepository.updateTask(token,projectid,id, taskbody)
     }
 }

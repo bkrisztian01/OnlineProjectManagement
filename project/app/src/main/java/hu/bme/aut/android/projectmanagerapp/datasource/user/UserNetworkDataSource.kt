@@ -47,18 +47,22 @@ object UserNetworkDataSource {
 
 
 
-    fun createUser(user: SignInBody){
+    fun createUser(user: SignInBody): String{
         val call=RetrofitClient.userApiInterface.createUser(user)
+        var code=""
         call.enqueue(object: Callback<ResponseBody>{
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Log.d("Response DEBUG : task", response.body().toString())
+                code= response.code().toString()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("Error DEBUG : task", t.message.toString())
+                code="Error"
             }
 
         })
+        return code
     }
 
     fun login(data:LoginBody): MutableLiveData<LoginViewState>{

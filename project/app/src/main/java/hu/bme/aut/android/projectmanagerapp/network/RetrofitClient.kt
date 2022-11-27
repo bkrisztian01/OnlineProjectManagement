@@ -15,7 +15,7 @@ import java.util.*
 
 
 object  RetrofitClient {
-    const val MainServer="https://opmapi2.azurewebsites.net/";
+    const val MainServer="https://opmapi.azurewebsites.net/";
     val retrofitClient: Retrofit.Builder by lazy {
         val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.BUILD_TYPE.contentEquals("debug"))
             HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE

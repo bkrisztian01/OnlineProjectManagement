@@ -44,7 +44,7 @@ class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener 
                     .show()
             }
         }
-        binding.toolbar2.inflateMenu(R.menu.menu_project_toolbar)
+        binding.toolbar2.inflateMenu(R.menu.menu_singleproject_toolbar)
         binding.toolbar2.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
@@ -126,7 +126,7 @@ class FragmentUser: Fragment(), NavigationView.OnNavigationItemSelectedListener 
                 return true
             }
             R.id.taskspage->{
-                //binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentUpcomingTasks(user))
+                binding.root.findNavController().navigate(FragmentUserDirections.actionFragmentUserToFragmentUpcomingTasks(token))
                 return true
             }
             else->{

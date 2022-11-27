@@ -143,7 +143,6 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                     isScrolling = false
                     pageNumber++
                     load()
-
                 }
             }
         })
@@ -198,6 +197,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
             is ProjectsResponseSuccess -> {
                 binding.loading.hide()
                 val itr = result.data.listIterator()
+                val ogsize=projects.size
                 if(result.data.isNotEmpty()) {
                     while (itr.hasNext()) {
                         val item = itr.next()
@@ -205,6 +205,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                     }
                     adapter = ProjectAdapter(projects, token)
                     recyclerView.adapter = adapter
+                    recyclerView.scrollToPosition(ogsize)
                 }
                 else{
                     pageNumber--
@@ -256,7 +257,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                 true
             }
             R.id.taskspage->{
-                //binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentUpcomingTasks(user))
+                binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentUpcomingTasks(token))
                 true
             }
                 else->{

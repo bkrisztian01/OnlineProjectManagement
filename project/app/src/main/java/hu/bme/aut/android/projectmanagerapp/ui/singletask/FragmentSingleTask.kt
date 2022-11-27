@@ -26,6 +26,10 @@ import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.PreReqAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
 import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
+import hu.bme.aut.android.projectmanagerapp.ui.projects.ProjectViewModel
+import hu.bme.aut.android.projectmanagerapp.ui.singleproject.SingleProjectResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.singleproject.SingleProjectResponseSuccess
+import hu.bme.aut.android.projectmanagerapp.ui.singleproject.SingleProjectViewModel
 import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -41,9 +45,11 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
     private val singleTaskViewModel: SingleTaskViewModel by viewModels()
     private lateinit var token: String
     private var projid=-1
+    private var role: String=""
     private var prereqtasks: ArrayList<Task> = ArrayList()
     private lateinit var adapter: PreReqAdapter
     private val loginViewModel : UserViewModel by viewModels()
+    private val projectViewModel: SingleProjectViewModel by viewModels()
 
 
 
@@ -93,34 +99,35 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
         singleTaskViewModel.getSingleTask(token,projid,taskid)?.observe(this) { singleTaskViewState ->
             render(singleTaskViewState)
         }
+
     }
 
     override fun onDestroyView() {
             super.onDestroyView()
             _binding = null
-        }
-        override fun onOptionsItemSelected(item: MenuItem): Boolean{
-            val context = this.activity
-            return when (item.itemId){
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        val context = this.activity
+        return when (item.itemId){
 
-                R.id.menu_help->{
-                    if (context != null) {
-                        AlertDialog.Builder(context)
-                            .setTitle("Help")
-                            .setMessage("Here is some information on the task!")
-                            .setNegativeButton(R.string.cancel, null)
-                            .show()
-                    }
-                    return true
+            R.id.menu_help->{
+                if (context != null) {
+                    AlertDialog.Builder(context)
+                        .setTitle("Help")
+                        .setMessage("Here is some information on the task!")
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 }
-                R.id.menu_item->{
-                    val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
-                    drawer.open()
-                    return true
-                }
-                else -> super.onOptionsItemSelected(item)
+                return true
             }
+            R.id.menu_item->{
+                val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
+                drawer.open()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
+    }
 
 
     override fun onResume() {
@@ -146,8 +153,26 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
                         binding.konfettiView.bringToFront()
                         binding.konfettiView.start(party)
                     }
-                    singleTaskViewModel.updateTask(token,projid,task)
-                    Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
+                    singleTaskViewModel.updateTask(token,projid,task)?.observe(this){ updateViewState ->
+                        when(updateViewState){
+                            is InProgressUpdate->{}
+                            is UpdateSuccess->{
+                                if(updateViewState.data=="200")
+                                    Toast.makeText(context, "Task info changed!", Toast.LENGTH_SHORT).show()
+                                else{
+                                    loadTask()
+                                    binding.spStatus.setSelection(setting)
+                                    Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            else->{
+                                loadTask()
+                                binding.spStatus.setSelection(setting)
+                                Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+
                 }
                 if(prereqtasks.isNotEmpty())
                     prereqtasks.clear()
@@ -158,6 +183,27 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
                 loadTask()
                 binding.scrolltask.setVisibility(View.VISIBLE)
                 binding.tvTaskName.setVisibility(View.VISIBLE)
+                projectViewModel.getSingleProject(token,projid)?.observe(this){ projectViewState->
+                    run {
+                        when(projectViewState){
+                            is hu.bme.aut.android.projectmanagerapp.ui.singleproject.InProgress->{}
+                            is SingleProjectResponseSuccess->{
+                                if(projectViewState.data.userRole=="Member"){
+                                    binding.spStatus.isEnabled=false
+                                    binding.savebtn.isEnabled=false
+                                    binding.savebtn.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                                }
+
+                            }
+                            is SingleProjectResponseError->{
+                                role="Couldn't load role"
+                            }
+                        }
+
+                    }
+
+                }
+
 
             }
             is SingleTaskResponseError -> {
@@ -240,41 +286,23 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
                 var workers = ""
                 while (itr.hasNext()) {
                     workers += itr.next().fullname
+                    workers+='\n'
                 }
                 binding.tWorkers.text = workers
             }
         }
 
-        if(task.prerequisiteTaskIDs!=null){
+        if(task.prerequisiteTasks!=null){
             binding.rvPreReq.visibility=View.VISIBLE
             binding.tvNoPrereq.visibility=View.GONE
-            val itr= task.prerequisiteTaskIDs!!.listIterator()
+            val itr= task.prerequisiteTasks!!.listIterator()
             while(itr.hasNext()) {
-                singleTaskViewModel.getSingleTask(token, projid, itr.next())
-                    ?.observe(this) { singleTaskViewState ->
-                        when (singleTaskViewState) {
-                            is InProgress -> {
-                                binding.loading.show()
-                            }
-                            is SingleTaskResponseSuccess -> {
-                                prereqtasks.add(singleTaskViewState.data)
-                                if (singleTaskViewState.data.status != "Done")
-                                    binding.savebtn.isEnabled = false
-
-                            }
-                            is SingleTaskResponseError -> {
-                                this.view?.let {
-                                    Snackbar.make(
-                                        it,
-                                        "Couldn't reach server!",
-                                        Snackbar.LENGTH_LONG
-                                    ).show()
-                                }
-
-                            }
-                            else -> {}
-                        }
-                    }
+                val item=itr.next()
+                prereqtasks.add(item)
+                if(item.status!="Done") {
+                    binding.savebtn.isEnabled = false
+                    binding.savebtn.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                }
             }
         adapter= PreReqAdapter(token,prereqtasks,projid)
         binding.rvPreReq.adapter=adapter
@@ -320,7 +348,7 @@ class FragmentSingleTask : Fragment(), AdapterView.OnItemSelectedListener, Navig
                 return true
             }
             R.id.taskspage->{
-                //binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUpcomingTasks(token))
+                binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskToFragmentUpcomingTasks(token))
                 return true
             }
             else->{

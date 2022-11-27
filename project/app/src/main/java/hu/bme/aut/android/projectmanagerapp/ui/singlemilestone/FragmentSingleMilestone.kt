@@ -218,7 +218,7 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
                 return true
             }
             R.id.taskspage->{
-                //binding.root.findNavController().navigate(FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentUpcomingTasks(user))
+                binding.root.findNavController().navigate(FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentUpcomingTasks(token))
                 return true
             }
             else->{

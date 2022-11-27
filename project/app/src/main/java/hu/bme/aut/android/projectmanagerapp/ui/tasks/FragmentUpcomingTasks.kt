@@ -21,8 +21,10 @@ import hu.bme.aut.android.projectmanagerapp.data.project.Project
 import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.UpcomingTaskAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
 import hu.bme.aut.android.projectmanagerapp.ui.projects.*
-import hu.bme.aut.android.projectmanagerapp.ui.projects.InProgress
+import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import java.util.ArrayList
 
 class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelectedListener {
@@ -30,8 +32,8 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     private val tasks: ArrayList<Task> = ArrayList<Task>()
     private var _binding: FragmentUpcomingTasksBinding? = null
     private val binding get() = _binding!!
-    private lateinit var user: User
-    private val projectViewModel : ProjectViewModel by viewModels()
+    private val tasksViewModel : TasksViewModel by viewModels()
+    private val loginViewModel : UserViewModel by viewModels()
     private lateinit var token: String
 
 
@@ -41,10 +43,9 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
         val view = binding.root
         if (arguments!=null) {
             val args: FragmentUpcomingTasksArgs by navArgs()
-            user = args.user
-            token="a2"
+            token=args.token
         }
-
+        load()
         binding.toolbarupcomingtasks.inflateMenu(R.menu.menu_project_toolbar)
         binding.toolbarupcomingtasks.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
@@ -67,7 +68,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
                     AlertDialog.Builder(context)
                         .setTitle("Help")
                         .setIcon(R.drawable.ic_help_outline)
-                        .setMessage(R.string.pick)
+                        .setMessage("Here, you can find tasks\ndue in the next 2 weeks.")
                         .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
@@ -90,53 +91,62 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
             projects.clear()
         if(tasks.isNotEmpty())
             tasks.clear()
-        projectViewModel.getProjects(token,1)?.observe(this) { projectsViewState ->
-            render(projectsViewState)
-        }
+
         val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setCheckedItem(R.id.taskspage)
         navigationView.setNavigationItemSelectedListener(this)
-
-
     }
-    private fun render(result: ProjectsViewState) {
+    private fun load(){
+        tasksViewModel.getUpcomingTasks(token)?.observe(this) { tasksViewState ->
+            render(tasksViewState)
+        }
+    }
+
+
+    private fun render(result: TasksViewState) {
         when (result) {
-            is InProgress -> {binding.loadingview.show()}
-            is ProjectsResponseSuccess ->{
-                binding.loadingview.hide()
+            is InProgress -> {binding.loading.show()}
+            is TaskResponseSuccess ->{
+                binding.loading.hide()
                 val itr = result.data.listIterator()
                 while (itr.hasNext()) {
-                    /*itr.next().tasks.forEach {
-                        if(it.status!="Done") {
-                            projects.add(itr.next())
-                            tasks.add(it)
-                        }
-
-                    }*/
-                    /*
-                    val itr1= itr.next().tasks.listIterator()
-                    while(itr1.hasNext()){
-                       /* if(itr1.next().assignees.contains(user)) {*/
-                        /*if(itr1.next().status.length>0) {*/
-                            projects.add(itr.next())
-                            tasks.add(itr1.next())
-                        /*}*/
-                        /*}*/*/
+                    tasks.add(itr.next())
 
                 }
                 val recyclerView = activity?.findViewById(R.id.rvUpcoming) as RecyclerView
                 tasks.sortBy {it.deadline }
-                val adapter = UpcomingTaskAdapter(user,tasks,projects)
+                val adapter = UpcomingTaskAdapter(token,tasks,projects)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(this.activity)
             }
-            is ProjectsResponseError ->{
-                this.view?.let {
-                    Snackbar.make(it, R.string.text_label, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_text) {
-                            render(result)
+            is TaskResponseError ->{
+                if(result.exceptionMsg=="401") {
+                    loginViewModel.getRefreshToken().observe(this) { loginViewState ->
+                        run {
+                            when (loginViewState) {
+                                is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
+                                is LoginResponseSuccess -> {
+                                    token = loginViewState.data.accessToken
+                                    load()
+                                }
+                                is LoginResponseError -> {
+                                    this.view?.let {
+                                        Snackbar.make(
+                                            it,
+                                            "Couldn't reach server!",
+                                            Snackbar.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            }
+
                         }
-                        .show()
+                    }
+                }
+                else{
+                    this.view?.let {
+                        Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                    }
                 }
             }
         }
@@ -145,11 +155,11 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser("user"))
+                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser(token))
                 true
             }
             R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject("a"))
+                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject(token))
                 true
             }
             R.id.taskspage->{

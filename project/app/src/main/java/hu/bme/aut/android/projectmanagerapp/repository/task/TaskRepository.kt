@@ -11,4 +11,8 @@ class TaskRepository {
     fun getTasksByProject(token: String, projid: Int, pageNumber: Int):MutableLiveData<TasksViewState> {
         return TaskNetworkDataSource.getTasksByProject(token, projid,pageNumber)
     }
+
+    fun getUpcomingTasks(token: String): MutableLiveData<TasksViewState>{
+        return TaskNetworkDataSource.getUpcomingTasks(token)
+    }
 }

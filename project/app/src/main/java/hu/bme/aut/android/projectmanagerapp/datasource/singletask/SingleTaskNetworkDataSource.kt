@@ -6,10 +6,7 @@ import hu.bme.aut.android.projectmanagerapp.data.task.TaskBody
 import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import hu.bme.aut.android.projectmanagerapp.network.RetrofitClient
 import hu.bme.aut.android.projectmanagerapp.ui.singlemilestone.SingleMilestoneResponseError
-import hu.bme.aut.android.projectmanagerapp.ui.singletask.InProgress
-import hu.bme.aut.android.projectmanagerapp.ui.singletask.SingleTaskResponseError
-import hu.bme.aut.android.projectmanagerapp.ui.singletask.SingleTaskResponseSuccess
-import hu.bme.aut.android.projectmanagerapp.ui.singletask.SingleTaskViewState
+import hu.bme.aut.android.projectmanagerapp.ui.singletask.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +19,6 @@ object SingleTaskNetworkDataSource {
         singletaskResultData.value=InProgress
         call.enqueue(object: Callback<Task> {
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
-                Log.d("DEBUG : ", response.body().toString())
                 if(response.body()!=null)
                     singletaskResultData.value = SingleTaskResponseSuccess(response.body()!!)
                 else
@@ -39,18 +35,23 @@ object SingleTaskNetworkDataSource {
         return singletaskResultData
     }
 
-    fun updateTask(token: String, projectid:Int, id: Int, status: TaskBody){
+    fun updateTask(token: String, projectid:Int, id: Int, status: TaskBody): MutableLiveData<UpdateViewState> {
         val call=RetrofitClient.singletaskApiInterface.updateTask("Bearer "+token,projectid,id,status)
+        val updateResult= MutableLiveData<UpdateViewState>()
+        updateResult.value=InProgressUpdate
         call.enqueue(object: Callback<ResponseBody>{
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Log.d("Response DEBUG : task", response.body().toString())
+                updateResult.value=UpdateSuccess(response.code().toString())
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("Error DEBUG : task", t.message.toString())
+                updateResult.value=UpdateError(t.message!!)
             }
 
         })
+        return updateResult
     }
 
 }
