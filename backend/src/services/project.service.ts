@@ -61,7 +61,7 @@ export async function getProjects(userId: number, pageNumber?: number) {
       startDate: item.project_startDate,
       endDate: item.project_endDate,
       estimatedTime: item.project_estimatedTime,
-      userRole: item.userrole,
+      userRole: adminRole ? adminRole.role : item.userrole,
     };
   });
 
@@ -138,16 +138,16 @@ export async function getProjectById(id: number, userId: number) {
 
   let userRole = await UserRole.findOne({
     where: {
-      project: { id },
       user: { id: userId },
+      role: Role.Admin,
     },
   });
 
   if (!userRole) {
     userRole = await UserRole.findOne({
       where: {
+        project: { id },
         user: { id: userId },
-        role: Role.Admin,
       },
     });
   }
