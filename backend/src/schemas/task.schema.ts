@@ -103,3 +103,9 @@ export const archiveTaskByIdSchema = object({
     archived: bool().required(),
   }),
 });
+
+export const getTaskStatsSchema = object({
+  params: object({
+    ...projectId,
+  }),
+});

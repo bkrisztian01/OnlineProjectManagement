@@ -3,6 +3,7 @@ import {
   deleteTaskByIdHandler,
   getTaskByIdHandler,
   getTaskHandler,
+  getTaskStatsHandler,
   postTaskHandler,
   setArchivedTaskByIdHandler,
   updateTaskByIdHandler,
@@ -17,6 +18,7 @@ import {
   deleteTaskByIdSchema,
   getTaskByIdSchema,
   getTasksSchema,
+  getTaskStatsSchema,
   updateTaskByIdSchema,
 } from '../schemas/task.schema';
 
@@ -26,6 +28,10 @@ router
   .route('/projects/:projectId/tasks')
   .get(validateRequest(getTasksSchema), viewProject, getTaskHandler)
   .post(validateRequest(createTaskSchema), modifyProject, postTaskHandler);
+
+router
+  .route('/projects/:projectId/tasks/stats')
+  .get(validateRequest(getTaskStatsSchema), viewProject, getTaskStatsHandler);
 
 router
   .route('/projects/:projectId/tasks/:id')

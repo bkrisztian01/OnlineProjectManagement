@@ -1,7 +1,7 @@
-# @host = https://opmapi.azurewebsites.net
-@host = http://localhost:5000
+@host = https://opmapi.azurewebsites.net
+# @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTU1NjA2MSwiZXhwIjoxNjY5NTU2MTgxfQ.W-cUbXxh9101Q20jSmrJsv-meDuLcJDEk7NIPEYzQ0M
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY2OTU2NDE1MywiZXhwIjoxNjY5NTY0MjczfQ.xIgqqeEtuiGX3nrhxvk79eD74uCITZoTgRQz8SJEnD4
 #Get tasks
 GET {{host}}/projects/1/tasks?pageNumber=1
 Authorization:Bearer {{token}}
@@ -15,7 +15,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Create task
-POST {{host}}/projects/1/tasks
+POST {{host}}/projects/11/tasks
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
@@ -24,7 +24,7 @@ Authorization:Bearer {{token}}
   "description": "description",
   "deadline": "2022-12-25",
   "status": "Done",
-  "prerequisiteTaskIds": [1],
+  "prerequisiteTaskIds": [],
   "assigneeIds": [1]
 }
 
@@ -46,10 +46,16 @@ Authorization:Bearer {{token}}
 ###
 
 #Archive task
-PUT {{host}}/projects/2/tasks/2/archive
+PUT {{host}}/projects/1/tasks/1/archive
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
 {
   "archived": true
 }
+
+###
+
+#Get task stats
+GET {{host}}/projects/1/tasks/stats
+Authorization:Bearer {{token}}

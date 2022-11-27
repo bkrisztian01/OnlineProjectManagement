@@ -180,3 +180,27 @@ export async function setArchivedTaskById(
   task.archived = archived;
   task.save();
 }
+
+export async function getTaskStats(projectId: number) {
+  const stats = await Task.createQueryBuilder('task')
+    .where('task.project.id = :projectId', { projectId })
+    .groupBy('task.status')
+    .select(['task.status as status', 'COUNT(task.id) as count'])
+    .getRawMany();
+
+  stats.map(stat => (stat.count = Number(stat.count)));
+
+  if (!stats.find(item => item.status == Status.Done)) {
+  }
+
+  Object.values(Status).forEach(s => {
+    if (!stats.find(stat => stat.status == s)) {
+      stats.push({
+        status: s,
+        count: 0,
+      });
+    }
+  });
+
+  return stats;
+}

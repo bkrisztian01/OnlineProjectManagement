@@ -4,6 +4,7 @@ import {
   deleteTaskById,
   getTaskById,
   getTasks,
+  getTaskStats,
   setArchivedTaskById,
   updateTaskById,
 } from '../services/task.service';
@@ -113,4 +114,16 @@ export async function setArchivedTaskByIdHandler(
   } catch (e: any) {
     res.status(e.httpStatus || 500).send(e.message);
   }
+}
+
+export async function getTaskStatsHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  // try {
+  res.send(await getTaskStats(parseInt(req.params.projectId)));
+  // } catch (e: any) {
+  //   res.status(e.httpStatus || 500).send(e.message);
+  // }
 }
