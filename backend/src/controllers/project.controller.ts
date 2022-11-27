@@ -12,7 +12,7 @@ export async function getProjectsHandler(
   res: Response,
   next: NextFunction,
 ) {
-  res.send(await getProjects(Number(req.query.pageNumber)));
+  res.send(await getProjects(res.locals.jwt, Number(req.query.pageNumber)));
 }
 
 export async function postProjectHandler(
@@ -38,7 +38,10 @@ export async function getProjectByIdHandler(
   res: Response,
   next: NextFunction,
 ) {
-  const project = await getProjectById(parseInt(req.params.projectId));
+  const project = await getProjectById(
+    parseInt(req.params.projectId),
+    res.locals.jwt,
+  );
   if (!project) {
     res.status(404).send('Project was not found');
     return;

@@ -11,9 +11,13 @@ GET {{host}}/users
 POST {{host}}/user/login
 Content-Type: application/json
 
+# {
+#   "username": "testuser",
+#   "password": "test123"
+# }
 {
-  "username": "testuser",
-  "password": "test123"
+  "username": "kengushi",
+  "password": "kengushi"
 }
 
 ###

@@ -19,16 +19,32 @@ function nullCheck(project: Project) {
   return project;
 }
 
-export async function getProjects(pageNumber?: number) {
-  const query = Project.createQueryBuilder('project')
-    .take(PAGE_SIZE)
-    .orderBy('project.id', 'ASC');
+export async function getProjects(userId: number, pageNumber?: number) {
+  let options: any = {
+    take: PAGE_SIZE,
+    order: { id: 'ASC' },
+  };
+
+  const adminRole = await UserRole.findOne({
+    where: { user: { id: userId }, role: Role.Admin },
+  });
+
+  if (!adminRole) {
+    options.where = {
+      userRoles: {
+        user: {
+          id: userId,
+        },
+      },
+    };
+  }
 
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
-    query.skip(skipAmount);
+    options.skip = skipAmount;
   }
-  const projects = await query.getMany();
+
+  const projects = await Project.find(options);
 
   return projects;
 }
@@ -96,11 +112,32 @@ export async function createProject(
   return nullCheck(result);
 }
 
-export async function getProjectById(id: number) {
-  return await Project.findOne({
+export async function getProjectById(id: number, userId: number) {
+  let project: any = await Project.findOne({
     where: { id },
-    // relations: ['tasks', 'milestones'],
   });
+
+  let userRole = await UserRole.findOne({
+    where: {
+      project: { id },
+      user: { id: userId },
+    },
+  });
+
+  if (!userRole) {
+    userRole = await UserRole.findOne({
+      where: {
+        user: { id: userId },
+        role: Role.Admin,
+      },
+    });
+  }
+
+  if (userRole) {
+    project.userRole = userRole.role;
+  }
+
+  return project;
 }
 
 export async function updateProjectById(
@@ -131,7 +168,10 @@ export async function updateProjectById(
 }
 
 export async function deleteProjectById(id: number) {
-  const project = await getProjectById(id);
+  const project = await Project.findOne({
+    where: { id },
+  });
+
   if (project) {
     Project.remove(project);
   }
