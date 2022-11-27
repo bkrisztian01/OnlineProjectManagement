@@ -4,6 +4,7 @@ import { Task } from '../model/tasks.model';
 import { ApiService } from '../services/api.service';
 import { Milestone } from '../model/milestones.model';
 import { User } from '../model/users.model';
+import { Observable } from 'rxjs';
 // import { TaskObjects } from './task-dashboard.model';
 
 @Component({
@@ -15,6 +16,7 @@ export class TaskDashboardComponent implements OnInit {
 
   formValue !: FormGroup;
   milestoneValue !: FormGroup;
+  projectValue !: FormGroup;
   taskObject : Task = new Task();
   taskData !: any;
   showAdd!: boolean;
@@ -38,12 +40,17 @@ export class TaskDashboardComponent implements OnInit {
       description: [''],
       prerequisite:['']
     })
+
+    this.projectValue = this.formbuilder.group({
+      name : [''],
+      statusbar : [''],
+      day : [''],
+      workers : [''],
+      description: [''],
+      manager:[''],
+      users:['']
+    })
     
-    this.AccessToken = this.api.AccessTokenThrow();
-
-    //console.log(this.AccessToken)
-    this.getAllTasks();
-
     this.milestoneValue = this.formbuilder.group({
       text : [''],
       description: [''],
@@ -51,13 +58,20 @@ export class TaskDashboardComponent implements OnInit {
       statusbar : [''],
       tasks:['']
     })
+    this.AccessToken = this.api.AccessTokenThrow();
+
+    //console.log(this.AccessToken)
+    this.getAllTasks();
     this.getAllMilestones();
     this.getAllProjects();
     this.getAllUsers();
     this.getProjectDetails();
     //this.projectName = this.projectDetails.name
+    this.api.setProjectID(this.projectId)
+
 
   }
+
 
   setProjectId(row: any){
     let newId=row.id;
@@ -66,6 +80,7 @@ export class TaskDashboardComponent implements OnInit {
     this.getAllTasks();
     this.getAllMilestones();
     this.getProjectDetails();
+    this.api.setProjectID(this.projectId)
   }
 
   setTaskPageNumber(x:any ) {
@@ -83,7 +98,44 @@ export class TaskDashboardComponent implements OnInit {
   }
 
 
+  postProject(){
+    const reqBody = {
+      name: this.projectValue.value.name,
+      description: this.projectValue.value.description,
+      status: this.projectValue.value.statusbar,
+      estimatedTime: this.projectValue.value.day,
+      managerId: this.projectValue.value.manager,
+      memberIds: this.membersOfProject
+    }
+    console.log(reqBody);
+    
+    this.projectValue.reset();
+    this.api.postProject(reqBody,this.AccessToken).subscribe(res=>{
+      alert("Project created successfully!");
+      let ref= document.getElementById('close');
+      ref?.click();
+      this.projectValue.reset();
+      this.getAllProjects();
+    },
+    err=>{
+      alert("Something went wrong!")
+    }
 
+    )
+    this.membersOfProject.splice(0);
+  }
+
+  membersOfProject: Array<number> = [];
+  ProjectMemberAdded(member: number){
+
+    if(this.membersOfProject.includes(member)){
+      this.membersOfProject.forEach((element,index)=>{
+        if(element==member) this.membersOfProject.splice(index,1);
+     });
+     return;
+    }
+    this.membersOfProject.push(member);
+  }
 
 
   postTaskDeatails(){

@@ -12,6 +12,7 @@ export class ApiService {
   private apiAddress = "https://opmapi.azurewebsites.net"
 
   private AccessToken!: String;
+  private ProjectID!: number;
 
   constructor(private http: HttpClient) { }
 
@@ -69,8 +70,8 @@ export class ApiService {
     return this.http.get<any>(`${this.apiAddress}/users`,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
 
-  postProject(data: any){
-    return this.http.post<any>(`${this.apiAddress}/project`,data).pipe(map((res:any)=>{return res;}))
+  postProject(data: any, AccessToken:String){
+    return this.http.post<any>(`${this.apiAddress}/projects`,data,{headers:{"Authorization":"Bearer " + AccessToken}}).pipe(map((res:any)=>{return res;}))
   }
 
   signIn(data:any){
@@ -81,11 +82,19 @@ export class ApiService {
     return this.http.post<any>(`${this.apiAddress}/user/signup`,data).pipe(map((res:any)=>{return res;}))
   }
 
+
   setAccessToken(data:String){
     this.AccessToken = data;
   }
   AccessTokenThrow(){
     return this.AccessToken;
+  }
+
+  setProjectID(ID:number){
+    this.ProjectID=ID
+  }
+  ProjectIDThrow(){
+    return this.ProjectID
   }
 
 
