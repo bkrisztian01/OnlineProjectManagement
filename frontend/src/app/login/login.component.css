@@ -1,0 +1,24 @@
+.col-md-7{
+    box-shadow: 3px 3px 7px #777777;
+    border-radius: 15px 15px 15px 15px;
+    padding: 1rem 2rem;
+    background-color: white;
+}
+
+h1{
+    padding: 1rem 2rem;
+}
+
+.fw-normal{
+    font-size: xx-large;
+}
+
+.btn-info{
+    background-color:#264653 ;
+    box-shadow: 3px 3px 7px #777777;
+}
+
+.btn-primary{
+    background-color:#2a9d8f ;
+    box-shadow: 3px 3px 7px #777777;
+}
