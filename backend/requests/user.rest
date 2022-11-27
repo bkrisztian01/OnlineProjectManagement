@@ -1,6 +1,6 @@
 # @host = https://opmapi.azurewebsites.net
 @host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTU1NTEzOCwiZXhwIjoxNjY5NTYyMzM4fQ.fAhboT78ThMn5xoE1yxMWwVNc0-EioTC1cR9f6v8lJk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTU3MzE5OSwiZXhwIjoxNjY5NTgwMzk5fQ.Q9zwTNtdjaFkmK0vtEfz2ZOBPHYmCbrpD1oDdIBl1-Y
 
 #Get users
 GET {{host}}/users
@@ -12,14 +12,19 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 # {
-#   "username": "testuser",
-#   "password": "test123"
+#   "username": "kengushi",
+#   "password": "kengushi"
 # }
 
 {
-  "username": "kengushi",
-  "password": "kengushi"
+  "username": "testuser",
+  "password": "test123"
 }
+
+# {
+#   "username": "asdasd",
+#   "password": "asd"
+# }
 
 ###
 
@@ -28,10 +33,10 @@ POST {{host}}/user/signup
 Content-Type: application/json
 
 {
-  "username": "kengushi",
-  "fullname": "Ken Gushi",
-  "email": "kengushi@example.com",
-  "password": "kengushi"
+  "username": "asdasd",
+  "fullname": "asd123",
+  "email": "asd@example.com",
+  "password": "asd"
 }
 
 ###

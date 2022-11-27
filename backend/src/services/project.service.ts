@@ -1,5 +1,5 @@
 import { NotFound } from '@curveball/http-errors/dist';
-import { In, SelectQueryBuilder } from 'typeorm';
+import { In } from 'typeorm';
 import { AppDataSource } from '../dataSource';
 import { Project } from '../models/project.model';
 import { User } from '../models/user.model';
@@ -19,49 +19,41 @@ function nullCheck(project: Project) {
   return project;
 }
 
-export async function getProjects(userId: number, pageNumber?: number) {
-  const query: SelectQueryBuilder<any> = Project.createQueryBuilder(
-    'project',
-  ).orderBy('project.id', 'ASC');
+export async function getProjects(userId: number, pageNumber: number) {
+  const options: any = {
+    order: { id: 'ASC' },
+  };
+
+  if (pageNumber && pageNumber > 0) {
+    const skipAmount = (pageNumber - 1) * PAGE_SIZE;
+    options.skip = skipAmount;
+    options.take = PAGE_SIZE;
+  }
 
   const adminRole = await UserRole.findOne({
     where: { user: { id: userId }, role: Role.Admin },
   });
 
   if (!adminRole) {
-    query
-      .leftJoinAndSelect('project.userRoles', 'userRole')
-      .leftJoinAndSelect('userRole.user', 'user')
-      .where('user.id = :userId', { userId })
-      .select([
-        'project.id',
-        'project.name',
-        'project.description',
-        'project.status',
-        'project.startDate',
-        'project.endDate',
-        'project.estimatedTime',
-        'userRole.role as userRole',
-      ]);
-  }
-
-  if (pageNumber && pageNumber > 0) {
-    const skipAmount = (pageNumber - 1) * PAGE_SIZE;
-    query.skip(skipAmount);
-    query.take(PAGE_SIZE);
+    options.where = {
+      userRoles: {
+        user: { id: userId },
+      },
+    };
+    options.relations = ['userRoles'];
   }
 
   // Ez nagyon jank
-  const projects = ((await query.execute()) as any[]).map(item => {
+  const projects = (await Project.find(options)).map(p => {
     return {
-      id: item.project_id,
-      name: item.project_name,
-      description: item.project_description,
-      status: item.project_status,
-      startDate: item.project_startDate,
-      endDate: item.project_endDate,
-      estimatedTime: item.project_estimatedTime,
-      userRole: adminRole ? adminRole.role : item.userrole,
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      status: p.status,
+      startDate: p.startDate,
+      endDate: p.endDate,
+      estimatedTime: p.estimatedTime,
+      userRole: p.userRoles ? p.userRoles[0].role : adminRole.role,
     };
   });
 
