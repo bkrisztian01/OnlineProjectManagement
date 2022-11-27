@@ -89,7 +89,7 @@ export async function deleteMilestoneByIdHandler(
 ) {
   deleteMilestoneById(parseInt(req.params.id), parseInt(req.params.projectId));
 
-  res.sendStatus(200);
+  res.json();
 }
 
 export async function setArchivedMilestoneByIdHandler(
@@ -103,7 +103,7 @@ export async function setArchivedMilestoneByIdHandler(
       parseInt(req.params.projectId),
       req.body.archived,
     );
-    res.sendStatus(200);
+    res.json();
   } catch (e: any) {
     res.status(e.httpStatus || 500).send(e.message);
   }

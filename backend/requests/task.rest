@@ -1,7 +1,7 @@
 # @host = https://opmapi.azurewebsites.net
 @host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTU1NTEzOCwiZXhwIjoxNjY5NTYyMzM4fQ.fAhboT78ThMn5xoE1yxMWwVNc0-EioTC1cR9f6v8lJk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTU1NjA2MSwiZXhwIjoxNjY5NTU2MTgxfQ.W-cUbXxh9101Q20jSmrJsv-meDuLcJDEk7NIPEYzQ0M
 #Get tasks
 GET {{host}}/projects/1/tasks?pageNumber=1
 Authorization:Bearer {{token}}

@@ -79,5 +79,5 @@ export async function deleteProjectByIdHandler(
 ) {
   await deleteProjectById(parseInt(req.params.projectId));
 
-  res.sendStatus(200);
+  res.json();
 }
