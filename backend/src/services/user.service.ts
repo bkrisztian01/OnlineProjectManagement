@@ -120,6 +120,7 @@ export async function getUsersTasks(userId: number) {
       ),
       status: Not<Status.Done>(Status.Done),
     },
+    relations: ['project'],
   });
 
   return tasks;
