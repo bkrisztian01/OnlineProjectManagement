@@ -2,11 +2,23 @@ import { array, bool, number, object, string } from 'yup';
 import { Status } from '../util/Status';
 
 const id = {
-  id: string().required(),
+  id: string()
+    .required()
+    .test(
+      'is-number',
+      d => `${d.path} is not a number`,
+      value => !isNaN(Number(value)),
+    ),
 };
 
 const projectId = {
-  projectId: string().required(),
+  projectId: string()
+    .required()
+    .test(
+      'is-number',
+      d => `${d.path} is not a number`,
+      value => !isNaN(Number(value)),
+    ),
 };
 
 const deadline = {

@@ -3,7 +3,13 @@ import { Status } from '../util/Status';
 
 const params = {
   params: object({
-    id: string().required(),
+    projectId: string()
+      .required()
+      .test(
+        'is-number',
+        d => `${d.path} is not a number`,
+        value => !isNaN(Number(value)),
+      ),
   }),
 };
 

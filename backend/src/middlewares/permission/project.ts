@@ -28,7 +28,6 @@ export const viewProject = async (
       role: In([Role.Manager, Role.Member]),
     },
   });
-
   if (!role && !adminRole) {
     res.sendStatus(403);
     return;

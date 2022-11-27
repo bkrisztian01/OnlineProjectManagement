@@ -99,7 +99,7 @@ export async function createProject(
 export async function getProjectById(id: number) {
   return await Project.findOne({
     where: { id },
-    relations: ['tasks', 'milestones'],
+    // relations: ['tasks', 'milestones'],
   });
 }
 
