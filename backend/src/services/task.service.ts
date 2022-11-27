@@ -38,13 +38,13 @@ export async function getTasks(projectId: number, pageNumber?: number) {
       project: { id: projectId },
     },
     order: { id: 'ASC' },
-    take: PAGE_SIZE,
     relations: ['assignees', 'prerequisiteTasks', 'milestone'],
   };
 
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
     options.skip = skipAmount;
+    options.take = PAGE_SIZE;
   }
 
   const tasks = await Task.find(options);

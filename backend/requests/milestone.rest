@@ -1,10 +1,10 @@
 @host = http://localhost:5000
 # @host = https://opmapi.azurewebsites.net
 #Place your access token here
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTQ4NTA2NCwiZXhwIjoxNjY5NDg1MTg0fQ.asXSAshQ8ws44Usm16GZ5gdnNoskl6ng7CvSHz6rb5M
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY2OTU2NDU2MSwiZXhwIjoxNjY5NTcxNzYxfQ.gsMkkcApf-UkEklPaC0vQHe639O95oU3yea7k7Y9pGA
 
 # Get milestones
-GET {{host}}/projects/1/milestones?pageNumber=1
+GET {{host}}/projects/1/milestones
 Authorization:Bearer {{token}}
 
 ###

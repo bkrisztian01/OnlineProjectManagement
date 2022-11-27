@@ -1,9 +1,9 @@
-@host = https://opmapi.azurewebsites.net
-# @host = http://localhost:5000
+# @host = https://opmapi.azurewebsites.net
+@host = http://localhost:5000
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY2OTU2NDE1MywiZXhwIjoxNjY5NTY0MjczfQ.xIgqqeEtuiGX3nrhxvk79eD74uCITZoTgRQz8SJEnD4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY2OTU2NDU2MSwiZXhwIjoxNjY5NTcxNzYxfQ.gsMkkcApf-UkEklPaC0vQHe639O95oU3yea7k7Y9pGA
 #Get tasks
-GET {{host}}/projects/1/tasks?pageNumber=1
+GET {{host}}/projects/1/tasks
 Authorization:Bearer {{token}}
 
 ###
@@ -15,7 +15,7 @@ Authorization:Bearer {{token}}
 ###
 
 #Create task
-POST {{host}}/projects/11/tasks
+POST {{host}}/projects/1/tasks
 Content-Type: application/json
 Authorization:Bearer {{token}}
 

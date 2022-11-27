@@ -20,9 +20,9 @@ function nullCheck(project: Project) {
 }
 
 export async function getProjects(userId: number, pageNumber?: number) {
-  const query: SelectQueryBuilder<any> = Project.createQueryBuilder('project')
-    .take(PAGE_SIZE)
-    .orderBy('project.id', 'ASC');
+  const query: SelectQueryBuilder<any> = Project.createQueryBuilder(
+    'project',
+  ).orderBy('project.id', 'ASC');
 
   const adminRole = await UserRole.findOne({
     where: { user: { id: userId }, role: Role.Admin },
@@ -48,6 +48,7 @@ export async function getProjects(userId: number, pageNumber?: number) {
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
     query.skip(skipAmount);
+    query.take(PAGE_SIZE);
   }
 
   // Ez nagyon jank

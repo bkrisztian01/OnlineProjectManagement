@@ -20,13 +20,13 @@ export async function getMilestones(projectId: number, pageNumber?: number) {
       project: { id: projectId },
     },
     order: { id: 'ASC' },
-    take: PAGE_SIZE,
     relations: ['tasks'],
   };
 
   if (pageNumber && pageNumber > 0) {
     const skipAmount = (pageNumber - 1) * PAGE_SIZE;
     options.skip = skipAmount;
+    options.take = PAGE_SIZE;
   }
 
   const milestones = await Milestone.find(options);
