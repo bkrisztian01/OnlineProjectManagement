@@ -194,6 +194,8 @@ export class TaskDashboardComponent implements OnInit {
       let Stopped=0
       let NotStarted=0
 
+      console.log(this.taskData);
+      
       for(let row of this.taskData){
         if(row.status == "Done") finished++
         else if(row.status == "In Progress") InProgress++
@@ -346,6 +348,8 @@ export class TaskDashboardComponent implements OnInit {
   getAllTasks(){
     this.api.getTask(this.projectId,this.AccessToken).subscribe(res=>{
       this.taskData = res;
+      console.log(this.taskData);
+      
       
       for(let row of this.taskData){
         let temp: String = ''
@@ -358,11 +362,12 @@ export class TaskDashboardComponent implements OnInit {
         }
         row.assignees = temp.slice(0,-1);
         row.prerequisiteTasks = temp2.slice(0,-1);
-        
-        if(this.taskData.length!=0) this.initializeChart();
-        this.initializeGanttChart()
-
       }
+      console.log("X");
+        
+      this.initializeChart();
+      this.initializeGanttChart()
+      console.log("d");
     },
     (error)=>{
       this.RefreshingToken();
