@@ -1,24 +1,23 @@
 <nav class="navbar navbar-dark bg-dark ">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Online Project Manager</a>
-    <div class="d-flex">
-      <button type="button" (click)="clickAddTask()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
+    <div class="d-flex" *ngIf="projectDetails!=undefined" >
+      <button type="button" *ngIf="projectDetails.userRole!='Member'" (click)="clickAddTask()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
         Add Task
       </button>
-      <button type="button" (click)="clickAddMilestone()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >
+      <button type="button" *ngIf="projectDetails.userRole!='Member'" (click)="clickAddMilestone()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" >
         Add Milestone
       </button>
 
-      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#FinishModal" >
+      <button type="button" *ngIf="projectDetails.userRole!='Member'"  class="btn btn-info" data-bs-toggle="modal" data-bs-target="#FinishModal" >
         Finish Project
       </button>
 
-      <button type="button" class="btn btn-info" >
+      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#ProjectAddModal">
         Create Project
       </button>
-
-
       </div>
+      
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,32 +31,32 @@
           <button class="btn btn-three dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             My Projects
           </button>
-          <a routerLink="/login" class="nav-link" routerLinkActive="active">Sign out</a>
+          
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenu2" >
             <li><hr class="dropdown-divider"></li>
 
             <div *ngFor="let row of projectData">
-              <button *ngIf="row.status == 'Done' " class="dropdown-item" type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'Done' " class="dropdown-item" type="button" (click)="setProjectId(row)" data-bs-toggle="hide"data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
                 </svg></span>
               </button>
-              <button *ngIf="row.status == 'Not Started' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'Not Started' " class="dropdown-item " type="button" (click)="setProjectId(row)" data-bs-toggle="hide" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-end" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M14.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
                   <path d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/>
                 </svg></span>
               </button>
-              <button *ngIf="row.status == 'In Progress' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'In Progress' " class="dropdown-item " type="button" (click)="setProjectId(row)" data-bs-toggle="hide" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-center" viewBox="0 0 16 16">
                   <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"/>
                 </svg></span>
               </button>
-              <button *ngIf="row.status == 'Stopped' " class="dropdown-item " type="button" (click)="setProjectId(row)">
+              <button *ngIf="row.status == 'Stopped' " class="dropdown-item " type="button" (click)="setProjectId(row)" data-bs-toggle="hide" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
                 {{row.name}}
                 <span class="badge text-bg-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -66,8 +65,8 @@
               </button>
               <li><hr class="dropdown-divider"></li>
             </div>
-            <!-- <li><a class="dropdown-item" href="#">{{row.name}}</a></li> -->
           </div> 
+          <a routerLink="/login" class="nav-link" routerLinkActive="active" (click)="SignOut()">Sign out</a>
 
         </div>
       </div>
@@ -78,7 +77,7 @@
 
 
 
-  <figure class="text-center">
+  <figure class="text-center" *ngIf="projectName!=''">
     <h1 class="display-1">{{projectName}}</h1>
     <figcaption class="blockquote-footer">
       Current Project - 
@@ -86,50 +85,31 @@
   
   </figure>
 
-  <!-- <p>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+
+  <p *ngIf="projectDetails!=undefined"> 
+      <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1" >
       Project details
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-body-text" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
       </svg>
     </button>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-      Gantt Chart
+    <button class="btn btn-primary"  type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+      
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
         <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
       </svg>
-    </button>
-  </p>
-  <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-      <p> Name: {{projectDetails.name}}</p>
-      <p> Description: {{projectDetails.description}}</p>
-      <p> Started: {{projectDetails.startDate.substring(0,10)}}</p>
-      <p> Finished: {{projectDetails.endDate.substring(0,10)}}</p>
-      <p> Estimated time: {{projectDetails.estimatedTime}}</p>
-    </div>
-  </div>
--->
-  <p> 
-      <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">
-      Project details
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-body-text" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
-      </svg>
-    </button>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-      Gantt Chart
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
-        <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
+      /
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pie-chart-fill" viewBox="0 0 16 16">
+        <path d="M15.985 8.5H8.207l-5.5 5.5a8 8 0 0 0 13.277-5.5zM2 13.292A8 8 0 0 1 7.5.015v7.778l-5.5 5.5zM8.5.015V7.5h7.485A8.001 8.001 0 0 0 8.5.015z"/>
       </svg>
     </button>
   </p>
   <div class="row">
     <div class="col">
       <div class="collapse multi-collapse" id="multiCollapseExample1">
-        <div class="card card-body">
+        <div class="card card-body border-special">
 
-           <table class="tb" >
+           <table class="tb" *ngIf="projectDetails!=undefined">
             <tr class="trproj">
               <td class="tdproj">Name:</td>
               <td>{{projectDetails.name}}</td>
@@ -152,20 +132,61 @@
             </tr>
             <tr class="trproj">
               <td class="tdproj">Estimated time:</td>
-              <td>{{projectDetails.estimatedTime}}</td>
+              <td>{{projectDetails.estimatedTime}} day(s)</td>
+            </tr> 
+            <tr class="trproj">
+              <td class="tdproj">Permission level:</td>
+              <td class="tdproj">{{projectDetails.userRole}} </td>
             </tr> 
           </table> 
+          
         </div>
       </div>
     </div>
     <div class="col">
       <div class="collapse multi-collapse" id="multiCollapseExample2">
-        <div class="card card-body">
-          <app-gantt></app-gantt> 
+        <div class="card card-body border-special" *ngIf="ChartOptionsGantt!=undefined">
+          
+          <apx-chart *ngIf="ChartOptionsGantt!= undefined && taskData!=undefined"
+          [series]="ChartOptionsGantt.series!!"
+          [chart]="ChartOptionsGantt.chart!!"
+          [xaxis]="ChartOptionsGantt.xaxis!!"
+          [plotOptions]="ChartOptionsGantt.plotOptions!!">
+          </apx-chart>
         </div>
       </div>
     </div>
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample2">
+        <div class="card card-body border-special" *ngIf="chartOptions!=undefined">
+          <apx-chart
+          [series]="chartOptions.series!!"
+          [chart]="chartOptions.chart!!"
+          [colors]="chartOptions.colors!!"
+          [labels]="chartOptions.labels"
+          >
+          </apx-chart> 
+        </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample2">
+          <div class="card card-body border-special" *ngIf="ChartOptionsRadial!=undefined">
+            <apx-chart
+            [series]="ChartOptionsRadial.series!!"
+            [chart]="ChartOptionsRadial.chart!!"
+            [labels]="ChartOptionsRadial.labels!!"
+            [plotOptions]="ChartOptionsRadial.plotOptions!!"
+            [colors]="ChartOptionsRadial.colors!!"
+            [legend]="ChartOptionsRadial.legend!!"
+            
+            >
+            </apx-chart> 
+          </div>
+          </div>
+        </div>
   </div>
+          
 
 
   <h1 class="">Tasks:</h1>
@@ -200,7 +221,7 @@
         <th scope="col">Action</th>
       </tr>
     </thead>
-    <tbody  >
+    <tbody  *ngIf="taskData!=undefined && projectDetails!=undefined">
       <tr class="tr" *ngFor="let row of taskData.slice(TaskPageNumber*5-5, TaskPageNumber*5);">
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
         <td *ngIf="row.archived == false">{{row.name}}</td> 
@@ -252,7 +273,7 @@
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white"> {{row.prerequisiteTasks.toString()}}</td>
         <td *ngIf="row.archived == false">{{row.prerequisiteTasks.toString()}}</td>
 
-        <td *ngIf="row.archived==false">
+        <td *ngIf="row.archived==false && projectDetails.userRole != 'Member' ">
           <button type="button" (click)="onEdit(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TaskAddModal" >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -271,6 +292,7 @@
             </svg>
           </button>
         </td>
+        <td *ngIf="row.archived==false && projectDetails.userRole == 'Member' "> No permission </td>
         <td *ngIf="row.archived">
           <button class="btn btn-dark" (click)="archiveTask(row,false)">Reactivate</button>
         </td>
@@ -290,8 +312,8 @@
         <div class="modal-body">
           <form [formGroup]="formValue">
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Task name</label>
-              <input type="text" formControlName="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <label for="exampleInputEmail1" class="form-label" >Task name</label>
+              <input type="text" formControlName="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" maxlength="30">
             </div>
             
   
@@ -338,7 +360,7 @@
 
             <div class="mb-3">
               <label for="exampleInputPassword4" class="form-label">Description</label>
-              <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
+              <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1" maxlength="50" placeholder="max 50 characters">
             </div>
 
             <label for="exampleInputPassword3">Prerequisite:</label>
@@ -389,7 +411,7 @@
         <form [formGroup]="milestoneValue">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Milestone name</label>
-            <input type="text" formControlName="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input type="text" formControlName="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" maxlength="30">
           </div>
           
 
@@ -424,7 +446,7 @@
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword4" class="form-label">Description</label>
-            <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
+            <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1" maxlength="50" placeholder="max 50 characters">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword5" class="form-label">Required Tasks</label>
@@ -483,7 +505,7 @@
         <th scope="col">Action</th>
       </tr>
     </thead>
-    <tbody >
+    <tbody *ngIf="milestoneData!=undefined && projectDetails!=undefined" >
       <tr class="tr" *ngFor="let row of milestoneData.slice(MilestonePageNumber*5-5, MilestonePageNumber*5);">
 
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">{{row.name}}</td>
@@ -532,7 +554,7 @@
         <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white"> {{row.tasks}}</td>
         <td *ngIf="row.archived == false">{{row.tasks}}</td>
 
-        <td *ngIf="row.archived==false">
+        <td *ngIf="row.archived==false && projectDetails.userRole != 'Member'">
           <button type="button" (click)="onEditMilestone(row)" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#MilestoneAddModal" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -551,9 +573,92 @@
             </svg>
           </button>
         </td>
+        <td *ngIf="row.archived==false && projectDetails.userRole == 'Member' "> No permission </td>
         <td *ngIf="row.archived">
           <button class="btn btn-dark" (click)="archiveMilestone(row,false)">Reactivate</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- Modal PROJECT -->
+<div class="modal fade" id="ProjectAddModal" tabindex="-1" aria-labelledby="ProjectAddModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="ProjectAddModalLabel">Project details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="projectValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Project name</label>
+            <input type="text" formControlName="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" maxlength="30">
+          </div>
+          
+
+          <label for="exampleInputEmail6" class="form-label">Status</label>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios1" value="Not Started" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Not Started
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="In Progress">
+            <label class="form-check-label" for="exampleRadios2">
+              In Progress
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="exampleRadios2" value="Finished">
+            <label class="form-check-label" for="exampleRadios2">
+              Finished
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" formControlName="statusbar" type="radio" name="statusbar" id="Stopped" value="Stopped">
+            <label class="form-check-label" for="exampleRadios2">
+              Stopped
+            </label>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword2" class="form-label">Estimated time (days):</label>
+            <input type="number" formControlName="day" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword4" class="form-label">Description</label>
+            <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1" maxlength="50" placeholder="max 50 characters">
+          </div>
+          <ul class="list-group">
+            <label for="exampleInputPassword4" class="form-label">Workers:</label>
+            <li class="list-group-item" *ngFor="let row of userData">
+              
+              <input class="form-check-input me-1" type="checkbox"  name="users" id="firstCheckbox" (change)="ProjectMemberAdded(row.id)" formControlName="users">
+              <label class="form-check-label" for="firstCheckbox">{{row.fullname}}</label>
+            </li>
+          </ul> 
+
+          <label for="exampleInputPassword4" class="form-label">Manager:</label>
+          <div class="form-check" *ngFor="let row of userData">
+            
+            <input class="form-check-input" formControlName="manager" type="radio" name="manager" id="exampleRadios1" value={{row.id}} checked>
+            <label class="form-check-label" for="exampleRadios1">
+              {{row.fullname}}
+            </label>
+          </div>
+          
+          
+
+
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" (click)="postProject()" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div> 
+

@@ -81,3 +81,8 @@ h1{
 .tdproj{
     font-weight: 900;
 }
+
+.border-special{
+    border-color: #2a9d8f ;
+    border-width: thick;
+}
