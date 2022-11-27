@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
       password: this.formValue.value.password
     }
 
-    console.log(reqBody)
-    
     this.api.signIn(reqBody).subscribe(res=>{
       this.router.navigate(
         ["/dashboard"]
@@ -54,7 +52,6 @@ export class LoginComponent implements OnInit {
       );
     }
     )
-    console.log(this.route)
   }
 
 }
