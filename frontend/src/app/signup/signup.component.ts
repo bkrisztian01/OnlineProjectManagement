@@ -34,8 +34,6 @@ export class SignupComponent implements OnInit {
       password: this.formValue.value.password,
 
     }
-
-    console.log(reqBody)
     
     this.api.signUp(reqBody).subscribe(res=>{
       alert("Signed up succesfully!");

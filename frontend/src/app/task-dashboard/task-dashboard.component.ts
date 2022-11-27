@@ -63,7 +63,7 @@ export class TaskDashboardComponent implements OnInit {
 
   constructor(private formbuilder: FormBuilder, private api: ApiService){}
 
-  projectId: number = 1;
+  projectId!: number ;
   projectName: String= "";
 
   ngOnInit():void{
@@ -95,9 +95,11 @@ export class TaskDashboardComponent implements OnInit {
     })
     this.AccessToken = this.api.AccessTokenThrow();
 
+    this.getAllProjectsInit();
+    this.getAllProjects();
+    
     this.getAllTasks();
     this.getAllMilestones();
-    this.getAllProjects();
     this.getAllUsers();
     this.getProjectDetails();
     //this.projectName = this.projectDetails.name
@@ -384,7 +386,7 @@ export class TaskDashboardComponent implements OnInit {
   RefreshingToken(){
     this.api.refreshToken().subscribe(res=>{
       this.AccessToken = res.accessToken
-      console.log(this.AccessToken);
+      this.getAllProjectsInit();
       }
       
       
@@ -610,6 +612,18 @@ export class TaskDashboardComponent implements OnInit {
     getAllProjects(){
       this.api.getAllProjects(this.AccessToken).subscribe(res=>{
         this.projectData = res
+        
+      },
+      (error)=>{
+        this.RefreshingToken();
+        this.getAllProjects();
+      })
+    }
+
+    getAllProjectsInit(){
+      this.api.getAllProjects(this.AccessToken).subscribe(res=>{
+        this.projectData = res
+        this.setProjectId(this.projectData[0])
       },
       (error)=>{
         this.RefreshingToken();
