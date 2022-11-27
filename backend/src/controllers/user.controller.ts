@@ -43,7 +43,7 @@ export async function getLogoutUserHandler(
 
   res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
 
-  res.sendStatus(200);
+  res.json();
 }
 
 export async function postSignupUserHandler(
