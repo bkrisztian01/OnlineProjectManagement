@@ -6,6 +6,7 @@ import { RefreshToken } from '../models/refreshToken.model';
 import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
 import { Status } from '../util/Status';
+import { createProject } from './project.service';
 
 export async function validatePassword(username: string, password: string) {
   const user = await User.findOne({
@@ -27,13 +28,13 @@ export async function validatePassword(username: string, password: string) {
   const accessToken = jwt.sign(
     { userId: user.id },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '2m' },
+    { expiresIn: process.env.ACCESS_TOKEN_TIME || '2m' },
   );
 
   const refreshToken = jwt.sign(
     { userId: user.id },
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: '1d' },
+    { expiresIn: process.env.REFRESH_TOKEN_TIME || '1d' },
   );
 
   const refreshTokenObject = await RefreshToken.findOne({
@@ -84,6 +85,18 @@ export async function createUser(
     email,
   });
   await user.save();
+
+  // Temp fix for frontend, when user doesn't have any projects
+  await createProject(
+    user.fullname,
+    '',
+    new Date(Date.now()).toLocaleString('en-CA').split(',')[0],
+    null,
+    Status.NotStarted,
+    null,
+    user.id,
+    [],
+  );
 
   return user;
 }

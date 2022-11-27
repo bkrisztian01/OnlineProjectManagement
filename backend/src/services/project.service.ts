@@ -22,6 +22,7 @@ function nullCheck(project: Project) {
 export async function getProjects(userId: number, pageNumber: number) {
   const options: any = {
     order: { id: 'ASC' },
+    relations: ['userRoles', 'userRoles.user'],
   };
 
   if (pageNumber && pageNumber > 0) {
@@ -53,7 +54,10 @@ export async function getProjects(userId: number, pageNumber: number) {
       startDate: p.startDate,
       endDate: p.endDate,
       estimatedTime: p.estimatedTime,
-      userRole: p.userRoles ? p.userRoles[0].role : adminRole.role,
+      userRoles: p.userRoles,
+      userRole: adminRole
+        ? adminRole.role
+        : p.userRoles.find(r => r.user.id == userId),
     };
   });
 
@@ -126,6 +130,7 @@ export async function createProject(
 export async function getProjectById(id: number, userId: number) {
   let project: any = await Project.findOne({
     where: { id },
+    relations: ['userRoles', 'userRoles.user'],
   });
 
   let userRole = await UserRole.findOne({

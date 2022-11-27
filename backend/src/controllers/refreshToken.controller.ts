@@ -20,16 +20,21 @@ export async function handleRefreshToken(
     },
   });
 
-  if (!foundRefreshToken) return res.sendStatus(403);
+  if (!foundRefreshToken) {
+    console.log(`retek: ${foundRefreshToken}`);
+    return res.sendStatus(403);
+  }
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err || foundRefreshToken.user.id !== decoded.userId)
+    if (err || foundRefreshToken.user.id !== decoded.userId) {
+      console.log(`repa: ${foundRefreshToken}`);
       return res.sendStatus(403);
+    }
 
     const accessToken = jwt.sign(
       { userId: decoded.userId },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '2h' },
+      { expiresIn: process.env.ACCESS_TOKEN_TIME || '2m' },
     );
 
     res.json({ accessToken });
