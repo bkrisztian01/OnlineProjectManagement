@@ -287,7 +287,6 @@ export class TaskDashboardComponent implements OnInit {
       memberIds: this.membersOfProject
     }
     
-    this.projectValue.reset();
     this.api.postProject(reqBody,this.AccessToken).subscribe(res=>{
       alert("Project created successfully!");
       let ref= document.getElementById('close');
@@ -297,12 +296,11 @@ export class TaskDashboardComponent implements OnInit {
     },
     (error)=>{
       alert("Something went wrong!")
-      this.RefreshingToken();
-      this.postProject();
     }
 
     )
     this.membersOfProject.splice(0);
+    this.projectValue.reset();
   }
 
   membersOfProject: Array<number> = [];
@@ -329,8 +327,6 @@ export class TaskDashboardComponent implements OnInit {
       assigneeIds: this.workersOfTask,
       prerequisiteTaskIds: this.prerequisitesOfTask
     }
-    
-    this.formValue.reset();
     this.api.postTask(reqBody,this.projectId,this.AccessToken).subscribe(res=>{
       alert("Task added succesfully!");
       let ref = document.getElementById('close');
@@ -341,12 +337,11 @@ export class TaskDashboardComponent implements OnInit {
     },
     (error)=>{
       alert("Something went wrong!")
-      this.RefreshingToken();
-      this.postTaskDeatails();
     }
     )
     this.workersOfTask.splice(0)
     this.prerequisitesOfTask.splice(0)
+    this.formValue.reset();
   }
 
   TaskWorkers!: any
@@ -414,7 +409,6 @@ export class TaskDashboardComponent implements OnInit {
       },
       (error)=>{
         alert("Something went wrong!")
-        this.RefreshingToken();
       }
     )
   }
@@ -430,7 +424,6 @@ export class TaskDashboardComponent implements OnInit {
   }
 
   clickAddTask(){
-    this.formValue.reset();
       this.showAdd=true;
       this.showUpdate=false;
   }
@@ -445,7 +438,7 @@ export class TaskDashboardComponent implements OnInit {
       assigneeIds: this.workersOfTask,
       prerequisiteTaskIds: this.prerequisitesOfTask,
     }
-    this.formValue.reset();
+    
     this.api.updateTask(reqBody,this.taskObject.id,this.projectId,this.AccessToken).subscribe(
       res=>{
         alert("Update succesful!");
@@ -456,11 +449,11 @@ export class TaskDashboardComponent implements OnInit {
       },
       (error)=>{
         alert("Something went wrong!")
-        this.RefreshingToken();
       }
       
     
     )
+    this.formValue.reset();
     this.workersOfTask.splice(0)
     this.prerequisitesOfTask.splice(0)
   }
@@ -492,14 +485,14 @@ export class TaskDashboardComponent implements OnInit {
         alert("Milestone added succesfully!");
         let ref = document.getElementById('close');
         ref?.click();
-        this.milestoneValue.reset();
+        
         this.getAllMilestones();
     },
     (error)=>{
       alert("Something went wrong!")
-      this.RefreshingToken();
     }
     )
+    this.milestoneValue.reset();
     this.requiredTasks.splice(0)
   }
 
@@ -530,7 +523,6 @@ export class TaskDashboardComponent implements OnInit {
         },
         (error)=>{
           alert("Something went wrong!")
-          this.RefreshingToken();
         }
       )
     }
@@ -546,7 +538,6 @@ export class TaskDashboardComponent implements OnInit {
     }
 
     clickAddMilestone(){
-      this.milestoneValue.reset();
         this.showAddMilestone=true;
         this.showUpdateMilestone=false;
     }
@@ -560,7 +551,6 @@ export class TaskDashboardComponent implements OnInit {
         },
         (error)=>{
           alert("Something went wrong!")
-          this.RefreshingToken();
         }
       )
       this.getAllTasks();
@@ -577,7 +567,6 @@ export class TaskDashboardComponent implements OnInit {
         },
         (error)=>{
           alert("Something went wrong!")
-          this.RefreshingToken();
         }
       )
       this.getAllMilestones();
@@ -597,15 +586,15 @@ export class TaskDashboardComponent implements OnInit {
           alert("Update successful!");
           let ref = document.getElementById('close');
           ref?.click();
-          this.milestoneValue.reset();
+
           this.getAllMilestones();
         },
         (error)=>{
           alert("Something went wrong!")
-          this.RefreshingToken();
         }
       
       )
+      this.milestoneValue.reset();
       this.requiredTasks.splice(0)
     }
     projectData!: any;
@@ -695,7 +684,6 @@ export class TaskDashboardComponent implements OnInit {
         },
         (error)=>{
           alert("Something went wrong!")
-          this.RefreshingToken();
         }
       
       )
