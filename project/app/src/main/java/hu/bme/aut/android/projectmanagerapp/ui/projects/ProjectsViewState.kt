@@ -1,7 +1,6 @@
 package hu.bme.aut.android.projectmanagerapp.ui.projects
 
-import hu.bme.aut.android.projectmanagerapp.data.project.ProjectResult
-import hu.bme.aut.android.projectmanagerapp.model.Project
+import hu.bme.aut.android.projectmanagerapp.data.project.Project
 
 
 sealed class ProjectsViewState
