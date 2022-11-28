@@ -9,16 +9,6 @@ import { Status } from '../util/Status';
 
 const PAGE_SIZE = 5;
 
-function nullCheck(project: Project) {
-  if (!project.tasks) {
-    project.tasks = [];
-  }
-  if (!project.milestones) {
-    project.milestones = [];
-  }
-  return project;
-}
-
 export async function getProjects(userId: number, pageNumber: number) {
   const options: any = {
     order: { id: 'ASC' },
@@ -124,7 +114,7 @@ export async function createProject(
     });
   });
 
-  return nullCheck(result);
+  return result;
 }
 
 export async function getProjectById(id: number, userId: number) {

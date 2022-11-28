@@ -2,7 +2,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -28,7 +27,6 @@ export class User extends BaseEntity {
   email: string;
 
   @ManyToMany(() => Task, task => task.assignees)
-  @JoinTable()
   tasks: Task[];
 
   @OneToMany(() => UserRole, userRole => userRole.user)

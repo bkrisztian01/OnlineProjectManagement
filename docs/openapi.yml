@@ -3,44 +3,46 @@ info:
   title: Online Project Management
   description: Témalabor
   version: 1.0.0
-  
+servers:
+  - url: https://opmapi.azurewebsites.net
 tags:
   - name: user
-    description: Operations about user
+    description: User
   - name: project
-    description: Project dashboard
+    description: Project
   - name: task
     description: Tasks
   - name: milestone
     description: Milestone
-    
 paths:
-  /login:
+  /user/login:
     post:
       tags:
         - user
       summary: Logs in user
       operationId: userLogin
-      parameters:
-        - name: username
-          in: query
-          description: The username for login
-          required: false
-          schema:
-            type: string
-        - name: password
-          in: query
-          description: The password for login in clear text
-          required: false
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+        required: true
       responses:
-        '200':
+        "200":
           description: Successful login
-        '401':
-          description: Invalid credentials
-          
-  /signup:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccessToken"
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1LCJpYXQiOjE2Njk2NTM0NjUsImV4cCI6MTY2OTczOTg2NX0.h2ZYD_6KfboTmYrvacSXxyndbsO6z2OHqBbpcrzh5EM; Max-Age=86400; Path=/; Expires=Tue, 29 Nov 2022 16:37:45 GMT; HttpOnly; SameSite=None
+        "401":
+          description: Unauthorized
+
+  /user/signup:
     post:
       tags:
         - user
@@ -51,495 +53,1019 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Signup'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Signup'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Signup'
+              $ref: "#/components/schemas/Signup"
         required: true
       responses:
-        '201':
+        "200":
           description: User created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Signup'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Signup'
-        '409':
-          description: User already exists
-          
-  /logout:
+                $ref: "#/components/schemas/User"
+        "409":
+          description: Conflict
+
+  /user/logout:
     get:
       tags:
         - user
-      summary: Logs out current logged in user session
-      description: ''
-      operationId: logoutUser
+      summary: User logout
+      operationId: logout
       responses:
-        default:
-          description: Successful operation
-          
-  /project:
+        "200":
+          description: User logged out
+        "204":
+          description: Refresh token was not found
+      security:
+        - refreshToken: []
+
+  /users/current:
+    get:
+      tags:
+        - user
+      summary: User information
+      operationId: whoami
+      responses:
+        "200":
+          description: User information
+        "401":
+          description: Unauthorized
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /users:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      operationId: getusers
+      responses:
+        "200":
+          description: Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /refresh:
+    get:
+      tags:
+        - user
+      summary: Refresh access token
+      operationId: refresh
+      responses:
+        "200":
+          description: Access token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccessToken"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects:
     get:
       tags:
         - project
-      summary: Project dashboard
-      operationId: listproject
+      summary: Get all projects connected to user
+      operationId: getprojects
       responses:
-        '200':
-          description: Successful operation
+        "200":
+          description: Projects
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Projects'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Projects'
-                
-  /project/new:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+      security:
+        - refreshToken: []
+        - accessToken: []
+
     post:
       tags:
         - project
-      summary: Make a new project
-      operationId: makeProject
-      parameters:
-        - name: name
-          in: query
-          description: Name of project
-          required: true
-          schema:
-            type: string
+      summary: Get all projects connected to user
+      operationId: createproject
       responses:
-        '200':
-          description: Successful operation
+        "200":
+          description: Projects
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Project'
+                $ref: "#/components/schemas/ProjectEmpty"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectCreate"
       security:
-        - api_key: []
-        # TODO
-                
-  /project/{projectId}:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}:
     get:
       tags:
         - project
-      summary: Project view
-      operationId: getProjectById
+      summary: Get project by id
+      operationId: getprojectbyid
       parameters:
-        - $ref: "#/components/parameters/projectId"
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Project'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Project not found
-      security:
-        - api_key: []
-        # TODO
-    post:
-      tags:
-        - project
-      summary: Update project
-      operationId: updateProject
-      parameters:
-        - $ref: "#/components/parameters/projectId"
-        - name: name
-          in: query
-          description: Name of project that needs to be updated
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid project value
-      security:
-        - api_key: []
-        # TODO
-    delete:
-      tags:
-        - project
-      summary: Delete project
-      operationId: deleteProject
-      parameters:
-        - $ref: "#/components/parameters/projectId"
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid task value
-      security:
-        - api_key: []
-        # TODO
-          
-  /project/task/new:
-    post:
-      tags:
-        - task
-      summary: Make a new task
-      operationId: makeTask
-      parameters:
-        - name: name
-          in: query
-          description: Name of task
-          required: true
-          schema:
-            type: string
-        - $ref: "#/components/parameters/projectId"
-        - name: description
-          in: query
-          description: Description of task
-          schema:
-            type: string
-        - name: deadline
-          in: query
-          description: Deadline of task
-          schema:
-            type: string
-        - name: assigneesIds
-          in: query
-          description: IDs of assignees for task
-          schema:
-            type: array
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Task'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Task'
-      security:
-        - api_key: []
-        # TODO
-                
-  /project/task/{taskId}:
-    get:
-      tags:
-        - task
-      summary: Task view
-      operationId: getTaskById
-      parameters:
-        - $ref: "#/components/parameters/taskId"
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Task'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Task'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Task not found
-      security:
-        - api_key: []
-        # TODO
-    post:
-      tags: 
-        - task
-      summary: Update task
-      operationId: updateTask
-      parameters:
-        - $ref: "#/components/parameters/taskId"
-        - name: name
-          in: query
-          description: Name of task that needs to be updated
-          schema:
-            type: string
-        - name: description
-          in: query
-          description: Description of task that needs to be updated
-          schema:
-            type: string
-        - name: status
-          in: query
-          description: Status of task that needs to be updated
-          schema:
-            type: string
-        - name: deadline
-          in: query
-          description: Deadline of task that needs to be updated
-          schema:
-            type: string
-        - name: prerequisiteTasksId
-          in: query
-          description: IDs of prerequisite tasks that needs to be updated
-          schema:
-            type: array
-            items:
-              type: integer
-        - name: milestoneId
-          in: query
-          description: Milestone of task that needs to be updated
+        - in: path
+          name: projectId
           schema:
             type: integer
+          required: true
       responses:
-        '200':
-          description: Successful operation
-        '405':
-          description: Invalid input
+        "200":
+          description: Projects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
       security:
-        - api_key: []
-        # TODO
+        - refreshToken: []
+        - accessToken: []
+
+    put:
+      tags:
+        - project
+      summary: Update project by id
+      operationId: updateprojectbyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectUpdate"
+      responses:
+        "200":
+          description: Projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectEmpty"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+    delete:
+      tags:
+        - project
+      summary: Delete project by id
+      operationId: deleteprojectbyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: OK
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/tasks:
+    get:
+      tags:
+        - task
+      summary: Get all tasks of a project
+      operationId: gettasks
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        "403":
+          description: Forbidden
+        "404":
+          description: Project was not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+    post:
+      tags:
+        - task
+      summary: Create task
+      operationId: createtask
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskCreate"
+      responses:
+        "200":
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "403":
+          description: Forbidden
+        "404":
+          description: Project was not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/tasks/{taskId}:
+    get:
+      tags:
+        - task
+      summary: Get task by id
+      operationId: gettaskbyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+    put:
+      tags:
+        - task
+      summary: Update task by id
+      operationId: updatetaskbyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskCreate"
+      responses:
+        "200":
+          description: Task
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
     delete:
       tags:
         - task
-      summary: Delete task
-      operationId: deleteTask
+      summary: Delete task by id
+      operationId: deletetaskbyid
       parameters:
-        - $ref: '#/components/parameters/taskId'
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid task value
-      security:
-        - api_key: []
-        
-  /project/milestone/new:
-    post:
-      tags:
-        - milestone
-      summary: Make a new milestone
-      operationId: makeMilestone
-      parameters:
-        - name: name
-          in: query
-          description: Name of task
-          required: true
+        - in: path
+          name: projectId
           schema:
-            type: string
-        - $ref: "#/components/parameters/projectId"
+            type: integer
+          required: true
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
       responses:
-        '200':
-          description: Successful operation
+        "200":
+          description: OK
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/tasks/{taskId}/archive:
+    put:
+      tags:
+        - task
+      summary: Archive task by id
+
+      operationId: archivetaskbyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                archived:
+                  type: boolean
+                  example: true
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/tasks/stats:
+    get:
+      tags:
+        - task
+      summary: Get stats of tasks
+      operationId: gettaskstats
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: Tasks
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Milestone'
-            application/xml:
+                type: object
+                properties:
+                  "Not Started":
+                    type: integer
+                    example: 1
+                  "In Progress":
+                    type: integer
+                    example: 2
+                  "Done":
+                    type: integer
+                    example: 3
+                  "Stopped":
+                    type: integer
+                    example: 0
+        "403":
+          description: Forbidden
+        "404":
+          description: Project was not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /user/tasks:
+    get:
+      tags:
+        - task
+        - user
+      summary: Get all tasks of a user
+      operationId: getusertasks
+      responses:
+        "200":
+          description: Tasks
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Milestone'
-        
-  /project/milestone/{milestoneId}:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskUser"
+        "403":
+          description: Forbidden
+        "404":
+          description: Project was not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/milestones:
     get:
       tags:
         - milestone
-      summary: Milestone view
-      operationId: getMilestoneById
+      summary: Get all milestones of a project
+      operationId: getmilestones
       parameters:
-        - $ref: "#/components/parameters/milestoneId"
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
       responses:
-        '200':
-          description: Successful operation
+        "200":
+          description: Milestones
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Milestone'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Milestone'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Milestone not found
+                type: array
+                items:
+                  $ref: "#/components/schemas/Milestone"
+        "403":
+          description: Forbidden
+        "404":
+          description: Project was not found
       security:
-        - api_key: []
-        # TODO
+        - refreshToken: []
+        - accessToken: []
+
     post:
       tags:
         - milestone
-      summary: Update milestone
-      operationId: updateMilestone
+      summary: Create milestone
+      operationId: createmilestone
       parameters:
-        - $ref: "#/components/parameters/milestoneId"
-        - name: name
-          in: query
-          description: Name of task that needs to be updated
+        - in: path
+          name: projectId
           schema:
-            type: string
-        - name: taskIds
-          in: query
-          description: Tasks of milestone that needs to be updated
-          schema:
-            type: array
-            items:
-              type: integer
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MilestoneCreate"
       responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid task value
+        "200":
+          description: Milestone
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MilestoneCreated"
+        "403":
+          description: Forbidden
+        "404":
+          description: Project was not found
       security:
-        - api_key: []
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/milestones/{milestoneId}:
+    get:
+      tags:
+        - milestone
+      summary: Get milestone by id
+      operationId: getmilestonebyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: milestoneId
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: Milestone
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Milestone"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+    put:
+      tags:
+        - milestone
+      summary: Update milestone by id
+      operationId: updatemilestonebyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: milestoneId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MilestoneCreate"
+      responses:
+        "200":
+          description: Milestone
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MilestoneCreated"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
     delete:
       tags:
         - milestone
-      summary: Delete milestone
-      operationId: deleteMilestone
+      summary: Delete milestone by id
+      operationId: deletemilestonebyid
       parameters:
-        - $ref: "#/components/parameters/milestoneId"
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: milestoneId
+          schema:
+            type: integer
+          required: true
       responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid task value
+        "200":
+          description: OK
       security:
-        - api_key: []
-          
-          
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/tasks/{milestoneId}/archive:
+    put:
+      tags:
+        - milestone
+      summary: Archive milestone by id
+
+      operationId: archivemilestonebyid
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: milestoneId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                archived:
+                  type: boolean
+                  example: true
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
+  /projects/{projectId}/tasks/{milestoneId}/tasks:
+    get:
+      tags:
+        - milestone
+      summary: Get all tasks of a milestone
+      operationId: getmilestonetasks
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: milestoneId
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskEmpty"
+        "403":
+          description: Forbidden
+        "404":
+          description: Project was not found
+      security:
+        - refreshToken: []
+        - accessToken: []
+
 components:
   schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+          example: testuser
+        password:
+          type: string
+          example: test123
+
     Signup:
       type: object
       properties:
+        username:
+          type: string
+          example: testuser
+        password:
+          type: string
+          example: testuser
+        email:
+          type: string
+          example: testuser@example.com
         fullname:
           type: string
-          example: "Teszt Elek"
+          example: "Test User"
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
         username:
           type: string
           example: testuser
         email:
           type: string
           example: testuser@example.com
-        password:
+        fullname:
           type: string
-          example: password1
-      xml:
-        name: signup
-        
-    Task:
+          example: "Test User"
+
+    AccessToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1LCJpYXQiOjE2Njk2NTM0NjUsImV4cCI6MTY2OTY1NTI2NX0.lXH2uvPfH7Lt-7LTJAKhN2H88RkSJVT5K2w2fqZXUlw
+
+    ProjectEmpty:
       type: object
       properties:
         id:
           type: integer
-          example: 10298
+          example: 1
         name:
           type: string
-          example: "Task #1"
+          example: Project #1
         description:
           type: string
+          example: "Idk"
         status:
           type: string
-          example: "In progress"
-        deadline:
+          example: "In Progress"
+        startDate:
           type: string
-          example: "2022.10.10."
-        assigneesId:
+          example: "2022-01-01"
+        endDate:
+          type: string
+          example: "2022-02-01"
+        estimatedTime:
+          type: integer
+          example: 14
+
+    ProjectCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Project #1
+        description:
+          type: string
+          example: "Idk"
+        status:
+          type: string
+          example: "In Progress"
+        startDate:
+          type: string
+          example: "2022-01-01"
+        endDate:
+          type: string
+          example: "2022-02-01"
+        estimatedTime:
+          type: integer
+          example: 14
+        managerId:
+          type: integer
+          example: 1
+        memberIds:
           type: array
           items:
             type: integer
-        projectId:
+            example: 2
+
+    ProjectUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Project #1
+        description:
+          type: string
+          example: "Idk"
+        status:
+          type: string
+          example: "In Progress"
+        startDate:
+          type: string
+          example: "2022-01-01"
+        endDate:
+          type: string
+          example: "2022-02-01"
+        estimatedTime:
           type: integer
-          example: 123098123
-        prerequisiteTasksId:
-          type: array
-          items:
-            type: integer
-            example: 21284212
-        milestoneId:
-          type: integer
-          example: 123451
-        
+          example: 14
+
     Project:
       type: object
       properties:
         id:
           type: integer
-          example: 91283
+          example: 1
         name:
           type: string
-          example: "Project #1"
-        tasks:
-          type: "array"
+          example: Project #1
+        description:
+          type: string
+          example: "Idk"
+        status:
+          type: string
+          example: "In Progress"
+        startDate:
+          type: string
+          example: "2022-01-01"
+        endDate:
+          type: string
+          example: "2022-02-01"
+        estimatedTime:
+          type: integer
+          example: 14
+        userRole:
+          type: string
+          example: Manager
+        userRoles:
+          type: array
           items:
-            $ref: "#/components/schemas/Task"
-        
-    Projects:
-      type: array
-      items:
-         $ref: "#/components/schemas/Project"
-         
-    Milestone:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              role:
+                type: string
+                example: "Manager"
+              user:
+                $ref: "#/components/schemas/User"
+
+    TaskEmpty:
       type: object
       properties:
         id:
           type: integer
-          example: 91283
+          example: 1
         name:
           type: string
-          example: "Milestone #1"
+          example: Task #1
+        description:
+          type: string
+          example: "Idk"
         status:
           type: string
-          example: "In progress"
-        projectId:
+          example: "Stopped"
+        startDate:
+          type: string
+          example: "2022-01-01"
+        deadline:
+          type: string
+          example: "2022-02-01"
+        archived:
+          type: boolean
+          example: 14
+
+    TaskCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Task #1
+        description:
+          type: string
+          example: "Idk"
+        status:
+          type: string
+          example: "Stopped"
+        startDate:
+          type: string
+          example: "2022-01-01"
+        deadline:
+          type: string
+          example: "2022-02-01"
+        assigneeIds:
+          type: array
+          items:
+            type: integer
+            example: 2
+        prerequisiteTaskIds:
+          type: array
+          items:
+            type: integer
+            example: 2
+
+    Task:
+      type: object
+      properties:
+        id:
           type: integer
-          example: 12389
+          example: 1
+        name:
+          type: string
+          example: Task #1
+        description:
+          type: string
+          example: "Idk"
+        status:
+          type: string
+          example: "Stopped"
+        startDate:
+          type: string
+          example: "2022-01-01"
+        deadline:
+          type: string
+          example: "2022-02-01"
+        archived:
+          type: boolean
+          example: false
+        assignees:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        prerequisiteTasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/TaskEmpty"
+        milestone:
+          $ref: "#/components/schemas/MilestoneEmpty"
 
-  parameters:
-    taskId:
-      name: taskId
-      in: path
-      description: ID of task
-      required: true
-      schema:
-        type: integer
-        format: int64
-    
-    projectId:
-      name: projectId
-      in: path
-      description: ID of project
-      required: true
-      schema:
-        type: integer
-        format: int64
-        
-    milestoneId:
-      name: milestoneId
-      in: path
-      description: ID of milestone
-      required: true
-      schema:
-        type: integer
-        format: int64
+    TaskUser:
+      allOf:
+        - $ref: "#/components/schemas/TaskEmpty"
+        - type: object
+          properties:
+            project:
+              $ref: "#/components/schemas/ProjectEmpty"
 
-  requestBodies:
-    Signup:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Signup'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Signup'
-    
+    MilestoneEmpty:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Task #1
+        description:
+          type: string
+          example: "Idk"
+        deadline:
+          type: string
+          example: "2022-02-01"
+        status:
+          type: string
+          example: "Stopped"
+        archived:
+          type: boolean
+          example: true
+
+    Milestone:
+      allOf:
+        - $ref: "#/components/schemas/MilestoneEmpty"
+        - type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                $ref: "#/components/schemas/TaskEmpty"
+
+    MilestoneCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Task #1
+        description:
+          type: string
+          example: "Idk"
+        deadline:
+          type: string
+          example: "2022-02-01"
+        status:
+          type: string
+          example: "Stopped"
+        taskIds:
+          type: array
+          items:
+            type: integer
+            example: 1
+
+    MilestoneCreated:
+      allOf:
+        - $ref: "#/components/schemas/Milestone"
+        - type: object
+          properties:
+            project:
+              $ref: "#/components/schemas/ProjectEmpty"
+
   securitySchemes:
-    api_key:
+    accessToken:
       type: apiKey
-      name: api_key
+      name: Authorization
       in: header
+    refreshToken:
+      type: apiKey
+      name: jwt
+      in: cookie

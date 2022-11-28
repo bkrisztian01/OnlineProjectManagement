@@ -16,15 +16,15 @@ Content-Type: application/json
 #   "password": "kengushi"
 # }
 
-{
-  "username": "admin",
-  "password": "admin"
-}
-
 # {
-#   "username": "asdasd",
-#   "password": "asd"
+#   "username": "admin",
+#   "password": "admin"
 # }
+
+{
+  "username": "XD",
+  "password": "XD"
+}
 
 ###
 

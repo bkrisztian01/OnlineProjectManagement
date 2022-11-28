@@ -85,6 +85,8 @@ export async function getCurrentUserHandler(
       fullname: user.fullname,
       email: user.email,
     });
+  } else {
+    res.sendStatus(401);
   }
 }
 
