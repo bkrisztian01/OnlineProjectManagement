@@ -41,11 +41,11 @@ export async function getProjects(userId: number, pageNumber: number) {
         user: { id: userId },
       },
     };
-    options.relations = ['userRoles'];
   }
 
   // Ez nagyon jank
   const projects = (await Project.find(options)).map(p => {
+    console.log(p);
     return {
       id: p.id,
       name: p.name,
@@ -57,7 +57,7 @@ export async function getProjects(userId: number, pageNumber: number) {
       userRoles: p.userRoles,
       userRole: adminRole
         ? adminRole.role
-        : p.userRoles.find(r => r.user.id == userId),
+        : p.userRoles.find(r => r.user.id == userId).role,
     };
   });
 
