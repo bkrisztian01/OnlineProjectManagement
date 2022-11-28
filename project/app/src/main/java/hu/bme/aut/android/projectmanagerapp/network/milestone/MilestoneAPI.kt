@@ -6,9 +6,11 @@ import retrofit2.http.*
 
 interface MilestoneAPI {
     @GET("/projects/{projid}/milestones")
-    fun getMilestones(@Header("Authorization") token: String,@Path("projid") projid: Int ,@Query("pageNumber")pageNumber: Int): Call<List<Milestone>>
+    fun getMilestones(@Header("Authorization") token: String,@Path("projid") projid: Int,@Query("pageNumber") pageNumber: Int
+    ): Call<List<Milestone>>
 
 
     @GET("/projects/{projid}/milestones/{milestoneid}")
-    fun getMilestone(@Header("Authorization") token: String, @Path("projid") projid: Int, @Path("milestoneid") milestoneid: Int): Call<Milestone>
+    fun getMilestone(@Header("Authorization") token: String,@Path("projid") projid: Int, @Path("milestoneid") milestoneid: Int
+    ): Call<Milestone>
 }

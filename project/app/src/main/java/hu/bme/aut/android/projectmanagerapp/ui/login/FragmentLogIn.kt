@@ -24,7 +24,7 @@ class FragmentLogIn : Fragment() {
     private val binding get() = _binding!!
     private val loginViewModel: UserViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.loading.hide()
@@ -44,9 +44,9 @@ class FragmentLogIn : Fragment() {
             } else if (binding.editTextPw.text.toString().isEmpty()) {
                 binding.editTextPw.requestFocus()
                 binding.editTextPw.error = "Please enter your password"
-            } else{
-                loginViewModel.login(binding.editTextUser.text.toString(), binding.editTextPw.text.toString())?.observe(this.viewLifecycleOwner){
-                    loginviewState->render(loginviewState)
+            } else {
+                loginViewModel.login(binding.editTextUser.text.toString(), binding.editTextPw.text.toString())?.observe(this.viewLifecycleOwner) { loginviewState ->
+                    render(loginviewState)
                 }
 
             }
@@ -64,7 +64,7 @@ class FragmentLogIn : Fragment() {
                 binding.loading.show()
             }
             is LoginResponseSuccess -> {
-                val token=result.data.accessToken
+                val token = result.data.accessToken
                 binding.root.findNavController().navigate(FragmentLogInDirections.actionFragmentLogInToFragmentProject(token))
             }
             is LoginResponseError -> {
@@ -76,10 +76,18 @@ class FragmentLogIn : Fragment() {
                     binding.mtuser.visibility = View.VISIBLE
                     binding.buttonLogin.visibility = View.VISIBLE
                 }
-                if (result.exceptionMsg=="401")
-                    this.view?.let { Snackbar.make(it, R.string.invalid_pw_or_username, Snackbar.LENGTH_LONG).show() }
+                if (result.exceptionMsg == "401")
+                    this.view?.let {
+                        Snackbar.make(
+                            it,
+                            R.string.invalid_pw_or_username,
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
                 else
-                    this.view?.let { Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show() }
+                    this.view?.let {
+                        Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
+                    }
 
 
             }

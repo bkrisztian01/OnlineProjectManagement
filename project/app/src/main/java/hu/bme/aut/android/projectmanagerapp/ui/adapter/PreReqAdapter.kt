@@ -12,11 +12,11 @@ import hu.bme.aut.android.projectmanagerapp.databinding.ItemMilestoneBinding
 import hu.bme.aut.android.projectmanagerapp.databinding.ItemPrereqTasksBinding
 import hu.bme.aut.android.projectmanagerapp.ui.singletask.FragmentSingleTaskDirections
 
-class PreReqAdapter(private val token: String, private var tasks: ArrayList<Task>, private var projectid: Int):
-    RecyclerView.Adapter<PreReqAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding: ItemPrereqTasksBinding) : RecyclerView.ViewHolder(binding.root) {
+class PreReqAdapter(private val token: String,private var tasks: ArrayList<Task>,private var projectid: Int) : RecyclerView.Adapter<PreReqAdapter.ViewHolder>() {
+    inner class ViewHolder(val binding: ItemPrereqTasksBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val taskbutton = itemView.findViewById<Button>(R.id.prereqbtn)
-        val image= itemView.findViewById<ImageView>(R.id.isitdoneimage)
+        val image = itemView.findViewById<ImageView>(R.id.isitdoneimage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreReqAdapter.ViewHolder {
@@ -26,15 +26,15 @@ class PreReqAdapter(private val token: String, private var tasks: ArrayList<Task
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val task: Task=tasks[position]
-        val button=holder.taskbutton
-
-        val image=holder.image
+        val task: Task = tasks[position]
+        val button = holder.taskbutton
+        val image = holder.image
         image.bringToFront()
+        button.text = task.name
         button.setOnClickListener {
-            holder.binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskSelf(token,projectid,task.id))
+            holder.binding.root.findNavController().navigate(FragmentSingleTaskDirections.actionFragmentSingleTaskSelf(token, projectid, task.id))
         }
-        if(task.status=="Done")
+        if (task.status == "Done")
             image.setImageResource(R.drawable.ic_assignment_turned_in)
         else
             image.setImageResource(R.drawable.ic_assignment_late)

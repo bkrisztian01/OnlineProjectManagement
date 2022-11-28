@@ -15,29 +15,31 @@ import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentProjectPickPathBinding
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneArgs
 
-class FragmentNav: Fragment(), NavigationView.OnNavigationItemSelectedListener {
+class FragmentNav : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private var _binding: FragmentProjectPickPathBinding? = null
     private val binding get() = _binding!!
     private lateinit var projectname: String
     private lateinit var token: String
-    private var projid=-1
+    private var projid = -1
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentProjectPickPathBinding.inflate(inflater, container, false)
         val view = binding.root
-        if (arguments!=null) {
+        if (arguments != null) {
             val args: FragmentMilestoneArgs by navArgs()
-            projectname=args.projname
-            token=args.token
-            projid=args.projid
+            projectname = args.projname
+            token = args.token
+            projid = args.projid
         }
-        binding.milestonebtn.setOnClickListener(){
-            binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentMilestone(token,projid,projectname))
+        binding.milestonebtn.setOnClickListener() {
+            binding.root.findNavController().navigate(
+                FragmentNavDirections.actionFragmentNavToFragmentMilestone(token,projid,projectname)
+            )
         }
-        binding.taskbtn.setOnClickListener(){
-            binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentTasks(token,projid,-1,projectname))
+        binding.taskbtn.setOnClickListener() {
+            binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentTasks(token, projid, -1, projectname))
         }
-        binding.tvProject.text=projectname
+        binding.tvProject.text = projectname
         binding.toolbarmilestones.inflateMenu(R.menu.menu_milestone_toolbar)
         binding.toolbarmilestones.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
@@ -57,10 +59,11 @@ class FragmentNav: Fragment(), NavigationView.OnNavigationItemSelectedListener {
         super.onDestroyView()
         _binding = null
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val context = this.activity
-        return when (item.itemId){
-            R.id.menu_help->{
+        return when (item.itemId) {
+            R.id.menu_help -> {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
@@ -70,12 +73,17 @@ class FragmentNav: Fragment(), NavigationView.OnNavigationItemSelectedListener {
                 }
                 return true
             }
-            R.id.menu_project->{
-                binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentSingleProject(token,projid))
+            R.id.menu_project -> {
+                binding.root.findNavController().navigate(
+                    FragmentNavDirections.actionFragmentNavToFragmentSingleProject(
+                        token,
+                        projid
+                    )
+                )
                 return true
             }
 
-            R.id.menu_item->{
+            R.id.menu_item -> {
                 val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
                 drawer.open()
                 return true
@@ -86,21 +94,25 @@ class FragmentNav: Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
         }
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentUser(token))
+        when (item.itemId) {
+            R.id.accountpage -> {
+                binding.root.findNavController()
+                    .navigate(FragmentNavDirections.actionFragmentNavToFragmentUser(token))
                 return true
             }
-            R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentProject(token))
+            R.id.homepage -> {
+                binding.root.findNavController()
+                    .navigate(FragmentNavDirections.actionFragmentNavToFragmentProject(token))
                 return true
             }
-            R.id.taskspage->{
-                binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentUpcomingTasks(token))
+            R.id.taskspage -> {
+                binding.root.findNavController()
+                    .navigate(FragmentNavDirections.actionFragmentNavToFragmentUpcomingTasks(token))
                 return true
             }
-            else->{
+            else -> {
                 return false
             }
         }

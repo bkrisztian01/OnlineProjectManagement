@@ -2,9 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#372859EC">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading"
+        style="@style/Widget.App.CircularProgressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="200dp"
+        android:indeterminate="true"
+        app:indicatorSize="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_user"
@@ -191,33 +208,31 @@
             tools:ignore="DuplicateSpeakableTextCheck" />-->
 
 
-
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutcucc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
-            android:textColor="#3F51B5"
             android:layout_marginEnd="5dp"
             android:background="@color/white"
             android:backgroundTint="@color/white"
-            app:endIconMode="password_toggle"
+            android:textColor="#3F51B5"
             android:textColorHint="#757575"
+            app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_pw">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editText_pw"
-                android:background="@color/white"
-                android:backgroundTint="@color/white"
-                android:inputType="textPassword"
-                android:hint="@string/password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                />
+                android:background="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
 
     </com.google.android.material.card.MaterialCardView>

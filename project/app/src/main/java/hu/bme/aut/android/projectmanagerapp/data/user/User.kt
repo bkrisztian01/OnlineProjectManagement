@@ -9,5 +9,5 @@ data class User(
     val username: String,
     val fullname: String,
     val email: String
-    ) :Serializable{
+) : Serializable {
 }

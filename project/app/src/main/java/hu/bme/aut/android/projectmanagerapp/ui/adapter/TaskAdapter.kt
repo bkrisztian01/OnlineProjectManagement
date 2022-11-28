@@ -14,22 +14,25 @@ import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 import java.util.ArrayList
 
-class TaskAdapter (private var tasks: ArrayList<Task>, private val projectid: Int, private val token: String) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(private var tasks: ArrayList<Task>, private val projectid: Int, private val token: String) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         val taskbutton = itemView.findViewById<Button>(R.id.btntask)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.ViewHolder {
         return ViewHolder(
             ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
+
     fun filterList(filterList: ArrayList<Task>?) {
-        if(filterList!=null)
+        if (filterList != null)
             tasks = filterList
         else
             tasks.clear()
         notifyDataSetChanged()
     }
+
     override fun onBindViewHolder(viewHolder: TaskAdapter.ViewHolder, position: Int) {
         val task: Task = tasks[position]
         val button = viewHolder.taskbutton
@@ -37,17 +40,10 @@ class TaskAdapter (private var tasks: ArrayList<Task>, private val projectid: In
             button.isEnabled = false
             button.setBackgroundColor(Color.parseColor("#CCCCCC"))
             button.setTextColor(Color.parseColor("#4e4e4e"))
-            button.text=task.name+" [ARCHIVED]"
-        }
-        else {
+            button.text = task.name + " [ARCHIVED]"
+        } else {
             button.setOnClickListener {
-                viewHolder.binding.root.findNavController().navigate(
-                    FragmentTasksDirections.actionFragmentTasksToFragmentSingleTask(
-                        token,
-                        projectid,
-                        task.id
-                    )
-                )
+                viewHolder.binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleTask(token, projectid, task.id))
             }
 
             when (position % 10) {

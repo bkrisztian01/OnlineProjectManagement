@@ -30,25 +30,29 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
     private val binding get() = _binding!!
     private lateinit var milestone: Milestone
     private var tasks: ArrayList<Task> = ArrayList()
-    private var projectid=-1
-    private var milestoneid=-1
+    private var projectid = -1
+    private var milestoneid = -1
     private val singleMilestoneViewModel: SingleMilestoneViewModel by viewModels()
     private lateinit var token: String
     private val tasksViewModel: TasksViewModel by viewModels()
-    private val loginViewModel : UserViewModel by viewModels()
+    private val loginViewModel: UserViewModel by viewModels()
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentSinglemilestoneBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.loading.hide()
         binding.scrollmilestone.visibility = View.GONE
         binding.tvMilestoneName.visibility = View.GONE
-        if (arguments!=null) {
+        if (arguments != null) {
             val args: FragmentSingleMilestoneArgs by navArgs()
             projectid = args.projectid
-            milestoneid=args.milestoneid
-            token=args.token
+            milestoneid = args.milestoneid
+            token = args.token
 
         }
         binding.toolbarsinglemilestone.inflateMenu(R.menu.menu_single_milestone)
@@ -61,12 +65,12 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
     override fun onResume() {
         super.onResume()
         load()
-        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    private fun load(){
-        singleMilestoneViewModel.getMilestone(token,projectid,milestoneid)
+    private fun load() {
+        singleMilestoneViewModel.getMilestone(token, projectid, milestoneid)
             .observe(this) { singleMilestoneViewState ->
                 render(singleMilestoneViewState)
             }
@@ -79,13 +83,13 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
             }
             is SingleMilestoneResponseSuccess -> {
                 binding.loading.hide()
-                milestone= result.data
+                milestone = result.data
                 loadMilestone()
                 binding.scrollmilestone.visibility = View.VISIBLE
                 binding.tvMilestoneName.visibility = View.VISIBLE
             }
             is SingleMilestoneResponseError -> {
-                if(result.exceptionMsg=="401") {
+                if (result.exceptionMsg == "401") {
                     loginViewModel.getRefreshToken().observe(this) { loginViewState ->
                         run {
                             when (loginViewState) {
@@ -107,8 +111,7 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
 
                         }
                     }
-                }
-                else{
+                } else {
                     this.view?.let {
                         Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
                     }
@@ -123,11 +126,12 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
         super.onDestroyView()
         _binding = null
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
-        val context = this.activity
-        return when (item.itemId){
 
-            R.id.menu_help->{
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val context = this.activity
+        return when (item.itemId) {
+
+            R.id.menu_help -> {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
@@ -137,25 +141,31 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
                 }
                 return true
             }
-            R.id.menu_item->{
+            R.id.menu_item -> {
                 val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
                 drawer.open()
                 return true
             }
-            R.id.menu_project->{
-                binding.root.findNavController().navigate(FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentSingleProject(token,projectid))
+            R.id.menu_project -> {
+                binding.root.findNavController().navigate(
+                    FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentSingleProject(
+                        token,
+                        projectid
+                    )
+                )
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     private fun loadMilestone() {
-        binding.tvMilestoneName.text = milestone.name+" info"
-        val edate=milestone.deadline
+        binding.tvMilestoneName.text = milestone.name + " info"
+        val edate = milestone.deadline
         binding.tvDeadline.text = edate
         binding.tDesc.text = milestone.description
         unfinishedtasks()
-        binding.tvStatus.text=milestone.status
+        binding.tvStatus.text = milestone.status
         when (milestone.status) {
             "In Progress" -> {
                 binding.mtstatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
@@ -175,10 +185,11 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
             }
         }
     }
+
     private fun unfinishedtasks() {
-        if(tasks.isNotEmpty())
+        if (tasks.isNotEmpty())
             tasks.clear()
-        tasksViewModel.getTasks(token,projectid,milestoneid,1)?.observe(this) { taskViewState ->
+        tasksViewModel.getTasks(token, projectid, milestoneid, 1)?.observe(this) { taskViewState ->
             when (taskViewState) {
                 is hu.bme.aut.android.projectmanagerapp.ui.tasks.InProgress -> {
                     binding.tvsDate.text = "Loading..."
@@ -189,12 +200,12 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
                         tasks.add(itr.next())
                     }
                     val itr1 = tasks.listIterator()
-                    var num=0
+                    var num = 0
                     while (itr1.hasNext()) {
-                        if(itr1.next().status!="Done")
+                        if (itr1.next().status != "Done")
                             num++
                     }
-                    binding.tvsDate.text=num.toString()
+                    binding.tvsDate.text = num.toString()
                 }
                 is TaskResponseError -> {
                     binding.tvUnfinished.text = "Couldn't get unfinished task number!"
@@ -206,22 +217,33 @@ class FragmentSingleMilestone : Fragment(), NavigationView.OnNavigationItemSelec
     }
 
 
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentUser(token))
+        when (item.itemId) {
+            R.id.accountpage -> {
+                binding.root.findNavController().navigate(
+                    FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentUser(
+                        token
+                    )
+                )
                 return true
             }
-            R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentProject(token))
+            R.id.homepage -> {
+                binding.root.findNavController().navigate(
+                    FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentProject(
+                        token
+                    )
+                )
                 return true
             }
-            R.id.taskspage->{
-                binding.root.findNavController().navigate(FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentUpcomingTasks(token))
+            R.id.taskspage -> {
+                binding.root.findNavController().navigate(
+                    FragmentSingleMilestoneDirections.actionFragmentSingleMilestoneToFragmentUpcomingTasks(
+                        token
+                    )
+                )
                 return true
             }
-            else->{
+            else -> {
                 return false
             }
         }

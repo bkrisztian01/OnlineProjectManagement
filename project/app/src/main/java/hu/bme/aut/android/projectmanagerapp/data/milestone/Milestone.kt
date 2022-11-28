@@ -5,7 +5,7 @@ import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
-data class Milestone (
+data class Milestone(
     val id: Int,
     val name: String,
     val description: String,
@@ -13,4 +13,4 @@ data class Milestone (
     val status: String,
     val archived: Boolean,
     val tasks: List<Task>?
-    ): Serializable
+) : Serializable

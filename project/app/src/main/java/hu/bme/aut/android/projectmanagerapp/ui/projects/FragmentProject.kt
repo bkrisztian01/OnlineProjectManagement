@@ -27,29 +27,27 @@ import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
 import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 
 
-class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListener {
+class FragmentProject : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private val projects: ArrayList<Project> = ArrayList()
     private var _binding: FragmentProjectBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: ProjectAdapter
-    private val projectViewModel : ProjectViewModel by viewModels()
-    private val loginViewModel : UserViewModel by viewModels()
+    private val projectViewModel: ProjectViewModel by viewModels()
+    private val loginViewModel: UserViewModel by viewModels()
     private lateinit var token: String
     private lateinit var manager: LinearLayoutManager
-    private var pageNumber=1
-    private var isScrolling=false
-    private var more=true
+    private var pageNumber = 1
+    private var isScrolling = false
+    private var more = true
     private lateinit var recyclerView: RecyclerView
 
 
-    override fun onCreateView(
-
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProjectBinding.inflate(inflater, container, false)
         val view = binding.root
-        if (arguments!=null) {
+        if (arguments != null) {
             val args: FragmentProjectArgs by navArgs()
-            token=args.token
+            token = args.token
         }
 
         binding.toolbar.inflateMenu(R.menu.menu_project_toolbar)
@@ -64,11 +62,12 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
         super.onDestroyView()
         _binding = null
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
-        val context = this.activity
-        return when (item.itemId){
 
-            R.id.menu_help->{
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val context = this.activity
+        return when (item.itemId) {
+
+            R.id.menu_help -> {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
@@ -80,12 +79,12 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                 return true
             }
 
-            R.id.menu_item->{
+            R.id.menu_item -> {
                 val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
                 drawer.open()
                 return true
             }
-            R.id.app_bar_search->{
+            R.id.app_bar_search -> {
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -95,8 +94,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true)
-            {
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     AlertDialog.Builder(context)
                         .setTitle("Logging out")
@@ -104,29 +102,28 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                         .setPositiveButton(R.string.yes) { _, _ ->
                             Toast.makeText(context, "You signed out!", Toast.LENGTH_SHORT)
                                 .show()
-                            binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentWelcome()) }
+                            binding.root.findNavController()
+                                .navigate(FragmentProjectDirections.actionFragmentProjectToFragmentWelcome())
+                        }
                         .setNegativeButton(R.string.no, null)
 
                         .show()
                 }
             }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            callback
-        )
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onResume() {
         super.onResume()
-        more=true
-        pageNumber=1
+        more = true
+        pageNumber = 1
         manager = LinearLayoutManager(this.activity)
         recyclerView = activity?.findViewById(R.id.rvProjects) as RecyclerView
         recyclerView.layoutManager = manager
-        if(projects.isNotEmpty())
+        if (projects.isNotEmpty())
             projects.clear()
 
-        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
@@ -139,7 +136,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                 val currentItems = manager.childCount
                 val totalItems = manager.itemCount
                 val scrollOutItems = manager.findFirstVisibleItemPosition()
-                if (more &&isScrolling &&currentItems + scrollOutItems == totalItems) {
+                if (more && isScrolling && currentItems + scrollOutItems == totalItems) {
                     isScrolling = false
                     pageNumber++
                     load()
@@ -147,18 +144,15 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
             }
         })
         load()
-        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setCheckedItem(R.id.homepage)
         navigationView.setNavigationItemSelectedListener(this)
-
-
         val searchView = activity?.findViewById(R.id.app_bar_search) as SearchView
         searchView.clearFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     filter(newText)
@@ -169,24 +163,23 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
         })
 
     }
-    private fun load(){
-        projectViewModel.getProjects(token,pageNumber)?.observe(this) { projectsViewState ->
+
+    private fun load() {
+        projectViewModel.getProjects(token, pageNumber)?.observe(this) { projectsViewState ->
             render(projectsViewState)
         }
     }
 
 
-
     private fun filter(text: String) {
         val filteredlist = ArrayList<Project>()
         for (item in projects) {
-            if (item.name.lowercase().contains(text.lowercase(),true)) {
+            if (item.name.lowercase().contains(text.lowercase(), true)) {
                 filteredlist.add(item)
             }
         }
         adapter.filterList(filteredlist)
     }
-
 
 
     private fun render(result: ProjectsViewState) {
@@ -197,8 +190,8 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
             is ProjectsResponseSuccess -> {
                 binding.loading.hide()
                 val itr = result.data.listIterator()
-                val ogsize=projects.size
-                if(result.data.isNotEmpty()) {
+                val ogsize = projects.size
+                if (result.data.isNotEmpty()) {
                     while (itr.hasNext()) {
                         val item = itr.next()
                         projects.add(item)
@@ -206,16 +199,15 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                     adapter = ProjectAdapter(projects, token)
                     recyclerView.adapter = adapter
                     recyclerView.scrollToPosition(ogsize)
-                }
-                else{
+                } else {
                     pageNumber--
-                    more=false
+                    more = false
                 }
 
             }
             is ProjectsResponseError -> {
                 binding.loading.hide()
-                if(result.exceptionMsg=="401") {
+                if (result.exceptionMsg == "401") {
                     loginViewModel.getRefreshToken().observe(this) { loginViewState ->
                         run {
                             when (loginViewState) {
@@ -236,8 +228,7 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
                             }
                         }
                     }
-                }
-                else{
+                } else {
                     this.view?.let {
                         Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
                     }
@@ -248,24 +239,26 @@ class FragmentProject : Fragment(),NavigationView.OnNavigationItemSelectedListen
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentUser(token))
+        return when (item.itemId) {
+            R.id.accountpage -> {
+                binding.root.findNavController()
+                    .navigate(FragmentProjectDirections.actionFragmentProjectToFragmentUser(token))
                 true
             }
-            R.id.homepage->{
+            R.id.homepage -> {
                 true
             }
-            R.id.taskspage->{
-                binding.root.findNavController().navigate(FragmentProjectDirections.actionFragmentProjectToFragmentUpcomingTasks(token))
+            R.id.taskspage -> {
+                binding.root.findNavController().navigate(
+                    FragmentProjectDirections.actionFragmentProjectToFragmentUpcomingTasks(token)
+                )
                 true
             }
-                else->{
-                    false
-                }
+            else -> {
+                false
             }
         }
-
+    }
 
 
 }

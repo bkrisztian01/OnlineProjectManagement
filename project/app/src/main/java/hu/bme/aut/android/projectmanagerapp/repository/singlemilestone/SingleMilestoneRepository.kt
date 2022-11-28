@@ -6,6 +6,6 @@ import hu.bme.aut.android.projectmanagerapp.ui.singlemilestone.SingleMilestoneVi
 
 class SingleMilestoneRepository {
     fun getMilestone(token: String,projectid: Int,milestoneid: Int): MutableLiveData<SingleMilestoneViewState> {
-        return MilestoneNetworkDataSource.getMilestone(token,projectid,milestoneid)
+        return MilestoneNetworkDataSource.getMilestone(token, projectid, milestoneid)
     }
 }

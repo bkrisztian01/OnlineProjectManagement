@@ -8,12 +8,11 @@ import retrofit2.http.*
 
 interface SingleTaskAPI {
     @GET("/projects/{projectid}/tasks/{id}")
-    fun getSingleTask(@Header("Authorization") token: String,@Path("projectid")projectid: Int, @Path("id") id: Int): Call<Task>
-
+    fun getSingleTask(@Header("Authorization") token: String,@Path("projectid") projectid: Int,@Path("id") id: Int): Call<Task>
 
 
     @PUT("/projects/{projectid}/tasks/{id}")
-    fun updateTask(@Header("Authorization") token: String,@Path("projectid")projectid:Int ,@Path("id") id: Int,@Body status: TaskBody): Call<ResponseBody>
+    fun updateTask(@Header("Authorization") token: String,@Path("projectid") projectid: Int,@Path("id") id: Int,@Body status: TaskBody): Call<ResponseBody>
 
 
 }

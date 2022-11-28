@@ -7,7 +7,7 @@ import hu.bme.aut.android.projectmanagerapp.data.user.User
 import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
-class Task (
+class Task(
     val id: Int,
     val name: String,
     val description: String,
@@ -19,4 +19,4 @@ class Task (
     val prerequisiteTasks: List<Task>?,
     val project: Project?
 
-    ) : Serializable
+) : Serializable

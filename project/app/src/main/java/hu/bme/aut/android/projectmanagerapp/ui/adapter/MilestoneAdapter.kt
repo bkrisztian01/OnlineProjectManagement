@@ -14,14 +14,14 @@ import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.FragmentMilestoneDirections
 import java.util.ArrayList
 
-class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private val projectid: Int, private val token: String) : RecyclerView.Adapter<MilestoneAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding: ItemMilestoneBinding) : RecyclerView.ViewHolder(binding.root) {
+class MilestoneAdapter(private var milestones: ArrayList<Milestone>,private val projectid: Int,private val token: String) : RecyclerView.Adapter<MilestoneAdapter.ViewHolder>() {
+    inner class ViewHolder(val binding: ItemMilestoneBinding) :RecyclerView.ViewHolder(binding.root) {
         val milestonebutton = itemView.findViewById<Button>(R.id.btnmilestone)
     }
 
 
     fun filterList(filterList: ArrayList<Milestone>?) {
-        if(filterList!=null)
+        if (filterList != null)
             milestones = filterList
         else
             milestones.clear()
@@ -37,18 +37,10 @@ class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private va
 
     override fun onBindViewHolder(viewHolder: MilestoneAdapter.ViewHolder, position: Int) {
         val milestone: Milestone = milestones[position]
-
         val button = viewHolder.milestonebutton
-        if(!milestone.archived) {
+        if (!milestone.archived) {
             button.setOnClickListener {
-                viewHolder.binding.root.findNavController().navigate(
-                    FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(
-                        token,
-                        projectid,
-                        milestone.id,
-                        milestone.name
-                    )
-                )
+                viewHolder.binding.root.findNavController().navigate(FragmentMilestoneDirections.actionFragmentMilestoneToFragmentTasks(token, projectid,milestone.id,milestone.name))
             }
             when (position % 10) {
                 0 -> {
@@ -85,7 +77,7 @@ class MilestoneAdapter (private var milestones: ArrayList<Milestone>, private va
             }
             button.text = milestone.name
             button.isEnabled = true
-        }else {
+        } else {
             button.text = milestone.name + " [ARCHIVED"
             button.isEnabled = false
             button.setBackgroundColor(Color.parseColor("#CCCCCC"))

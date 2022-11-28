@@ -8,6 +8,6 @@ import retrofit2.http.Path
 
 interface SingleProjectAPI {
     @GET("/projects/{id}")
-    fun getSingleProject(@Header("Authorization") token: String, @Path("id") id:Int): Call<Project>
+    fun getSingleProject(@Header("Authorization") token: String, @Path("id") id: Int): Call<Project>
 
 }

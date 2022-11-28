@@ -6,7 +6,7 @@ import hu.bme.aut.android.projectmanagerapp.data.user.User
 import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
-class TaskBody (
+class TaskBody(
     var status: String
 
-): Serializable
+) : Serializable

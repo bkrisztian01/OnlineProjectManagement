@@ -13,6 +13,7 @@
         android:src="@mipmap/ic_launcher_round"
         app:layout_constraintHeight_percent="0.2"
         app:layout_constraintTop_toBottomOf="@+id/textViewLogIn" />
+
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/loading"
         style="@style/Widget.App.CircularProgressIndicator"
@@ -102,49 +103,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_pw"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
-<!--
-        <EditText
-            android:id="@+id/editText_pw"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:autofillHints="password"
-            android:background="@color/white"
-            android:backgroundTint="@color/white"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColorHint="#757575"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_pw"
-            tools:ignore="DuplicateSpeakableTextCheck" />-->
+        <!--
+                <EditText
+                    android:id="@+id/editText_pw"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:autofillHints="password"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textColorHint="#757575"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_pw"
+                    tools:ignore="DuplicateSpeakableTextCheck" />-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
-            android:textColor="#3F51B5"
             android:layout_marginEnd="5dp"
             android:background="@color/white"
             android:backgroundTint="@color/white"
-            app:endIconMode="password_toggle"
+            android:textColor="#3F51B5"
             android:textColorHint="#757575"
+            app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_pw">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editText_pw"
-                android:background="@color/white"
-                android:backgroundTint="@color/white"
-                android:inputType="textPassword"
-                android:hint="@string/password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                />
+                android:background="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.card.MaterialCardView>

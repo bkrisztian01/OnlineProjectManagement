@@ -7,24 +7,31 @@ import hu.bme.aut.android.projectmanagerapp.data.user.SignInBody
 import hu.bme.aut.android.projectmanagerapp.data.user.User
 import hu.bme.aut.android.projectmanagerapp.repository.user.UserRepository
 import hu.bme.aut.android.projectmanagerapp.ui.login.LoginViewState
+import hu.bme.aut.android.projectmanagerapp.ui.login.SignInViewState
 
-class UserViewModel: ViewModel() {
+class UserViewModel : ViewModel() {
     private var userRepository: UserRepository = UserRepository()
 
-    fun createUser(username: String,password: String, name: String, email:String): String{
-        val taskbody= SignInBody(username,name,email,password)
+    fun createUser(
+        username: String,
+        password: String,
+        name: String,
+        email: String
+    ): LiveData<SignInViewState>? {
+        val taskbody = SignInBody(username, name, email, password)
         return userRepository.createUser(taskbody)
     }
 
-    fun login(email:String, password:String): LiveData<LoginViewState>?{
-        val loginBody=LoginBody(email,password)
+    fun login(email: String, password: String): LiveData<LoginViewState>? {
+        val loginBody = LoginBody(email, password)
         return userRepository.login(loginBody)
     }
-    fun getUser(token: String): LiveData<UserViewState>{
+
+    fun getUser(token: String): LiveData<UserViewState> {
         return userRepository.getUser(token)
     }
 
-    fun getRefreshToken(): LiveData<LoginViewState>{
+    fun getRefreshToken(): LiveData<LoginViewState> {
         return userRepository.getRefreshToken()
     }
 }

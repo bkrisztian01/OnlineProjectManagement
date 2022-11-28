@@ -6,15 +6,16 @@ import hu.bme.aut.android.projectmanagerapp.data.task.TaskBody
 import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import hu.bme.aut.android.projectmanagerapp.repository.singletask.SingleTaskRepository
 
-class SingleTaskViewModel: ViewModel() {
+class SingleTaskViewModel : ViewModel() {
     private var singleTaskRepository: SingleTaskRepository = SingleTaskRepository()
 
-    fun getSingleTask(token: String, projectid: Int, id: Int) : LiveData<SingleTaskViewState>? {
-        return singleTaskRepository.getSingleTask(token, projectid,id)
+    fun getSingleTask(token: String, projectid: Int, id: Int): LiveData<SingleTaskViewState>? {
+        return singleTaskRepository.getSingleTask(token, projectid, id)
     }
-    fun updateTask(token: String ,projectid: Int, task: Task): LiveData<UpdateViewState>?{
-        val taskbody=TaskBody(task.status)
-        val id=task.id
-        return singleTaskRepository.updateTask(token,projectid,id, taskbody)
+
+    fun updateTask(token: String, projectid: Int, task: Task): LiveData<UpdateViewState>? {
+        val taskbody = TaskBody(task.status)
+        val id = task.id
+        return singleTaskRepository.updateTask(token, projectid, id, taskbody)
     }
 }

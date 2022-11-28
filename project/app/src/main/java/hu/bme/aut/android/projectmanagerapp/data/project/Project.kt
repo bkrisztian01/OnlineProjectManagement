@@ -17,5 +17,7 @@ data class Project(
     val estimatedTime: Int?,
     var tasks: List<Task>?,
     var milestones: List<Milestone>?,
+    val userRoles: List<UserRole>?,
     val userRole: String?
-    ) : Serializable
+
+) : Serializable

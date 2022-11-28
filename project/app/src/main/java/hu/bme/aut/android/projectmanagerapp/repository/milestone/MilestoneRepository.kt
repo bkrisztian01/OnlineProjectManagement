@@ -5,7 +5,7 @@ import hu.bme.aut.android.projectmanagerapp.datasource.milestone.MilestoneNetwor
 import hu.bme.aut.android.projectmanagerapp.ui.milestone.MilestonesViewState
 
 class MilestoneRepository {
-    fun getMilestones(token: String, projectid: Int,pageNumber:Int): MutableLiveData<MilestonesViewState> {
-        return MilestoneNetworkDataSource.getMilestones(token, projectid,pageNumber)
+    fun getMilestones(token: String,projectid: Int,pageNumber: Int): MutableLiveData<MilestonesViewState> {
+        return MilestoneNetworkDataSource.getMilestones(token, projectid, pageNumber)
     }
 }

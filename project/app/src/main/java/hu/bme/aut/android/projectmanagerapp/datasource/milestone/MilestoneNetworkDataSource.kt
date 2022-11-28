@@ -16,16 +16,16 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object MilestoneNetworkDataSource {
-    fun getMilestones(token: String,projectid: Int,pageNumber:Int): MutableLiveData<MilestonesViewState> {
-        val call = RetrofitClient.milestoneApiInterface.getMilestones("Bearer "+token, projectid,pageNumber)
+    fun getMilestones(token: String,projectid: Int,pageNumber: Int): MutableLiveData<MilestonesViewState> {
+        val call = RetrofitClient.milestoneApiInterface.getMilestones("Bearer " + token,projectid, pageNumber)
         val milestoneResultData = MutableLiveData<MilestonesViewState>()
-        call.enqueue(object: Callback<List<Milestone>> {
-            override fun onResponse(call: Call<List<Milestone>>, response: Response<List<Milestone>>) {
+        call.enqueue(object : Callback<List<Milestone>> {
+            override fun onResponse(call: Call<List<Milestone>>,response: Response<List<Milestone>>) {
                 Log.d("DEBUG : ", response.body().toString())
-                if(response.body()!=null)
+                if (response.body() != null)
                     milestoneResultData.value = MilestoneResponseSuccess(response.body()!!)
                 else
-                    milestoneResultData.value=MilestoneResponseError(response.code().toString())
+                    milestoneResultData.value = MilestoneResponseError(response.code().toString())
             }
 
             override fun onFailure(call: Call<List<Milestone>>, t: Throwable) {
@@ -40,16 +40,17 @@ object MilestoneNetworkDataSource {
 
 
     fun getMilestone(token: String,projectid: Int,milestoneid: Int): MutableLiveData<SingleMilestoneViewState> {
-        val call = RetrofitClient.milestoneApiInterface.getMilestone("Bearer "+token, projectid,milestoneid)
+        val call = RetrofitClient.milestoneApiInterface.getMilestone("Bearer " + token,projectid,milestoneid)
         val milestoneResultData = MutableLiveData<SingleMilestoneViewState>()
-        milestoneResultData.value= InProgress
-        call.enqueue(object: Callback<Milestone> {
+        milestoneResultData.value = InProgress
+        call.enqueue(object : Callback<Milestone> {
             override fun onResponse(call: Call<Milestone>, response: Response<Milestone>) {
                 Log.d("DEBUG : ", response.body().toString())
-                if(response.body()!=null)
+                if (response.body() != null)
                     milestoneResultData.value = SingleMilestoneResponseSuccess(response.body()!!)
                 else
-                    milestoneResultData.value=SingleMilestoneResponseError(response.code().toString())
+                    milestoneResultData.value =
+                        SingleMilestoneResponseError(response.code().toString())
             }
 
             override fun onFailure(call: Call<Milestone>, t: Throwable) {

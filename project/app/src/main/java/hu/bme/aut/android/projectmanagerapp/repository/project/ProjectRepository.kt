@@ -5,7 +5,7 @@ import hu.bme.aut.android.projectmanagerapp.datasource.project.ProjectNetworkDat
 import hu.bme.aut.android.projectmanagerapp.ui.projects.ProjectsViewState
 
 class ProjectRepository {
-    fun getProjects(token: String,pageNumber: Int): MutableLiveData<ProjectsViewState> {
-        return ProjectNetworkDataSource.getProjects(token,pageNumber)
+    fun getProjects(token: String, pageNumber: Int): MutableLiveData<ProjectsViewState> {
+        return ProjectNetworkDataSource.getProjects(token, pageNumber)
     }
 }

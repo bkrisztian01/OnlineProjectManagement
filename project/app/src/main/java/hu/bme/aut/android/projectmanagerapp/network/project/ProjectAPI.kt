@@ -8,6 +8,7 @@ import retrofit2.http.Query
 
 interface ProjectAPI {
     @GET("/projects")
-    fun getProjects(@Header("Authorization") token: String,@Query("pageNumber") pagenum: Int): Call<List<Project>>
+    fun getProjects(@Header("Authorization") token: String,@Query("pageNumber") pagenum: Int
+    ): Call<List<Project>>
 
 }

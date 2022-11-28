@@ -5,7 +5,7 @@ import hu.bme.aut.android.projectmanagerapp.datasource.singleproject.SingleProje
 import hu.bme.aut.android.projectmanagerapp.ui.singleproject.SingleProjectViewState
 
 class SingleProjectRepository {
-    fun getSingleProject(token: String,id:Int): MutableLiveData<SingleProjectViewState> {
-        return SingleProjectNetworkDataSource.getSingleProject(token,id)
+    fun getSingleProject(token: String, id: Int): MutableLiveData<SingleProjectViewState> {
+        return SingleProjectNetworkDataSource.getSingleProject(token, id)
     }
 }

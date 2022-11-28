@@ -15,7 +15,7 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentWelcomeBinding
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentTasksDirections
 import kotlin.system.exitProcess
 
-class FragmentWelcome : Fragment(){
+class FragmentWelcome : Fragment() {
     private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -28,20 +28,20 @@ class FragmentWelcome : Fragment(){
         super.onDestroyView()
         _binding = null
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.buttonSignIn.setOnClickListener {
-            binding.root.findNavController().navigate(
-            FragmentWelcomeDirections.actionFragmentWelcomeToFragmentLogIn())
+            binding.root.findNavController().navigate(FragmentWelcomeDirections.actionFragmentWelcomeToFragmentLogIn())
         }
         binding.buttonSignUp.setOnClickListener {
             binding.root.findNavController().navigate(FragmentWelcomeDirections.actionFragmentWelcomeToFragmentSignIn())
         }
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true)
-            {
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     AlertDialog.Builder(context)
                         .setTitle("Exit")
@@ -49,15 +49,12 @@ class FragmentWelcome : Fragment(){
                         .setPositiveButton(R.string.yes) { _, _ ->
                             Toast.makeText(context, "Goodbye!", Toast.LENGTH_SHORT).show()
                             exitProcess(0)
-                             }
+                        }
                         .setNegativeButton(R.string.no, null)
 
                         .show()
                 }
             }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            callback
-        )
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 }

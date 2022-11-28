@@ -13,22 +13,23 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object TaskNetworkDataSource {
-    fun getTasks(token: String, projid: Int, milestoneid: Int,pageNumber: Int): MutableLiveData<TasksViewState> {
-        val call = RetrofitClient.taskApiInterface.getTasks("Bearer "+token,projid,milestoneid,pageNumber)
+    fun getTasks(token: String,projid: Int,milestoneid: Int,pageNumber: Int
+    ): MutableLiveData<TasksViewState> {
+        val call = RetrofitClient.taskApiInterface.getTasks("Bearer " + token,projid,milestoneid,pageNumber)
         val taskResultData = MutableLiveData<TasksViewState>()
-        taskResultData.value=InProgress
-        call.enqueue(object: Callback<List<Task>> {
+        taskResultData.value = InProgress
+        call.enqueue(object : Callback<List<Task>> {
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 Log.d("DEBUG : ", response.body().toString())
-                if(response.body()!=null)
+                if (response.body() != null)
                     taskResultData.value = TaskResponseSuccess(response.body()!!)
                 else
-                    taskResultData.value=TaskResponseError(response.code().toString())
+                    taskResultData.value = TaskResponseError(response.code().toString())
             }
 
             override fun onFailure(call: Call<List<Task>>, t: Throwable) {
                 Log.d("DEBUG : ", t.message.toString())
-                taskResultData.value=TaskResponseError(t.message!!)
+                taskResultData.value = TaskResponseError(t.message!!)
             }
 
         })
@@ -36,22 +37,22 @@ object TaskNetworkDataSource {
         return taskResultData
     }
 
-    fun getTasksByProject(token: String, projid: Int,pageNumber: Int): MutableLiveData<TasksViewState> {
-        val call = RetrofitClient.taskApiInterface.getTasksByProject("Bearer "+token, projid,pageNumber)
+    fun getTasksByProject(token: String,projid: Int,pageNumber: Int): MutableLiveData<TasksViewState> {
+        val call =RetrofitClient.taskApiInterface.getTasksByProject("Bearer " + token, projid, pageNumber)
         val taskResultData = MutableLiveData<TasksViewState>()
-        taskResultData.value=InProgress
-        call.enqueue(object: Callback<List<Task>> {
+        taskResultData.value = InProgress
+        call.enqueue(object : Callback<List<Task>> {
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 Log.d("DEBUG : ", response.body().toString())
-                if(response.body()!=null)
+                if (response.body() != null)
                     taskResultData.value = TaskResponseSuccess(response.body()!!)
                 else
-                    taskResultData.value=TaskResponseError(response.code().toString())
+                    taskResultData.value = TaskResponseError(response.code().toString())
             }
 
             override fun onFailure(call: Call<List<Task>>, t: Throwable) {
                 Log.d("DEBUG : ", t.message.toString())
-                taskResultData.value=TaskResponseError(t.message!!)
+                taskResultData.value = TaskResponseError(t.message!!)
             }
 
         })
@@ -59,22 +60,22 @@ object TaskNetworkDataSource {
         return taskResultData
     }
 
-    fun getUpcomingTasks(token: String): MutableLiveData<TasksViewState>{
-        val call = RetrofitClient.taskApiInterface.getUpcomingTasks("Bearer "+token)
+    fun getUpcomingTasks(token: String): MutableLiveData<TasksViewState> {
+        val call = RetrofitClient.taskApiInterface.getUpcomingTasks("Bearer " + token)
         val taskResultData = MutableLiveData<TasksViewState>()
-        taskResultData.value=InProgress
-        call.enqueue(object: Callback<List<Task>> {
+        taskResultData.value = InProgress
+        call.enqueue(object : Callback<List<Task>> {
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 Log.d("DEBUG : ", response.body().toString())
-                if(response.body()!=null)
+                if (response.body() != null)
                     taskResultData.value = TaskResponseSuccess(response.body()!!)
                 else
-                    taskResultData.value=TaskResponseError(response.code().toString())
+                    taskResultData.value = TaskResponseError(response.code().toString())
             }
 
             override fun onFailure(call: Call<List<Task>>, t: Throwable) {
                 Log.d("DEBUG : ", t.message.toString())
-                taskResultData.value=TaskResponseError(t.message!!)
+                taskResultData.value = TaskResponseError(t.message!!)
             }
 
         })

@@ -13,17 +13,17 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object ProjectNetworkDataSource {
-    fun getProjects(token: String,pageNumber: Int): MutableLiveData<ProjectsViewState> {
-        val call = RetrofitClient.projectApiInterface.getProjects("Bearer ${token}",pageNumber)
+    fun getProjects(token: String, pageNumber: Int): MutableLiveData<ProjectsViewState> {
+        val call = RetrofitClient.projectApiInterface.getProjects("Bearer ${token}", pageNumber)
         val projectResultData = MutableLiveData<ProjectsViewState>()
-        projectResultData.value= InProgress
-        call.enqueue(object: Callback<List<Project>> {
+        projectResultData.value = InProgress
+        call.enqueue(object : Callback<List<Project>> {
             override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
                 Log.d("success DEBUG : ", response.body().toString())
-                if(response.body()!=null)
+                if (response.body() != null)
                     projectResultData.value = ProjectsResponseSuccess(response.body()!!)
                 else
-                    projectResultData.value=ProjectsResponseError(response.code().toString())
+                    projectResultData.value = ProjectsResponseError(response.code().toString())
 
             }
 

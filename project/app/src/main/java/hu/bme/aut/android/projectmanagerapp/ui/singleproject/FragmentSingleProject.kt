@@ -1,5 +1,6 @@
 package hu.bme.aut.android.projectmanagerapp.ui.singleproject
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -27,27 +28,31 @@ import hu.bme.aut.android.projectmanagerapp.ui.tasks.TaskResponseSuccess
 import hu.bme.aut.android.projectmanagerapp.ui.tasks.TasksViewModel
 import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 
-class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelectedListener {
+class FragmentSingleProject : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private var _binding: FragmentSingleprojectBinding? = null
     private val binding get() = _binding!!
     private lateinit var project: Project
-    private var projectid=-1
+    private var projectid = -1
     private val singleProjectViewModel: SingleProjectViewModel by viewModels()
     private lateinit var token: String
     private val tasksViewModel: TasksViewModel by viewModels()
-    private val loginViewModel : UserViewModel by viewModels()
+    private val loginViewModel: UserViewModel by viewModels()
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentSingleprojectBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.loading.hide()
         binding.scrollproject.setVisibility(View.GONE)
         binding.tvProjectName.setVisibility(View.GONE)
-        if (arguments!=null) {
+        if (arguments != null) {
             val args: FragmentSingleProjectArgs by navArgs()
             projectid = args.projectid
-            token=args.token
+            token = args.token
         }
         load()
         binding.toolbarsingleproject.inflateMenu(R.menu.menu_singleproject_toolbar)
@@ -56,18 +61,20 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
         }
         return view
     }
+
     override fun onResume() {
         super.onResume()
 
 
-        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    private fun load(){
-        singleProjectViewModel.getSingleProject(token, projectid)?.observe(this) { singleProjectViewState ->
-            render(singleProjectViewState)
-        }
+    private fun load() {
+        singleProjectViewModel.getSingleProject(token, projectid)
+            ?.observe(this) { singleProjectViewState ->
+                render(singleProjectViewState)
+            }
     }
 
     private fun render(result: SingleProjectViewState?) {
@@ -77,13 +84,13 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
             }
             is SingleProjectResponseSuccess -> {
                 binding.loading.hide()
-                project= result.data
+                project = result.data
                 loadProject()
                 binding.scrollproject.setVisibility(View.VISIBLE)
                 binding.tvProjectName.setVisibility(View.VISIBLE)
             }
             is SingleProjectResponseError -> {
-                if(result.exceptionMsg=="401") {
+                if (result.exceptionMsg == "401") {
                     loginViewModel.getRefreshToken().observe(this) { loginViewState ->
                         run {
                             when (loginViewState) {
@@ -104,8 +111,7 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     this.view?.let {
                         Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
                     }
@@ -120,11 +126,12 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
         super.onDestroyView()
         _binding = null
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
-        val context = this.activity
-        return when (item.itemId){
 
-            R.id.menu_help->{
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val context = this.activity
+        return when (item.itemId) {
+
+            R.id.menu_help -> {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle(R.string.help)
@@ -134,7 +141,7 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
                 }
                 return true
             }
-            R.id.menu_item->{
+            R.id.menu_item -> {
                 val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
                 drawer.open()
                 return true
@@ -142,72 +149,104 @@ class FragmentSingleProject : Fragment(),NavigationView.OnNavigationItemSelected
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     private fun loadProject() {
-        binding.tvProjectName.setText(project.name+" info")
-        if(project.startDate!=null){
-            val sdate= project.startDate
+        binding.tvProjectName.setText(project.name + " info")
+        if (project.startDate != null) {
+            val sdate = project.startDate
             binding.tStartDate.setText(sdate)
-        }else
+        } else
             binding.tStartDate.setText(R.string.unspecified_startdate)
 
-        if (project.endDate!=null) {
-            val edate =project.endDate
+        if (project.endDate != null) {
+            val edate = project.endDate
             binding.tvDeadline.setText(edate)
-        }else
+        } else
             binding.tvDeadline.setText(R.string.unspecified_deadline)
 
-        if (project.estimatedTime!=null){
-            binding.tLength.setText(project.estimatedTime.toString()+ " days")
-        }else
+        if (project.estimatedTime != null) {
+            binding.tLength.setText(project.estimatedTime.toString() + " days")
+        } else
             binding.tLength.setText(R.string.unspecified_length)
         binding.tDesc.setText(project.description)
-        val itr= project.userRole
+        val itr = project.userRole
         if (itr != null) {
-            binding.tvRole.text=itr
-        }else
-            binding.tvRole.text="No roles assigned"
+            binding.tvRole.text = itr
+        } else
+            binding.tvRole.text = "No roles assigned"
 
         unfinishedtasks()
+        binding.tvStatus.text = project.status
+        when (project.status) {
+            "In Progress" -> {
+                binding.mtstatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+                binding.tvStatus.setBackgroundColor(Color.parseColor("#F9CB9C"))
+            }
+            "Done" -> {
+                binding.mtstatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+                binding.tvStatus.setBackgroundColor(Color.parseColor("#B6D7A8"))
+            }
+            "Stopped" -> {
+                binding.mtstatus.setBackgroundColor(Color.parseColor("#EA9999"))
+                binding.tvStatus.setBackgroundColor(Color.parseColor("#EA9999"))
+            }
+            "Not Started" -> {
+                binding.mtstatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+                binding.tvStatus.setBackgroundColor(Color.parseColor("#CCCCCC"))
+            }
+        }
     }
-    private fun unfinishedtasks(){
-        tasksViewModel.getTasksByProject(token, projectid,1)?.observe(this){ taskViewState ->
+
+    private fun unfinishedtasks() {
+        tasksViewModel.getTasksByProject(token, projectid, 1)?.observe(this) { taskViewState ->
             when (taskViewState) {
                 is hu.bme.aut.android.projectmanagerapp.ui.tasks.InProgress -> {
-                    binding.tvsDate.text="Loading..."
+                    binding.tvsDate.text = "Loading..."
                 }
                 is TaskResponseSuccess -> {
-                    var num=0
+                    var num = 0
                     val itr = taskViewState.data?.listIterator()
                     if (itr != null) {
                         while (itr.hasNext()) {
-                            if(itr.next().status!="Done")
+                            if (itr.next().status != "Done")
                                 num++
                         }
                     }
-                    binding.tvsDate.text=num.toString()
+                    binding.tvsDate.text = num.toString()
                 }
                 is TaskResponseError -> {
-                    binding.tvsDate.text="Couldn't get data from server!"
+                    binding.tvsDate.text = "Couldn't get data from server!"
 
                 }
             }
         }
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUser(token))
+        when (item.itemId) {
+            R.id.accountpage -> {
+                binding.root.findNavController().navigate(
+                    FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUser(token)
+                )
                 return true
             }
-            R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentProject(token))
+            R.id.homepage -> {
+                binding.root.findNavController().navigate(
+                    FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentProject(
+                        token
+                    )
+                )
                 return true
             }
-            R.id.taskspage->{
-                binding.root.findNavController().navigate(FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUpcomingTasks(token))
+            R.id.taskspage -> {
+                binding.root.findNavController().navigate(
+                    FragmentSingleProjectDirections.actionFragmentSingleProjectToFragmentUpcomingTasks(
+                        token
+                    )
+                )
                 return true
             }
-            else->{
+            else -> {
                 return false
             }
         }

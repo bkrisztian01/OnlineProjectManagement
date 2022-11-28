@@ -13,22 +13,23 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object SingleProjectNetworkDataSource {
-    fun getSingleProject(token: String,id: Int): MutableLiveData<SingleProjectViewState> {
-        val call = RetrofitClient.singleprojectApiInterface.getSingleProject("Bearer "+token,id)
+    fun getSingleProject(token: String, id: Int): MutableLiveData<SingleProjectViewState> {
+        val call = RetrofitClient.singleprojectApiInterface.getSingleProject("Bearer " + token, id)
         val singleprojectResultData = MutableLiveData<SingleProjectViewState>()
-        singleprojectResultData.value= InProgress
-        call.enqueue(object: Callback<Project> {
+        singleprojectResultData.value = InProgress
+        call.enqueue(object : Callback<Project> {
             override fun onResponse(call: Call<Project>, response: Response<Project>) {
                 Log.d("DEBUG : ", response.body().toString())
-                if(response.body()!=null)
+                if (response.body() != null)
                     singleprojectResultData.value = SingleProjectResponseSuccess(response.body()!!)
                 else
-                    singleprojectResultData.value=SingleProjectResponseError(response.code().toString())
+                    singleprojectResultData.value =
+                        SingleProjectResponseError(response.code().toString())
             }
 
             override fun onFailure(call: Call<Project>, t: Throwable) {
                 Log.d("DEBUG : ", t.message.toString())
-                singleprojectResultData.value=SingleProjectResponseError(t.message!!)
+                singleprojectResultData.value = SingleProjectResponseError(t.message!!)
             }
 
         })

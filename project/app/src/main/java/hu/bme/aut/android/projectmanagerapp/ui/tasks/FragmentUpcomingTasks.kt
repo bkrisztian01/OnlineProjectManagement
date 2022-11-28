@@ -27,23 +27,24 @@ import hu.bme.aut.android.projectmanagerapp.ui.projects.*
 import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import java.util.ArrayList
 
-class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelectedListener {
+class FragmentUpcomingTasks : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private val projects: ArrayList<Project> = ArrayList<Project>()
     private val tasks: ArrayList<Task> = ArrayList<Task>()
     private var _binding: FragmentUpcomingTasksBinding? = null
     private val binding get() = _binding!!
-    private val tasksViewModel : TasksViewModel by viewModels()
-    private val loginViewModel : UserViewModel by viewModels()
+    private val tasksViewModel: TasksViewModel by viewModels()
+    private val loginViewModel: UserViewModel by viewModels()
     private lateinit var token: String
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentUpcomingTasksBinding.inflate(inflater, container, false)
         val view = binding.root
-        if (arguments!=null) {
+        if (arguments != null) {
             val args: FragmentUpcomingTasksArgs by navArgs()
-            token=args.token
+            token = args.token
         }
         load()
         binding.toolbarupcomingtasks.inflateMenu(R.menu.menu_project_toolbar)
@@ -59,11 +60,12 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
         super.onDestroyView()
         _binding = null
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
-        val context = this.activity
-        return when (item.itemId){
 
-            R.id.menu_help->{
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val context = this.activity
+        return when (item.itemId) {
+
+            R.id.menu_help -> {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
@@ -74,7 +76,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
                 }
                 return true
             }
-            R.id.menu_item->{
+            R.id.menu_item -> {
                 val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
                 drawer.open()
                 return true
@@ -84,19 +86,19 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     }
 
 
-
     override fun onResume() {
         super.onResume()
-        if(projects.isNotEmpty())
+        if (projects.isNotEmpty())
             projects.clear()
-        if(tasks.isNotEmpty())
+        if (tasks.isNotEmpty())
             tasks.clear()
 
-        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setCheckedItem(R.id.taskspage)
         navigationView.setNavigationItemSelectedListener(this)
     }
-    private fun load(){
+
+    private fun load() {
         tasksViewModel.getUpcomingTasks(token)?.observe(this) { tasksViewState ->
             render(tasksViewState)
         }
@@ -105,8 +107,10 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
 
     private fun render(result: TasksViewState) {
         when (result) {
-            is InProgress -> {binding.loading.show()}
-            is TaskResponseSuccess ->{
+            is InProgress -> {
+                binding.loading.show()
+            }
+            is TaskResponseSuccess -> {
                 binding.loading.hide()
                 val itr = result.data.listIterator()
                 while (itr.hasNext()) {
@@ -114,13 +118,13 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
 
                 }
                 val recyclerView = activity?.findViewById(R.id.rvUpcoming) as RecyclerView
-                tasks.sortBy {it.deadline }
-                val adapter = UpcomingTaskAdapter(token,tasks,projects)
+                tasks.sortBy { it.deadline }
+                val adapter = UpcomingTaskAdapter(token, tasks, projects)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(this.activity)
             }
-            is TaskResponseError ->{
-                if(result.exceptionMsg=="401") {
+            is TaskResponseError -> {
+                if (result.exceptionMsg == "401") {
                     loginViewModel.getRefreshToken().observe(this) { loginViewState ->
                         run {
                             when (loginViewState) {
@@ -142,8 +146,7 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
 
                         }
                     }
-                }
-                else{
+                } else {
                     this.view?.let {
                         Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
                     }
@@ -153,19 +156,25 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser(token))
+        return when (item.itemId) {
+            R.id.accountpage -> {
+                binding.root.findNavController().navigate(
+                    FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser(token)
+                )
                 true
             }
-            R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject(token))
+            R.id.homepage -> {
+                binding.root.findNavController().navigate(
+                    FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject(
+                        token
+                    )
+                )
                 true
             }
-            R.id.taskspage->{
+            R.id.taskspage -> {
                 true
             }
-            else->{
+            else -> {
                 false
             }
         }

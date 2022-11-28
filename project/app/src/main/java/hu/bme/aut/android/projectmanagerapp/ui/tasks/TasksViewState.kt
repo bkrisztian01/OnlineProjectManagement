@@ -1,4 +1,5 @@
 package hu.bme.aut.android.projectmanagerapp.ui.tasks
+
 import hu.bme.aut.android.projectmanagerapp.data.task.Task
 
 

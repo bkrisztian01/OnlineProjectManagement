@@ -18,11 +18,11 @@ import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class UpcomingTaskAdapter (private val token: String, private val tasks: ArrayList<Task>, private val projects:ArrayList<Project>)
-    : RecyclerView.Adapter<UpcomingTaskAdapter.ViewHolder>() {
+class UpcomingTaskAdapter(private val token: String, private val tasks: ArrayList<Task>, private val projects: ArrayList<Project>) : RecyclerView.Adapter<UpcomingTaskAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         val taskbutton = itemView.findViewById<Button>(R.id.btntask)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UpcomingTaskAdapter.ViewHolder {
         return ViewHolder(
             ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -34,27 +34,27 @@ class UpcomingTaskAdapter (private val token: String, private val tasks: ArrayLi
         val task: Task = tasks[position]
         val button = viewHolder.taskbutton
         button.setOnClickListener {
-            if(task.project!=null)
-            viewHolder.binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentSingleTask(token,task.project.id,task.id))
+            if (task.project != null)
+                viewHolder.binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentSingleTask(token, task.project.id, task.id))
         }
         val daynow = LocalDateTime.now().dayOfMonth
         val monthnow = LocalDateTime.now().month.value
         val yearnow = LocalDateTime.now().year
-        if(task.deadline!=null) {
+        if (task.deadline != null) {
             val year = Integer.parseInt(task.deadline.substring(0, 4))
             val month = Integer.parseInt(task.deadline.substring(5, 7))
             val day = Integer.parseInt(task.deadline.substring(8, 10))
-            val deadline=Date(year,month,day)
-            val timenow=Date(yearnow,monthnow,daynow)
-            val difference=deadline.time-timenow.time
-            val days= TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS)
-            if(days<3)
+            val deadline = Date(year, month, day)
+            val timenow = Date(yearnow, monthnow, daynow)
+            val difference = deadline.time - timenow.time
+            val days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS)
+            if (days < 3)
                 button.setBackgroundColor(Color.parseColor("#EA9999"))
-            else if(days<7)
+            else if (days < 7)
                 button.setBackgroundColor(Color.parseColor("#F9CB9C"))
             else
                 button.setBackgroundColor(Color.parseColor("#B6D7A8"))
-            val text=task.name+ ":     "+days+" days left"
+            val text = task.name + ":     " + days + " days left"
             button.text = text
         }
         button.isEnabled = true

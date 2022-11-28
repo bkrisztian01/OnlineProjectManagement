@@ -26,41 +26,43 @@ import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
 import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import kotlin.collections.ArrayList
 
-class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener {
+class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private val tasks: ArrayList<Task> = ArrayList()
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
     lateinit var adapter: TaskAdapter
-    private lateinit var token:String
+    private lateinit var token: String
     private lateinit var milestonename: String
-    private var projectid=-1
-    private var milestoneid=-1
+    private var projectid = -1
+    private var milestoneid = -1
     private val tasksViewModel: TasksViewModel by viewModels()
-    private val loginViewModel : UserViewModel by viewModels()
+    private val loginViewModel: UserViewModel by viewModels()
     private lateinit var manager: LinearLayoutManager
-    private var pageNumber=1
-    private var isScrolling=false
+    private var pageNumber = 1
+    private var isScrolling = false
     private lateinit var recyclerView: RecyclerView
-    private var more=true
+    private var more = true
 
 
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
         val view = binding.root
-        if (arguments!=null) {
+        if (arguments != null) {
             val args: FragmentTasksArgs by navArgs()
             projectid = args.projectid
-            token=args.token
-            milestoneid=args.milestoneid
-            milestonename=args.milestonename
-            token=args.token
+            token = args.token
+            milestoneid = args.milestoneid
+            milestonename = args.milestonename
+            token = args.token
 
         }
-        binding.tvTasks.setText("Tasks in "+ milestonename)
+        binding.tvTasks.setText("Tasks in " + milestonename)
         binding.loading.hide()
-        if(milestoneid==-1)
+        if (milestoneid == -1)
             binding.toolbartasks.inflateMenu(R.menu.menu_milestone_toolbar)
         else
             binding.toolbartasks.inflateMenu(R.menu.menu_task_toolbar)
@@ -69,18 +71,20 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
         }
         return view
     }
+
     override fun onResume() {
         super.onResume()
-        more=true
-        pageNumber=1
-        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+        more = true
+        pageNumber = 1
+        val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
-        val searchView:SearchView = activity!!.findViewById(R.id.menu_search) as SearchView
+        val searchView: SearchView = activity!!.findViewById(R.id.menu_search) as SearchView
         searchView.clearFocus()
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     filter(newText)
@@ -90,13 +94,13 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
         })
 
         recyclerView = activity?.findViewById(R.id.rvTasks) as RecyclerView
-        manager=LinearLayoutManager(this.activity)
+        manager = LinearLayoutManager(this.activity)
         recyclerView.layoutManager = manager
 
-        if(tasks.isNotEmpty())
+        if (tasks.isNotEmpty())
             tasks.clear()
 
-        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
@@ -109,7 +113,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                 val currentItems = manager.childCount
                 val totalItems = manager.itemCount
                 val scrollOutItems = manager.findFirstVisibleItemPosition()
-                if (more&&isScrolling &&currentItems + scrollOutItems == totalItems) {
+                if (more && isScrolling && currentItems + scrollOutItems == totalItems) {
                     isScrolling = false
                     pageNumber++
                     loadTasks()
@@ -121,15 +125,17 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
 
 
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         val context = this.activity
-        return when (item.itemId){
-            R.id.menu_help->{
+        return when (item.itemId) {
+            R.id.menu_help -> {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
@@ -139,17 +145,28 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                 }
                 return true
             }
-            R.id.menu_project->{
-                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleProject(token,projectid))
+            R.id.menu_project -> {
+                binding.root.findNavController().navigate(
+                    FragmentTasksDirections.actionFragmentTasksToFragmentSingleProject(
+                        token,
+                        projectid
+                    )
+                )
                 return true
             }
-            R.id.menu_item->{
+            R.id.menu_item -> {
                 val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
                 drawer.open()
                 return true
             }
-            R.id.menu_milestones->{
-                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentSingleMilestone(projectid,milestoneid,token))
+            R.id.menu_milestones -> {
+                binding.root.findNavController().navigate(
+                    FragmentTasksDirections.actionFragmentTasksToFragmentSingleMilestone(
+                        projectid,
+                        milestoneid,
+                        token
+                    )
+                )
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -157,16 +174,17 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
     }
 
 
-
     private fun loadTasks() {
-        if(milestoneid!=-1) {
-            tasksViewModel.getTasks(token, projectid, milestoneid,pageNumber)?.observe(this) { taskViewState ->
-                render(taskViewState)
-            }
-        }else
-            tasksViewModel.getTasksByProject(token, projectid,pageNumber)?.observe(this){ taskViewState ->
-                render(taskViewState)
-            }
+        if (milestoneid != -1) {
+            tasksViewModel.getTasks(token, projectid, milestoneid, pageNumber)
+                ?.observe(this) { taskViewState ->
+                    render(taskViewState)
+                }
+        } else
+            tasksViewModel.getTasksByProject(token, projectid, pageNumber)
+                ?.observe(this) { taskViewState ->
+                    render(taskViewState)
+                }
     }
 
 
@@ -177,8 +195,8 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
             }
             is TaskResponseSuccess -> {
                 binding.loading.hide()
-                val ogsize=tasks.size
-                if(result.data.isNotEmpty()) {
+                val ogsize = tasks.size
+                if (result.data.isNotEmpty()) {
                     val itr = result.data?.listIterator()
                     if (itr != null) {
                         while (itr.hasNext()) {
@@ -188,15 +206,15 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                     adapter = TaskAdapter(tasks, projectid, token)
                     recyclerView.adapter = adapter
                     recyclerView.scrollToPosition(ogsize)
-                }else{
+                } else {
                     pageNumber--
-                    more=false
+                    more = false
                 }
 
             }
             is TaskResponseError -> {
                 binding.loading.hide()
-                if(result.exceptionMsg=="401") {
+                if (result.exceptionMsg == "401") {
                     loginViewModel.getRefreshToken().observe(this) { loginViewState ->
                         run {
                             when (loginViewState) {
@@ -217,8 +235,7 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
                             }
                         }
                     }
-                }
-                else{
+                } else {
                     this.view?.let {
                         Snackbar.make(it, R.string.server_error, Snackbar.LENGTH_LONG).show()
                     }
@@ -229,20 +246,24 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentUser(token))
+        when (item.itemId) {
+            R.id.accountpage -> {
+                binding.root.findNavController()
+                    .navigate(FragmentTasksDirections.actionFragmentTasksToFragmentUser(token))
                 return true
             }
-            R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentProject(token))
+            R.id.homepage -> {
+                binding.root.findNavController()
+                    .navigate(FragmentTasksDirections.actionFragmentTasksToFragmentProject(token))
                 return true
             }
-            R.id.taskspage->{
-                binding.root.findNavController().navigate(FragmentTasksDirections.actionFragmentTasksToFragmentUpcomingTasks(token))
+            R.id.taskspage -> {
+                binding.root.findNavController().navigate(
+                    FragmentTasksDirections.actionFragmentTasksToFragmentUpcomingTasks(token)
+                )
                 return true
             }
-            else->{
+            else -> {
                 return false
             }
         }
@@ -252,11 +273,11 @@ class FragmentTasks : Fragment(),NavigationView.OnNavigationItemSelectedListener
     private fun filter(text: String) {
         val filteredlist = java.util.ArrayList<Task>()
         for (item in tasks) {
-            if (item.name.lowercase().contains(text.lowercase(),true)) {
+            if (item.name.lowercase().contains(text.lowercase(), true)) {
                 filteredlist.add(item)
             }
         }
-            adapter.filterList(filteredlist)
+        adapter.filterList(filteredlist)
 
     }
 
