@@ -15,6 +15,7 @@ import {
   ApexXAxis,
   ChartComponent,
 } from 'ng-apexcharts';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -39,12 +40,22 @@ export type ChartOptionsRadial = {
   responsive: ApexResponsive | ApexResponsive[];
 };
 
+const enterTransition = transition(':enter',[
+  style({
+    opacity: 0
+  }),
+  animate('1s ease-in',style({opacity:1}))
+])
+const fadeIn= trigger('fadeIn',[enterTransition])
+
 @Component({
   selector: 'app-task-dashboard',
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.css'],
+  animations: [fadeIn]
 })
 export class TaskDashboardComponent implements OnInit {
+  isShown: boolean = false;
   formValue!: FormGroup;
   milestoneValue!: FormGroup;
   projectValue!: FormGroup;
@@ -101,13 +112,7 @@ export class TaskDashboardComponent implements OnInit {
     this.AccessToken = this.api.AccessTokenThrow();
 
     this.getAllProjectsInit();
-    this.getAllProjects();
 
-    this.getAllTasks();
-    this.getAllMilestones();
-    this.getAllUsers();
-    this.getProjectDetails();
-    this.api.setProjectID(this.projectId);
   }
 
   initializeChart() {
@@ -607,6 +612,13 @@ export class TaskDashboardComponent implements OnInit {
       (res) => {
         this.projectData = res;
         this.setProjectId(this.projectData[0]);
+        this.getAllProjects();
+
+        this.getAllTasks();
+        this.getAllMilestones();
+        this.getAllUsers();
+        this.getProjectDetails();
+        this.api.setProjectID(this.projectId);
       },
       (error) => {
         this.RefreshingToken();
@@ -679,4 +691,5 @@ export class TaskDashboardComponent implements OnInit {
       }
     );
   }
+  
 }

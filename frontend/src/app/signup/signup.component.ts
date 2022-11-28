@@ -1,12 +1,22 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { signUp } from '../model/signup.model';
 import { ApiService } from '../services/api.service';
 
+const enterTransition = transition(':enter',[
+  style({
+    opacity: 0
+  }),
+  animate('1s ease-in',style({opacity:1}))
+])
+const fadeIn= trigger('fadeIn',[enterTransition])
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
+  animations: [fadeIn]
 })
 export class SignupComponent implements OnInit {
   formValue!: FormGroup;

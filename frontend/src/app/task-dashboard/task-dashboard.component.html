@@ -4,7 +4,8 @@
     <div class="d-flex" *ngIf="projectDetails != undefined">
       <button
         type="button"
-        *ngIf="projectDetails.userRole != 'Member'"
+        *ngIf="projectDetails.userRole != 'Member'&&!isShown "
+        @fadeIn
         (click)="clickAddTask()"
         class="btn btn-info"
         data-bs-toggle="modal"
@@ -14,7 +15,8 @@
       </button>
       <button
         type="button"
-        *ngIf="projectDetails.userRole != 'Member'"
+        *ngIf="projectDetails.userRole != 'Member'&&!isShown "
+        @fadeIn
         (click)="clickAddMilestone()"
         class="btn btn-info"
         data-bs-toggle="modal"
@@ -25,10 +27,22 @@
 
       <button
         type="button"
-        *ngIf="projectDetails.userRole != 'Member'"
+        *ngIf="projectDetails.userRole != 'Member' &&projectDetails.status!='Done'&&!isShown "
+        @fadeIn
         class="btn btn-info"
         data-bs-toggle="modal"
         data-bs-target="#FinishModal"
+      >
+        Finish Project
+      </button>
+      <button
+        type="button"
+        *ngIf="projectDetails.userRole != 'Member' &&projectDetails.status=='Done'&&!isShown "
+        @fadeIn
+        class="btn btn-info"
+        data-bs-toggle="modal"
+        data-bs-target="#FinishModal"
+        disabled
       >
         Finish Project
       </button>
@@ -38,6 +52,8 @@
         class="btn btn-info"
         data-bs-toggle="modal"
         data-bs-target="#ProjectAddModal"
+        *ngIf="!isShown"
+        @fadeIn
       >
         Create Project
       </button>
@@ -207,8 +223,8 @@
   </div>
 </nav>
 
-<figure class="text-center" *ngIf="projectName != ''">
-  <h1 class="display-1">{{ projectName }}</h1>
+<figure class="text-center" *ngIf="projectName != '' " >
+  <h1 class="display-1" *ngIf="!isShown" @fadeIn>{{ projectName }}</h1>
   <figcaption class="blockquote-footer">Current Project -</figcaption>
 </figure>
 
@@ -403,7 +419,7 @@
   </ul>
 </nav>
 
-<table class="table">
+<table class="table" *ngIf="!isShown" @fadeIn>
   <thead>
     <tr class="tr">
       <th scope="col">Task Name</th>
@@ -421,6 +437,7 @@
       *ngFor="
         let row of taskData.slice(TaskPageNumber * 5 - 5, TaskPageNumber * 5)
       "
+      @fadeIn
     >
       <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">
         {{ row.name }}
@@ -1050,7 +1067,7 @@
   </ul>
 </nav>
 
-<table class="table">
+<table class="table" *ngIf="!isShown" @fadeIn>
   <thead>
     <tr class="tr">
       <th scope="col">Milestone Name</th>
@@ -1070,6 +1087,7 @@
           MilestonePageNumber * 5
         )
       "
+      @fadeIn
     >
       <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">
         {{ row.name }}
@@ -1437,3 +1455,7 @@
     </div>
   </div>
 </div>
+
+<!-- <button class="btn special-button">
+ Hello
+</button> -->
