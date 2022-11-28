@@ -8,7 +8,6 @@ import { TaskDashboardComponent } from './task-dashboard/task-dashboard.componen
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { GanttComponent } from './charts/gantt/gantt.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
@@ -17,16 +16,15 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     TaskDashboardComponent,
     LoginComponent,
     SignupComponent,
-    GanttComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgApexchartsModule
+    NgApexchartsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

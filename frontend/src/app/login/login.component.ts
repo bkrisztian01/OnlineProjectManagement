@@ -7,51 +7,49 @@ import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
-  formValue !: FormGroup;
+  formValue!: FormGroup;
   login!: Login;
-  @Output() AccessToken !:any;
+  @Output() AccessToken!: any;
 
-  constructor(private formbuilder: FormBuilder, private api: ApiService, private route:ActivatedRoute, private router: Router){}
+  constructor(
+    private formbuilder: FormBuilder,
+    private api: ApiService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.formValue = this.formbuilder.group({
-      username : [''],
-      password : ['']
-    })
+      username: [''],
+      password: [''],
+    });
   }
 
-
-  NewLogin(){
-
+  NewLogin() {
     const reqBody = {
       username: this.formValue.value.username,
-      password: this.formValue.value.password
-    }
+      password: this.formValue.value.password,
+    };
 
-    this.api.signIn(reqBody).subscribe(res=>{
-      this.router.navigate(
-        ["/dashboard"]
-      );
-      alert("Logged in succesfully!");
-      this.AccessToken = res.accessToken;
-      this.api.setAccessToken(this.AccessToken);
-      localStorage.setItem('token',this.AccessToken)
-      
-      let ref = document.getElementById('close');
-      ref?.click();
-      this.formValue.reset();
-    },
-    err=>{
-      alert("Something went wrong!");
-      this.router.navigate(
-        ["/login"]
-      );
-    }
-    )
+    this.api.signIn(reqBody).subscribe(
+      (res) => {
+        this.router.navigate(['/dashboard']);
+        alert('Logged in succesfully!');
+        this.AccessToken = res.accessToken;
+        this.api.setAccessToken(this.AccessToken);
+        localStorage.setItem('token', this.AccessToken);
+
+        let ref = document.getElementById('close');
+        ref?.click();
+        this.formValue.reset();
+      },
+      (err) => {
+        alert('Something went wrong!');
+        this.router.navigate(['/login']);
+      }
+    );
   }
-
 }

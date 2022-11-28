@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json|html)\""
   },
   "private": true,
   "dependencies": {
@@ -21,6 +22,7 @@
     "apexcharts": "^3.36.3",
     "bootstrap-icons": "^1.10.2",
     "ng-apexcharts": "^1.7.4",
+    "prettier": "^2.8.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -1,78 +1,109 @@
 <!-- Section: Design Block -->
 <section class="vh-100">
-    <style>
-      .cascading-right {
-        margin-right: -50px;
-      }
-  
-      @media (max-width: 991.98px) {
-        .cascading-right {
-          margin-right: 0;
-        }
-      }
-    </style>
-  
-    <!-- Jumbotron -->
-    
-      <div class="container py-5 h-100">
-        <div class="row d-flex align-items-center justify-content-center h-100">
-          <div class="col-md-8 col-lg-7 col-xl-6">
-          
-            <div class="card-body p-5 shadow-5 text-center">
-              <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign up now</h1>
-              <form [formGroup]="formValue">
-                <div class="row">
-                  <div class="col-md-6 mb-4">
-                    <div class="form-outline">
-                      
-                      <label class="form-label" for="form3Example1">Name:</label>
-                      <input type="text" id="form3Example1" class="form-control" formControlName="fullname" />
-                    </div>
-                  </div>
-                  <div class="col-md-6 mb-4">
-                    <div class="form-outline">
-                      
-                      <label class="form-label" for="form3Example2">Username:</label>
-                      <input type="email" id="form3Example2" class="form-control" formControlName="username" />
-                    </div>
-                  </div>
-                </div>
-                <div class="form-outline mb-4">
-                  
-                  <label class="form-label" for="form3Example3">Email address:</label>
-                  <input type="email" id="form3Example3" class="form-control" formControlName="email" />
-                </div>
-  
-                <div class="form-outline mb-4">
-                  
-                  <label class="form-label" for="form3Example4">Password</label>
-                  <input type="password" id="form3Example4" class="form-control" formControlName="password" />
-                </div>
-  
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4" routerLink="/signup" (click)="NewSignUp()">
-                  Sign up
-                </button>
+  <style>
+    .cascading-right {
+      margin-right: -50px;
+    }
 
-                <div>
-                    <p class="mb-0">Already have an account?</p>
-                    <button type="submit" class="btn btn-info btn-lg btn-block" routerLink="/login">Sign in</button>
+    @media (max-width: 991.98px) {
+      .cascading-right {
+        margin-right: 0;
+      }
+    }
+  </style>
+
+  <!-- Jumbotron -->
+
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-md-8 col-lg-7 col-xl-6">
+        <div class="card-body p-5 shadow-5 text-center">
+          <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
+            Sign up now
+          </h1>
+          <form [formGroup]="formValue">
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <div class="form-outline">
+                  <label class="form-label" for="form3Example1">Name:</label>
+                  <input
+                    type="text"
+                    id="form3Example1"
+                    class="form-control"
+                    formControlName="fullname"
+                  />
                 </div>
-  
-              </form>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="form-outline">
+                  <label class="form-label" for="form3Example2"
+                    >Username:</label
+                  >
+                  <input
+                    type="email"
+                    id="form3Example2"
+                    class="form-control"
+                    formControlName="username"
+                  />
+                </div>
+              </div>
             </div>
-        
-        </div>
-  
-        <div class="col-lg-6 mb-5 mb-lg-0">
-            <h1>
-                Online Project Management
-            </h1>
-          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" class="w-100 rounded-4 shadow-4"
-            alt="" />
+            <div class="form-outline mb-4">
+              <label class="form-label" for="form3Example3"
+                >Email address:</label
+              >
+              <input
+                type="email"
+                id="form3Example3"
+                class="form-control"
+                formControlName="email"
+              />
+            </div>
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="form3Example4">Password</label>
+              <input
+                type="password"
+                id="form3Example4"
+                class="form-control"
+                formControlName="password"
+              />
+            </div>
+
+            <!-- Submit button -->
+            <button
+              type="submit"
+              class="btn btn-primary btn-block mb-4"
+              routerLink="/signup"
+              (click)="NewSignUp()"
+            >
+              Sign up
+            </button>
+
+            <div>
+              <p class="mb-0">Already have an account?</p>
+              <button
+                type="submit"
+                class="btn btn-info btn-lg btn-block"
+                routerLink="/login"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
         </div>
       </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <h1>Online Project Management</h1>
+        <img
+          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+          class="w-100 rounded-4 shadow-4"
+          alt=""
+        />
+      </div>
     </div>
-    <!-- Jumbotron -->
-  </section>
-  <!-- Section: Design Block -->
+  </div>
+  <!-- Jumbotron -->
+</section>
+<!-- Section: Design Block -->

@@ -1,9 +1,9 @@
 {
-    "/api": {
-        "target": "https://opmapi.azurewebsites.net",
-        "secure": false,
-        "pathRewrite": {"^/api" : ""},
-        "changeOrigin": true,
-        "logLevel": "debug"
-    }
+  "/api": {
+    "target": "https://opmapi.azurewebsites.net",
+    "secure": false,
+    "pathRewrite": { "^/api": "" },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
 }
