@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import hu.bme.aut.android.projectmanagerapp.databinding.FragmentUpcomingTasksBin
 import hu.bme.aut.android.projectmanagerapp.data.project.Project
 import hu.bme.aut.android.projectmanagerapp.data.task.Task
 import hu.bme.aut.android.projectmanagerapp.data.user.User
+import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.UpcomingTaskAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
 import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
@@ -35,6 +37,7 @@ class FragmentUpcomingTasks : Fragment(), NavigationView.OnNavigationItemSelecte
     private val tasksViewModel: TasksViewModel by viewModels()
     private val loginViewModel: UserViewModel by viewModels()
     private lateinit var token: String
+    lateinit var adapter: UpcomingTaskAdapter
 
 
     override fun onCreateView(
@@ -88,6 +91,22 @@ class FragmentUpcomingTasks : Fragment(), NavigationView.OnNavigationItemSelecte
 
     override fun onResume() {
         super.onResume()
+
+        val searchView: SearchView = activity!!.findViewById(R.id.app_bar_search) as SearchView
+        searchView.clearFocus()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    filter(newText)
+                }
+                return false
+            }
+        })
+
         if (projects.isNotEmpty())
             projects.clear()
         if (tasks.isNotEmpty())
@@ -96,7 +115,22 @@ class FragmentUpcomingTasks : Fragment(), NavigationView.OnNavigationItemSelecte
         val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setCheckedItem(R.id.taskspage)
         navigationView.setNavigationItemSelectedListener(this)
+
+
+
     }
+
+    private fun filter(text: String) {
+        val filteredlist = java.util.ArrayList<Task>()
+        for (item in tasks) {
+            if (item.name.lowercase().contains(text.lowercase(), true)) {
+                filteredlist.add(item)
+            }
+        }
+        adapter.filterList(filteredlist)
+
+    }
+
 
     private fun load() {
         tasksViewModel.getUpcomingTasks(token)?.observe(this) { tasksViewState ->
@@ -119,9 +153,10 @@ class FragmentUpcomingTasks : Fragment(), NavigationView.OnNavigationItemSelecte
                 }
                 val recyclerView = activity?.findViewById(R.id.rvUpcoming) as RecyclerView
                 tasks.sortBy { it.deadline }
-                val adapter = UpcomingTaskAdapter(token, tasks, projects)
+                adapter = UpcomingTaskAdapter(token, tasks, projects)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(this.activity)
+
             }
             is TaskResponseError -> {
                 if (result.exceptionMsg == "401") {

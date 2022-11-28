@@ -40,10 +40,11 @@ class FragmentNav : Fragment(), NavigationView.OnNavigationItemSelectedListener 
             binding.root.findNavController().navigate(FragmentNavDirections.actionFragmentNavToFragmentTasks(token, projid, -1, projectname))
         }
         binding.tvProject.text = projectname
-        binding.toolbarmilestones.inflateMenu(R.menu.menu_milestone_toolbar)
+        binding.toolbarmilestones.inflateMenu(R.menu.menu_single_milestone)
         binding.toolbarmilestones.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
         }
+        binding
 
         return view
     }
@@ -67,7 +68,7 @@ class FragmentNav : Fragment(), NavigationView.OnNavigationItemSelectedListener 
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
-                        .setMessage("Ezt írd még át<3")
+                        .setMessage("Pick whether you want the tasks sorted by milstones or not!")
                         .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
