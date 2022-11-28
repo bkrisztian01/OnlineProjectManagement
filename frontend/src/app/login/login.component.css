@@ -2,7 +2,7 @@
     box-shadow: 3px 3px 7px #777777;
     border-radius: 15px 15px 15px 15px;
     padding: 1rem 2rem;
-    background-color: white;
+    background-color: #EBF5F5;
 }
 
 h1{
@@ -22,3 +22,86 @@ h1{
     background-color:#2a9d8f ;
     box-shadow: 3px 3px 7px #777777;
 }
+
+
+
+.button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #3AAFB9;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    box-shadow: 3px 3px 7px #777777;
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+  /* Masik button animation */
+  .btn-primary {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #2a9d8f ;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  .btn-primary span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .btn-primary span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .btn-primary:hover span {
+    padding-right: 25px;
+  }
+  
+  .btn-primary:hover span:after {
+    opacity: 1;
+    right: 0;
+  }

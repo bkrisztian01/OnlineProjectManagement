@@ -13,6 +13,11 @@
         data-bs-target="#TaskAddModal"
       >
         Add Task
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+          <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+        </svg>
       </button>
       <button
         type="button"
@@ -24,6 +29,9 @@
         data-bs-target="#MilestoneAddModal"
       >
         Add Milestone
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
+          <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+        </svg>
       </button>
 
       <button
@@ -35,6 +43,10 @@
         data-bs-target="#FinishModal"
       >
         Finish Project
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+          <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+          <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+        </svg>
       </button>
       <button
         type="button"
@@ -46,6 +58,10 @@
         disabled
       >
         Finish Project
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+          <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+          <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+        </svg>
       </button>
 
       <button
@@ -57,6 +73,10 @@
         @fadeIn
       >
         Create Project
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
       </button>
     </div>
 
@@ -111,8 +131,7 @@
                 aria-expanded="false"
                 aria-controls="multiCollapseExample2"
               >
-                {{ row.name }}
-                <span class="badge text-bg-success"
+              <span class="badge text-bg-success"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -125,6 +144,8 @@
                       d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
                     /></svg
                 ></span>
+                {{ row.name }}
+                
               </button>
               <button
                 *ngIf="row.status == 'Not Started'"
@@ -136,8 +157,7 @@
                 aria-expanded="false"
                 aria-controls="multiCollapseExample2"
               >
-                {{ row.name }}
-                <span class="badge text-bg-secondary"
+              <span class="badge text-bg-secondary"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -154,6 +174,8 @@
                       d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"
                     /></svg
                 ></span>
+                {{ row.name }}
+                
               </button>
               <button
                 *ngIf="row.status == 'In Progress'"
@@ -165,8 +187,7 @@
                 aria-expanded="false"
                 aria-controls="multiCollapseExample2"
               >
-                {{ row.name }}
-                <span class="badge text-bg-warning"
+              <span class="badge text-bg-warning"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -179,6 +200,8 @@
                       d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"
                     /></svg
                 ></span>
+                {{ row.name }}
+
               </button>
               <button
                 *ngIf="row.status == 'Stopped'"
@@ -190,8 +213,7 @@
                 aria-expanded="false"
                 aria-controls="multiCollapseExample2"
               >
-                {{ row.name }}
-                <span class="badge text-bg-danger"
+              <span class="badge text-bg-danger"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -207,6 +229,8 @@
                       d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"
                     /></svg
                 ></span>
+                {{ row.name }}
+                
               </button>
               <li><hr class="dropdown-divider" /></li>
             </div>
