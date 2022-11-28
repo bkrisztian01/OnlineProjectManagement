@@ -137,6 +137,12 @@ paths:
         - project
       summary: Get all projects connected to user
       operationId: getprojects
+      parameters:
+        - in: query
+          name: pageNumber
+          schema:
+            type: integer
+          description: Which page to return
       responses:
         "200":
           description: Projects
@@ -261,6 +267,11 @@ paths:
           schema:
             type: integer
           required: true
+        - in: query
+          name: pageNumber
+          schema:
+            type: integer
+          description: Which page to return
       responses:
         "200":
           description: Tasks
@@ -518,6 +529,11 @@ paths:
           schema:
             type: integer
           required: true
+        - in: query
+          name: pageNumber
+          schema:
+            type: integer
+          description: Which page to return
       responses:
         "200":
           description: Milestones
