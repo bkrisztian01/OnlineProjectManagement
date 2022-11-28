@@ -14,6 +14,22 @@
         app:layout_constraintHeight_percent="0.2"
         app:layout_constraintTop_toBottomOf="@+id/textViewLogIn" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading"
+        style="@style/Widget.App.CircularProgressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="200dp"
+        android:indeterminate="true"
+        app:indicatorSize="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView_user"
         android:layout_width="match_parent"
@@ -71,6 +87,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_user"
             tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -86,25 +103,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_pw"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.MaterialCardView.Cut">
+        <!--
+                <EditText
+                    android:id="@+id/editText_pw"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:autofillHints="password"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textColorHint="#757575"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_pw"
+                    tools:ignore="DuplicateSpeakableTextCheck" />-->
 
-        <EditText
-            android:id="@+id/editText_pw"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:autofillHints="password"
             android:background="@color/white"
             android:backgroundTint="@color/white"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:padding="10dp"
+            android:textColor="#3F51B5"
             android:textColorHint="#757575"
+            app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_pw"
-            tools:ignore="DuplicateSpeakableTextCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_pw">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText_pw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <Button

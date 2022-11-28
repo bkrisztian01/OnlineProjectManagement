@@ -1,13 +1,11 @@
 package hu.bme.aut.android.projectmanagerapp.repository.singleproject
 
 import androidx.lifecycle.MutableLiveData
-import hu.bme.aut.android.projectmanagerapp.data.project.ProjectResult
-import hu.bme.aut.android.projectmanagerapp.data.singleproject.SingleProjectResult
-import hu.bme.aut.android.projectmanagerapp.datasource.project.ProjectNetworkDataSource
 import hu.bme.aut.android.projectmanagerapp.datasource.singleproject.SingleProjectNetworkDataSource
+import hu.bme.aut.android.projectmanagerapp.ui.singleproject.SingleProjectViewState
 
 class SingleProjectRepository {
-    fun getSingleProject(): MutableLiveData<SingleProjectResult> {
-        return SingleProjectNetworkDataSource.getSingleProject()
+    fun getSingleProject(token: String, id: Int): MutableLiveData<SingleProjectViewState> {
+        return SingleProjectNetworkDataSource.getSingleProject(token, id)
     }
 }

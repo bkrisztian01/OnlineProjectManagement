@@ -45,6 +45,30 @@
     <string name="text_label">Couldn\'t reach server!</string>
     <string name="action_text">Retry</string>
     <string name="upcoming_tasks">Upcoming tasks</string>
+    <string name="milestone">Milestone</string>
+    <string name="number_of_unfinished_tasks">Number of Unfinished Tasks:</string>
+    <string name="_16">16</string>
+    <string name="random_description">Random description</string>
+    <string name="_7_days">7 days</string>
+    <string name="_2022_10_01">2022.10.01.</string>
+    <string name="_2022_09_01">2022.09.01.</string>
+    <string name="my_role">My Role</string>
+    <string name="random_role">Random Role</string>
+    <string name="milestone_info">Milestone Info</string>
+    <string name="description">Description</string>
+    <string name="unspecified_deadline">Unspecified Deadline</string>
+    <string name="unspecified_startdate">Unspecified Start Date</string>
+    <string name="unspecified_length">Unspecified Estimated Length</string>
+    <string name="proj_info">Here is some information on the project!</string>
+    <string name="server_error">Couldn\'t reach server!</string>
+    <string name="loading">Loading...</string>
+    <string name="project_name">Project name</string>
+    <string name="milestones">Milestones</string>
+    <string name="all_tasks">All Tasks</string>
+    <string name="pick_milestone">Pick a Milestone from the list!</string>
+    <string name="prerequisite_tasks">Prerequisite Tasks</string>
+    <string name="there_are_no_prerequisite_tasks">There are no Prerequisite Tasks!</string>
+    <string name="invalid_pw_or_username">The username or the password you entered is not valid!!</string>
     <string-array name="status_array">
         <item>In Progress</item>
         <item>Not Started</item>
