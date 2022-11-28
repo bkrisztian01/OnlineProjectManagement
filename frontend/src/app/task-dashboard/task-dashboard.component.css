@@ -46,23 +46,55 @@ h1{
 
 .btn-info{
     background-color:#e76f51 ;
+    border: 3px solid #e76f51 ;
+}
+.btn-info:hover{
+    background-color: white; 
+      color: black; 
+      border: 3px solid #e76f51 ;
+      
 }
 
 .btn-primary{
     background-color:#2a9d8f ;
     box-shadow: 3px 3px 7px #777777;
+    border: 3px solid #2a9d8f;
+}
+.btn-primary:hover{
+background-color: white; 
+  color: black; 
+  border: 3px solid #2a9d8f;
+  box-shadow: 3px 3px 7px #777777;
 }
 
 .btn-success{
     box-shadow: 3px 3px 7px #777777;
+    border: 2px solid green;
+}
+.btn-success:hover{
+    background-color: white; 
+      color: black; 
+      border: 2px solid green;
 }
 
 .btn-danger{
     box-shadow: 3px 3px 7px #777777;
+    border: 2px solid red;
+}
+.btn-danger:hover{
+    background-color: white; 
+      color: black; 
+      border: 2px solid red;
 }
 
 .btn-secondary{
     box-shadow: 3px 3px 7px #777777;
+    border: 2px solid grey;
+}
+.btn-secondary:hover{
+    background-color: white; 
+      color: black; 
+      border: 2px solid grey;
 }
 
 .btn-three{
