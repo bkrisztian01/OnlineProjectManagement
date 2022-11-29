@@ -1,5 +1,5 @@
 .background{
-    background-image: url('./background.png');
+    background-image: url('./background2.png');
     color: white;
 }
 
@@ -7,7 +7,7 @@
     border-radius: 15px 15px 15px 15px;
     padding: 1rem 2rem;
     background-color: rgba(0, 0, 0, 0.63) !important;
-    animation: fadeing 2s ease-in forwards 2s;
+    animation: fadeing 2s ease-in forwards 1.4s;
     opacity: 0;
 }
 .col-md-7 label{
@@ -146,7 +146,7 @@ h1{
   }
 
   .button{
-    animation: shift-button2 1s cubic-bezier(1,-0.45,.11,1.99) forwards 2.5s;
+    animation: shift-button2 1s cubic-bezier(1,-0.45,.11,1.99) forwards 2.2s;
     opacity: 0;
   }
   @keyframes shift-button2 {
@@ -193,6 +193,7 @@ h1{
     font-size: 650%;
     animation: shift-login 2s ease-in forwards .4s;
   }
+
   @keyframes shift-login {
     100%{
       font-size: 300%;
@@ -206,7 +207,7 @@ h1{
   }
   .carousel{
     opacity: 0;
-    animation: shiftCarousel 2s ease-in forwards 3.5s;
+    animation: shiftCarousel 1s ease-in forwards 3.2s;
   }
   @keyframes shiftCarousel
   {
@@ -231,7 +232,7 @@ h1{
   }
   .h1Startanim{
     font-size: 650%;
-    animation: startshift 1s ease-in forwards;
+    animation: startshift 1.5s ease-in forwards;
   }
   @keyframes startshift {
     100%{
@@ -241,7 +242,41 @@ h1{
       opacity: 1;
     }
   }
+  .carousel{
+    background-color: rgba(0, 0, 0, 0.63) !important;
+  }
 
+  .btn-starter{
+    background-color: transparent; 
+  border: 3px solid #00d4ff;
+  font-size:x-large;
+  font-style:normal;
+  color: #00d4ff;
+  width: 100%!important;
+  margin-top: 10%;
+}
+.btn-starter:hover{
+
+  
+  background-color:#00d4ff ;
+    border: 3px solid #00d4ff;
+    color: black; 
+}
+
+.btn-starter:focus{
+  animation: starter-shift 1s ease-in forwards;
+}
+@keyframes starter-shift {
+  100%{
+    opacity: 0;
+    transform: translateY(0%);
+  }
+  0%{
+    opacity: 1;
+    transform: translateY(100%);
+  }
+  
+}
 
   /* .h1anim:hover{
     animation: hover-anim 0.5 ease-in forwards;

@@ -23,6 +23,7 @@ const fadeIn= trigger('fadeIn',[enterTransition])
 export class LoginComponent implements OnInit {
   formValue!: FormGroup;
   login!: Login;
+  shown: boolean=false;
   @Output() AccessToken!: any;
 
   constructor(
@@ -37,6 +38,10 @@ export class LoginComponent implements OnInit {
       username: [''],
       password: [''],
     });
+  }
+
+  setShown(){
+    this.shown=true;
   }
 
   NewLogin() {

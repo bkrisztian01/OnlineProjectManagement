@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { GetStartedComponent } from './get-started/get-started.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     TaskDashboardComponent,
     LoginComponent,
     SignupComponent,
+    GetStartedComponent,
   ],
   imports: [
     BrowserModule,
