@@ -7,6 +7,19 @@
     border-radius: 15px 15px 15px 15px;
     padding: 1rem 2rem;
     background-color: rgba(0, 0, 0, 0.63) !important;
+    animation: fadeing 2s ease-in forwards 2s;
+    opacity: 0;
+}
+.col-md-7 label{
+  font-size: 400%;
+}
+@keyframes fadeing {
+  100%{
+    opacity: 1;
+  }
+  0%{
+    opacity: 0;
+  }
 }
 
 h1{
@@ -101,30 +114,14 @@ h1{
 
 
   input{
-    animation: shift 1.5s ease-in forwards;
+    animation: shift 0.5s ease-in forwards 2.5s;
+    opacity: 0;
   }
   label{
-    animation: shift-label 1s ease-in forwards;
+    animation: shift-label 0.5s ease-in forwards 2s;
+    opacity: 0;
   }
 
-  @keyframes shift
-  {
-    100%{
-      transform: translateY(0%);
-      opacity: 1;
-    }
-
-    66%{
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    0%{
-      transform: translateY(100%);
-      opacity: 0;
-
-    }
-    
-  }
 
   @keyframes shift-label
   {
@@ -149,7 +146,7 @@ h1{
   }
 
   .button{
-    animation: shift-button2 1s cubic-bezier(1,-0.45,.11,1.99) forwards 1.5s;
+    animation: shift-button2 1s cubic-bezier(1,-0.45,.11,1.99) forwards 3.5s;
     opacity: 0;
   }
   @keyframes shift-button2 {
@@ -168,7 +165,7 @@ h1{
     
   }
   .button2{
-    animation: shift-button 1s cubic-bezier(1,-0.45,.11,1.99) forwards 1s;
+    animation: shift-button 1s cubic-bezier(1,-0.45,.11,1.99) forwards 3s;
     opacity: 0;
   }
   @keyframes shift-button {
@@ -189,3 +186,53 @@ h1{
     }
     
   }
+
+  .h1anim{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 650%;
+    animation: shift-login 2s ease-in forwards .6s;
+  }
+  @keyframes shift-login {
+    100%{
+      font-size: 300%;
+    }
+    0%{
+      font-size: 650%;
+    }
+  }
+  .carousel{
+    opacity: 0;
+    animation: shift 1s ease-in forwards 5s;
+  }
+  @keyframes shift
+  {
+    100%{
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    0%{
+      transform: translateY(100%);
+      opacity: 0;
+
+    }
+    
+  }
+  /* .h1anim:hover{
+    animation: hover-anim 0.5 ease-in forwards;
+  }
+  label:hover{
+    animation: hover-anim 0.5 ease-in forwards;
+  }
+  h1:hover{
+    animation: hover-anim 0.5 ease-in forwards;
+  }
+  @keyframes hover-anim {
+    100%{
+      color:#ff4876
+    }
+    0%{
+      color:#ff4876
+    }
+  } */
+
