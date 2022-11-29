@@ -13,6 +13,7 @@ const enterTransition = transition(':enter',[
 ])
 const fadeIn= trigger('fadeIn',[enterTransition])
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

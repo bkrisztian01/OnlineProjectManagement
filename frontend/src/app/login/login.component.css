@@ -98,3 +98,94 @@ h1{
     opacity: 1;
     right: 0;
   }
+
+
+  input{
+    animation: shift 1.5s ease-in forwards;
+  }
+  label{
+    animation: shift-label 1s ease-in forwards;
+  }
+
+  @keyframes shift
+  {
+    100%{
+      transform: translateY(0%);
+      opacity: 1;
+    }
+
+    66%{
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    0%{
+      transform: translateY(100%);
+      opacity: 0;
+
+    }
+    
+  }
+
+  @keyframes shift-label
+  {
+    100%{
+      transform: translateY(0%);
+      color:#FFFFFF;
+      font-size: 100%;
+      opacity: 1;
+    }
+    50%{
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    0%{
+      transform: translateY(100%);
+      color:#ff4876;
+      font-size: 400%;
+      opacity: 0;
+
+    }
+    
+  }
+
+  .button{
+    animation: shift-button2 1s cubic-bezier(1,-0.45,.11,1.99) forwards 1.5s;
+    opacity: 0;
+  }
+  @keyframes shift-button2 {
+    100%{
+      transform: translateX(0%);
+      opacity: 1;
+    }
+    80%{
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    0%{
+      transform:  translateX(100%);
+      opacity: 0;
+    }
+    
+  }
+  .button2{
+    animation: shift-button 1s cubic-bezier(1,-0.45,.11,1.99) forwards 1s;
+    opacity: 0;
+  }
+  @keyframes shift-button {
+    100%{
+      transform: translateX(0%);
+      background: #243aff;
+      opacity: 1;
+    }
+    75%{
+      transform: translateX(30%);
+      background: #1dfdf3;
+      opacity: 0;
+    }
+    0%{
+      transform:  translateX(30%);
+      background: #1dfdf3;
+      opacity: 0;
+    }
+    
+  }
