@@ -12,7 +12,8 @@
 }
 
 thead{
-    background-color: #2a9d8f;
+    background: rgb(115,247,195);
+    background: linear-gradient(90deg, rgba(115,247,195,1) 10%, rgba(0,212,255,1) 53%, rgba(115,247,195,1) 95%); 
     color: white;
     box-shadow: 0 5px 10px #bababa;
     vertical-align: middle;
@@ -47,56 +48,59 @@ h1{
     transition-duration: 0.6s;
 }
 .btn-info{
-    background-color:#e76f51 ;
-    border: 3px solid #e76f51 ;
+    background-color:#FF5F1F ;
+    border: 3px solid #FF5F1F;
 }
 .btn-info:hover{
     background-color: white; 
       color: black; 
-      border: 3px solid #e76f51 ;
+      border: 3px solid #FF5F1F ;
       
 }
 
 .btn-primary{
-    background-color:#2a9d8f ;
+    background-color:#00d4ff ;
     box-shadow: 3px 3px 7px #777777;
-    border: 3px solid #2a9d8f;
+    border: 3px solid #00d4ff;
 }
 .btn-primary:hover{
 background-color: white; 
   color: black; 
-  border: 3px solid #2a9d8f;
+  border: 3px solid #00d4ff;
   box-shadow: 3px 3px 7px #777777;
 }
 
 .btn-success{
+    background-color: #06a94d;
     box-shadow: 3px 3px 7px #777777;
-    border: 2px solid green;
+    border: 2px solid #06a94d;
 }
 .btn-success:hover{
     background-color: white; 
       color: black; 
-      border: 2px solid green;
+      border: 2px solid #06a94d;
 }
 
 .btn-danger{
+    background-color: #FF3131;
     box-shadow: 3px 3px 7px #777777;
-    border: 2px solid red;
+    border: 2px solid #FF3131;
 }
 .btn-danger:hover{
     background-color: white; 
       color: black; 
-      border: 2px solid red;
+      border: 2px solid #FF3131;
 }
 
 .btn-secondary{
-    box-shadow: 3px 3px 7px #777777;
-    border: 2px solid grey;
+    background-color: #b2beb5;
+    box-shadow: 3px 3px 7px #b2beb5;
+    border: 2px solid #b2beb5;
 }
 .btn-secondary:hover{
     background-color: white; 
       color: black; 
-      border: 2px solid grey;
+      border: 2px solid #b2beb5;
 }
 
 .btn-three{
@@ -117,6 +121,31 @@ background-color: white;
 }
 
 .border-special{
-    border-color: #2a9d8f ;
-    border-width: thick;
+    border-color: #00d4ff ;
+    border-width: 2px;
 }
+
+.modal{
+    /* --#{$prefix}modal-bg: rgb(253,253,255); */
+    background: rgb(253,253,255);
+    background: radial-gradient(circle, rgba(253,253,255,1) 22%, rgba(0,212,255,1) 70%, rgba(115,247,195,1) 95%); 
+}
+
+/* .card{
+    background: rgb(253,253,255);
+    background: linear-gradient(90deg, rgba(253,253,255,0.499019676229867) 0%, rgba(29,253,243,0.14047625886292014) 0%, rgba(177,249,252,0.24691883589373254) 100%); 
+} */
+
+/* .background { 
+    position: relative; 
+    height: 100vh;
+    width: 100%;
+    background-image: url('background.png');
+    background-size: cover;
+}
+
+.background::before {
+    content: "";
+    position: absolute;
+    background-color: rgb(123, 0, 0);
+} */

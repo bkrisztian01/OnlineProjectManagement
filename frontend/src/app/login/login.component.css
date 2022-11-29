@@ -1,8 +1,12 @@
+.background{
+    background-image: url('./background.png');
+    color: white;
+}
+
 .col-md-7{
-    box-shadow: 3px 3px 7px #777777;
     border-radius: 15px 15px 15px 15px;
     padding: 1rem 2rem;
-    background-color: #EBF5F5;
+    background-color: rgba(0, 0, 0, 0.63) !important;
 }
 
 h1{
@@ -13,39 +17,28 @@ h1{
     font-size: xx-large;
 }
 
-.btn-info{
-    background-color:#264653 ;
-    box-shadow: 3px 3px 7px #777777;
-}
-
-.btn-primary{
-    background-color:#2a9d8f ;
-    box-shadow: 3px 3px 7px #777777;
-}
-
 
 
 .button {
     display: inline-block;
     border-radius: 4px;
-    background-color: #3AAFB9;
+    background-color: #ff4876;
     border: none;
     color: #FFFFFF;
     text-align: center;
-    font-size: 28px;
-    padding: 20px;
-    width: 200px;
-    transition: all 0.5s;
+    font-size: 22px;
+    padding: 8px;
+    width: 350px;
+    transition: all 0.3s;
     cursor: pointer;
     margin: 5px;
-    box-shadow: 3px 3px 7px #777777;
   }
   
   .button span {
     cursor: pointer;
     display: inline-block;
     position: relative;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   
   .button span:after {
@@ -54,7 +47,7 @@ h1{
     opacity: 0;
     top: 0;
     right: -20px;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   
   .button:hover span {
@@ -67,41 +60,41 @@ h1{
   }
 
   /* Masik button animation */
-  .btn-primary {
+  .button2 {
     display: inline-block;
     border-radius: 4px;
-    background-color: #2a9d8f ;
+    background-color: #243aff;
     border: none;
     color: #FFFFFF;
     text-align: center;
-    font-size: 28px;
-    padding: 20px;
-    width: 200px;
-    transition: all 0.5s;
+    font-size: 22px;
+    padding: 8px;
+    width: 350px;
+    transition: all 0.3s;
     cursor: pointer;
     margin: 5px;
   }
-  .btn-primary span {
+  .button2 span {
     cursor: pointer;
     display: inline-block;
     position: relative;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   
-  .btn-primary span:after {
+  .button2 span:after {
     content: '\00bb';
     position: absolute;
     opacity: 0;
     top: 0;
     right: -20px;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   
-  .btn-primary:hover span {
+  .button2:hover span {
     padding-right: 25px;
   }
   
-  .btn-primary:hover span:after {
+  .button2:hover span:after {
     opacity: 1;
     right: 0;
   }

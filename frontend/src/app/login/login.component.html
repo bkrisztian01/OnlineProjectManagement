@@ -1,13 +1,53 @@
+<div class="background">
+  
 <section class="vh-100">
   <div class="container py-5 h-100">
     <div class="row d-flex align-items-center justify-content-center h-100">
       <div class="col-md-8 col-lg-7 col-xl-6">
-        <h1>Online Project Management</h1>
-        <img
+        <h1>Online Project Manager</h1>
+        <!-- <img
           src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
           class="img-fluid"
           alt="Phone image"
-        />
+        /> -->
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="./background.png" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Projects</h5>
+                <p>Create and manage your projects and more</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="./background.png" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Milestones</h5>
+                <p>Create a milestone from a set of tasks!</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="./background.png" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Permissions</h5>
+                <p>Define permission level for your members!</p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
       </div>
       <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 items" @fadeIn>
         <form [formGroup]="formValue">
@@ -61,7 +101,7 @@
                   
                   <button
                   type="submit"
-                  class=" btn-primary "
+                  class=" button2 "
                   (click)="NewLogin()"
                 >
                 <span>
@@ -90,3 +130,4 @@
     </div>
   </div>
 </section>
+</div>

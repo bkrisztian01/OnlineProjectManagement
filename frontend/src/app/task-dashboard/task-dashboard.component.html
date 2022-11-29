@@ -248,8 +248,10 @@
   </div>
 </nav>
 
+<div class="background">
 <figure class="text-center" *ngIf="projectName != '' " >
   <h1 class="display-1" *ngIf="!isShown" @fadeIn>{{ projectName }}</h1>
+  <span visible></span>
   <figcaption class="blockquote-footer">Current Project -</figcaption>
 </figure>
 
@@ -261,6 +263,7 @@
     data-bs-target="#multiCollapseExample1"
     aria-expanded="false"
     aria-controls="multiCollapseExample1"
+    @fadeIn
   >
     Project details
     <svg
@@ -284,6 +287,7 @@
     data-bs-target="#multiCollapseExample2"
     aria-expanded="false"
     aria-controls="multiCollapseExample2"
+    @fadeIn
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -402,7 +406,7 @@
   </div>
 </div>
 
-<h1 class="">Tasks:</h1>
+<h1 @fadeIn>Tasks:</h1>
 
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end me-5">
@@ -675,7 +679,7 @@
   aria-labelledby="TaskAddModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="TaskAddModalLabel">Task details</h1>
@@ -889,7 +893,7 @@
   aria-labelledby="MilestoneAddModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="MilestoneAddModalLabel">
@@ -1050,7 +1054,7 @@
 
 <!-- Modal MILESTONE VEGE-->
 
-<h1 class="">Milestones:</h1>
+<h1 @fadeIn>Milestones:</h1>
 
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end me-5">
@@ -1312,7 +1316,7 @@
     </tr>
   </tbody>
 </table>
-
+</div>
 <!-- Modal PROJECT -->
 <div
   class="modal fade"
@@ -1321,7 +1325,7 @@
   aria-labelledby="ProjectAddModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="ProjectAddModalLabel">
