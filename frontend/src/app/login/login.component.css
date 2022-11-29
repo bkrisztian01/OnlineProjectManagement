@@ -146,7 +146,7 @@ h1{
   }
 
   .button{
-    animation: shift-button2 1s cubic-bezier(1,-0.45,.11,1.99) forwards 3.5s;
+    animation: shift-button2 1s cubic-bezier(1,-0.45,.11,1.99) forwards 2.5s;
     opacity: 0;
   }
   @keyframes shift-button2 {
@@ -165,7 +165,7 @@ h1{
     
   }
   .button2{
-    animation: shift-button 1s cubic-bezier(1,-0.45,.11,1.99) forwards 3s;
+    animation: shift-button 1s cubic-bezier(1,-0.45,.11,1.99) forwards 2s;
     opacity: 0;
   }
   @keyframes shift-button {
@@ -191,11 +191,14 @@ h1{
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 650%;
-    animation: shift-login 2s ease-in forwards .6s;
+    animation: shift-login 2s ease-in forwards .4s;
   }
   @keyframes shift-login {
     100%{
       font-size: 300%;
+    }
+    80%{
+      font-size:200%;
     }
     0%{
       font-size: 650%;
@@ -203,8 +206,18 @@ h1{
   }
   .carousel{
     opacity: 0;
-    animation: shift 1s ease-in forwards 5s;
+    animation: shiftCarousel 2s ease-in forwards 3.5s;
   }
+  @keyframes shiftCarousel
+  {
+    100%{
+      opacity: 1;
+    }
+    0%{
+      opacity: 0;
+    }
+  }
+
   @keyframes shift
   {
     100%{
@@ -214,10 +227,22 @@ h1{
     0%{
       transform: translateY(100%);
       opacity: 0;
-
     }
-    
   }
+  .h1Startanim{
+    font-size: 650%;
+    animation: startshift 1s ease-in forwards;
+  }
+  @keyframes startshift {
+    100%{
+      opacity: 0;
+    }
+    0%{
+      opacity: 1;
+    }
+  }
+
+
   /* .h1anim:hover{
     animation: hover-anim 0.5 ease-in forwards;
   }
