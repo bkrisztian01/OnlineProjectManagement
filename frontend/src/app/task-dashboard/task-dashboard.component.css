@@ -218,7 +218,13 @@ background-color: white;
 }
 
 tbody .tr:nth-child(-n+5):hover{
-    background-color: #1dfdf256 ;
+    background-position: left bottom;
+}
+tbody .tr:nth-child(-n+5){
+    background: linear-gradient(to right, #1dfdf256  50%, white 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all .3s ease-out;
 }
 .tr:nth-child(1){
     opacity: 0;
