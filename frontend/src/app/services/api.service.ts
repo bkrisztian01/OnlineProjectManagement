@@ -8,7 +8,10 @@ import { throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private apiAddress = 'https://opmapi2.azurewebsites.net';
+  // Nem tudom hogyan kene ezt rendesen megcsinalni, main-re
+  // merge-ölés előtt ird at az elsore, hogy mukodjon Azure-on
+  private apiAddress = 'https://opmapi.azurewebsites.net';
+  // private apiAddress = '/api';
 
   private AccessToken!: String;
   private ProjectID!: number;
@@ -17,7 +20,7 @@ export class ApiService {
 
   postTask(data: any, id: number, AccessToken: String) {
     return this.http
-      .post<any>(`/api/projects/` + id + `/tasks`, data, {
+      .post<any>(`${this.apiAddress}/projects/` + id + `/tasks`, data, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -28,7 +31,7 @@ export class ApiService {
   }
   getTask(id: number, AccessToken: String) {
     return this.http
-      .get<any>(`/api/projects/` + id + `/tasks`, {
+      .get<any>(`${this.apiAddress}/projects/` + id + `/tasks`, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -39,9 +42,12 @@ export class ApiService {
   }
   getTaskwithPage(id: number, AccessToken: String, pageNum: number) {
     return this.http
-      .get<any>(`/api/projects/` + id + `/tasks?pageNumber=` + pageNum, {
-        headers: { Authorization: 'Bearer ' + AccessToken },
-      })
+      .get<any>(
+        `${this.apiAddress}/projects/` + id + `/tasks?pageNumber=` + pageNum,
+        {
+          headers: { Authorization: 'Bearer ' + AccessToken },
+        }
+      )
       .pipe(
         map((res: any) => {
           return res;
@@ -50,7 +56,7 @@ export class ApiService {
   }
   updateTask(data: any, id: number, id2: number, AccessToken: String) {
     return this.http
-      .put<any>(`/api/projects/` + id2 + `/tasks/` + id, data, {
+      .put<any>(`${this.apiAddress}/projects/` + id2 + `/tasks/` + id, data, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -61,9 +67,13 @@ export class ApiService {
   }
   archiveTask(data: any, id: number, id2: number, AccessToken: String) {
     return this.http
-      .put<any>(`/api/projects/` + id2 + `/tasks/` + id + `/archive`, data, {
-        headers: { Authorization: 'Bearer ' + AccessToken },
-      })
+      .put<any>(
+        `${this.apiAddress}/projects/` + id2 + `/tasks/` + id + `/archive`,
+        data,
+        {
+          headers: { Authorization: 'Bearer ' + AccessToken },
+        }
+      )
       .pipe(
         map((res: any) => {
           return res;
@@ -72,7 +82,7 @@ export class ApiService {
   }
   deleteTask(id: number, id2: number, AccessToken: String) {
     return this.http
-      .delete(`/api/projects/` + id2 + `/tasks/` + id, {
+      .delete(`${this.apiAddress}/projects/` + id2 + `/tasks/` + id, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -84,7 +94,7 @@ export class ApiService {
 
   postMilestone(data: any, id: number, AccessToken: String) {
     return this.http
-      .post<any>(`/api/projects/` + id + `/milestones`, data, {
+      .post<any>(`${this.apiAddress}/projects/` + id + `/milestones`, data, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -95,7 +105,7 @@ export class ApiService {
   }
   getMilestone(id: number, AccessToken: String) {
     return this.http
-      .get<any>(`/api/projects/` + id + `/milestones`, {
+      .get<any>(`${this.apiAddress}/projects/` + id + `/milestones`, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -107,9 +117,13 @@ export class ApiService {
 
   updateMilestone(data: any, id: number, id2: number, AccessToken: String) {
     return this.http
-      .put<any>(`/api/projects/` + id2 + `/milestones/` + id, data, {
-        headers: { Authorization: 'Bearer ' + AccessToken },
-      })
+      .put<any>(
+        `${this.apiAddress}/projects/` + id2 + `/milestones/` + id,
+        data,
+        {
+          headers: { Authorization: 'Bearer ' + AccessToken },
+        }
+      )
       .pipe(
         map((res: any) => {
           return res;
@@ -118,7 +132,7 @@ export class ApiService {
   }
   deleteMilestone(id: number, id2: number, AccessToken: String) {
     return this.http
-      .delete<any>(`/api/projects/` + id2 + `/milestones/` + id, {
+      .delete<any>(`${this.apiAddress}/projects/` + id2 + `/milestones/` + id, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -131,7 +145,7 @@ export class ApiService {
   archiveMilestone(data: any, id: number, id2: number, AccessToken: String) {
     return this.http
       .put<any>(
-        `/api/projects/` + id2 + `/milestones/` + id + `/archive`,
+        `${this.apiAddress}/projects/` + id2 + `/milestones/` + id + `/archive`,
         data,
         { headers: { Authorization: 'Bearer ' + AccessToken } }
       )
@@ -144,7 +158,7 @@ export class ApiService {
 
   getProjectData(id: number, AccessToken: String) {
     return this.http
-      .get<any>(`/api/projects/` + id, {
+      .get<any>(`${this.apiAddress}/projects/` + id, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -156,7 +170,7 @@ export class ApiService {
 
   getAllProjects(AccessToken: String) {
     return this.http
-      .get<any>(`/api/projects`, {
+      .get<any>(`${this.apiAddress}/projects`, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -168,7 +182,7 @@ export class ApiService {
 
   FinishProject(data: any, id: number, AccessToken: String) {
     return this.http
-      .put<any>(`/api/projects/` + id, data, {
+      .put<any>(`${this.apiAddress}/projects/` + id, data, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -180,7 +194,7 @@ export class ApiService {
 
   getAllUsers(AccessToken: String) {
     return this.http
-      .get<any>(`/api/users`, {
+      .get<any>(`${this.apiAddress}/users`, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -192,7 +206,7 @@ export class ApiService {
 
   postProject(data: any, AccessToken: String) {
     return this.http
-      .post<any>(`/api/projects`, data, {
+      .post<any>(`${this.apiAddress}/projects`, data, {
         headers: { Authorization: 'Bearer ' + AccessToken },
       })
       .pipe(
@@ -203,7 +217,7 @@ export class ApiService {
   }
 
   signIn(data: any) {
-    return this.http.post<any>(`/api/user/login`, data).pipe(
+    return this.http.post<any>(`${this.apiAddress}/user/login`, data).pipe(
       map((res: any) => {
         return res;
       })
@@ -211,18 +225,18 @@ export class ApiService {
   }
 
   signOut() {
-    return this.http.get<any>(`/api/user/logout`);
+    return this.http.get<any>(`${this.apiAddress}/user/logout`);
   }
 
   signUp(data: any) {
-    return this.http.post<any>(`/api/user/signup`, data).pipe(
+    return this.http.post<any>(`${this.apiAddress}/user/signup`, data).pipe(
       map((res: any) => {
         return res;
       })
     );
   }
   refreshToken() {
-    return this.http.get<any>(`/api/refresh`).pipe(
+    return this.http.get<any>(`${this.apiAddress}/refresh`).pipe(
       map((res: any) => {
         return res;
       })
