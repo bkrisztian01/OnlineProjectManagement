@@ -1,0 +1,35 @@
+<div class="background">
+    
+    <!-- <div class="row d-flex align-items-center justify-content-center h-50">
+        <div class="col-md-10 col-lg-9 col-xl-8 ">
+            <h1>Online Project Manager</h1>
+            
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <button class="btn btn-primary" routerLink="/login"> Get started</button>
+    </div> -->
+    <h1 class="home-title">
+        <span *ngIf="!shown"></span>
+        <span *ngIf="shown"></span>
+        <span *ngIf="!shown">Online Project</span>
+        <span *ngIf="shown"></span>
+        <span *ngIf="!shown">Manager</span>
+        <span *ngIf="shown"></span>
+        <span *ngIf="!shown"> <button class="btn btn-primary" (click)="CurrentDelay()" >
+             Get started
+            </button></span>
+            <span *ngIf="shown"></span>
+        <span *ngIf="!shown"></span>
+        <span *ngIf="shown"></span>
+        <span *ngIf="!shown"></span>
+        <span *ngIf="shown"></span>
+        <span *ngIf="!shown"></span>
+        <span *ngIf="shown"></span>
+        <span *ngIf="shown"></span>
+        <span *ngIf="shown"></span>
+      </h1>
+
+    
+</div>
+

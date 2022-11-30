@@ -15,6 +15,7 @@ import {
   ApexXAxis,
   ChartComponent,
 } from 'ng-apexcharts';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -39,12 +40,22 @@ export type ChartOptionsRadial = {
   responsive: ApexResponsive | ApexResponsive[];
 };
 
+const enterTransition = transition(':enter',[
+  style({
+    opacity: 0
+  }),
+  animate('1s ease-in',style({opacity:1}))
+])
+const fadeIn= trigger('fadeIn',[enterTransition])
+
 @Component({
   selector: 'app-task-dashboard',
   templateUrl: './task-dashboard.component.html',
   styleUrls: ['./task-dashboard.component.css'],
+  animations: [fadeIn]
 })
 export class TaskDashboardComponent implements OnInit {
+  isShown: boolean = false;
   formValue!: FormGroup;
   milestoneValue!: FormGroup;
   projectValue!: FormGroup;
@@ -101,13 +112,7 @@ export class TaskDashboardComponent implements OnInit {
     this.AccessToken = this.api.AccessTokenThrow();
 
     this.getAllProjectsInit();
-    this.getAllProjects();
 
-    this.getAllTasks();
-    this.getAllMilestones();
-    this.getAllUsers();
-    this.getProjectDetails();
-    this.api.setProjectID(this.projectId);
   }
 
   initializeChart() {
@@ -198,10 +203,10 @@ export class TaskDashboardComponent implements OnInit {
     let NotStarted = 0;
 
     for (let row of this.taskData) {
-      if (row.status == 'Done') finished++;
-      else if (row.status == 'In Progress') InProgress++;
-      else if (row.status == 'Stopped') Stopped++;
-      else if (row.status == 'Not Started') NotStarted++;
+      if (row.status == 'Done' && !row.archived) finished++;
+      else if (row.status == 'In Progress' && !row.archived) InProgress++;
+      else if (row.status == 'Stopped' && !row.archived) Stopped++;
+      else if (row.status == 'Not Started' && !row.archived) NotStarted++;
     }
     this.chartOptions.labels = [
       'Done',
@@ -238,6 +243,7 @@ export class TaskDashboardComponent implements OnInit {
 
     let data: any[] = [];
     for (let row of this.taskData) {
+      if(!row.archived){
       let x: number = row.name;
       let y1 = new Date(row.startDate).getTime();
       let y2 = new Date(row.deadline).getTime();
@@ -249,6 +255,7 @@ export class TaskDashboardComponent implements OnInit {
 
       let y: number[] = [y1, y2];
       data.push({ x, y, fillColor });
+      }
     }
     this.ChartOptionsGantt.series?.push({ data });
   }
@@ -265,12 +272,27 @@ export class TaskDashboardComponent implements OnInit {
 
   setTaskPageNumber(x: any) {
     let temp = this.TaskPageNumber + x;
-    if (temp > 0) this.TaskPageNumber += x;
+    let size =  (Object.keys(this.taskData).length) /5
+
+    if(x>0 &&this.TaskPageNumber < size){
+      this.TaskPageNumber += x;
+    }
+    else if(temp>0 && x<0){
+      this.TaskPageNumber += x;
+    }
+    
     this.getAllTasks;
   }
   setMilestonePageNumber(x: any) {
     let temp = this.MilestonePageNumber + x;
-    if (temp > 0) this.MilestonePageNumber += x;
+    let size =  (Object.keys(this.milestoneData).length) /5
+
+    if(x>0 &&this.MilestonePageNumber < size){
+      this.MilestonePageNumber += x;
+    }
+    else if(temp>0 && x<0){
+      this.MilestonePageNumber += x;
+    }
     this.getAllMilestones;
   }
 
@@ -540,7 +562,6 @@ export class TaskDashboardComponent implements OnInit {
           alert('Something went wrong!');
         }
       );
-    this.getAllTasks();
   }
 
   archiveMilestone(row: any, Archivation: boolean) {
@@ -607,6 +628,13 @@ export class TaskDashboardComponent implements OnInit {
       (res) => {
         this.projectData = res;
         this.setProjectId(this.projectData[0]);
+        this.getAllProjects();
+
+        this.getAllTasks();
+        this.getAllMilestones();
+        this.getAllUsers();
+        this.getProjectDetails();
+        this.api.setProjectID(this.projectId);
       },
       (error) => {
         this.RefreshingToken();
@@ -679,4 +707,5 @@ export class TaskDashboardComponent implements OnInit {
       }
     );
   }
+  
 }
