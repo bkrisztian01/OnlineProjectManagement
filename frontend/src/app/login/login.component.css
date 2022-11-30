@@ -24,6 +24,7 @@
 
 h1{
     padding: 1rem 2rem;
+    opacity: 0;
 }
 
 .fw-normal{
@@ -242,16 +243,21 @@ h1{
     font-size: 650%;
     animation: shift-login 2s ease-in forwards .4s;
   }
+  .h2anim{
+    opacity: 1 !important;
+  }
 
   @keyframes shift-login {
     100%{
       font-size: 300%;
+      opacity: 1;
     }
     80%{
       font-size:200%;
     }
     0%{
       font-size: 650%;
+      opacity: 0;
     }
   }
   .carousel{
