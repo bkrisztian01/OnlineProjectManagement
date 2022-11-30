@@ -1,64 +1,82 @@
-Table user {
-  id int
+Table users {
+  id integer
   username varchar
   password varchar
   fullname varchar
+  email varchar
 }
 
 Table project {
-  id int
+  id integer
   name varchar
+  description text
+  status enum
+  startDate date
+  endDate date
+  estimatedTime integer
+}
+
+Table refresh_token {
+  id integer
+  refreshToken text
+  userId integer
 }
 
 Table task {
-  id int 
+  id integer 
   name varchar
-  description varchar
-  status varchar
-  deadline datetime
-  project_id int
-  milestone_id int
+  description text
+  status enum
+  startDate date
+  deadline date
+  archived boolean
+  projectId integer
+  milestoneId integer
 }
 
-Table assignees_task {
-  id int
-  task_id int
-  user_id int
+Table task_assignees_users {
+  taskId integer
+  usersId integer
 }
 
-Table project_roles {
-  id int
-  project_id int
-  user_id int
-  role varchar
+Table task_prerequisite_tasks_tasks {
+  taskId_1 integer
+  taskId_2 integer  // Prerequisite
+}
+
+Table user_roles {
+  id integer
+  role enum
+  projectId integer
+  userId integer
 }
 
 Table milestones {
-  id int
-  project_id int
+  id integer
   name varchar
+  description text
+  deadline date
+  status enum
+  archived boolean
+  projectId integer
 }
 
-Table prerequisite_tasks {
-  id int
-  task_id int
-  parent_task_id int
-}
+Ref: "refresh_token"."userId" - "users"."id"
 
-Ref: "user"."id" < "assignees_task"."user_id"
+Ref: "project"."id" < "task"."projectId"
 
-Ref: "assignees_task"."task_id" > "task"."id"
+Ref: "milestones"."id" < "task"."milestoneId"
 
-Ref: "project"."id" < "task"."project_id"
+Ref: "task_assignees_users"."taskId" <> "task"."id"
 
-Ref: "project"."id" < "project_roles"."project_id"
+Ref: "task_assignees_users"."usersId" <> "users"."id"
 
-Ref: "project_roles"."user_id" > "user"."id"
+Ref: "task"."id" <> "task_prerequisite_tasks_tasks"."taskId_1"
 
-Ref: "project"."id" < "milestones"."project_id"
+Ref: "task_prerequisite_tasks_tasks"."taskId_2" <> "task"."id"
 
-Ref: "milestones"."id" < "task"."milestone_id"
+Ref: "project"."id" < "user_roles"."projectId"
 
-Ref: "task"."id" < "prerequisite_tasks"."task_id"
+Ref: "users"."id" < "user_roles"."userId"
 
-Ref: "task"."id" < "prerequisite_tasks"."parent_task_id"
+Ref: "project"."id" < "milestones"."projectId"

@@ -1,4 +1,4 @@
-package hu.bme.aut.android.projectmanagerapp.model
+package hu.bme.aut.android.projectmanagerapp.data.user
 
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
@@ -7,8 +7,7 @@ import java.io.Serializable
 data class User(
     val id: Int,
     val username: String,
-    val password: String,
     val fullname: String,
     val email: String
-    ) :Serializable{
+) : Serializable {
 }

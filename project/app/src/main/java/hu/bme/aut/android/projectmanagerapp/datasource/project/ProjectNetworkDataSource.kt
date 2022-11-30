@@ -2,8 +2,7 @@ package hu.bme.aut.android.projectmanagerapp.datasource.project
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import hu.bme.aut.android.projectmanagerapp.data.project.ProjectResult
-import hu.bme.aut.android.projectmanagerapp.model.Project
+import hu.bme.aut.android.projectmanagerapp.data.project.Project
 import hu.bme.aut.android.projectmanagerapp.network.RetrofitClient
 import hu.bme.aut.android.projectmanagerapp.ui.projects.InProgress
 import hu.bme.aut.android.projectmanagerapp.ui.projects.ProjectsResponseError
@@ -14,14 +13,18 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object ProjectNetworkDataSource {
-    fun getProjects(/*token: String*/): MutableLiveData<ProjectsViewState> {
-        val call = RetrofitClient.projectApiInterface.getProjects(/*token*/)
+    fun getProjects(token: String, pageNumber: Int): MutableLiveData<ProjectsViewState> {
+        val call = RetrofitClient.projectApiInterface.getProjects("Bearer ${token}", pageNumber)
         val projectResultData = MutableLiveData<ProjectsViewState>()
-        projectResultData.value= InProgress
-        call.enqueue(object: Callback<List<Project>> {
+        projectResultData.value = InProgress
+        call.enqueue(object : Callback<List<Project>> {
             override fun onResponse(call: Call<List<Project>>, response: Response<List<Project>>) {
                 Log.d("success DEBUG : ", response.body().toString())
-                projectResultData.value = ProjectsResponseSuccess(response.body()!!)
+                if (response.body() != null)
+                    projectResultData.value = ProjectsResponseSuccess(response.body()!!)
+                else
+                    projectResultData.value = ProjectsResponseError(response.code().toString())
+
             }
 
             override fun onFailure(call: Call<List<Project>>, t: Throwable) {

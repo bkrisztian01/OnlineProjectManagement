@@ -1,6 +1,6 @@
-# @host = https://opmapi.azurewebsites.net
-@host = http://localhost:5000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY2OTU3NzE3MSwiZXhwIjoxNjY5NTc3MjkxfQ.aiJQw9Gbu1kIbyaT0RL1M98OI-rQd5EwiD3tyRqI9LU
+@host = https://opmapi.azurewebsites.net
+# @host = http://localhost:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJpYXQiOjE2Njk2NTQ3OTgsImV4cCI6MTY2OTY1NjU5OH0.ROLpOtIjko3OnnYr0kBsAZAbCrc1KjvjIig2YxykVvY
 
 #Get projects
 GET {{host}}/projects
@@ -9,7 +9,7 @@ Authorization: Bearer {{token}}
 ###
 
 #Get project by id
-GET {{host}}/projects/1
+GET {{host}}/projects/2
 Authorization: Bearer {{token}}
 
 ###

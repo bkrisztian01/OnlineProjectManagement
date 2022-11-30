@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -17,34 +18,38 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.android.projectmanagerapp.R
 import hu.bme.aut.android.projectmanagerapp.databinding.FragmentUpcomingTasksBinding
-import hu.bme.aut.android.projectmanagerapp.model.Project
-import hu.bme.aut.android.projectmanagerapp.model.Task
-import hu.bme.aut.android.projectmanagerapp.model.User
+import hu.bme.aut.android.projectmanagerapp.data.project.Project
+import hu.bme.aut.android.projectmanagerapp.data.task.Task
+import hu.bme.aut.android.projectmanagerapp.data.user.User
+import hu.bme.aut.android.projectmanagerapp.ui.adapter.TaskAdapter
 import hu.bme.aut.android.projectmanagerapp.ui.adapter.UpcomingTaskAdapter
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseError
+import hu.bme.aut.android.projectmanagerapp.ui.login.LoginResponseSuccess
 import hu.bme.aut.android.projectmanagerapp.ui.projects.*
-import hu.bme.aut.android.projectmanagerapp.ui.projects.InProgress
+import hu.bme.aut.android.projectmanagerapp.ui.user.UserViewModel
 import java.util.ArrayList
 
-class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelectedListener {
+class FragmentUpcomingTasks : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private val projects: ArrayList<Project> = ArrayList<Project>()
     private val tasks: ArrayList<Task> = ArrayList<Task>()
     private var _binding: FragmentUpcomingTasksBinding? = null
     private val binding get() = _binding!!
-    private lateinit var user: User
-    private val projectViewModel : ProjectViewModel by viewModels()
-    //private lateinit var token: String
+    private val tasksViewModel: TasksViewModel by viewModels()
+    private val loginViewModel: UserViewModel by viewModels()
+    private lateinit var token: String
+    lateinit var adapter: UpcomingTaskAdapter
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentUpcomingTasksBinding.inflate(inflater, container, false)
         val view = binding.root
-        if (arguments!=null) {
+        if (arguments != null) {
             val args: FragmentUpcomingTasksArgs by navArgs()
-            user = args.user
-            //token=args.token
+            token = args.token
         }
-
+        load()
         binding.toolbarupcomingtasks.inflateMenu(R.menu.menu_project_toolbar)
         binding.toolbarupcomingtasks.setOnMenuItemClickListener {
             onOptionsItemSelected(it)
@@ -58,22 +63,23 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
         super.onDestroyView()
         _binding = null
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean{
-        val context = this.activity
-        return when (item.itemId){
 
-            R.id.menu_help->{
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val context = this.activity
+        return when (item.itemId) {
+
+            R.id.menu_help -> {
                 if (context != null) {
                     AlertDialog.Builder(context)
                         .setTitle("Help")
                         .setIcon(R.drawable.ic_help_outline)
-                        .setMessage(R.string.pick)
+                        .setMessage("Here, you can find tasks\ndue in the next 2 weeks.")
                         .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
                 return true
             }
-            R.id.menu_item->{
+            R.id.menu_item -> {
                 val drawer = activity?.findViewById(R.id.drawer_layout) as DrawerLayout
                 drawer.open()
                 return true
@@ -83,79 +89,127 @@ class FragmentUpcomingTasks: Fragment(), NavigationView.OnNavigationItemSelected
     }
 
 
-
     override fun onResume() {
         super.onResume()
-        if(projects.isNotEmpty())
+
+        val searchView: SearchView = activity!!.findViewById(R.id.app_bar_search) as SearchView
+        searchView.clearFocus()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    filter(newText)
+                }
+                return false
+            }
+        })
+
+        if (projects.isNotEmpty())
             projects.clear()
-        if(tasks.isNotEmpty())
+        if (tasks.isNotEmpty())
             tasks.clear()
-        projectViewModel.getProjects(/*token*/)?.observe(this) { projectsViewState ->
-            render(projectsViewState)
-        }
-        val navigationView= activity?.findViewById(R.id.nav_view) as NavigationView
+
+        val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setCheckedItem(R.id.taskspage)
         navigationView.setNavigationItemSelectedListener(this)
 
 
+
     }
-    private fun render(result: ProjectsViewState) {
+
+    private fun filter(text: String) {
+        val filteredlist = java.util.ArrayList<Task>()
+        for (item in tasks) {
+            if (item.name.lowercase().contains(text.lowercase(), true)) {
+                filteredlist.add(item)
+            }
+        }
+        adapter.filterList(filteredlist)
+
+    }
+
+
+    private fun load() {
+        tasksViewModel.getUpcomingTasks(token)?.observe(this) { tasksViewState ->
+            render(tasksViewState)
+        }
+    }
+
+
+    private fun render(result: TasksViewState) {
         when (result) {
-            is InProgress -> {binding.loadingview.show()}
-            is ProjectsResponseSuccess ->{
-                binding.loadingview.hide()
+            is InProgress -> {
+                binding.loading.show()
+            }
+            is TaskResponseSuccess -> {
+                binding.loading.hide()
                 val itr = result.data.listIterator()
                 while (itr.hasNext()) {
-                    itr.next().tasks.forEach {
-                        if(it.status!="Done") {
-                            projects.add(itr.next())
-                            tasks.add(it)
-                        }
-
-                    }
-                    /*
-                    val itr1= itr.next().tasks.listIterator()
-                    while(itr1.hasNext()){
-                       /* if(itr1.next().assignees.contains(user)) {*/
-                        /*if(itr1.next().status.length>0) {*/
-                            projects.add(itr.next())
-                            tasks.add(itr1.next())
-                        /*}*/
-                        /*}*/*/
+                    tasks.add(itr.next())
 
                 }
                 val recyclerView = activity?.findViewById(R.id.rvUpcoming) as RecyclerView
-                tasks.sortBy {it.deadline }
-                val adapter = UpcomingTaskAdapter(user,tasks,projects)
+                tasks.sortBy { it.deadline }
+                adapter = UpcomingTaskAdapter(token, tasks, projects)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(this.activity)
+
             }
-            is ProjectsResponseError ->{
-                this.view?.let {
-                    Snackbar.make(it, R.string.text_label, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_text) {
-                            render(result)
+            is TaskResponseError -> {
+                if (result.exceptionMsg == "401") {
+                    loginViewModel.getRefreshToken().observe(this) { loginViewState ->
+                        run {
+                            when (loginViewState) {
+                                is hu.bme.aut.android.projectmanagerapp.ui.login.InProgress -> {}
+                                is LoginResponseSuccess -> {
+                                    token = loginViewState.data.accessToken
+                                    load()
+                                }
+                                is LoginResponseError -> {
+                                    this.view?.let {
+                                        Snackbar.make(
+                                            it,
+                                            "Couldn't reach server!",
+                                            Snackbar.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            }
+
                         }
-                        .show()
+                    }
+                } else {
+                    this.view?.let {
+                        Snackbar.make(it, "Couldn't reach server!", Snackbar.LENGTH_LONG).show()
+                    }
                 }
             }
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
-            R.id.accountpage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser(user))
+        return when (item.itemId) {
+            R.id.accountpage -> {
+                binding.root.findNavController().navigate(
+                    FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentUser(token)
+                )
                 true
             }
-            R.id.homepage->{
-                binding.root.findNavController().navigate(FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject(user))
+            R.id.homepage -> {
+                binding.root.findNavController().navigate(
+                    FragmentUpcomingTasksDirections.actionFragmentUpcomingTasksToFragmentProject(
+                        token
+                    )
+                )
                 true
             }
-            R.id.taskspage->{
+            R.id.taskspage -> {
                 true
             }
-            else->{
+            else -> {
                 false
             }
         }

@@ -13,7 +13,7 @@
             app:destination="@id/fragmentLogIn" />
         <action
             android:id="@+id/action_fragmentWelcome_to_fragmentSignIn"
-            app:destination="@id/fragmentSignIn" />
+            app:destination="@id/fragmentSignIn"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentLogIn"
@@ -21,7 +21,7 @@
         android:label="FragmentLogIn" >
         <action
             android:id="@+id/action_fragmentLogIn_to_fragmentProject"
-            app:destination="@id/fragmentProject" />
+            app:destination="@id/fragmentProject"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentProject"
@@ -29,22 +29,25 @@
         android:label="FragmentProject" >
         <action
             android:id="@+id/action_fragmentProject_to_fragmentWelcome"
-            app:destination="@id/fragmentWelcome" />
+            app:destination="@id/fragmentWelcome"/>
         <action
             android:id="@+id/action_fragmentProject_to_fragmentTasks"
-            app:destination="@id/fragmentTasks" />
+            app:destination="@id/fragmentTasks"/>
         <action
             android:id="@+id/action_fragmentProject_to_fragmentMilestone"
-            app:destination="@id/fragmentMilestone" />
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+            app:destination="@id/fragmentMilestone"/>
         <action
             android:id="@+id/action_fragmentProject_to_fragmentUser"
-            app:destination="@id/fragmentUser" />
+            app:destination="@id/fragmentUser"/>
         <action
             android:id="@+id/action_fragmentProject_to_fragmentUpcomingTasks"
-            app:destination="@id/fragmentUpcomingTasks" />
+            app:destination="@id/fragmentUpcomingTasks"/>
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentProject_to_fragmentNav"
+            app:destination="@id/fragmentNav" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSignIn"
@@ -52,7 +55,7 @@
         android:label="FragmentSignIn" >
         <action
             android:id="@+id/action_fragmentSignIn_to_fragmentWelcome"
-            app:destination="@id/fragmentWelcome" />
+            app:destination="@id/fragmentWelcome"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentTasks"
@@ -60,83 +63,92 @@
         android:label="FragmentTasks" >
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentProject"
-            app:destination="@id/fragmentProject" />
+            app:destination="@id/fragmentProject"/>
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentWelcome"
-            app:destination="@id/fragmentWelcome" />
-        <argument
-            android:name="project"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
+            app:destination="@id/fragmentWelcome"/>
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentSingleProject"
-            app:destination="@id/fragmentSingleProject" />
+            app:destination="@id/fragmentSingleProject"/>
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentSingleTask"
-            app:destination="@id/fragmentSingleTask" />
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
-        <argument
-            android:name="milestone"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.Milestone" />
+            app:destination="@id/fragmentSingleTask"/>
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentUser"
-            app:destination="@id/fragmentUser" />
+            app:destination="@id/fragmentUser"/>
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentProject2"
-            app:destination="@id/fragmentProject" />
+            app:destination="@id/fragmentProject"/>
         <action
             android:id="@+id/action_fragmentTasks_to_fragmentUpcomingTasks"
-            app:destination="@id/fragmentUpcomingTasks" />
+            app:destination="@id/fragmentUpcomingTasks"/>
+        <action
+            android:id="@+id/action_fragmentTasks_to_fragmentSingleMilestone"
+            app:destination="@id/fragmentSingleMilestone" />
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="projectid"
+            app:argType="integer" />
+        <argument
+            android:name="milestoneid"
+            app:argType="integer" />
+        <argument
+            android:name="milestonename"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleProject"
         android:name="hu.bme.aut.android.projectmanagerapp.ui.singleproject.FragmentSingleProject"
-        android:label="FragmentSingleProject" >
+        android:label="FragmentSingleProject">
         <action
             android:id="@+id/action_fragmentSingleProject_to_fragmentWelcome"
-            app:destination="@id/fragmentWelcome" />
-        <argument
-            android:name="project"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+            app:destination="@id/fragmentWelcome"/>
         <action
             android:id="@+id/action_fragmentSingleProject_to_fragmentUser"
-            app:destination="@id/fragmentUser" />
+            app:destination="@id/fragmentUser"/>
         <action
             android:id="@+id/action_fragmentSingleProject_to_fragmentProject"
-            app:destination="@id/fragmentProject" />
+            app:destination="@id/fragmentProject"/>
         <action
             android:id="@+id/action_fragmentSingleProject_to_fragmentUpcomingTasks"
-            app:destination="@id/fragmentUpcomingTasks" />
+            app:destination="@id/fragmentUpcomingTasks"/>
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="projectid"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSingleTask"
         android:name="hu.bme.aut.android.projectmanagerapp.ui.singletask.FragmentSingleTask"
         android:label="FragmentSingleTask" >
-        <argument
-            android:name="project"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
-        <argument
-            android:name="task"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.Task" />
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentWelcome"
-            app:destination="@id/fragmentWelcome" />
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+            app:destination="@id/fragmentWelcome"/>
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentUser"
-            app:destination="@id/fragmentUser" />
+            app:destination="@id/fragmentUser"/>
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentProject"
-            app:destination="@id/fragmentProject" />
+            app:destination="@id/fragmentProject"/>
         <action
             android:id="@+id/action_fragmentSingleTask_to_fragmentUpcomingTasks"
-            app:destination="@id/fragmentUpcomingTasks" />
+            app:destination="@id/fragmentUpcomingTasks"/>
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="projectid"
+            app:argType="integer" />
+        <argument
+            android:name="taskid"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_fragmentSingleTask_self"
+            app:destination="@id/fragmentSingleTask" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMilestone"
@@ -144,53 +156,54 @@
         android:label="FragmentMilestone" >
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentTasks"
-            app:destination="@id/fragmentTasks" />
-        <argument
-            android:name="project"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.Project" />
+            app:destination="@id/fragmentTasks"/>
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentWelcome"
-            app:destination="@id/fragmentWelcome" />
+            app:destination="@id/fragmentWelcome"/>
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentSingleProject"
-            app:destination="@id/fragmentSingleProject" />
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
+            app:destination="@id/fragmentSingleProject"/>
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentUser"
-            app:destination="@id/fragmentUser" />
+            app:destination="@id/fragmentUser"/>
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentProject"
-            app:destination="@id/fragmentProject" />
+            app:destination="@id/fragmentProject"/>
         <action
             android:id="@+id/action_fragmentMilestone_to_fragmentUpcomingTasks"
-            app:destination="@id/fragmentUpcomingTasks" />
+            app:destination="@id/fragmentUpcomingTasks"/>
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="projid"
+            app:argType="integer" />
+        <argument
+            android:name="projname"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fragmentUser"
         android:name="hu.bme.aut.android.projectmanagerapp.ui.user.FragmentUser"
         android:label="FragmentUser" >
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
         <action
             android:id="@+id/action_fragmentUser_to_fragmentWelcome"
-            app:destination="@id/fragmentWelcome" />
+            app:destination="@id/fragmentWelcome"
+            />
         <action
             android:id="@+id/action_fragmentUser_to_fragmentProject"
             app:destination="@id/fragmentProject" />
         <action
             android:id="@+id/action_fragmentUser_to_fragmentUpcomingTasks"
             app:destination="@id/fragmentUpcomingTasks" />
+        <argument
+            android:name="token"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fragmentUpcomingTasks"
         android:name="hu.bme.aut.android.projectmanagerapp.ui.tasks.FragmentUpcomingTasks"
         android:label="FragmentUpcomingTasks" >
-        <argument
-            android:name="user"
-            app:argType="hu.bme.aut.android.projectmanagerapp.model.User" />
         <action
             android:id="@+id/action_fragmentUpcomingTasks_to_fragmentSingleTask"
             app:destination="@id/fragmentSingleTask" />
@@ -200,5 +213,66 @@
         <action
             android:id="@+id/action_fragmentUpcomingTasks_to_fragmentProject"
             app:destination="@id/fragmentProject" />
+        <argument
+            android:name="token"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSingleMilestone"
+        android:name="hu.bme.aut.android.projectmanagerapp.ui.singlemilestone.FragmentSingleMilestone"
+        android:label="FragmentSingleMilestone" >
+        <action
+            android:id="@+id/action_fragmentSingleMilestone_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
+        <action
+            android:id="@+id/action_fragmentSingleMilestone_to_fragmentProject"
+            app:destination="@id/fragmentProject" />
+        <argument
+            android:name="projectid"
+            app:argType="integer" />
+        <argument
+            android:name="milestoneid"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_fragmentSingleMilestone_to_fragmentUser"
+            app:destination="@id/fragmentUser" />
+        <action
+            android:id="@+id/action_fragmentSingleMilestone_to_fragmentSingleProject"
+            app:destination="@id/fragmentSingleProject" />
+        <argument
+            android:name="token"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentNav"
+        android:name="hu.bme.aut.android.projectmanagerapp.ui.projects.FragmentNav"
+        android:label="FragmentNav" >
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="projid"
+            app:argType="integer" />
+        <argument
+            android:name="projname"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentNav_to_fragmentMilestone"
+            app:destination="@id/fragmentMilestone" />
+        <action
+            android:id="@+id/action_fragmentNav_to_fragmentUpcomingTasks"
+            app:destination="@id/fragmentUpcomingTasks" />
+        <action
+            android:id="@+id/action_fragmentNav_to_fragmentSingleProject"
+            app:destination="@id/fragmentSingleProject" />
+        <action
+            android:id="@+id/action_fragmentNav_to_fragmentProject"
+            app:destination="@id/fragmentProject" />
+        <action
+            android:id="@+id/action_fragmentNav_to_fragmentUser"
+            app:destination="@id/fragmentUser" />
+        <action
+            android:id="@+id/action_fragmentNav_to_fragmentTasks"
+            app:destination="@id/fragmentTasks" />
     </fragment>
 </navigation>

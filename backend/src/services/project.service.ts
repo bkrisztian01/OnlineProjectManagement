@@ -9,19 +9,10 @@ import { Status } from '../util/Status';
 
 const PAGE_SIZE = 5;
 
-function nullCheck(project: Project) {
-  if (!project.tasks) {
-    project.tasks = [];
-  }
-  if (!project.milestones) {
-    project.milestones = [];
-  }
-  return project;
-}
-
 export async function getProjects(userId: number, pageNumber: number) {
   const options: any = {
     order: { id: 'ASC' },
+    relations: ['userRoles', 'userRoles.user'],
   };
 
   if (pageNumber && pageNumber > 0) {
@@ -40,11 +31,11 @@ export async function getProjects(userId: number, pageNumber: number) {
         user: { id: userId },
       },
     };
-    options.relations = ['userRoles'];
   }
 
   // Ez nagyon jank
   const projects = (await Project.find(options)).map(p => {
+    console.log(p);
     return {
       id: p.id,
       name: p.name,
@@ -53,7 +44,10 @@ export async function getProjects(userId: number, pageNumber: number) {
       startDate: p.startDate,
       endDate: p.endDate,
       estimatedTime: p.estimatedTime,
-      userRole: p.userRoles ? p.userRoles[0].role : adminRole.role,
+      userRoles: p.userRoles,
+      userRole: adminRole
+        ? adminRole.role
+        : p.userRoles.find(r => r.user.id == userId).role,
     };
   });
 
@@ -120,12 +114,13 @@ export async function createProject(
     });
   });
 
-  return nullCheck(result);
+  return result;
 }
 
 export async function getProjectById(id: number, userId: number) {
   let project: any = await Project.findOne({
     where: { id },
+    relations: ['userRoles', 'userRoles.user'],
   });
 
   let userRole = await UserRole.findOne({
