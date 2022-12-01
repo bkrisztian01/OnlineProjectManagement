@@ -216,7 +216,15 @@ background-color: white;
 .blockquote-footer{
     animation: sideShift 1s ease-in forwards;
 }
-
+.dropdown-menu .button:hover{
+    background-position: right bottom  !important;
+}
+.dropdown-menu .button{
+    background: linear-gradient(to right, #1dfdf256  50%, white 50%) !important;
+    background-size: 200% 100%  !important;
+    transition: all .3s ease-out  !important;
+    background-position: right bottom  !important;
+}
 tbody .tr:nth-child(-n+5):hover{
     background-position: left bottom;
 }
