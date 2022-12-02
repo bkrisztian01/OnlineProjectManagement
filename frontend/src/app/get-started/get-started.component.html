@@ -1,24 +1,27 @@
 <div class="background">
     
-    <!-- <div class="row d-flex align-items-center justify-content-center h-50">
-        <div class="col-md-10 col-lg-9 col-xl-8 ">
-            <h1>Online Project Manager</h1>
-            
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <button class="btn btn-primary" routerLink="/login"> Get started</button>
-    </div> -->
-    <!-- <h1 class="home-title">
+    <h1 class="home-title">
+        
+        <span *ngIf="!shown"></span>
         <span *ngIf="!shown"></span>
         <span *ngIf="shown"></span>
-        <span *ngIf="!shown">Online Project</span>
+        <span *ngIf="!shown">
+            <div class="wait">
+            Online Project
+        </div>
+        </span>
         <span *ngIf="shown"></span>
-        <span *ngIf="!shown">Manager</span>
+        <span *ngIf="!shown"><div class="wait">
+            Manager
+        </div></span>
         <span *ngIf="shown"></span>
-        <span *ngIf="!shown"> <button class="btn btn-primary" (click)="CurrentDelay()" >
+        <span *ngIf="!shown"> 
+            <div class="wait">
+            <button class="btn btn-primary" (click)="CurrentDelay()" >
              Get started
-            </button></span>
+            </button>
+        </div>
+    </span>
             <span *ngIf="shown"></span>
         <span *ngIf="!shown"></span>
         <span *ngIf="shown"></span>
@@ -28,20 +31,8 @@
         <span *ngIf="shown"></span>
         <span *ngIf="shown"></span>
         <span *ngIf="shown"></span>
-      </h1> -->
+      </h1>
 
-      <!-- <div class="container">
-        <div class="input-group">
-          <label class="input-group__label" for="myInput">My Label</label>
-          <input type="text" id="myInput" class="input-group__input" value="This is my input" />
-        </div>
-      </div> -->
-      <h1>adasdasd</h1>
-          <div class="button-switch r" >
-            <input type="checkbox" class="switchbox" />
-            <div class="switchknobs"></div>
-            <div class="switchlayer"></div>
-          </div>
 
 </div>
 
