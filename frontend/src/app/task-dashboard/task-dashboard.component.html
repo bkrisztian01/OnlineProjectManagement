@@ -1,9 +1,10 @@
 
 <nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Online Project Manager</a>
+    <a class="navbar-brand">Online Project Manager</a>
     <div class="d-flex" *ngIf="projectDetails != undefined">
 
+      
       <button
       type="button"
       *ngIf="projectDetails.userRole != 'Member' &&projectDetails.status!='Done'&&!isShown "
@@ -213,7 +214,7 @@
 <figure class="text-center" *ngIf="projectName != '' " >
   <h1 class="display-1" *ngIf="!isShown">{{ projectName }}</h1>
   <span visible></span>
-  <figcaption class="blockquote-footer">Current Project -</figcaption>
+  <figcaption class="blockquote-footer">Current Project</figcaption>
 </figure>
 
 <div class="d-flex justify-content-center">
@@ -228,18 +229,18 @@
   >
     Project details
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      class="bi bi-body-text"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"
-      />
-    </svg>
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    class="bi bi-body-text"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"
+    />
+  </svg>
   </button>
   <button
     class="btn btn-primary btn-primary-anim2"
@@ -249,6 +250,7 @@
     aria-expanded="false"
     aria-controls="multiCollapseExample2"
   >
+    Timetable
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -261,28 +263,15 @@
         d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"
       />
     </svg>
-    /
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      class="bi bi-pie-chart-fill"
-      viewBox="0 0 16 16"
-    >
-      <path
-        d="M15.985 8.5H8.207l-5.5 5.5a8 8 0 0 0 13.277-5.5zM2 13.292A8 8 0 0 1 7.5.015v7.778l-5.5 5.5zM8.5.015V7.5h7.485A8.001 8.001 0 0 0 8.5.015z"
-      />
-    </svg>
   </button>
 </p>
 </div>
-<div class="row">
+<div class="row" style="margin-left:5vw; margin-right:5vw; margin-top: 20px; margin-bottom: 20px;">
   <div class="col">
     <div class="collapse multi-collapse" id="multiCollapseExample1">
       <div class="card card-body border-special">
         <table class="tb" *ngIf="projectDetails != undefined">
-          <tr class="trproj">
+          <tr class="trproj" style="font-size:large;">
             <td class="tdproj">Name:</td>
             <td>{{ projectDetails.name }}</td>
           </tr>
@@ -315,24 +304,7 @@
     </div>
   </div>
   <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample2">
-      <div
-        class="card card-body border-special"
-        *ngIf="ChartOptionsGantt != undefined"
-      >
-        <apx-chart
-          *ngIf="ChartOptionsGantt != undefined && taskData != undefined"
-          [series]="ChartOptionsGantt.series!!"
-          [chart]="ChartOptionsGantt.chart!!"
-          [xaxis]="ChartOptionsGantt.xaxis!!"
-          [plotOptions]="ChartOptionsGantt.plotOptions!!"
-        >
-        </apx-chart>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample2">
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
       <div
         class="card card-body border-special"
         *ngIf="chartOptions != undefined"
@@ -348,7 +320,7 @@
     </div>
   </div>
   <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample2">
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
       <div
         class="card card-body border-special"
         *ngIf="ChartOptionsRadial != undefined"
@@ -366,50 +338,44 @@
     </div>
   </div>
 </div>
-
-<h1 >Tasks:</h1>
-
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-end me-5">
-    <li class="page-item">
-      <a class="page-link" (click)="setTaskPageNumber(-1)">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-caret-left"
-          viewBox="0 0 16 16"
+<div class="row" style="margin-left:5vw; margin-right:5vw; margin-top: 20px; margin-bottom: 20px;">
+  <div class="col">
+    <div class="collapse multi-collapse" id="multiCollapseExample2">
+      <div
+        class="card card-body border-special"
+        *ngIf="ChartOptionsGantt != undefined"
+      >
+        <apx-chart
+          *ngIf="ChartOptionsGantt != undefined && taskData != undefined"
+          [series]="ChartOptionsGantt.series!!"
+          [chart]="ChartOptionsGantt.chart!!"
+          [xaxis]="ChartOptionsGantt.xaxis!!"
+          [plotOptions]="ChartOptionsGantt.plotOptions!!"
         >
-          <path
-            d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"
-          />
-        </svg>
-      </a>
-    </li>
-    <li class="page-item">
-      <a class="page-link">{{ TaskPageNumber }}</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" (click)="setTaskPageNumber(1)">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-caret-right"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"
-          />
-        </svg>
-      </a>
-    </li>
-  </ul>
-</nav>
+        </apx-chart>
+      </div>
+    </div>
+  </div>
+</div>
 
-<table class="table" *ngIf="!isShown" >
+<div class="d-flex">
+  <div class="justify-content-start">
+  <h1 style="margin-left: 115px;">
+    Tasks:
+  </h1>
+</div>
+<div class="justify-content-end">
+  <div class="button-switch r" >
+    <input type="checkbox" class="switchbox" (change)="TaskVisible()" />
+    <div class="switchknobs"></div>
+    <div class="switchlayer"></div>
+  </div>
+</div>
+</div>
+
+
+
+<table class="table" *ngIf="!isShown && taskVisibility" >
   <thead>
     <tr class="tr">
       <th scope="col">Task Name
@@ -472,45 +438,33 @@
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'Done'"
-        class="p-3 mb-2 bg-success text-black"
+        class="p-3 mb-2 text-black"
       >
+      <div class="status-light-green">
         {{ row.status }}
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-check2-circle"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"
-          />
-          <path
-            d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"
-          />
-        </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-align-start"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M1.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z"
-          />
-          <path
-            d="M3 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7z"
-          />
-        </svg>
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-check2-circle"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"
+        />
+        <path
+          d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"
+        />
+      </svg>
+        
+      </div>
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'In Progress'"
-        class="p-3 mb-2 bg-warning text-black"
+        class="p-3 mb-2  text-black "
       >
+      <div class="status-light-yellow">
         {{ row.status }}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -524,11 +478,13 @@
             d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"
           />
         </svg>
+      </div>
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'Not Started'"
-        class="p-3 mb-2 bg-secondary text-black"
+        class="p-3 mb-2  text-black"
       >
+      <div class="status-light-grey">
         {{ row.status }}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -546,11 +502,13 @@
             d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"
           />
         </svg>
+      </div>
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'Stopped'"
-        class="p-3 mb-2 bg-danger text-black"
+        class="p-3 mb-2 text-black"
       >
+      <div class="status-light-red">
         {{ row.status }}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -567,6 +525,7 @@
             d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"
           />
         </svg>
+      </div>
       </td>
 
       <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">
@@ -663,6 +622,45 @@
     </tr>
   </tbody>
 </table>
+<nav aria-label="Page navigation example" *ngIf="taskVisibility">
+  <ul class="pagination justify-content-end" style="margin-right: 8rem; margin-top:20px">
+    <li class="page-item">
+      <a class="page-link" (click)="setTaskPageNumber(-1)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-caret-left"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"
+          />
+        </svg>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link">{{ TaskPageNumber }}</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" (click)="setTaskPageNumber(1)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-caret-right"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"
+          />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
 
 <!-- Modal -->
 <div
@@ -1048,49 +1046,23 @@
 
 <!-- Modal MILESTONE VEGE-->
 
-<h1 >Milestones:</h1>
 
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-end me-5">
-    <li class="page-item">
-      <a class="page-link" (click)="setMilestonePageNumber(-1)">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-caret-left"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"
-          />
-        </svg>
-      </a>
-    </li>
-    <li class="page-item">
-      <a class="page-link">{{ MilestonePageNumber }}</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" (click)="setMilestonePageNumber(1)">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-caret-right"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"
-          />
-        </svg>
-      </a>
-    </li>
-  </ul>
-</nav>
+<div class="d-flex">
+  <div class="justify-content-start">
+  <h1 style="margin-left: 115px;">
+    Milestones:
+  </h1>
+</div>
+<div class="justify-content-end">
+  <div class="button-switch r" >
+    <input type="checkbox" class="switchbox" (change)="MilestoneVisible()" />
+    <div class="switchknobs"></div>
+    <div class="switchlayer"></div>
+  </div>
+</div>
+</div>
 
-<table class="table" *ngIf="!isShown" >
+<table class="table" *ngIf="!isShown && milestoneVisibility" >
   <thead>
     <tr class="tr">
       <th scope="col">Milestone Name
@@ -1152,8 +1124,9 @@
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'Done'"
-        class="p-3 mb-2 bg-success text-black"
+        class="p-3 mb-2  text-black"
       >
+      <div class="status-light-green">
         {{ row.status }}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1170,6 +1143,7 @@
             d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"
           />
         </svg>
+      </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -1189,8 +1163,9 @@
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'In Progress'"
-        class="p-3 mb-2 bg-warning text-black"
+        class="p-3 mb-2  text-black"
       >
+      <div class="status-light-yellow">
         {{ row.status }}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1204,11 +1179,13 @@
             d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"
           />
         </svg>
+      </div>
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'Not Started'"
-        class="p-3 mb-2 bg-secondary text-black"
+        class="p-3 mb-2  text-black"
       >
+      <div class="status-light-grey">
         {{ row.status }}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1226,11 +1203,13 @@
             d="M13 7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"
           />
         </svg>
+      </div>
       </td>
       <td
         *ngIf="row.archived == false && row.status == 'Stopped'"
-        class="p-3 mb-2 bg-danger text-black"
+        class="p-3 mb-2  text-black"
       >
+      <div class="status-light-red">
         {{ row.status }}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1247,6 +1226,7 @@
             d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"
           />
         </svg>
+      </div>
       </td>
 
       <td *ngIf="row.archived" class="p-3 mb-2 bg-secondary text-white">
@@ -1340,6 +1320,47 @@
     </tr>
   </tbody>
 </table>
+<nav aria-label="Page navigation example" *ngIf="milestoneVisibility">
+  
+  <ul class="pagination justify-content-end" style="margin-right: 8rem; margin-top:20px">
+    
+    <li class="page-item ">
+      <a class="page-link" (click)="setMilestonePageNumber(-1)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-caret-left"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"
+          />
+        </svg>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link">{{ MilestonePageNumber }}</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" (click)="setMilestonePageNumber(1)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-caret-right"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"
+          />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
 </div>
 <!-- Modal PROJECT -->
 <div
