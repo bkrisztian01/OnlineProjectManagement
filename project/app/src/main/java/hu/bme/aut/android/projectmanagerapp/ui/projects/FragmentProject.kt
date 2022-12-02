@@ -140,10 +140,13 @@ class FragmentProject : Fragment(), NavigationView.OnNavigationItemSelectedListe
                     isScrolling = false
                     pageNumber++
                     load()
+
                 }
             }
         })
         load()
+        adapter = ProjectAdapter(projects, token)
+        recyclerView.adapter = adapter
         val navigationView = activity?.findViewById(R.id.nav_view) as NavigationView
         navigationView.setCheckedItem(R.id.homepage)
         navigationView.setNavigationItemSelectedListener(this)
@@ -190,15 +193,12 @@ class FragmentProject : Fragment(), NavigationView.OnNavigationItemSelectedListe
             is ProjectsResponseSuccess -> {
                 binding.loading.hide()
                 val itr = result.data.listIterator()
-                val ogsize = projects.size
                 if (result.data.isNotEmpty()) {
                     while (itr.hasNext()) {
                         val item = itr.next()
                         projects.add(item)
                     }
-                    adapter = ProjectAdapter(projects, token)
-                    recyclerView.adapter = adapter
-                    recyclerView.scrollToPosition(ogsize)
+                    adapter.notifyDataSetChanged()
                 } else {
                     pageNumber--
                     more = false

@@ -84,6 +84,8 @@ class FragmentMilestone : Fragment(), NavigationView.OnNavigationItemSelectedLis
         recyclerView.layoutManager = manager
         if (milestones.isNotEmpty())
             milestones.clear()
+        adapter = MilestoneAdapter(milestones, projid, token)
+        recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -162,7 +164,6 @@ class FragmentMilestone : Fragment(), NavigationView.OnNavigationItemSelectedLis
             }
             is MilestoneResponseSuccess -> {
                 binding.loading.hide()
-                val ogsize = milestones.size
                 binding.rvMilestones.visibility = View.VISIBLE
                 if (result.data.isNotEmpty()) {
                     val itr = result.data?.listIterator()
@@ -171,9 +172,7 @@ class FragmentMilestone : Fragment(), NavigationView.OnNavigationItemSelectedLis
                             milestones.add(itr.next())
                         }
                     }
-                    adapter = MilestoneAdapter(milestones, projid, token)
-                    recyclerView.adapter = adapter
-                    recyclerView.scrollToPosition(ogsize)
+                    adapter.notifyDataSetChanged()
                 } else {
                     pageNumber--
                     more = false

@@ -99,7 +99,8 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
 
         if (tasks.isNotEmpty())
             tasks.clear()
-
+        adapter = TaskAdapter(tasks, projectid, token)
+        recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -195,7 +196,6 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
             }
             is TaskResponseSuccess -> {
                 binding.loading.hide()
-                val ogsize = tasks.size
                 if (result.data.isNotEmpty()) {
                     val itr = result.data?.listIterator()
                     if (itr != null) {
@@ -203,9 +203,8 @@ class FragmentTasks : Fragment(), NavigationView.OnNavigationItemSelectedListene
                             tasks.add(itr.next())
                         }
                     }
-                    adapter = TaskAdapter(tasks, projectid, token)
-                    recyclerView.adapter = adapter
-                    recyclerView.scrollToPosition(ogsize)
+                    adapter.notifyDataSetChanged()
+
                 } else {
                     pageNumber--
                     more = false
