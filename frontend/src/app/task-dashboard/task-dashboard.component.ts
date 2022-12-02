@@ -65,6 +65,8 @@ export class TaskDashboardComponent implements OnInit {
   showUpdate!: boolean;
   TaskPageNumber: any = 1;
   MilestonePageNumber = 1;
+  taskVisibility: boolean = true;
+  milestoneVisibility: boolean = true;
 
   AccessToken!: any;
 
@@ -124,7 +126,7 @@ export class TaskDashboardComponent implements OnInit {
         height: 500,
       },
       labels: [],
-      colors: ['#289A09', '#ffc133', '#FF4233', '#96a2a3'],
+      colors: ['#01d14d', '#ffbf10', '#ff2323', '#a7a7a7'],
       responsive: [
         {
           breakpoint: 480,
@@ -166,7 +168,7 @@ export class TaskDashboardComponent implements OnInit {
           },
         },
       },
-      colors: ['#289A09', '#ffc133', '#96a2a3', '#FF4233'],
+      colors: ['#01d14d', '#ffbf10', '#a7a7a7', '#ff2323'],
       labels: ['Done', 'In Progress', 'Not Started', 'Stopped'],
       legend: {
         show: true,
@@ -248,10 +250,10 @@ export class TaskDashboardComponent implements OnInit {
       let y1 = new Date(row.startDate).getTime();
       let y2 = new Date(row.deadline).getTime();
       let fillColor!: String;
-      if (row.status == 'In Progress') fillColor = '#ffc133';
-      else if (row.status == 'Stopped') fillColor = '#ff4233';
-      else if (row.status == 'Done') fillColor = '#289a09';
-      else if (row.status == 'Not Started') fillColor = '#96a2a3';
+      if (row.status == 'In Progress') fillColor = '#ffbf10';
+      else if (row.status == 'Stopped') fillColor = '#ff2323';
+      else if (row.status == 'Done') fillColor = '#01d14d';
+      else if (row.status == 'Not Started') fillColor = '#a7a7a7';
 
       let y: number[] = [y1, y2];
       data.push({ x, y, fillColor });
@@ -260,6 +262,12 @@ export class TaskDashboardComponent implements OnInit {
     this.ChartOptionsGantt.series?.push({ data });
   }
 
+  TaskVisible(){
+    this.taskVisibility = !this.taskVisibility;
+  }
+  MilestoneVisible(){
+    this.milestoneVisibility = !this.milestoneVisibility;
+  }
   setProjectId(row: any) {
     let newId = row.id;
     this.projectId = newId;

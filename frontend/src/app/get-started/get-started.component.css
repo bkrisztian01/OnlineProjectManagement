@@ -136,3 +136,14 @@ button:active span::before{
   100% {transform: translateX(200%);
     color: white;}
 }
+
+.wait{
+  animation: Fade 0.5s ease-in forwards 1.2s;
+  opacity: 0;
+}
+@keyframes Fade {
+  100%{
+    opacity: 1;;
+  }
+
+}

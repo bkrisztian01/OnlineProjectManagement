@@ -24,7 +24,6 @@
 
 h1{
     padding: 1rem 2rem;
-    opacity: 0;
 }
 
 .fw-normal{
@@ -138,6 +137,10 @@ h1{
     background-size: 200% 100%;
     /* transition: background-position 0.8s ease-out; */
     animation: borderShift 1.5s ease-in infinite alternate-reverse;
+
+  }
+  .rotate{
+    animation: spin 1.5s linear ;
   }
     @keyframes spin {
       100%{
@@ -250,14 +253,12 @@ h1{
   @keyframes shift-login {
     100%{
       font-size: 300%;
-      opacity: 1;
     }
     80%{
       font-size:200%;
     }
     0%{
       font-size: 650%;
-      opacity: 0;
     }
   }
   .carousel{
