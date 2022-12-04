@@ -10,7 +10,7 @@ import { throwError } from 'rxjs';
 export class ApiService {
   // Nem tudom hogyan kene ezt rendesen megcsinalni, main-re
   // merge-ölés előtt ird at az elsore, hogy mukodjon Azure-on
-  private apiAddress = 'https://opmapi.azurewebsites.net';
+   private apiAddress = 'https://opmapi.azurewebsites.net';
   //private apiAddress = '/api';
 
   private AccessToken!: String;
