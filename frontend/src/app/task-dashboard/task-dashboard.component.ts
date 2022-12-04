@@ -84,6 +84,8 @@ export class TaskDashboardComponent implements OnInit {
   projectId!: number;
   projectName: String = '';
 
+
+  //INITIALIZING
   ngOnInit(): void {
     this.formValue = this.formbuilder.group({
       text: [''],
@@ -112,11 +114,10 @@ export class TaskDashboardComponent implements OnInit {
       tasks: [''],
     });
     this.AccessToken = this.api.AccessTokenThrow();
-
     this.getAllProjectsInit();
-
   }
 
+  //DONUT CHART INIT
   initializeChart() {
     this.chartOptions = {
       series: [],
@@ -225,6 +226,7 @@ export class TaskDashboardComponent implements OnInit {
     ];
   }
 
+  //GANTT CHART INIT
   initializeGanttChart() {
     this.ChartOptionsGantt = {
       series: [],
@@ -262,85 +264,12 @@ export class TaskDashboardComponent implements OnInit {
     this.ChartOptionsGantt.series?.push({ data });
   }
 
+  //TASK FUNCTIONS
   TaskVisible(){
     this.taskVisibility = !this.taskVisibility;
   }
-  MilestoneVisible(){
-    this.milestoneVisibility = !this.milestoneVisibility;
-  }
-  setProjectId(row: any) {
-    let newId = row.id;
-    this.projectId = newId;
-    this.projectName = row.name;
-    this.getAllTasks();
-    this.getAllMilestones();
-    this.getProjectDetails();
-    this.api.setProjectID(this.projectId);
-  }
 
-  setTaskPageNumber(x: any) {
-    let temp = this.TaskPageNumber + x;
-    let size =  (Object.keys(this.taskData).length) /5
-
-    if(x>0 &&this.TaskPageNumber < size){
-      this.TaskPageNumber += x;
-    }
-    else if(temp>0 && x<0){
-      this.TaskPageNumber += x;
-    }
-    
-    this.getAllTasks;
-  }
-  setMilestonePageNumber(x: any) {
-    let temp = this.MilestonePageNumber + x;
-    let size =  (Object.keys(this.milestoneData).length) /5
-
-    if(x>0 &&this.MilestonePageNumber < size){
-      this.MilestonePageNumber += x;
-    }
-    else if(temp>0 && x<0){
-      this.MilestonePageNumber += x;
-    }
-    this.getAllMilestones;
-  }
-
-  postProject() {
-    const reqBody = {
-      name: this.projectValue.value.name,
-      description: this.projectValue.value.description,
-      status: this.projectValue.value.statusbar,
-      estimatedTime: this.projectValue.value.day,
-      managerId: Number(this.projectValue.value.manager),
-      memberIds: this.membersOfProject,
-    };
-
-    this.api.postProject(reqBody, this.AccessToken).subscribe(
-      (res) => {
-        alert('Project created successfully!');
-        let ref = document.getElementById('close');
-        ref?.click();
-        this.projectValue.reset();
-        this.getAllProjects();
-      },
-      (error) => {
-        alert('Something went wrong!');
-      }
-    );
-    this.membersOfProject.splice(0);
-    this.projectValue.reset();
-  }
-
-  membersOfProject: Array<number> = [];
-  ProjectMemberAdded(member: number) {
-    if (this.membersOfProject.includes(member)) {
-      this.membersOfProject.forEach((element, index) => {
-        if (element == member) this.membersOfProject.splice(index, 1);
-      });
-      return;
-    }
-    this.membersOfProject.push(member);
-  }
-
+  //Posting new Task
   postTaskDeatails() {
     const reqBody = {
       projectId: this.projectId,
@@ -369,6 +298,7 @@ export class TaskDashboardComponent implements OnInit {
     this.formValue.reset();
   }
 
+  //Loading every task inside project
   TaskWorkers!: any;
   getAllTasks() {
     this.api.getTask(this.projectId, this.AccessToken).subscribe(
@@ -398,30 +328,7 @@ export class TaskDashboardComponent implements OnInit {
     );
   }
 
-  SignOut() {
-    this.api.signOut().subscribe();
-  }
-
-  RefreshingToken() {
-    this.api.refreshToken().subscribe((res) => {
-      this.AccessToken = res.accessToken;
-      this.getAllProjectsInit();
-    });
-  }
-
-  projectDetails!: any;
-  getProjectDetails() {
-    this.api.getProjectData(this.projectId, this.AccessToken).subscribe(
-      (res) => {
-        this.projectDetails = res;
-      },
-      (error) => {
-        this.RefreshingToken();
-        this.getProjectDetails();
-      }
-    );
-  }
-
+  //Deleting task based on row
   deleteTask(row: any) {
     this.api.deleteTask(row.id, this.projectId, this.AccessToken).subscribe(
       (res) => {
@@ -433,6 +340,7 @@ export class TaskDashboardComponent implements OnInit {
       }
     );
   }
+  //Edit button on task
   onEdit(row: any) {
     this.showAdd = false;
     this.showUpdate = true;
@@ -444,11 +352,13 @@ export class TaskDashboardComponent implements OnInit {
     this.formValue.controls['description'].setValue(row.description);
   }
 
+  //Add button on task
   clickAddTask() {
     this.showAdd = true;
     this.showUpdate = false;
   }
 
+  //Update button on task
   updateTask() {
     const reqBody = {
       name: this.formValue.value.text,
@@ -618,6 +528,9 @@ export class TaskDashboardComponent implements OnInit {
     this.milestoneValue.reset();
     this.requiredTasks.splice(0);
   }
+
+
+  //PROJECTS
   projectData!: any;
   getAllProjects() {
     this.api.getAllProjects(this.AccessToken).subscribe(
@@ -651,6 +564,8 @@ export class TaskDashboardComponent implements OnInit {
     );
   }
 
+
+  //USERS
   userData!: any;
   getAllUsers() {
     this.api.getAllUsers(this.AccessToken).subscribe(
@@ -712,6 +627,105 @@ export class TaskDashboardComponent implements OnInit {
       },
       (error) => {
         alert('Something went wrong!');
+      }
+    );
+  }
+  MilestoneVisible(){
+    this.milestoneVisibility = !this.milestoneVisibility;
+  }
+  setProjectId(row: any) {
+    let newId = row.id;
+    this.projectId = newId;
+    this.projectName = row.name;
+    this.getAllTasks();
+    this.getAllMilestones();
+    this.getProjectDetails();
+    this.api.setProjectID(this.projectId);
+  }
+
+  setTaskPageNumber(x: any) {
+    let temp = this.TaskPageNumber + x;
+    let size =  (Object.keys(this.taskData).length) /5
+
+    if(x>0 &&this.TaskPageNumber < size){
+      this.TaskPageNumber += x;
+    }
+    else if(temp>0 && x<0){
+      this.TaskPageNumber += x;
+    }
+    
+    this.getAllTasks;
+  }
+  setMilestonePageNumber(x: any) {
+    let temp = this.MilestonePageNumber + x;
+    let size =  (Object.keys(this.milestoneData).length) /5
+
+    if(x>0 &&this.MilestonePageNumber < size){
+      this.MilestonePageNumber += x;
+    }
+    else if(temp>0 && x<0){
+      this.MilestonePageNumber += x;
+    }
+    this.getAllMilestones;
+  }
+
+  postProject() {
+    const reqBody = {
+      name: this.projectValue.value.name,
+      description: this.projectValue.value.description,
+      status: this.projectValue.value.statusbar,
+      estimatedTime: this.projectValue.value.day,
+      managerId: Number(this.projectValue.value.manager),
+      memberIds: this.membersOfProject,
+    };
+
+    this.api.postProject(reqBody, this.AccessToken).subscribe(
+      (res) => {
+        alert('Project created successfully!');
+        let ref = document.getElementById('close');
+        ref?.click();
+        this.projectValue.reset();
+        this.getAllProjects();
+      },
+      (error) => {
+        alert('Something went wrong!');
+      }
+    );
+    this.membersOfProject.splice(0);
+    this.projectValue.reset();
+  }
+
+  membersOfProject: Array<number> = [];
+  ProjectMemberAdded(member: number) {
+    if (this.membersOfProject.includes(member)) {
+      this.membersOfProject.forEach((element, index) => {
+        if (element == member) this.membersOfProject.splice(index, 1);
+      });
+      return;
+    }
+    this.membersOfProject.push(member);
+  }
+
+  SignOut() {
+    this.api.signOut().subscribe();
+  }
+
+  RefreshingToken() {
+    this.api.refreshToken().subscribe((res) => {
+      this.AccessToken = res.accessToken;
+      this.getAllProjectsInit();
+    });
+  }
+
+  projectDetails!: any;
+  getProjectDetails() {
+    this.api.getProjectData(this.projectId, this.AccessToken).subscribe(
+      (res) => {
+        this.projectDetails = res;
+      },
+      (error) => {
+        this.RefreshingToken();
+        this.getProjectDetails();
       }
     );
   }

@@ -1,137 +1,135 @@
 <div class="background justify-content-center">
-  
-<section class="vh-100">
-  
-  <div class="container py-1 h-100 ">
-    <!-- <div class="row d-flex align-items-center">
+
+  <section class="vh-100">
+
+    <div class="container py-1 h-100 ">
+      <!-- <div class="row d-flex align-items-center">
       <h1 *ngIf="!shown" >Online Project Manager</h1>
       <button  class="btn btn-starter" (click)="setShown()" > Get started now</button>
     </div> -->
-    
-    <div class="row d-flex align-items-center justify-content-center h-100">
-      <!-- <h1 class="h1Startanim">Online Project Manager</h1> -->
-      
-      <div class="col-md-8 col-lg-7 col-xl-6 ">
-        <h1 class="h1anim" style="letter-spacing: 1px; text-align: center;" >Online Project Manager</h1>
-        <div id="carouselExampleCaptions" class="carousel slide " data-bs-ride="false" style="border-radius: 15px !important;">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner" style="border-radius: 15px !important;">
-            <div class="carousel-item active " data-bs-interval="1000">
-              <img src="https://cdn.labmanager.com/assets/articleNo/740/iImg/1416/86836781-be57-494e-8d55-e4d4aa5bbc10-oct19-am-purchasingconsiderations-640x360.jpg" class="d-block w-100" alt="..." style="opacity: 0.5;">
-              <div class="carousel-caption d-none d-md-block" >
-                <h5 >Projects</h5>
-                <p >Create and manage your projects and more</p>
-              </div>
+
+      <div class="row d-flex align-items-center justify-content-center h-100">
+        <!-- <h1 class="h1Startanim">Online Project Manager</h1> -->
+
+        <div class="col-md-8 col-lg-7 col-xl-6 ">
+          <h1 class="h1anim" style="letter-spacing: 1px; text-align: center;">Online Project Manager</h1>
+          <div id="carouselExampleCaptions" class="carousel slide " data-bs-ride="false"
+            style="border-radius: 15px !important;">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
             </div>
-            <div class="carousel-item" data-bs-interval="1000">
-              <img src="https://images.ctfassets.net/gg4ddi543f5b/2PjK7yGeL6SPHBbskRp2ym/b6f6abc9bc061509711a4ef0db4a06f2/how-to-create-a-project-management-schedule-blog.png" class="d-block w-100" alt="..." style="opacity: 0.5;">
-              <div class="carousel-caption d-none d-md-block" >
-                <h5 >Milestones</h5>
-                <p >Create a milestone from a set of tasks!</p>
-              </div>
-            </div>
-            <div class="carousel-item" data-bs-interval="1000">
-              <img src="https://www.helpscout.com/images/uploads/advanced-permissions.png" class="d-block w-100" alt="..." style="opacity: 0.5;">
-              <div class="carousel-caption d-none d-md-block" >
-                <h5 >Permissions</h5>
-                <p >Define permission level for your members!</p>
-              </div>
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 items" >
-        <form [formGroup]="formValue">
-          <h1 class="fw-normal mb-3 pb-3 h2anim" style="letter-spacing: 1px; text-align: center; margin-bottom: 50px !important;">
-            Sign into your account
-          </h1>
-          <!-- Username input -->
-          <div class="form-outline mb-4">
-            
-            <label class="form-label" for="form1Example13" style="margin-bottom: 12px !important;" >Username
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-              </svg>
-            </label>
-
-            <input
-              type="text"
-              id="form1Example13"
-              class=""
-              formControlName="username"
-              style="margin-bottom: 25px !important;"
-            />
-            
-          </div>
-
-          <!-- Password input -->
-          <div class="form-outline mb-4 ">
-            <label class="form-label" for="form1Example23" style="margin-bottom: 12px !important;">Password
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
-                <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-              </svg>
-            </label>
-            <input
-              type="password"
-              id="form1Example23"
-              class=""
-              formControlName="password"
-              style="margin-bottom: 20px !important;"
-            />
-          </div>
-
-        
-
-          <div class="container text-center">
-            <div class="row">
-              <div class="col">
-                  <p></p>
-              </div>
-              <div class="col">
-                <!-- Submit button -->
-                  
-                  <button
-                  type="submit"
-                  class=" button2 "
-                  (click)="NewLogin()"
-                >
-                <span >
-                  Sign in
-                </span>
-                </button>
-                <div>
-                  <p class="mb-0" style="margin-top: 10px !important;">Don't have an account?</p>
-                  <button
-                    type="submit"
-                    class=" button"
-                    routerLink="/signup"
-                  ><span>
-                    Sign up
-                  </span>
-                  </button>
+            <div class="carousel-inner" style="border-radius: 15px !important;">
+              <div class="carousel-item active " data-bs-interval="1000">
+                <img
+                  src="https://cdn.labmanager.com/assets/articleNo/740/iImg/1416/86836781-be57-494e-8d55-e4d4aa5bbc10-oct19-am-purchasingconsiderations-640x360.jpg"
+                  class="d-block w-100" alt="..." style="opacity: 0.5;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Projects</h5>
+                  <p>Create and manage your projects and more</p>
                 </div>
               </div>
-              <div class="col">
-                <p></p>
+              <div class="carousel-item" data-bs-interval="1000">
+                <img
+                  src="https://images.ctfassets.net/gg4ddi543f5b/2PjK7yGeL6SPHBbskRp2ym/b6f6abc9bc061509711a4ef0db4a06f2/how-to-create-a-project-management-schedule-blog.png"
+                  class="d-block w-100" alt="..." style="opacity: 0.5;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Milestones</h5>
+                  <p>Create a milestone from a set of tasks!</p>
+                </div>
+              </div>
+              <div class="carousel-item" data-bs-interval="1000">
+                <img src="https://www.helpscout.com/images/uploads/advanced-permissions.png" class="d-block w-100"
+                  alt="..." style="opacity: 0.5;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Permissions</h5>
+                  <p>Define permission level for your members!</p>
+                </div>
               </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
-        </form>
+        </div>
+        <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 items">
+          <form [formGroup]="formValue">
+            <h1 class="fw-normal mb-3 pb-3 h2anim"
+              style="letter-spacing: 1px; text-align: center; margin-bottom: 50px !important;">
+              Sign into your account
+            </h1>
+            <!-- Username input -->
+            <div class="form-outline mb-4">
+
+              <label class="form-label" for="form1Example13" style="margin-bottom: 12px !important;">Username
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                  <path fill-rule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg>
+              </label>
+
+              <input type="text" id="form1Example13" class="" formControlName="username"
+                style="margin-bottom: 25px !important;" />
+
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4 ">
+              <label class="form-label" for="form1Example23" style="margin-bottom: 12px !important;">Password
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-key-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                </svg>
+              </label>
+              <input type="password" id="form1Example23" class="" formControlName="password"
+                style="margin-bottom: 20px !important;" />
+            </div>
+
+
+
+            <div class="container text-center">
+              <div class="row">
+                <div class="col">
+                  <p></p>
+                </div>
+                <div class="col">
+                  <!-- Submit button -->
+
+                  <button type="submit" class=" button2 " (click)="NewLogin()">
+                    <span>
+                      Sign in
+                    </span>
+                  </button>
+                  <div>
+                    <p class="mb-0" style="margin-top: 10px !important;">Don't have an account?</p>
+                    <button type="submit" class=" button" routerLink="/signup"><span>
+                        Sign up
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div class="col">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </div>
