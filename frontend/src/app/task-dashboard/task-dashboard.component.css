@@ -42,7 +42,7 @@ h1 {
     padding: 0rem 1rem;
     letter-spacing: 0.2rem;
     font-weight: 500;
-    
+
 }
 
 .btn {
@@ -369,7 +369,7 @@ tbody .tr:nth-child(-n+5) {
 
 }
 
-td .status-light-green{
+td .status-light-green {
     display: inline;
 }
 
@@ -393,7 +393,7 @@ td .status-light-green{
 
 }
 
-td .status-light-red{
+td .status-light-red {
     display: inline;
 }
 
@@ -415,7 +415,7 @@ td .status-light-red{
 
 }
 
-td .status-light-grey{
+td .status-light-grey {
     display: inline;
 }
 
@@ -440,10 +440,11 @@ td .status-light-grey{
 
 }
 
-td .status-light-yellow{
+td .status-light-yellow {
     display: inline;
 }
-.table-top{
+
+.table-top {
     display: inline;
 }
 
@@ -452,78 +453,79 @@ td .status-light-yellow{
 /*------------SWITCH BUTTON------------*/
 .switchknobs,
 .switchlayer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 .button-switch {
-  position: relative;
-  top: 50%;
-  width: 82px;
-  height: 38px;
-  margin: -20px auto 0 auto;
-  overflow: hidden;
+    position: relative;
+    top: 50%;
+    width: 82px;
+    height: 38px;
+    margin: -20px auto 0 auto;
+    overflow: hidden;
 }
 
 .button-switch.r,
 .button-switch.r .switchlayer {
-  border-radius: 100px;
+    border-radius: 100px;
 }
+
 .switchbox {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 3;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
 }
 
 .switchknobs {
-  z-index: 2;
+    z-index: 2;
 }
 
 .switchlayer {
-  width: 100%;
-  background-color: #60caf7;
-  transition: 0.3s ease all;
-  z-index: 1;
+    width: 100%;
+    background-color: #60caf7;
+    transition: 0.3s ease all;
+    z-index: 1;
 }
 
 .button-switch .switchknobs:before {
-  content: "YES";
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 36px;
-  height: 30px;
-  color: #fff;
-  font-size: 10px;
-  font-weight: bold;
-  text-align: center;
-  line-height: 1;
-  padding: 9px 4px;
-  background-color: #03a9f4;
-  border-radius: 50%;
-  transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+    content: "YES";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 36px;
+    height: 30px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #03a9f4;
+    border-radius: 50%;
+    transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
 }
 
-.button-switch .switchbox:checked + .switchknobs:before {
-  content: "NO";
-  left: 42px;
-  background-color: #f44336;
+.button-switch .switchbox:checked+.switchknobs:before {
+    content: "NO";
+    left: 42px;
+    background-color: #f44336;
 }
 
-.button-switch .switchbox:checked ~ .switchlayer {
-  background-color: #ff8181;
+.button-switch .switchbox:checked~.switchlayer {
+    background-color: #ff8181;
 }
 
 .button-switch .switchknobs,
 .button-switch .switchknobs:before,
 .button-switch .switchlayer {
-  transition: 0.3s ease all;
+    transition: 0.3s ease all;
 }
