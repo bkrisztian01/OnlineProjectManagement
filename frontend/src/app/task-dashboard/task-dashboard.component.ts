@@ -274,7 +274,7 @@ export class TaskDashboardComponent implements OnInit {
     const reqBody = {
       projectId: this.projectId,
       name: this.formValue.value.text,
-      description: this.formValue.value.description,
+      description: this.formValue.value.description  || "",
       status: this.formValue.value.statusbar,
       deadline: this.formValue.value.day,
       assigneeIds: this.workersOfTask,
@@ -362,7 +362,7 @@ export class TaskDashboardComponent implements OnInit {
   updateTask() {
     const reqBody = {
       name: this.formValue.value.text,
-      description: this.formValue.value.description,
+      description: this.formValue.value.description  || "",
       deadline: this.formValue.value.day,
       status: this.formValue.value.statusbar,
       assigneeIds: this.workersOfTask,
@@ -399,9 +399,10 @@ export class TaskDashboardComponent implements OnInit {
     const reqBody = {
       projectId: this.projectId,
       name: this.milestoneValue.value.text,
-      description: this.milestoneValue.value.description,
+      description: this.milestoneValue.value.description || "",
       deadline: this.milestoneValue.value.day,
       taskIds: this.requiredTasks,
+      status: this.milestoneValue.value.statusbar
     };
 
     this.api.postMilestone(reqBody, this.projectId, this.AccessToken).subscribe(
@@ -502,8 +503,9 @@ export class TaskDashboardComponent implements OnInit {
   updateMilestone() {
     const reqBody = {
       name: this.milestoneValue.value.text,
-      description: this.milestoneValue.value.description,
+      description: this.milestoneValue.value.description  || "",
       deadline: this.milestoneValue.value.day,
+      status: this.milestoneValue.value.statusbar,
       taskIds: this.requiredTasks,
     };
     this.api
@@ -672,7 +674,7 @@ export class TaskDashboardComponent implements OnInit {
   postProject() {
     const reqBody = {
       name: this.projectValue.value.name,
-      description: this.projectValue.value.description,
+      description: this.projectValue.value.description  || "",
       status: this.projectValue.value.statusbar,
       estimatedTime: this.projectValue.value.day,
       managerId: Number(this.projectValue.value.manager),
