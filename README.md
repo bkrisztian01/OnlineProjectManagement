@@ -5,3 +5,4 @@
 [API modell](docs/openapi.yml)<br />
 [Haladási napló](https://docs.google.com/document/d/1duknjDmIX6qpXlEILWu249LXxPG0riWJbJ6thfBs0DE/edit?usp=sharing)<br />
 Frontend: https://calm-dune-00b822003.2.azurestaticapps.net/
+[Dokumentáció](https://github.com/bkrisztian01/OnlineProjectManagement/files/10153944/Online.Project.Management.pdf)
